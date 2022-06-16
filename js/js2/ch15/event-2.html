@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #result {height: 300px;}
+  </style>
+</head>
+<body>
+  <ul>
+    <li><a href="#" id="first_a">Green</a></li>
+    <li><a href="#" id="second_a">Orange</a></li>
+    <li><a href="#" onclick="changeBg('purple')">Purple</a></li>
+  </ul>
+  <div id="result"></div>
+  <script>
+    const resultDiv = document.querySelector('#result');
+    function changeBg(color){
+      resultDiv.style.backgroundColor = color;
+    }
+
+    function changeOrange(){
+      resultDiv.style.backgroundColor = 'orange';
+    }
+
+    const firstA = document.querySelector('#first_a');
+    firstA.onclick = function(){
+      changeBg('green');
+    }
+
+    function bindFn(){
+      return function(){
+        resultDiv.style.backgroundColor = 'orange';
+      };
+    }
+
+    const secondA = document.querySelector('#second_a');
+    secondA.onclick = bindFn();
+  </script>
+</body>
+</html>

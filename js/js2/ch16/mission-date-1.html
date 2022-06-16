@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const now = new Date();
+    const writedDay = new Date('2022-05-14 14:27:10');
+
+    const result = getPassedInfo(writedDay, now);
+    document.write(result);
+
+    function getPassedInfo(sDate, eDate){
+      const sDateSec = sDate.getTime();
+      const eDateSec = eDate.getTime();
+      const passedSec = (eDateSec - sDateSec) / 1000;
+      // const passedMinute = passedSec / 60;
+      // const passedHour = passedSec / (60*60);
+      // const passedDay = passedSec / (60*60*24);
+      // const passedMon = passedSec / (60*60*24*30);
+      // if(passedMinute < 60){
+      //   return `${Math.floor(passedMinute)}분 전`;
+      // }else if(passedHour < 24){
+      //   return `${Math.floor(passedHour)}시간 전`;
+      // }else if(passedDay < 16){
+      //   return `${Math.floor(passedDay)}일 전`;
+      // }else if(passedMon < 4){
+      //   return `${Math.floor(passedMon)}달 전`;
+      // }else{
+      //   return `${writedDay.toLocaleString()}`;
+      // }
+
+      if(passedSec < 3600){ //59분 59초 전
+        const min = Math.floor(passedSec/60);
+        return `${min}분 전`;
+      }else if(passedSec < 86400){
+        const hour = Math.floor(passedSec/3600);
+        return `${hour}시간 전`;
+      }else if(passedSec < 1382400){
+        const date = Math.floor(passedSec/86400);
+        return `${date}일 전`;
+      }else if(passedSec < 7776000){
+        const mon = Math.round(passedSec/2592000);
+        return `${mon}달 전`;
+      }else{
+        const year = sDate.getFullYear();
+        const mon = fillZero(sDate.getMonth() + 1);
+        const date = fillZero(sDate.getDate());
+        return `${year}-${mon}-${date}`;
+      }
+    }
+    function fillZero(val){
+      return ('0' + val).slice(-2);
+    }
+  </script>
+</body>
+</html>

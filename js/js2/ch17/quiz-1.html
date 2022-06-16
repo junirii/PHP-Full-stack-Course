@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    ul {list-style: none;}
+    .check {cursor: pointer;}
+    .checked {color: #ccc; text-decoration: line-through;}
+  </style>
+</head>
+<body>
+  <h1>할 일 목록</h1>
+  <ul>
+    <li><span class="check">v 할 일1</span></li>
+    <li><span class="check">v 할 일2</span></li>
+    <li><span class="check">v 할 일3</span></li>
+    <li><span class="check">v 할 일4</span></li>
+    <li><span class="check">v 할 일5</span></li>
+  </ul>
+  <script>
+    const check = document.querySelectorAll('.check');
+    check.forEach(function(item){
+        item.addEventListener('click', (e) => {
+        // if(this.style.textDecoration !== 'line-through'){
+        //   this.style.color = '#ccc';
+        //   this.style.textDecoration = 'line-through';
+        // }else{
+        //   this.style.color = '#000';
+        //   this.style.textDecoration = 'none';
+        // }
+        e.target.classList.toggle('checked');
+        console.log(e.target.classList);
+      });
+    });
+  </script>
+</body>
+</html>

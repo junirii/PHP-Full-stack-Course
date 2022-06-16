@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    Math.PI = 1.1;
+    console.log(Math.PI);
+    console.log(Math.ceil(12.1));
+    console.log(Math.round(12.5));
+    console.log(Math.floor(12.9));
+    console.log(Math.random());
+    
+    //0~9
+    const rVal = parseInt(Math.random() * 10);
+    console.log(rVal);
+
+    //1~9 0~8
+    // while(true){
+    //   //const rVal2 = parseInt(Math.random() * 10) === 0 ? parseInt(Math.random() * 10) + 1 : parseInt(Math.random() * 10);
+    //   const rVal2 = parseInt(Math.random() * 9) + 1;
+    //   if(rVal2 < 1 || rVal2 > 9){
+    //     console.log('잘 못 만들었음!!');
+    //     break;
+    //   }
+    // }
+
+    //10~20 0~10
+    // const rVal3 = Math.round(Math.random() * 10) + 10;
+    // console.log(rVal3);
+    // while(true){
+    //   const rVal3 = Math.round(Math.random() * 10) + 10;
+    //   //const rVal3 = Math.floor(Math.random() * 11) + 10;
+    //   if(rVal3 < 10 || rVal3 > 20){
+    //     console.log('잘 못 만들었음!!');
+    //     break;
+    //   }
+    // }
+
+    //25~50 0~25
+    // const rVal4 = Math.floor(Math.random() * 26) + 25;
+    // console.log(rVal4);
+    // while(true){
+    //   const rVal4 = Math.floor(Math.random() * 26) + 25;
+    //   if(rVal4 < 25 || rVal4 > 50){
+    //     console.log('잘 못 만들었음!!');
+    //     break;
+    //   }
+    // }
+
+    //25~40 0~15
+    // while(true){
+    //   const rVal5 = Math.floor(Math.random() * 16) + 25;
+    //   if(rVal5 < 25 || rVal5 > 40){
+    //     console.log('잘 못 만들었음!!');
+    //     break;
+    //   }
+    // }
+  </script>
+</body>
+</html>

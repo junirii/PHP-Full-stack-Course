@@ -1,0 +1,7 @@
+#signup label{width: 150px; display: inline-block;}
+input[required]{border: red 1px solid;}
+input[readonly]{border: 0;}
+button[type="submit"]{border-radius: 30px; width: 70px; height: 30px; margin:0 50%;}
+input{line-height: 20px;}
+li:not(:last-child){margin-bottom: 10px;}
+fieldset{margin-bottom: 30px; padding: 0; border-color: gainsboro;}

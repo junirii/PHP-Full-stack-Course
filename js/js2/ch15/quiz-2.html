@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    (function(){
+      const n1 = prompt('값 1');
+      const n2 = prompt('값 2');
+
+      if(isNaN(n1) || isNaN(n2)){
+        alert('숫자를 입력해 주세요')
+        return;
+      }
+
+      function fn(x, y){
+        return x === y ? '숫자가 같습니다.' : (x > y ? `${x}(이)가 ${y}보다 큽니다.` : `${y}(이)가 ${x}보다 큽니다.`);
+      }
+      alert(fn(n1, n2));
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+html{scroll-behavior: smooth;}
+
+a{
+  text-decoration: none;
+  color: white;
+  background-color: goldenrod;
+  display: inline-block;
+}
+
+.hero{
+  color: white;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  padding: 4rem 2rem;
+  align-items: center;
+}
+
+.hero h1{
+  font-size: 4rem;
+  padding-bottom: 1rem;
+}
+
+.hero p{
+  font-size: 1.5rem;
+  padding-bottom: 1rem;
+}
+
+.hero a{
+  padding: 1rem;
+  margin-top: .75rem;
+  border-radius: 5px;
+}
+
+.breweries{padding-bottom: 70px;}
+
+.breweries ul{
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-rows: auto;
+  grid-gap: 10px;
+}
+
+.breweries ul li{
+  border: 1px solid gainsboro;
+  border-radius: 10px;
+  position: relative;
+}
+
+.breweries ul li figure{
+  overflow: hidden;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  position: relative;
+  max-width: 400px;
+}
+
+.breweries ul li figure img{
+  width: 100%;
+}
+
+.breweries ul li figure figcaption{
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-left: 10px;
+}
+
+.breweries ul li p{
+  padding: 1rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.breweries ul li a{
+  padding: .5rem 1rem;
+  border-radius: 5px;
+  margin: .5rem;
+  /* position: absolute;
+  left: 3px;
+  bottom: 10px; */
+}
+
+footer{
+  color: white;
+  background-color: #222;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  padding: 10px 0;
+}

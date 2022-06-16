@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const success = true;
+    function pMethod(resolve, reject){
+      if(success){
+        resolve('1111');
+      }else{
+        reject('1111');
+      }
+    }
+    const p1 = new Promise(pMethod);
+
+    function resolveMethod(result){
+      console.log(`resolveMethod : ${result}`);
+    }
+    function catchMethod(result){
+      console.log(`catchMethod : ${result}`);
+    }
+
+    p1
+    .then(resolveMethod)
+    .catch(catchMethod);
+  </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    //splice -> 원본 건드림(파괴형) / 중간에 값 삭제, 추가할 때 제일 많이 씀
+    console.log('-------- insert');
+    const mine = [0, 1, 2, 3];
+    mine.splice(2, 0, 5);
+    console.log(mine.toString());
+    mine.splice(1, 0, 11, 12);
+    console.log(mine.toString());
+
+    console.log('-------- delete');
+    mine.splice(2, 1);
+    console.log(mine.toString());
+    mine.splice(4, 2);
+    console.log(mine.toString());
+
+    console.log('-------- update');
+    mine.splice(1, 1, 30);
+    console.log(mine.toString());
+
+    console.log('-------- push');
+    const pushArr = [10, 20, 30, 40];
+    pushArr.splice(pushArr.length, 0, 50);
+    console.log(pushArr.toString());
+
+    console.log('-------- pop');
+    const popArr = [10, 20, 30, 40, 50];
+    popArr.splice(popArr.length - 1, 1);
+    console.log(popArr.toString());
+
+    console.log('-------- unshift');
+    const unshiftArr = [10, 20, 30, 40, 50];
+    unshiftArr.splice(0, 0, 60);
+    console.log(unshiftArr.toString());
+
+    console.log('-------- shift');
+    const shiftArr = [10, 20, 30, 40, 50];
+    shiftArr.splice(0, 1);
+    console.log(shiftArr.toString());
+  </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이미지 리스트</title>
+</head>
+<body>
+  <div id="list"></div>
+  <button onclick="getMore();">더보기</button>
+  <script>
+    var divListElem = document.querySelector('#list');
+    var page = 0;
+    
+    function getMore(){
+      page++;
+      getImgList();
+    }
+
+    function getImgList(){
+      var url = `http://picsum.photos/v2/list?page=${page}&limit=10`;
+      fetch(url).then(function(res){
+        return res.json();
+      }).then(function(list){
+        addImgs(list);
+      });
+    }
+
+    function addImgs(list){
+      for(var i=0; i<list.length; i++){
+        var item = list[i];
+        var img = document.createElement('img');
+        var width = Math.floor(item.width / 10);
+        var height = Math.floor(item.height / 10);
+        var id = item.id;
+        var url = `https://picsum.photos/id/${id}/${width}/${height}`;
+        img.src = url;
+        divListElem.append(img);
+      }
+    }
+    getImgList();
+  </script>
+</body>
+</html>

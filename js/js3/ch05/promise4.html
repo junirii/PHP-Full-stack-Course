@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // f1~f3은 통신!
+    // f1 리턴값을 f2에 전달
+    // f2 리턴값을 f3에 전달
+    function fn1(){
+      return new Promise(function(resolve){
+        resolve(10);
+      })
+    }
+
+    function fn2(val){
+      return val * 2;
+      // return new Promise(function(resolve){
+      //   resolve(val * 2);
+      // })
+    }
+
+    function fn3(val){
+      return val - 1;
+      // return new Promise(function(resolve){
+      //   resolve(val - 1);
+      // })
+    }
+
+    // fn1().then(function(result){
+    //   fn2(result).then(function(result2){
+    //     fn3(result2).then(function(result3){
+    //       console.log(result3);
+    //     });
+    //   });
+    // });
+
+    // console.log('----------------');
+
+    fn1()
+    .then(function(result){
+      return fn2(result);
+    }).then(function(result2){
+      return fn3(result2);
+    }).then(function(result3){
+      console.log(result3);
+    });
+  </script>
+</body>
+</html>
