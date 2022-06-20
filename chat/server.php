@@ -22,15 +22,18 @@
     
     while(true) {
         $accept = socket_accept($sock) or die("Could not accept incoming connection.");
-        $msg = socket_read($accept, 1024) or die ("Could not read input\n");
+        $arrJson = socket_read($accept, 1024) or die ("Could not read input\n");
+        $arr = json_decode($arrJson);
+        $name = $arr->name;
+        $msg = $arr->msg;
 
-        $msg = trim($msg);
-        echo "Client says:\t $msg \n";
+        // $msg = trim($msg);
+        echo "$name:\t $msg \n";
         
-        $line = new Chat();
-        echo "Enter Reply:\t";
-        $reply = $line->readline();
-        socket_write($accept, $reply, strlen($reply)) or die ("Coult not write output\n");
+        // $line = new Chat();
+        // echo "Enter Reply:\t";
+        // $reply = $line->readline();
+        // socket_write($accept, $reply, strlen($reply)) or die ("Coult not write output\n");
     }
 
     socket_close($accept);
