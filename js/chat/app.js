@@ -20,7 +20,7 @@ app.get('/', function(request, response){
       response.end();
     }
   })
-})
+});
 
 io.sockets.on('connection', function(socket){
   socket.on('newUser', function(name){
