@@ -13,7 +13,7 @@
     </form>
     <div id="chat"></div>
     <?php
-     $host = gethostbyname("127.0.0.1");
+     $host = gethostbyname("localhost");
      $port = 20211;
 
      $reply = "";

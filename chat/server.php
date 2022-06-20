@@ -1,6 +1,6 @@
 #!/usr/local/bin/php -q
 <?php
-    $host = gethostbyname("127.0.0.1");
+    $host = gethostbyname("localhost");
     $port = 20211;
     set_time_limit(0);
     $maxdevice = 5;
