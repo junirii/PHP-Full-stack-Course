@@ -4,8 +4,12 @@
 <body>
   <h1>디테일</h1>
   <div>
+    <?php
+    if($_SESSION[_LOGINUSER]->i_user === $this->data->i_user){
+    ?>
     <a href="mod?i_board=<?=$this->data->i_board?>"><button>글수정</button></a>
-    <button id="btnDel" data-i_board="<?=$this->data->i_board?>">글삭제</button>
+    <button id="btnDel" data-i_board="<?=$this->data->i_board?>" data-i_user="<?=$this->data->i_user?>">글삭제</button>
+    <?php } ?>
   </div>
   <div>글번호: <?=$this->data->i_board?></div>
   <div>제목: <?=$this->data->title?></div>

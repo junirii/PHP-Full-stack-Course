@@ -32,7 +32,7 @@
 
     public function selBoard(&$param){
       $sql = 
-      " SELECT A.i_board, A.title, A.ctnt, B.nm, A.created_at, A.updated_at
+      " SELECT A.i_board, A.title, A.ctnt, A.i_user, B.nm, A.created_at, A.updated_at
         FROM t_board A
         INNER JOIN t_user B
         ON A.i_user = B.i_user

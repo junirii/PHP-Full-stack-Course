@@ -38,11 +38,16 @@
     }
 
     public function del(){
-      $i_board = $_GET["i_board"];
-      $param = ["i_board" => $i_board];
-      $model = new BoardModel();
-      $model->delBoard($param);
-      return "redirect:/board/list";
+      if($_SESSION[_LOGINUSER]->i_user == $_GET["i_user"]){
+        $i_board = $_GET["i_board"];
+        $param = ["i_board" => $i_board];
+        $model = new BoardModel();
+        $model->delBoard($param);
+        return "redirect:/board/list";
+      }else{
+        return "redirect:/board/list";
+      }
+      
     }
 
     public function mod(){
@@ -54,7 +59,12 @@
       $this->addAttribute(_HEADER, $this->getView("template/header.php"));
       $this->addAttribute(_MAIN, $this->getView("board/mod.php"));
       $this->addAttribute(_FOOTER, $this->getView("template/footer.php"));
-      return "template/t1.php";
+      if($_SESSION[_LOGINUSER]->i_user === $this->data->i_user){
+        return "template/t1.php";
+      }else{
+        return "redirect:/board/list";
+      }
+      
     }
 
     public function modProc(){

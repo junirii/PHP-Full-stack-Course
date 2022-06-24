@@ -4,8 +4,8 @@
 
     abstract class Controller {
         public function __construct($action) {        
-            $view = $this->$action();
-            require_once $this->getView($view); 
+                $view = $this->$action();
+                require_once $this->getView($view); 
         }
         
         protected function addAttribute($key, $val) {
