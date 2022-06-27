@@ -2,6 +2,7 @@
 namespace application\controllers;
 
 class UserController extends Controller {
+    //로그인
     public function signin() {
         switch(getMethod()){
             case _GET:
@@ -17,11 +18,14 @@ class UserController extends Controller {
                 if(!$dbUser || !password_verify($pw, $dbUser->pw)){
                     return "redirect:/user/signin?email={$email}&err";
                 }
+                $dbUser->pw = null;
+                $dbUser->regdt = null;
                 $this->flash(_LOGINUSER, $dbUser);
                 return "redirect:/feed/index";
         }
     }
 
+    //회원가입
     public function signup() {
         switch(getMethod()){
             case _GET:
@@ -36,5 +40,10 @@ class UserController extends Controller {
                 $this->model->insUser($param);
                 return "redirect:/feed/index";
         }
+    }
+
+    public function logout() {
+        $this->flash(_LOGINUSER);
+        return "redirect:/user/signin";
     }
 }
