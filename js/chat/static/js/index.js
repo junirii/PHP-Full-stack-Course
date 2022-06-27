@@ -1,7 +1,7 @@
 const socket = io();
 
 socket.on('connect', function() {
-  const name = prompt('반갑습니다!', '');
+  const name = prompt('당신의 이름은?', '');
   if(!name) {
     name = '익명';
   }
@@ -39,4 +39,10 @@ function send() {
   msg.classList.add('me');
 
   socket.emit('message', {type: 'message', message: message});
+}
+
+function enter(e){
+    if(e.keyCode === 13){
+      send();
+    }
 }

@@ -41,6 +41,6 @@ io.sockets.on('connection', function(socket){
   });
 });
 
-server.listen(8080, function(){
+server.listen(3000, function(){
   console.log('서버 실행 중...');
 });
