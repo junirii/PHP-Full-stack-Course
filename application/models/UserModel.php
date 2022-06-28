@@ -16,6 +16,7 @@ class UserModel extends Model {
         $stmt->bindValue(":pw", $param["pw"]);
         $stmt->bindValue(":nm", $param["nm"]);
         $stmt->execute();
+        
         return $stmt->rowCount();
 
     }
