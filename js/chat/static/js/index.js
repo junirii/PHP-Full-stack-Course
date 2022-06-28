@@ -1,17 +1,20 @@
 const socket = io();
 
 let name = prompt('당신의 이름은?', '');
+let uid;
 socket.on('connect', function() {
   if(name === '') {
     name = '익명';
   }
+
+  const divMe = document.querySelector('#me');
+  divMe.appendChild(document.createElement('div')).innerText = `${name} (나)`;
+
   socket.emit('newUser', name);
 });
 
-socket.on('newUser', function(name2){
-  name = name2;
-  const divMe = document.querySelector('#me');
-  divMe.innerText = `${name} (나)`;
+socket.on('newUser', function(userObj){
+  uid = userObj.uid;
 })
 
 socket.on('update', function(data) {
@@ -35,14 +38,14 @@ socket.on('update', function(data) {
   chat.scrollTop = chat.scrollHeight;
 });
       
-socket.on('users', function(list){
+socket.on('users', function(userList){
   const divOthers = document.querySelector('#others');
   divOthers.innerHTML = '';
 
-  list.forEach(function(item){
-    if(name !== item){
+  userList.forEach(function(item){
+    if(uid !== item.uid){
       const divOther = divOthers.appendChild(document.createElement('div'));
-      divOther.innerText = `${item} 님`;
+      divOther.innerText = `${item.name} 님`;
     }
   })
 })

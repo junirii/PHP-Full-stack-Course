@@ -26,16 +26,20 @@ let userList = [];
 let num = 1;
 io.sockets.on('connection', function(socket){
   socket.on('newUser', function(name){
-    socket.name = `${name}[${num++}]`;
-    console.log(socket.name + '님이 접속하였습니다.');
-    io.sockets.emit('update', {type: 'connect', name: 'SERVER', message: socket.name + '님이 접속하였습니다.'});
+    console.log(name + '님이 접속하였습니다.');
+    socket.name = name;
+    socket.uid = num++;
+    io.sockets.emit('update', {type: 'connect', name: 'SERVER', message: name + '님이 접속하였습니다.'});
     
-    socket.emit('newUser', socket.name);
+    userObj = {
+      'uid': socket.uid,
+      'name': name
+    };
+    socket.emit('newUser', userObj);
 
-    userList.push(socket.name);
+    userList.push(userObj);
     io.sockets.emit('users', userList);
     console.log(userList);
-
   });
 
   socket.on('message', function(data){
@@ -49,11 +53,10 @@ io.sockets.on('connection', function(socket){
     socket.broadcast.emit('update', {type: 'disconnect', name: 'SERVER', message: socket.name + '님이 나가셨습니다.'});
 
     userList = userList.filter(function(item){
-      return item !== socket.name;
+      return item.uid !== socket.uid;
     });
     io.sockets.emit('users', userList);
     console.log(userList);
-    //닉네임 중복 예외처리 해야함
   });
 });
 
