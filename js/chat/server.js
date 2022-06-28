@@ -22,11 +22,17 @@ app.get('/', function(request, response){
   })
 });
 
+let userList = [];
+let num = 1;
 io.sockets.on('connection', function(socket){
   socket.on('newUser', function(name){
     console.log(name + '님이 접속하였습니다.');
-    socket.name = name;
+    socket.name = `${name}[${num++}]`;
     io.sockets.emit('update', {type: 'connect', name: 'SERVER', message: name + '님이 접속하였습니다.'});
+    
+    userList.push(socket.name);
+    io.sockets.emit('users', userList);
+    console.log(userList);
   });
 
   socket.on('message', function(data){
@@ -38,9 +44,16 @@ io.sockets.on('connection', function(socket){
   socket.on('disconnect', function(){
     console.log(socket.name + '님이 나가셨습니다.');
     socket.broadcast.emit('update', {type: 'disconnect', name: 'SERVER', message: socket.name + '님이 나가셨습니다.'});
+
+    userList = userList.filter(function(item){
+      return item !== socket.name;
+    });
+    io.sockets.emit('users', userList);
+    console.log(userList);
+    //닉네임 중복 예외처리 해야함
   });
 });
 
-server.listen(3000, function(){
+server.listen(8080, function(){
   console.log('서버 실행 중...');
 });

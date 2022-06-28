@@ -1,11 +1,14 @@
 const socket = io();
 
+let name = prompt('당신의 이름은?', '');
 socket.on('connect', function() {
-  const name = prompt('당신의 이름은?', '');
-  if(!name) {
+  if(name === '') {
     name = '익명';
   }
   socket.emit('newUser', name);
+
+  const divMe = document.querySelector('#me');
+  divMe.innerText = `${name} (나)`;
 });
 
 socket.on('update', function(data) {
@@ -26,7 +29,20 @@ socket.on('update', function(data) {
       break;
   }
   message.classList.add(className);
+  chat.scrollTop = chat.scrollHeight;
 });
+
+socket.on('users', function(list){
+  const divOthers = document.querySelector('#others');
+  divOthers.innerHTML = '';
+
+  list.forEach(function(item){
+    if(name !== item){
+      const divOther = divOthers.appendChild(document.createElement('div'));
+      divOther.innerText = `${item} 님`;
+    }
+  })
+})
 
 function send() {
   const message = document.getElementById('test').value;
@@ -39,6 +55,7 @@ function send() {
   msg.classList.add('me');
 
   socket.emit('message', {type: 'message', message: message});
+  chat.scrollTop = chat.scrollHeight;
 }
 
 function enter(e){

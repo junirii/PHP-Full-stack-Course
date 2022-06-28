@@ -6,12 +6,21 @@
   text-align: center;
   width: 500px;
   height: 800px;
+  position: relative;
 }
 
 #chat {
   height: 90%;
   width: 100%;
   overflow-y: auto;
+}
+
+#users {
+  width: 50%;
+  position: absolute;
+  left: 105%;
+  top: 10%;
+  background-color: antiquewhite;
 }
 
 .connect {
