@@ -29,5 +29,6 @@ class FeedModel extends Model{
       $stmt->bindValue(":ifeed", $param["ifeed"]);
       $stmt->bindValue(":img", $param["img"]);
       $stmt->execute();
+      return $stmt->rowCount();
     }
 }

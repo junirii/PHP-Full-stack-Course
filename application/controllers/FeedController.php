@@ -48,7 +48,7 @@ class FeedController extends Controller{
                         $this->model->insFeedImg($param);
                     }
                 }
-                // return ["result" => $r];
+                return ["result" => 1];
         }
     }
 }
