@@ -26,13 +26,16 @@ let userList = [];
 let num = 1;
 io.sockets.on('connection', function(socket){
   socket.on('newUser', function(name){
-    console.log(name + '님이 접속하였습니다.');
     socket.name = `${name}[${num++}]`;
-    io.sockets.emit('update', {type: 'connect', name: 'SERVER', message: name + '님이 접속하였습니다.'});
+    console.log(socket.name + '님이 접속하였습니다.');
+    io.sockets.emit('update', {type: 'connect', name: 'SERVER', message: socket.name + '님이 접속하였습니다.'});
     
+    socket.emit('newUser', socket.name);
+
     userList.push(socket.name);
     io.sockets.emit('users', userList);
     console.log(userList);
+
   });
 
   socket.on('message', function(data){

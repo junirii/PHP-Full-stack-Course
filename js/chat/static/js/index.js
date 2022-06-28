@@ -6,16 +6,19 @@ socket.on('connect', function() {
     name = '익명';
   }
   socket.emit('newUser', name);
+});
 
+socket.on('newUser', function(name2){
+  name = name2;
   const divMe = document.querySelector('#me');
   divMe.innerText = `${name} (나)`;
-});
+})
 
 socket.on('update', function(data) {
   const chat = document.getElementById('chat');
   const message = chat.appendChild(document.createElement('div'));
   message.innerText = `${data.name}: ${data.message}`;
-
+  
   let className = '';
   switch(data.type) {
     case 'message':
@@ -31,7 +34,7 @@ socket.on('update', function(data) {
   message.classList.add(className);
   chat.scrollTop = chat.scrollHeight;
 });
-
+      
 socket.on('users', function(list){
   const divOthers = document.querySelector('#others');
   divOthers.innerHTML = '';
