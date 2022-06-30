@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+<div class="d-flex flex-column align-items-center">
+    <div class="size_box_100"></div>
+    <div class="w614">
+        <div id="item_container" class="w614"></div>
+    </div>
+    <div class="loading d-none"><img src="/static/img/loading.gif"></div>
+</div>
