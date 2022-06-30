@@ -165,4 +165,4 @@
     }
 
     feedObj.getFeedList();
-})(); // test
+})();
