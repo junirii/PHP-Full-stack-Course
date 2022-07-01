@@ -16,9 +16,7 @@ class UserModel extends Model {
         $stmt->bindValue(":pw", $param["pw"]);
         $stmt->bindValue(":nm", $param["nm"]);
         $stmt->execute();
-        
         return $stmt->rowCount();
-
     }
     public function selUser(&$param) {
         $sql = "SELECT * FROM t_user
@@ -29,12 +27,16 @@ class UserModel extends Model {
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
     
-    public function selUserByIuser(&$param) {
-        $sql = "SELECT iuser, email, nm, cmt, mainimg, regdt 
+    public function selUserProfile(&$param) {
+        $feedIuser = $param["feedIuser"];
+        $loginIuser = $param["loginIuser"];
+        $sql = "SELECT iuser, email, nm, cmt, mainimg
+                       , (SELECT COUNT(ifeed) FROM t_feed WHERE iuser = $feedIuser) AS feedcnt
+                       , (SELECT COUNT(fromiuser) FROM t_user_follow WHERE fromiuser = $feedIuser AND toiuser = $loginIuser) AS youme
+		               , (SELECT COUNT(fromiuser) FROM t_user_follow WHERE fromiuser = $loginIuser AND toiuser = $feedIuser) AS meyou
                   FROM t_user
-                 WHERE iuser = :iuser";
+                 WHERE iuser = $feedIuser";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
