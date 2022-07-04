@@ -1,5 +1,6 @@
 <?php
 namespace application\controllers;
+use application\libs\application;
 
 use PDO;
 
@@ -52,7 +53,7 @@ class FeedController extends Controller{
                 return ["result" => 1];
 
             case _GET:
-                $page = $_GET["page"];
+                $page = 1;
                 if(isset($_GET["page"])){
                     $page = intVal($_GET["page"]);
                 }
@@ -64,6 +65,8 @@ class FeedController extends Controller{
                 $list = $this->model->selFeedList($param);
                 foreach($list as $item){
                     $item->imgList = $this->model->selFeedImgList($item);
+                    $param2 = ["ifeed" => $item->ifeed];
+                    $item->cmt = Application::getModel("feedcmt")->selFeedCmt($param2);
                 };
                 return $list;
         }

@@ -4,7 +4,22 @@ const feedObj = {
     currentPage: 1,
     swiper: null,
     loadingElem: document.querySelector('.loading'),
-    containerElem: document.querySelector('#item_container'),    
+    containerElem: document.querySelector('#item_container'),  
+    makeCmtItem: function(item){
+        const divCmtItemContainer = document.createElement('div');
+        divCmtItemContainer.className = 'cmtItemCont';
+        let src = '/static/img/profile/' + (item.writerimg ? `${item.iuser}/${item.writerimg}` : 'defaultImg.png');
+        divCmtItemContainer.innerHTML = 
+        `  <div class="cmtItemProfile">
+                <img src="${src}" class="profile w24 h24 pointer">
+           </div>
+           <div class="cmtItemCtnt">
+                <div class="pointer">${item.writer}</div>
+                <div>${item.cmt}</div>
+           </div>
+        `;
+        return divCmtItemContainer;
+    },
     makeFeedList: function(list) {
         if(list.length !== 0) {
             list.forEach(item => {
@@ -142,23 +157,62 @@ const feedObj = {
         const divCmtList = document.createElement('div');
         divContainer.appendChild(divCmtList);
 
+        
         const divCmt = document.createElement('div');
-        divContainer.appendChild(divCmt);                  
+        if(item.cmt){
+            const divCmtItem = this.makeCmtItem(item.cmt);
+            divCmtList.appendChild(divCmtItem);
+            divCmtItem.className = 'ms-3';
+
+            divContainer.appendChild(divCmt);
+
+            if(item.cmt.ismore === 1){
+                const divMoreCmt = document.createElement('div');
+                divCmt.appendChild(divMoreCmt);
+                const spanMoreCmt = document.createElement('span');
+                divMoreCmt.appendChild(spanMoreCmt);
+                spanMoreCmt.className = 'pointer';
+                spanMoreCmt.innerText = '댓글 더보기...';
+                spanMoreCmt.addEventListener('click', e => {
+
+                });
+            }
+        }
+
         const divCmtForm = document.createElement('div');
         divCmtForm.className = 'd-flex flex-row';     
         divCmt.appendChild(divCmtForm);
 
-        divCmtForm.innerHTML = `
+        divCmtForm.innerHTML = 
+        `
             <input type="text" class="flex-grow-1 my_input back_color p-2" placeholder="댓글을 입력하세요...">
             <button type="button" class="btn btn-outline-primary">등록</button>
         `;
+        const inputCmt = divCmtForm.querySelector('input');
+        const btnCmtReg = divCmtForm.querySelector('button');
+        btnCmtReg.addEventListener('click', e => {
+            param = {
+                ifeed: item.ifeed,
+                cmt: inputCmt.value
+            }
+            fetch('/feedcmt/index', {
+                method: 'POST',
+                body: JSON.stringify(param)
+            })
+            .then(res => res.json())
+            .then(res => {
+                if(res.result){
+                    inputCmt.value = '';
+                    console.log('icmt: ' + res.result);
+                }
+            })
+        });
 
         return divContainer;
     },
 
     showLoading: function() { this.loadingElem.classList.remove('d-none'); },
     hideLoading: function() { this.loadingElem.classList.add('d-none'); }
-
 }
 
 
