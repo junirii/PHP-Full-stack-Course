@@ -28,33 +28,46 @@
 //     });
 // }
 
-function getFeedList() {
-    const feedIuser = lData.dataset.toiuser;
-    // const url = new URL(location.href); url로 iuser 값 가져오기
-    // const feedIuser = url.searchParams.get('iuser');
-    if(!feedObj) { return; }
-    feedObj.showLoading();            
-    const param = {
-        page: feedObj.currentPage++,
-        feedIuser: feedIuser
-    }
-    fetch('/user/feed' + encodeQueryString(param))
-    .then(res => res.json())
-    .then(list => {                
-        feedObj.makeFeedList(list);                
-    })
-    .catch(e => {
-        console.error(e);
-        feedObj.hideLoading();
-    });
+// common_feed_js로 통일
+// function getFeedList() {
+//     const feedIuser = lData.dataset.toiuser;
+//     // url로 iuser 값 가져오기
+//     // const url = new URL(location.href);
+//     // const feedIuser = url.searchParams.get('iuser');
+//     if(!feedObj) { return; }
+//     feedObj.showLoading();            
+//     const param = {
+//         page: feedObj.currentPage++,
+//         feedIuser: feedIuser
+//     }
+//     fetch('/user/feed' + encodeQueryString(param))
+//     .then(res => res.json())
+//     .then(list => {                
+//         feedObj.makeFeedList(list);                
+//     })
+//     .catch(e => {
+//         console.error(e);
+//         feedObj.hideLoading();
+//     });
+// }
+// getFeedList();
+
+if(feedObj){
+    const url = new URL(location.href);
+    feedObj.iuser = parseInt(url.searchParams.get('iuser'));
+    feedObj.getFeedUrl = '/user/feed';
+    feedObj.getFeedList();
+    feedObj.setScrollInfinity();
 }
-getFeedList();
 
 (function(){
     const lData = document.querySelector('#lData');
     const spanFollower = document.querySelector('#spanFollower');
-    let follower = parseInt(spanFollower.innerText);
+    let followerCnt = parseInt(spanFollower.innerText);
     const btnFollow = document.querySelector('#btnFollow');
+    const btnDelCurrentProfilePic = document.querySelector('#btnDelCurrentProfilePic');
+    const btnProfileImgModalClose = document.querySelector('#btnProfileImgModalClose');
+    const btnInsProfilePic = document.querySelector('#btnInsProfilePic');
     if(btnFollow){
         btnFollow.addEventListener('click', function(){
             const param = {
@@ -77,8 +90,8 @@ getFeedList();
                             }else{
                                 btnFollow.innerText = '팔로우';
                             }
-                            follower = follower - 1;
-                            spanFollower.innerText = follower;
+                            followerCnt = followerCnt - 1;
+                            spanFollower.innerText = followerCnt;
                         }
                     });
                     break;
@@ -91,11 +104,33 @@ getFeedList();
                             btnFollow.className = 'btn btn-outline-secondary';
                             btnFollow.innerText = '팔로우 취소';
                         }
-                        follower = follower + 1;
-                        spanFollower.innerText = follower;
+                        followerCnt = followerCnt + 1;
+                        spanFollower.innerText = followerCnt;
                     });
                     break;
             }
         })
+    }
+
+    if(btnDelCurrentProfilePic){
+        btnDelCurrentProfilePic.addEventListener('click', e => {
+            fetch('/user/profile', {method: 'DELETE'})
+            .then(res => res.json())
+            .then(res => {
+                if(res.result){
+                    const profileImgList = document.querySelectorAll('.profileimg');
+                    profileImgList.forEach(item => {
+                        item.src = '/static/img/profile/defaultImg.png';
+                    });
+                }
+                btnProfileImgModalClose.click();
+            });
+        });
+    }
+
+    if(btnInsProfilePic){
+        btnInsProfilePic.addEventListener('click', e => {
+
+        });
     }
 })();

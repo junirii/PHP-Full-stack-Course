@@ -5,7 +5,7 @@
         <div class="d-flex flex-row">    
             <div class="d-flex flex-column justify-content-center me-3">
                 <div class="circleimg h150 w150 pointer feedwin">
-                    <img data-bs-toggle="modal" <?= $this->data->iuser === getIuser() ? "data-bs-target='#profileImgModal'" : "" ?> src='/static/img/profile/<?=$this->data->iuser?>/<?=$this->data->mainimg?>' onerror='this.error=null;this.src="/static/img/profile/defaultImg.png"'>
+                    <img class="profileimg" data-bs-toggle="modal" <?= $this->data->iuser === getIuser() ? "data-bs-target='#profileImgModal'" : "" ?> src='/static/img/profile/<?=$this->data->iuser?>/<?=$this->data->mainimg?>' onerror='this.error=null;this.src="/static/img/profile/defaultImg.png"'>
                 </div>
             </div>
             <div class="flex-grow-1 d-flex flex-column justify-content-evenly">
@@ -27,7 +27,7 @@
                         <button type="button" id="btnFollow" data-follow="0" class="<?= $this->data->iuser !== getIuser() && $this->data->meyou === 0 && $this->data->youme === 0 ? '' : 'd-none'?> btn btn-primary">팔로우</button> -->
                 </div>
                 <div class="d-flex flex-row">
-                    <div class="flex-grow-1 me-3">게시물 <span class="bold"><?=$this->data->feedcnt?></span></div>
+                    <div class="flex-grow-1 me-3">게시물 <span class="bold" id="feedCnt"><?=$this->data->feedcnt?></span></div>
                     <div class="flex-grow-1 me-3">팔로워 <span class="bold" id="spanFollower"><?=$this->data->followerCnt?></span></div>
                     <div class="flex-grow-1">팔로우 <span class="bold"><?=$this->data->followCnt?></span></div>
                 </div>
@@ -48,9 +48,13 @@
                 <h5 class="modal-title fw-bold">프로필 사진 바꾸기</h5>
             </div>
             <div class="modal-body p-0 pt-3 pb-3" id="id-modal-body">
-                <a href="#"><div class="text-center text-primary fw-bold">사진 업로드</div></a><hr>
-                <a href="#"><div class="text-center text-danger fw-bold">현재 사진 삭제</div></a><hr>
-                <div class="text-center pointer" data-bs-dismiss="modal">취소</div>
+                <div class="text-center text-primary fw-bold pointer">
+                    <span id="btnInsProfilePic">사진 업로드</span>
+                </div><hr>
+                <div class="text-center text-danger fw-bold pointer">
+                    <span id="btnDelCurrentProfilePic">현재 사진 삭제</span>
+                </div><hr>
+                <div class="text-center pointer" id="btnProfileImgModalClose" data-bs-dismiss="modal">취소</div>
             </div>
         </div>
 
