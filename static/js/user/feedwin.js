@@ -29,8 +29,7 @@
 // }
 
 function getFeedList() {
-    const gData = document.querySelector('#gData');
-    const feedIuser = gData.dataset.toiuser;
+    const feedIuser = lData.dataset.toiuser;
     // const url = new URL(location.href); url로 iuser 값 가져오기
     // const feedIuser = url.searchParams.get('iuser');
     if(!feedObj) { return; }
@@ -52,14 +51,14 @@ function getFeedList() {
 getFeedList();
 
 (function(){
-    const gData = document.querySelector('#gData');
+    const lData = document.querySelector('#lData');
     const spanFollower = document.querySelector('#spanFollower');
     let follower = parseInt(spanFollower.innerText);
     const btnFollow = document.querySelector('#btnFollow');
     if(btnFollow){
         btnFollow.addEventListener('click', function(){
             const param = {
-                toiuser: parseInt(gData.dataset.toiuser)
+                toiuser: parseInt(lData.dataset.toiuser)
             };
             console.log(param);
             const follow = btnFollow.dataset.follow;

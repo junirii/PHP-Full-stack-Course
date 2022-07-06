@@ -1,13 +1,16 @@
 <?php
+
 namespace application\controllers;
 
 use application\libs\Application;
 
 
-class UserController extends Controller {
+class UserController extends Controller
+{
     //로그인
-    public function signin() {
-        switch(getMethod()){
+    public function signin()
+    {
+        switch (getMethod()) {
             case _GET:
                 return "user/signin.php";
             case _POST:
@@ -18,7 +21,7 @@ class UserController extends Controller {
                     "pw" => $pw
                 ];
                 $dbUser = $this->model->selUser($param);
-                if(!$dbUser || !password_verify($pw, $dbUser->pw)){
+                if (!$dbUser || !password_verify($pw, $dbUser->pw)) {
                     return "redirect:/user/signin?email={$email}&err";
                 }
                 $dbUser->pw = null;
@@ -29,8 +32,9 @@ class UserController extends Controller {
     }
 
     //회원가입
-    public function signup() {
-        switch(getMethod()){
+    public function signup()
+    {
+        switch (getMethod()) {
             case _GET:
                 return "user/signup.php";
             case _POST:
@@ -45,12 +49,14 @@ class UserController extends Controller {
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         $this->flash(_LOGINUSER);
         return "redirect:/user/signin";
     }
 
-    public function feedwin(){
+    public function feedwin()
+    {
         $iuser = isset($_GET["iuser"]) ? intval($_GET["iuser"]) : 0;
         $param = [
             "feedIuser" => $iuser,
@@ -63,33 +69,38 @@ class UserController extends Controller {
         return "template/t1.php";
     }
 
-    public function feed(){
-        if(getMethod() === _GET){
+    public function feed()
+    {
+        if (getMethod() === _GET) {
             $page = 1;
-            if(isset($_GET["page"])){
+            if (isset($_GET["page"])) {
                 $page = intVal($_GET["page"]);
             }
-            if(isset($_GET["feedIuser"])){
+            if (isset($_GET["feedIuser"])) {
                 $feedIuser = $_GET["feedIuser"];
             }
             $startIdx = ($page - 1) * _FEED_ITEM_CNT;
             $param = [
                 "startIdx" => $startIdx,
-                "iuser" => $feedIuser
+                "toiuser" => $feedIuser,
+                "loginIuser" => getIuser()
             ];
             $list = $this->model->selFeedList($param);
-            foreach($list as $item){
-                $item->imgList = Application::getModel("feed")->selFeedImgList($item);
+            foreach ($list as $item) {
+                $param2 = ["ifeed" => $item->ifeed];
+                $item->imgList = Application::getModel("feed")->selFeedImgList($param2);
+                $item->cmt = Application::getModel("feedcmt")->selFeedCmt($param2);
             }
             return $list;
         }
     }
 
-    public function follow(){
+    public function follow()
+    {
         $param = [
             "fromiuser" => getIuser(),
         ];
-        switch(getMethod()){
+        switch (getMethod()) {
             case _POST:
                 $json = getJson();
                 $param["toiuser"] = $json["toiuser"];

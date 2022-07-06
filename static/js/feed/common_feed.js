@@ -4,30 +4,8 @@ const feedObj = {
     currentPage: 1,
     swiper: null,
     loadingElem: document.querySelector('.loading'),
-    containerElem: document.querySelector('#item_container'),  
-    makeCmtItem: function(item){
-        const divCmtItemContainer = document.createElement('div');
-        divCmtItemContainer.className = 'cmtItemCont';
-        let src = '/static/img/profile/' + (item.writerimg ? `${item.iuser}/${item.writerimg}` : 'defaultImg.png');
-        divCmtItemContainer.innerHTML = 
-        `  <div class="cmtItemProfile">
-                <img src="${src}" class="profile w24 h24 pointer">
-           </div>
-           <div class="cmtItemCtnt">
-                <div class="pointer">${item.writer}</div>
-                <div>${item.cmt}</div>
-           </div>
-        `;
-        return divCmtItemContainer;
-    },
-    makeFeedList: function(list) {
-        if(list.length !== 0) {
-            list.forEach(item => {
-                const divItem = this.makeFeedItem(item);
-                this.containerElem.appendChild(divItem);
-            });
-        }
-
+    containerElem: document.querySelector('#item_container'), 
+    refreshSwipe: function(){
         if(this.swiper !== null) { this.swiper = null; }
         this.swiper = new Swiper('.swiper', {
             navigation: {
@@ -39,14 +17,55 @@ const feedObj = {
             direction: 'horizontal',
             loop: false
         });
-
+    },
+    getFeedCmtList: function(ifeed, divCmtList, spanMoreCmt){
+        fetch(`/feedcmt/index?ifeed=${ifeed}`)
+        .then(res => res.json())
+        .then(res => {
+            if(res && res.length > 0){
+                if(spanMoreCmt){spanMoreCmt.remove();}
+                divCmtList.innerHTML = null;
+                res.forEach(item => {
+                    const divCmtItem = this.makeCmtItem(item);
+                    divCmtList.appendChild(divCmtItem);
+                });
+            }
+        });
+    },
+    makeCmtItem: function(item){
+        const divCmtItemContainer = document.createElement('div');
+        divCmtItemContainer.className = 'd-flex flex-row align-items-center mb-2';
+        let src = '/static/img/profile/' + (item.writerimg ? `${item.iuser}/${item.writerimg}` : 'defaultImg.png');
+        divCmtItemContainer.innerHTML = 
+        `  <div class="circleimg w24 h24 me-1">
+                <img src="${src}" class="profile w24 pointer">
+           </div>
+           <div class="d-flex flex-row">
+                <div class="pointer me-2">${item.writer} - <span class="rem0_8">${getDateTimeInfo(item.regdt)}</span></div>
+                <div>${item.cmt}</div>
+           </div>
+        `;
+        const cmtImg = divCmtItemContainer.querySelector('img');
+        cmtImg.addEventListener('click', () => {
+            moveToFeedWin(item.iuser);
+        });
+        return divCmtItemContainer;
+    },
+    makeFeedList: function(list) {
+        if(list.length !== 0) {
+            list.forEach(item => {
+                const divItem = this.makeFeedItem(item);
+                this.containerElem.appendChild(divItem);
+            });
+        }
+        this.refreshSwipe();
         this.hideLoading();
     },
     makeFeedItem: function(item) {
         console.log(item);
         const divContainer = document.createElement('div');
         divContainer.className = 'item mt-3 mb-3';
-
+        //머리 div
         const divTop = document.createElement('div');
         divContainer.appendChild(divTop);
 
@@ -71,7 +90,7 @@ const feedObj = {
                 moveToFeedWin(item.iuser);
             });
         });
-
+        //이미지 div
         const divImgSwiper = document.createElement('div');
         divContainer.appendChild(divImgSwiper);
         divImgSwiper.className = 'swiper item_img';
@@ -93,6 +112,7 @@ const feedObj = {
             img.className = 'w100p_mw614';
             img.src = `/static/img/feed/${item.ifeed}/${imgObj.img}`;
         });
+        
         //버튼 div
         const divBtns = document.createElement('div');
         divContainer.appendChild(divBtns);
@@ -102,8 +122,23 @@ const feedObj = {
         divBtns.appendChild(heartIcon);
         heartIcon.className = 'fa-heart pointer rem1_5 me-3';
         heartIcon.classList.add(item.isFav === 1 ? 'fas' : 'far');
-        heartIcon.addEventListener('click', e => {
 
+        const divDm = document.createElement('div');
+        divBtns.appendChild(divDm);
+        divDm.className = 'pointer';
+        divDm.innerHTML = `<svg aria-label="다이렉트 메시지" class="_8-yf5 " color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>`;
+
+        const divFav = document.createElement('div');
+        divContainer.appendChild(divFav);
+        divFav.className = 'p-3 d-none';
+        const spanFavCnt = document.createElement('span');
+        divFav.appendChild(spanFavCnt);
+        spanFavCnt.className = 'bold';
+        let favCnt = parseInt(item.favCnt);
+        spanFavCnt.innerHTML = `좋아요 ${item.favCnt}개`;
+        if(favCnt > 0) { divFav.classList.remove('d-none'); }
+
+        heartIcon.addEventListener('click', e => {
             let method = 'POST';
             if(item.isFav === 1) { //delete (1은 0으로 바꿔줘야 함)
                 method = 'DELETE';
@@ -118,10 +153,18 @@ const feedObj = {
                     if(item.isFav === 0) { // 좋아요 취소
                         heartIcon.classList.remove('fas');
                         heartIcon.classList.add('far');
+                        favCnt = favCnt - 1;
+                        spanFavCnt.innerHTML = `좋아요 ${favCnt}개`;
+                        if(favCnt === 0) { divFav.classList.add('d-none'); }
                     } else { // 좋아요 처리
                         heartIcon.classList.remove('far');
                         heartIcon.classList.add('fas');
+                        favCnt = favCnt + 1;
+                        spanFavCnt.innerHTML = `좋아요 ${favCnt}개`;
+                        if(favCnt > 0) { divFav.classList.remove('d-none'); }
                     }
+                    // if(favCnt === 0){ divFav.classList.add('d-none'); }
+                    // else{ divFav.classList.remove('d-none'); }
                 } else {
                     alert('좋아요를 할 수 없습니다.');
                 }
@@ -131,21 +174,6 @@ const feedObj = {
             });
         });
 
-
-        const divDm = document.createElement('div');
-        divBtns.appendChild(divDm);
-        divDm.className = 'pointer';
-        divDm.innerHTML = `<svg aria-label="다이렉트 메시지" class="_8-yf5 " color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>`;
-
-        const divFav = document.createElement('div');
-        divContainer.appendChild(divFav);
-        divFav.className = 'p-3 d-none';
-        const spanFavCnt = document.createElement('span');
-        divFav.appendChild(spanFavCnt);
-        spanFavCnt.className = 'bold';
-        spanFavCnt.innerHTML = `좋아요 ${item.favCnt}개`;
-
-        if(item.favCnt > 0) { divFav.classList.remove('d-none'); }
         //내용 div
         if(item.ctnt !== null && item.ctnt !== '') {
             const divCtnt = document.createElement('div');
@@ -156,25 +184,26 @@ const feedObj = {
         //댓글 div
         const divCmtList = document.createElement('div');
         divContainer.appendChild(divCmtList);
+        divCmtList.className = 'ms-3';
 
-        
         const divCmt = document.createElement('div');
+        divContainer.appendChild(divCmt);
+        const spanMoreCmt = document.createElement('span');
+
         if(item.cmt){
             const divCmtItem = this.makeCmtItem(item.cmt);
             divCmtList.appendChild(divCmtItem);
-            divCmtItem.className = 'ms-3';
-
-            divContainer.appendChild(divCmt);
 
             if(item.cmt.ismore === 1){
                 const divMoreCmt = document.createElement('div');
                 divCmt.appendChild(divMoreCmt);
-                const spanMoreCmt = document.createElement('span');
+                divMoreCmt.className = 'ms-3 mb-3';
+
                 divMoreCmt.appendChild(spanMoreCmt);
-                spanMoreCmt.className = 'pointer';
+                spanMoreCmt.className = 'pointer rem0_9 c_lightgray';
                 spanMoreCmt.innerText = '댓글 더보기...';
                 spanMoreCmt.addEventListener('click', e => {
-
+                    this.getFeedCmtList(item.ifeed, divCmtList, spanMoreCmt);
                 });
             }
         }
@@ -189,12 +218,17 @@ const feedObj = {
             <button type="button" class="btn btn-outline-primary">등록</button>
         `;
         const inputCmt = divCmtForm.querySelector('input');
+        inputCmt.addEventListener('keyup', e => {
+            if(e.key === 'Enter'){
+                btnCmtReg.click();
+            }
+        });
         const btnCmtReg = divCmtForm.querySelector('button');
         btnCmtReg.addEventListener('click', e => {
-            param = {
+            const param = {
                 ifeed: item.ifeed,
                 cmt: inputCmt.value
-            }
+            };
             fetch('/feedcmt/index', {
                 method: 'POST',
                 body: JSON.stringify(param)
@@ -203,10 +237,11 @@ const feedObj = {
             .then(res => {
                 if(res.result){
                     inputCmt.value = '';
-                    console.log('icmt: ' + res.result);
+                    this.getFeedCmtList(param.ifeed, divCmtList, spanMoreCmt);
                 }
-            })
+            });
         });
+
 
         return divContainer;
     },
@@ -268,13 +303,21 @@ function moveToFeedWin(iuser) {
 
                     fetch('/feed/rest', {
                         method: 'post',
-                        body: fData                       
+                        body: fData
                     }).then(res => res.json())
                         .then(myJson => {
                            console.log(myJson);
 
-                           if(myJson.result) {                                
+                           if(myJson) {                                
                                 btnClose.click();
+                                //화면에 등록
+                                const lData = document.querySelector('#lData');
+                                const gData = document.querySelector('#gData');
+                                if(lData && lData.dataset.toiuser !== gData.dataset.loginiuser) { return; }
+                                // 남의 feedWin이 아니라면 화면에 등록!!!
+                                const feedItem = feedObj.makeFeedItem(myJson);
+                                feedObj.containerElem.prepend(feedItem);
+                                feedObj.refreshSwipe();
                            }
                         });
 
