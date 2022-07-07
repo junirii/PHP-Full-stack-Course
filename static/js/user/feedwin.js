@@ -68,6 +68,9 @@ if(feedObj){
     const btnDelCurrentProfilePic = document.querySelector('#btnDelCurrentProfilePic');
     const btnProfileImgModalClose = document.querySelector('#btnProfileImgModalClose');
     const btnInsProfilePic = document.querySelector('#btnInsProfilePic');
+    const modalProfileImg = document.querySelector('#profileImgModal');
+    const FrmProfileImg = modalProfileImg.querySelector('form');
+    const divUploadImg = modalProfileImg.querySelector('#uploadImg');
     if(btnFollow){
         btnFollow.addEventListener('click', function(){
             const param = {
@@ -130,7 +133,30 @@ if(feedObj){
 
     if(btnInsProfilePic){
         btnInsProfilePic.addEventListener('click', e => {
+                FrmProfileImg.imgs.click();
+        });
 
+        FrmProfileImg.imgs.addEventListener('change', e => {
+            if(e.target.files.length){
+                const fData = new FormData();
+                fData.append('profileImg', e.target.files[0]);
+                fetch('/user/profile', {
+                    method: 'post',
+                    body: fData
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if(res.result){
+                        const gData = document.querySelector('#gData');
+                        const profileImgList = document.querySelectorAll('.profileimg');
+                        profileImgList.forEach(item => {
+                            item.src = `/static/img/profile/${gData.dataset.loginiuser}/${res.fileNm}`;
+                        });
+                        btnProfileImgModalClose.click();
+                    }
+                });
+            }
         });
     }
+
 })();

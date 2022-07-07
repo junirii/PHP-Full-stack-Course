@@ -48,8 +48,8 @@
                 <h5 class="modal-title fw-bold">프로필 사진 바꾸기</h5>
             </div>
             <div class="modal-body p-0 pt-3 pb-3" id="id-modal-body">
-                <div class="text-center text-primary fw-bold pointer">
-                    <span id="btnInsProfilePic">사진 업로드</span>
+                <div id="uploadImg" class="text-center">
+                    <span id="btnInsProfilePic" class="text-primary fw-bold pointer">사진 업로드</span>
                 </div><hr>
                 <div class="text-center text-danger fw-bold pointer">
                     <span id="btnDelCurrentProfilePic">현재 사진 삭제</span>
@@ -59,7 +59,7 @@
         </div>
 
         <form class="d-none">
-            <input type="file" accept="image/*" name="imgs" multiple>
+            <input type="file" accept="image/*" name="imgs">
         </form>
     </div>
 </div>
