@@ -117,7 +117,7 @@ class UserController extends Controller
             case _DELETE:
                 $loginUser = getLoginUser();
                 if($loginUser){
-                    $path = "static/img/profile/{$loginUser->iuser}/{$loginUser->mainimg}";
+                    $path = _IMG_PATH . "/profile/" . getIuser() . "/" . $loginUser->mainimg;
                     if(file_exists($path) && unlink($path)){
                         $param = [ "iuser" => $loginUser->iuser, "delMainImg" => 1 ];
                         if($this->model->updUser($param)){
@@ -135,10 +135,11 @@ class UserController extends Controller
 
                 $loginUser = getLoginUser();
                 if($loginUser){
-                    $path = "static/img/profile/{$loginUser->iuser}";
+                    $path = _IMG_PATH . "/profile/" . getIuser();
                     if(!is_dir($path)){
                         mkdir($path, 0777, true);
                     }
+                    
                     if($loginUser->mainimg){
                         $savedImg = $path . "/" . $loginUser->mainimg;
                         if(file_exists($savedImg)){
