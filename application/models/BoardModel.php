@@ -13,7 +13,24 @@ class BoardModel extends Model {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    // area list
+    public function areaList() {
+        $sql = "SELECT * FROM t_area";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    // // location list
+    public function locationList() {
+        $sql = "SELECT * FROM t_location";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
     
+    // HOST 모집글 작성
     public function boardInsert(&$param) {
         $sql = "INSERT INTO t_board
                 SET iuser = :iuser
@@ -34,4 +51,6 @@ class BoardModel extends Model {
         $stmt->execute();
         return intval($this->pdo->lastInsertId());
     }
+
+    
 }

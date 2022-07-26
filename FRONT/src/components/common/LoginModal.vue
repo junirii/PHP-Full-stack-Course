@@ -8,11 +8,11 @@
           </div>
 
           <!-- 로그인 폼 -->
-          <form v-if="login" v-on:submit.prevent="loginForm">
+          <form v-if="login" @submit.prevent="loginForm">
             <div class="modal-body">
             <!-- <slot name="body">{{body}}</slot> -->
-              <div><input v-model="loginUser.email" type="email" placeholder="아이디"></div>
-              <div><input v-model="loginUser.pw" type="password" placeholder="비밀번호"></div>
+              <div><input type="email" placeholder="아이디"></div>
+              <div><input type="password" placeholder="비밀번호"></div>
               <div>
                 <p>아직 회원이 아니신가요?</p>
                 <p type="button" @click="showJoin">Sign Up</p>
@@ -32,27 +32,27 @@
           <!-- 회원가입 폼 -->
           <form v-if="join" v-on:submit.prevent="joinForm">
             <div class="modal-body">
-              <div><input v-model="joinUser.email" type="email" placeholder="아이디" required></div>
-              <div><input v-model="joinUser.pw" type="password" placeholder="비밀번호" required></div>
+              <div><input v-model="user.email" type="email" placeholder="아이디" required></div>
+              <div><input v-model="user.pw" type="password" placeholder="비밀번호" required></div>
               <div>
-                <input v-model="joinUser.pwCheck" type="password" placeholder="비밀번호 확인" required>
-                <div v-show="joinUser.pw===joinUser.pwCheck">비밀번호가 일치합니다.</div>
-                <div v-show="joinUser.pw!==joinUser.pwCheck">비밀번호가 일치하지 않습니다.</div>
+                <input v-model="user.pwCheck" type="password" placeholder="비밀번호 확인" required>
+                <div v-show="user.pw===user.pwCheck">비밀번호가 일치합니다.</div>
+                <div v-show="user.pw!==user.pwCheck">비밀번호가 일치하지 않습니다.</div>
               </div>
-              <div><input v-model="joinUser.nm" type="text" placeholder="이름" required></div>
-              <div><input v-model="joinUser.nick" type="text" placeholder="닉네임"></div>
+              <div><input v-model="user.nm" type="text" placeholder="이름" required></div>
+              <div><input v-model="user.nick" type="text" placeholder="닉네임"></div>
               <div>
-                <input v-model="joinUser.gender" type="radio" id="male" name="gender" value="0" checked required>
+                <input v-model="user.gender" type="radio" id="male" name="gender" value="0" checked required>
                 <label for="male">남</label>
-                <input v-model="joinUser.gender" type="radio" id="female" name="gender" value="1">
+                <input v-model="user.gender" type="radio" id="female" name="gender" value="1">
                 <label for="female">여</label>
               </div>
               <div>
-                <label>생일<input v-model="joinUser.birth" type="date" required></label>
+                <label>생일<input v-model="user.birth" type="date" required></label>
               </div>
-              <div><input v-model="joinUser.tel" type="tel" placeholder="전화번호" required></div>
+              <div><input v-model="user.tel" type="tel" placeholder="전화번호" required></div>
               <div><label>프로필 이미지<input type="file"></label></div>
-              <div><input v-model="joinUser.cmt" type="text" placeholder="소개말"></div>
+              <div><input v-model="user.cmt" type="text" placeholder="소개말"></div>
               <div>
                 <p>이미 회원이신가요?</p>
                 <p type="button" @click="showLogin">Sign In</p>
@@ -62,7 +62,7 @@
             <div class="modal-footer">
               <div v-if="join" class="modal-login-button">
                 <slot name="footer">
-                  <button type="submit" v-bind:disabled="joinUser.pw!=joinUser.pwCheck">회원가입</button>
+                  <button type="submit" v-bind:disabled="user.pw!==user.pwCheck" @click="$emit('close'); showLogin();">회원가입</button>
                   <button type="button" @click="$emit('close'); showLogin();">취소</button>
                 </slot>
               </div>
@@ -79,29 +79,25 @@ export default {
   name: "LoginModal",
   props: {
     show: Boolean,
+    body: String
   },
   data(){
     return {
       login: true,
       join: false,
       header: '로그인',
-      isLogin: this.isLogin,
-      joinUser: {
-        email: '',
-        pw: '',
+      user: {
+        email: 'ga243@naver.com',
+        pw: '123',
         pwCheck: '',
-        nm: '',
-        nick: '',
+        nm: '123',
+        nick: 'www',
         gender: 0,
-        birth: '',
+        birth: '1997-01-24',
         age: 0,
-        tel: '',
+        tel: '010-2825-2536',
         profile_img: '',
-        cmt: ''
-      },
-      loginUser: {
-        email: '',
-        pw: ''
+        cmt: 'zzz'
       }
     }
   },
@@ -110,51 +106,30 @@ export default {
       this.login = false;
       this.join = true;
       this.header = '회원가입';
-      this.joinUser.email = '';
-      this.joinUser.pw = '';
-      this.joinUser.pwCheck = '';
-      this.joinUser.nm = '';
-      this.joinUser.nick = '';
-      this.joinUser.birth = '';
-      this.joinUser.tel = '';
-      this.joinUser.cmt = '';
     },
     showLogin(){
       this.login = true;
       this.join = false;
       this.header = '로그인';
-      this.loginUser.email = '';
-      this.loginUser.pw = '';
     },
     async joinForm(){
-      const birth = this.joinUser.birth;
+      const birth = this.user.birth;
       const birthYear = birth.substr(0, 4);
       const thisYear = new Date().getFullYear();
-      this.joinUser.age = thisYear - birthYear;
-      const res = await this.$post('/user/join', this.joinUser);
-      if(res.result === 2){ 
-        this.$swal.fire('중복되는 아이디가 있습니다.', '', 'error');
-      }else if(res.result === 0){ //회원가입 실패
-        this.$swal.fire('회원가입할 수 없습니다.', '', 'error');
-      }else{ //회원가입 성공
+      this.user.age = thisYear - birthYear;
+      const res = await this.$post('/user/join', this.user);
+      if(res.result === 1){
         this.$swal.fire('회원가입 되었습니다!', '', 'success');
-        this.showLogin();
-        this.$emit('close');
+      }else if(res.result === 2){
+        this.$swal.fire('중복되는 아이디가 있습니다.', '', 'error');
+      }else{
+        this.$swal.fire('로그인할 수 없습니다.', '', 'error');
       }
     },
     async loginForm(){
-      const res = await this.$post('/user/login', {
-        email: this.loginUser.email,
-        pw: this.loginUser.pw
-      });
-      if(res.result === 0){
-        this.$swal.fire('일치하는 회원이 없습니다.', '', 'error'); //로그인 실패
-      }else{
-        this.$store.commit('user', res.result); //로그인 성공
-        this.$emit('close');
-        this.$emit('update');
-      }
-    },
+      const res = await this.$post('/user/login', this.user);
+      console.log(res);
+    }
   }
 }
 </script>
@@ -216,8 +191,5 @@ export default {
 .modal-leave-to .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
-}
-.swal2-container {
-  z-index: 20000 !important;
 }
 </style>

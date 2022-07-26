@@ -4,6 +4,7 @@ import Map from '../views/Map.vue'
 import Calender from '../views/Calender.vue'
 import Option from '../views/Option.vue'
 import List from '../views/List.vue'
+import Create from '../views/Create.vue'
 
 const routes = [
   {
@@ -31,7 +32,12 @@ const routes = [
     name: 'list',
     component: List
   },
-]//dasgsdgsdgasdg
+  {
+    path: '/create',
+    name: 'create',
+    component: Create
+  }
+]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
