@@ -29,7 +29,7 @@ class UserController extends Controller{
           $dbUser->pw = null;
           $dbUser->regdt = null;
           $this->flash(_LOGINUSER, $dbUser);
-          return [_RESULT => 1];
+          return [_RESULT => $dbUser];
         }
     }
   }
@@ -41,8 +41,10 @@ class UserController extends Controller{
         return [_RESULT => 1];
     }
   }
+
   public function myUser()
   {
     return $this->model->myUser();
   }
+
 }

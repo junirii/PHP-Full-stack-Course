@@ -4,8 +4,8 @@ import Map from '../views/Map.vue'
 import Calender from '../views/Calender.vue'
 import Option from '../views/Option.vue'
 import List from '../views/List.vue'
-import Create from '../views/Create.vue'
 import Detail from '../views/Detail.vue'
+import Create from '../views/Create.vue'
 import Mypage from '../views/Mypage.vue'
 
 const routes = [
@@ -35,20 +35,20 @@ const routes = [
     component: List
   },
   {
-    path: '/create',
-    name: 'create',
-    component: Create
-  },
-  {
     path: '/detail',
     name: 'detail',
     component: Detail
   },
   {
+    path: '/create',
+    name: 'create',
+    component: Create
+  },
+  {
     path: '/mypage',
     name: 'mypage',
     component: Mypage
-  },
+  }
 ]//dasgsdgsdgasdg
 
 const router = createRouter({

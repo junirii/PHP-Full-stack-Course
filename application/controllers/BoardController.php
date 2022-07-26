@@ -8,22 +8,12 @@ class BoardController extends Controller{
         return $this->model->boardList();
     }
 
-    // HOST 모집글 작성
-    public function boardInsert() {
+    public function create() {
         $json = getJson();
         print_r($json);
         return [_RESULT => $this->model->boardInsert($json)];
     }
 
-    // area list
-    public function areaList() {
-        return $this->model->areaList();
-    }
-
-    // location list
-    public function locationList() {
-        return $this->model->locationList();
-    }
     public function detail() {
         $urlPaths = getUrlPaths();
         $param = [

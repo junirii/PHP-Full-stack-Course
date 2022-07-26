@@ -45,7 +45,7 @@
 export default {
   data() {
     return {
-      data: {}
+      data: []
     }
   },
   methods: {
@@ -61,5 +61,6 @@ export default {
 }
 
 </script>
+
 <style>
 </style>
