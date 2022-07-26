@@ -29,16 +29,8 @@ class UserController extends Controller{
           $dbUser->pw = null;
           $dbUser->regdt = null;
           $this->flash(_LOGINUSER, $dbUser);
-          return [_RESULT => $dbUser];
+          return [_RESULT => 1];
         }
-    }
-  }
-
-  public function logout(){
-    switch (getMethod()) {
-      case _POST:
-        $this->flash(_LOGINUSER);
-        return [_RESULT => 1];
     }
   }
 }

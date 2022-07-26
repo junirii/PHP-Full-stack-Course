@@ -1,4 +1,4 @@
-# team-b-project
+# team-b-project_front
 
 ## Project setup
 ```
