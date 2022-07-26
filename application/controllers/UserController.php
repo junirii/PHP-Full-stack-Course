@@ -33,4 +33,16 @@ class UserController extends Controller{
         }
     }
   }
+
+  public function logout(){
+    switch (getMethod()) {
+      case _POST:
+        $this->flash(_LOGINUSER);
+        return [_RESULT => 1];
+    }
+  }
+  public function myUser()
+  {
+    return $this->model->myUser();
+  }
 }

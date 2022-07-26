@@ -52,5 +52,19 @@ class BoardModel extends Model {
         return intval($this->pdo->lastInsertId());
     }
 
-    
+    public function detail(&$param) {
+        $sql="SELECT *
+        FROM t_board A
+        INNER JOIN t_board_ctnt B
+        ON A.iboard = B.iboard
+        INNER JOIN t_board_img C
+        ON A.iboard = C.iboard
+        INNER JOIN t_user D
+        ON A.iuser = D.iuser
+        WHERE A.iboard = :iboard";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iboard", $param["iboard"]);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
 }

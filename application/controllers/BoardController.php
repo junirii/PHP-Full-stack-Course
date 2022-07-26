@@ -24,4 +24,11 @@ class BoardController extends Controller{
     public function locationList() {
         return $this->model->locationList();
     }
+    public function detail() {
+        $urlPaths = getUrlPaths();
+        $param = [
+            "iboard" => intval($urlPaths[2])
+        ];
+        return $this->model->detail($param);
+    }
 }
