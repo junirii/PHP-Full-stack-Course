@@ -55,7 +55,7 @@ export default {
     this.boardList();
   },
   good() {
-
+//test!
   }
 }
 
