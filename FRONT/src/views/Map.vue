@@ -17,6 +17,7 @@
     <router-link :to="{ path: '/Option' }">
       <button type="button">↓</button>
     </router-link>
+    <p>dsagsdgdsgsdagsdgsda</p>
   <div class="container">
     <div class="box">
       <!-- 파일경로: ../../mapImg/파일이름
