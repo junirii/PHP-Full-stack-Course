@@ -13,4 +13,11 @@ class BoardController extends Controller{
         print_r($json);
         return [_RESULT => $this->model->boardInsert($json)];
     }
+    public function detail() {
+        $urlPaths = getUrlPaths();
+        $param = [
+            "iboard" => intval($urlPaths[2])
+        ];
+        return $this->model->detail($param);
+    }
 }

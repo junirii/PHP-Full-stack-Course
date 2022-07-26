@@ -33,4 +33,25 @@ class UserModel extends Model {
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_OBJ);
   }
+
+  public function myUser(&$param)
+  {
+    $sql =
+      "     SELECT *
+    FROM t_user A
+    INNER JOIN t_board B
+    ON A.iuser = B.iuser
+    INNER JOIN t_trip C
+    ON A.iuser = C.iuser
+    INNER JOIN t_cmt D
+    ON A.iuser = D.host_iuser
+    INNER JOIN t_board_fav E
+    ON A.iuser = E.iuser
+    WHERE A.iuser = 1;
+    ";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":iuser", $param["iuser"]);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_OBJ);
+  }
 }

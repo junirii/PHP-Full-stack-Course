@@ -41,4 +41,8 @@ class UserController extends Controller{
         return [_RESULT => 1];
     }
   }
+  public function myUser()
+  {
+    return $this->model->myUser();
+  }
 }

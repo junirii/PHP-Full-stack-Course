@@ -4,6 +4,8 @@ import Map from '../views/Map.vue'
 import Calender from '../views/Calender.vue'
 import Option from '../views/Option.vue'
 import List from '../views/List.vue'
+import Detail from '../views/Detail.vue'
+import Mypage from '../views/Mypage.vue'
 
 const routes = [
   {
@@ -30,6 +32,16 @@ const routes = [
     path: '/list',
     name: 'list',
     component: List
+  },
+  {
+    path: '/detail',
+    name: 'detail',
+    component: Detail
+  },
+  {
+    path: '/mypage',
+    name: 'mypage',
+    component: Mypage
   },
 ]//dasgsdgsdgasdg
 
