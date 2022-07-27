@@ -55,16 +55,16 @@ class UserController extends Controller
       "iuser" => intval($urlPaths[2])
     ];
 
-    $myPagehost1 = $this->model->myPagehost($param); // 함수 쓰는법
-    $myPageTrip2 = $this->model->myPageTrip($param);
-    $myPageCmt3 = $this->model->myPageCmt($param);
-    $myPageBoardFav4 = $this->model->myPageBoardFav($param);
+    $myPagehost = $this->model->myPagehost($param); // 함수 쓰는법
+    $myPageTrip = $this->model->myPageTrip($param);
+    $myPageCmt = $this->model->myPageCmt($param);
+    $myPageBoardFav = $this->model->myPageBoardFav($param);
 
     $data = [
-      "myPagehost1" => $myPagehost1,
-      "myPageTrip2" => $myPageTrip2,
-      "myPageCmt3" => $myPageCmt3,
-      "myPageBoardFav4" => $myPageBoardFav4,
+      "myPagehost" => $myPagehost,
+      "myPageTrip" => $myPageTrip,
+      "myPageCmt" => $myPageCmt,
+      "myPageBoardFav" => $myPageBoardFav,
     ];
     return [_RESULT => $data];
     // return $this->model->myPage($param);
