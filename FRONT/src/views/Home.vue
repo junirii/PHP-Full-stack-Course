@@ -1,11 +1,11 @@
 <template>
   <div>message</div>
   <div>
-    <button type="button" v-if="isLogin" @click="loginCheck('Create')">HOSTING</button>
-    <button type="button" v-if="isLogin" @click="loginCheck('Map')">SEARCH</button>
-    <button type="button" v-if="!isLogin" @click="showModal">JOIN</button>
+    <button class="btn" type="button" v-if="isLogin" @click="loginCheck('Create')">HOSTING</button>
+    <button class="btn" type="button" v-if="isLogin" @click="loginCheck('SelecPage')">SEARCH</button>
+    <button class="btn" type="button" v-if="!isLogin" @click="showModal">JOIN</button>
     <div>
-      <button type="button" v-if="isLogin" @click="logout">로그아웃</button>
+      <button class="btn" type="button" v-if="isLogin" @click="logout">로그아웃</button>
     </div>
   </div>
   <LoginModal 

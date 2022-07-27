@@ -5,6 +5,7 @@ import store from './store';
 import mixins from './mixins';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import '../../static/css/common.css';
 
 createApp(App)
 .mixin(mixins)

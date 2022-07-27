@@ -28,7 +28,7 @@
         </div>
       </div>
     <router-link :to="{ path: '/Mypage' }">
-      <button type="button">마이페이지</button>
+      <button class="btn" type="button">마이페이지</button>
     </router-link>
     </div>
   </main>

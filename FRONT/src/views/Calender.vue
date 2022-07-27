@@ -35,7 +35,7 @@
 
   <div>
     <router-link :to="{ path: '/List' }">
-      <button type="button">여행 찾기</button>
+      <button class="btn" type="button">여행 찾기</button>
     </router-link>
   </div>
 </template>
