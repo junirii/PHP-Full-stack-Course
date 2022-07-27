@@ -4,10 +4,11 @@
     <div class="row">
       <div class="col">사진 : {{ this.$store.state.user.profile_img }}</div>
       <div class="col">
-        <div>닉네임 : {{ this.$store.state.user.nick }}</div>
+        <div>닉네임 : {{ this.$store.state.user.nick }}
+        <input type="button" value="프로필편집"></div>
         <div>상태메세지 : {{ this.$store.state.user.cmt }}</div>
-        <div>DM {{ }}</div>
-        <div>인기도 {{ }}</div>
+        <div><i class="fa-regular fa-paper-plane"></i>DM {{ }}</div>
+        <div><i class="fa-solid fa-heart"></i>인기도 {{ }}</div>
       </div>
     </div>
     <br>
