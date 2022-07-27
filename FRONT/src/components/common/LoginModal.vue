@@ -139,7 +139,6 @@ export default {
       }else{ //회원가입 성공
         this.$swal.fire('회원가입 되었습니다!', '', 'success');
         this.showLogin();
-        this.$emit('close');
       }
     },
     async loginForm(){

@@ -23,6 +23,11 @@
     </div>
     <br>
 
+    <nav>
+      <router-link to="/detail">상세 정보</router-link> |
+      <router-link to="/chat" @click="goToChat">채팅</router-link> |
+    </nav>
+
     <!-- 디테일 섹션3 - 상세 정보-->
     <div>
       <div>일정</div>
@@ -36,7 +41,9 @@
 
     <div>
       <input type="button" value="찜하기">
-      <input type="button" value="신청하기">
+      <router-link :to="{ path: '/Mypage' }">
+        <button type="button">신청하기</button>
+      </router-link>
     </div>
   </div> <!-- container 닫기 -->
 </template>
@@ -45,14 +52,18 @@
 export default {
   data() {
     return {
-      data: []
+      data: [],
+      iboard: ''
     }
   },
   methods: {
     async getDetail() {
-      const iboard = this.$route.query.iboard; // iboard 가져옴
-      this.data = await this.$get(`/board/detail/${iboard}`, {}); // controllers / method / 가져온iboard
+      this.iboard = this.$route.params.iboard; // iboard 가져옴
+      this.data = await this.$get(`/board/detail/${this.iboard}`, {}); // controllers / method / 가져온iboard
       console.log(detail);
+    },
+    goToChat(){
+      this.$router.push({name: 'chat', params: {iboard: this.iboard}});
     }
   },
   created() {

@@ -48,7 +48,7 @@ export default {
       console.log(this.list);
     },
     async goToDetail(iboardNum) {
-      this.$router.push({name: 'detail', query: {iboard: iboardNum}});
+      this.$router.push({name: 'detail', params: {iboard: iboardNum}});
     }
   },
   created() {
