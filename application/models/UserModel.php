@@ -34,25 +34,65 @@ class UserModel extends Model {
     return $stmt->fetch(PDO::FETCH_OBJ);
   }
 
-  public function myUser(&$param)
+  /* mypage 시작 */
+  public function myPagehost(&$param) // mypage 호스팅한 여행 (title 뿌리기)
   {
     $sql =
-      "     SELECT *
-    FROM t_user A
-    INNER JOIN t_board B
-    ON A.iuser = B.iuser
-    INNER JOIN t_trip C
-    ON A.iuser = C.iuser
-    INNER JOIN t_cmt D
-    ON A.iuser = D.host_iuser
-    INNER JOIN t_board_fav E
-    ON A.iuser = E.iuser
-    WHERE A.iuser = 1;
+    " SELECT *
+      FROM t_user A
+      INNER JOIN t_board B
+      ON A.iuser = B.iuser
+      WHERE A.iuser = :iuser
     ";
+
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_OBJ);
   }
+
+  public function myPageTrip(&$param) { // mypage 참여한 여행 (title 뿌리기)
+    $sql =
+    " SELECT *
+      FROM t_trip A
+      INNER JOIN t_board B
+      ON A.iboard = B.iboard
+      WHERE A.iuser = :iuser
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":iuser", $param["iuser"]);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_OBJ);
+  }
+
+  public function myPageCmt(&$param) { // mypage 호스트 리뷰 (list 뿌리기)
+    $sql =
+    " SELECT *
+      FROM t_cmt D
+      WHERE host_iuser = :iuser
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":iuser", $param["iuser"]);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+
+  public function myPageBoardFav(&$param) { // mypage 찜한 여행 (title 뿌리기)
+    $sql =
+    " SELECT *
+      FROM t_board_fav A
+      INNER JOIN t_board B
+      ON A.iboard = B.iboard
+      WHERE A.iuser = 6;
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":iuser", $param["iuser"]);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_OBJ);
+  }
+/* mypage 끝 */
 
 }

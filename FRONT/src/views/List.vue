@@ -2,7 +2,7 @@
   <main class="mt-3">
     <div class="container">   
       <div class="row">
-        <div class="col-xl-3 col-lg-4 col-md-6" 
+        <div class="col-md-4 col-md-4 col-md-4" 
             :key="item.iboard" v-for="item in list">
             <div class="card" style="width: 18rem;">
               <div class="hearticon">
@@ -48,7 +48,7 @@ export default {
       console.log(this.list);
     },
     async goToDetail(iboardNum) {
-      this.$router.push({name: 'detail', query: {iboard: iboardNum}});
+      this.$router.push({name: 'detail', params: {iboard: iboardNum}});
     }
   },
   created() {

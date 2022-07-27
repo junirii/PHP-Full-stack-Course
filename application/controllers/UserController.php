@@ -42,9 +42,22 @@ class UserController extends Controller{
     }
   }
 
-  public function myUser()
+  public function myPage()
   {
-    return $this->model->myUser();
+    $urlPaths = getUrlPaths();
+    $param = [
+        "iuser" => intval($urlPaths[2])
+    ];
+
+    $mypage1 = $this->model->myPagehost($param);
+    $mypage2 = $this->model->myPageTrip($param);
+    $mypage3 = $this->model->myPageCmt($param);
+    $mypage4 = $this->model->myPageBoardFav($param);
+
+    return $this->model->myPage($param);
   }
 
 }
+
+
+//   this.$store.state.user
