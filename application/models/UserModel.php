@@ -1,11 +1,15 @@
 <?php
+
 namespace application\models;
+
 use PDO;
 
-class UserModel extends Model {
-  public function insUser(&$param){
-    $sql = 
-    " INSERT INTO t_user
+class UserModel extends Model
+{
+  public function insUser(&$param)
+  {
+    $sql =
+      " INSERT INTO t_user
       (email, pw, nm, nick, gender, age, tel, profile_img, cmt)
       VALUES
       (:email, :pw, :nm, :nick, :gender, :age, :tel, :profile_img, :cmt)";
@@ -23,9 +27,10 @@ class UserModel extends Model {
     return $stmt->rowCount();
   }
 
-  public function selUser(&$param){
-    $sql = 
-    " SELECT * FROM t_user
+  public function selUser(&$param)
+  {
+    $sql =
+      " SELECT * FROM t_user
       WHERE email = :email
     ";
     $stmt = $this->pdo->prepare($sql);
@@ -35,10 +40,11 @@ class UserModel extends Model {
   }
 
   /* mypage 시작 */
-  public function myPagehost(&$param) // mypage 호스팅한 여행 (title 뿌리기)
+  public function myPagehost(&$param)
+  // mypage 호스팅한 여행 (title 뿌리기)
   {
     $sql =
-    " SELECT *
+      " SELECT *
       FROM t_user A
       INNER JOIN t_board B
       ON A.iuser = B.iuser
@@ -48,12 +54,13 @@ class UserModel extends Model {
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
     $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_OBJ);
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
-  public function myPageTrip(&$param) { // mypage 참여한 여행 (title 뿌리기)
+  public function myPageTrip(&$param)
+  { // mypage 참여한 여행 (title 뿌리기)
     $sql =
-    " SELECT *
+      " SELECT *
       FROM t_trip A
       INNER JOIN t_board B
       ON A.iboard = B.iboard
@@ -63,12 +70,13 @@ class UserModel extends Model {
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
     $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_OBJ);
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
-  public function myPageCmt(&$param) { // mypage 호스트 리뷰 (list 뿌리기)
+  public function myPageCmt(&$param)
+  { // mypage 호스트 리뷰 (list 뿌리기)
     $sql =
-    " SELECT *
+      " SELECT *
       FROM t_cmt D
       WHERE host_iuser = :iuser
     ";
@@ -79,20 +87,21 @@ class UserModel extends Model {
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
-  public function myPageBoardFav(&$param) { // mypage 찜한 여행 (title 뿌리기)
+  public function myPageBoardFav(&$param)
+  { // mypage 찜한 여행 (title 뿌리기)
     $sql =
-    " SELECT *
+      "SELECT A.iboard, A.iuser, A.reg_dt,
+      B.title, B.reg_dt, B.mod_dt, B.area, B.location, B.main_img, B.s_date, B.e_date, B.f_people, B.f_price, B.f_gender, B.f_age
       FROM t_board_fav A
       INNER JOIN t_board B
       ON A.iboard = B.iboard
-      WHERE A.iuser = 6;
-    ";
+      WHERE A.iuser = :iuser;
+      ";
 
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
     $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_OBJ);
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
-/* mypage 끝 */
-
+  /* mypage 끝 */
 }

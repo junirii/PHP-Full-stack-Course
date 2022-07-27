@@ -53,6 +53,7 @@ export default {
   },
   created() {
     this.boardList();
+    console.log(this.$store.state.user);
   },
   good() {
 //test!
