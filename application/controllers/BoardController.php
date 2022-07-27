@@ -21,4 +21,12 @@ class BoardController extends Controller{
         ];
         return $this->model->detail($param);
     }
+
+    public function boardFav() {
+        $urlPaths = getUrlPaths();
+        $param = [
+            "iuser" => intval($urlPaths[2])
+        ];
+        return [_RESULT => $this->model->selBoardFav($param)];
+    }
 }

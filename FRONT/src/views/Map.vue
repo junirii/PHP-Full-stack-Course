@@ -17,7 +17,7 @@
     <router-link :to="{ path: '/Option' }">
       <button type="button">↓</button>
     </router-link>
-  <div class="container">
+  <div class="container-map">
     <div class="box">
       <!-- 파일경로: ../../mapImg/파일이름
            세 번째줄 파일이름 gang -> Gang으로 바꾸기 -->
@@ -51,7 +51,7 @@ export default {
 
   * { margin: 0; padding: 0; }
 
-  .container {
+  .container-map {
     width: 600px;
     margin: 100px auto 0;
   }
@@ -122,7 +122,7 @@ export default {
     bottom: 2241px;
     left: 818px;
   }
-  :hover { cursor: pointer; }
+  .img { cursor: pointer; }
   .Center:hover, .C1:hover, .C2:hover, .J1:hover, .J2:hover, .JJ:hover {
     transform: translateX(-10px);
     transition: 0.3s;

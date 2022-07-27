@@ -50,4 +50,12 @@ class BoardModel extends Model {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
+
+    public function selBoardFav(&$param){
+        $sql = "SELECT * FROM t_board_fav WHERE iuser = :iuser";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }
