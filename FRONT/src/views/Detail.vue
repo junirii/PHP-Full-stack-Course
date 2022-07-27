@@ -60,7 +60,7 @@ export default {
     async getDetail() {
       this.iboard = this.$route.params.iboard; // iboard 가져옴
       this.data = await this.$get(`/board/detail/${this.iboard}`, {}); // controllers / method / 가져온iboard
-      console.log(detail);
+      // console.log(detail);
     },
     goToChat(){
       this.$router.push({name: 'chat', params: {iboard: this.iboard}});
