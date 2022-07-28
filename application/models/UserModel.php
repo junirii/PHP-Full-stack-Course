@@ -27,14 +27,17 @@ class UserModel extends Model
     return $stmt->rowCount();
   }
 
-  public function selUser(&$param)
+  public function selUser(&$param) // mypage 프로필 띄우기
   {
-    $sql =
-      " SELECT * FROM t_user
-      WHERE email = :email
-    ";
+    $sql = " SELECT * FROM t_user WHERE";
+    if(array_key_exists("email", $param)){
+      $email = $param["email"];
+      $sql .= " email = '{$email}'";
+    }else if(array_key_exists("iuser", $param)){
+      $sql .= " iuser = " . $param["iuser"];
+    }
+
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindValue(":email", $param["email"]);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_OBJ);
   }
@@ -57,7 +60,7 @@ class UserModel extends Model
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
-  public function myPagehost(&$param)
+  public function myPageHost(&$param)
   // mypage 호스팅한 여행 (title 뿌리기)
   {
     $sql =
