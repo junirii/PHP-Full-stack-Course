@@ -1,0 +1,19 @@
+* { margin: 0; padding: 0; }
+
+.btn { 
+    display: inline-block;
+    text-decoration: none;
+    background: #2d7ac2;
+    padding: 8px 30px;
+    border-radius: 7px;
+    font-family: helvetica;
+    font-weight: bold;
+    color: #fff;
+    box-shadow: 0 8px 0 #285d92;
+    transition: all 0.2s;
+}
+
+.btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 4px 0 #2d7ac2;
+}

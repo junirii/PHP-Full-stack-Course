@@ -51,9 +51,8 @@ class UserModel extends Model
       FROM t_board_fav A
       INNER JOIN t_board B
       ON A.iboard = B.iboard
-      WHERE A.iuser = :iuser;
+      WHERE A.iuser = :iuser
       ";
-
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
     $stmt->execute();

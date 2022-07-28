@@ -77,7 +77,6 @@
     <div>
         <button type="button" class="btn btn-lg btn-danger" @click="boardInsert">저장</button>
     </div>
-
 </template>
 
 <script>
@@ -190,4 +189,8 @@ export default {
 </script>
 
 <style>
+.create_box {
+    margin: 0 auto;
+    padding: 150px;
+}
 </style>

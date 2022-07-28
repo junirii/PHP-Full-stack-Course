@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="myPage container">
     <!-- 마이페이지 섹션1 - 프로필 -->
     <div class="mypage_profile">
       <div class="mypage_profile_img">사진{{ selUser.profile_img }}</div>
@@ -137,6 +137,10 @@ export default {
   flex-direction: column;
   justify-content: center;
 }
+.myPage { 
+  z-index: auto;
+  margin: 0 auto;
+  padding: 150px;
+}
 </style>
-
 <!-- console.log(this.$store.state.user); // 로그인한 유저정보가 담겨져 있음 -->
