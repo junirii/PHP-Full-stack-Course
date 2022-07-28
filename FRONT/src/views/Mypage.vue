@@ -35,7 +35,6 @@ export default {
     async getMyPage() {
       const iuser = this.$route.query.iuser;
       this.data = await this.$get(`/user/myPage/${iuser}`, {}); // controllers / method
-      console.log(mypage);
     }
   },
   created() {

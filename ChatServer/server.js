@@ -1,36 +1,49 @@
-var app = require('express')();
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+const express = require('express');
+const app = express();
+const http = require('http').createServer(app);
+const port = process.env.PORT || 3000;
+const path = require("path");
 
 //setting cors 
-app.all('/*', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next();
+// 없애도 됨
+// app.all('/*', function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//     next();
+// });
+
+app.use(express.static('./public'));
+
+// 위 코드 때문에 쓸모 x
+app.get('/index', (req, res) => {
+    res.sendFile(path.join(__dirname, './public', 'index.html'));
 });
 
-app.get('/', function(req, res) {
-    res.sendFile('Hellow Chating App Server');
+app.get('/test', (req, res) => {
+    const arr = [
+        {
+            name: '홍길동',
+            age: 11
+        }
+    ];
+    res.json(arr);
 });
 
-//connection event handler
-io.on('connection' , function(socket) {
-    console.log('Connect from Client: '+socket)
 
-    socket.on('chat', function(data){
-        console.log('message from Client: '+data.message)
+const server = http.listen(port, () => {
+    console.log(`server is listening at localhost:${port}`);
+});
 
-        var rtnMessage = {
-            message: data.message
-        };
+const socketIO = require('socket.io');
 
-        // 클라이언트에게 메시지를 전송한다
-        socket.broadcast.emit('chat', rtnMessage);
+const io = socketIO(server, { path: '/socket.io'});
+io.on('connection', (socket) => {
+    console.log('a user connected');
+    socket.on('msg', (msg) => {
+      io.emit('msg', msg);
     });
-
-
-})
-
-server.listen(3000, function() {
-    console.log('socket io server listening on port 3000')
-});
+    socket.on('disconnect', reason => {
+        console.log(reason);
+        console.log('user disconnected');
+    });
+  });

@@ -15,7 +15,7 @@
         <div>
             <span>성별</span>
             <select v-model="board.gender">
-                <option value="0">혼성</option>
+                <option value="0" selected>혼성</option>
                 <option value="1">남</option>
                 <option value="2">여</option>
             </select>
