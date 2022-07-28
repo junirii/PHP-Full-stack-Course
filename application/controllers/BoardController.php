@@ -21,12 +21,41 @@ class BoardController extends Controller{
         ];
         return $this->model->detail($param);
     }
-
+    // 좋아요한 게시물
     public function boardFav() {
+        $urlPaths = getUrlPaths();
+        $iuser = $urlPaths[2];
+        $param = [
+            "iuser" => $iuser,
+        ];
+        switch (getMethod()) {
+            case _GET:
+                return [_RESULT => $this->model->selBoardFav($param)];
+            case _POST:
+                $iboard = $urlPaths[3];
+                $param["iboard"] = $iboard;
+                return [_RESULT => $this->model->BoardUserFav($param)];
+            case _DELETE:
+                $iboard = $urlPaths[3];
+                $param["iboard"] = $iboard;
+                return [_RESULT => $this->model->boardDelteFav($param)];           
+        }
+    }
+
+    public function BoardUserFav() {
         $urlPaths = getUrlPaths();
         $param = [
             "iuser" => intval($urlPaths[2])
         ];
-        return [_RESULT => $this->model->selBoardFav($param)];
+        return [_RESULT => $this->model->BoardUserFav($param)];
     }
+
+    public function boardDeleteFav() {
+        $urlPaths = getUrlPaths();
+        $param = [
+            "iuser" => intval($urlPaths[2])
+        ];
+        return [_RESULT => $this->model->boardDeleteFav($param)];
+    }
+    
 }

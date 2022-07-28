@@ -2,17 +2,13 @@
   <main class="mt-3">
     <div class="container">   
       <div class="row">
-        <div class="col-xl-3 col-lg-4 col-md-6"
+        <div class="col-xl-3 col-lg-4 col-md-6" style="padding: 25px;"
             :key="item.iboard" v-for="item in list">
             <div class="card" style="width: 18rem;">
               <div class="hearticon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16" v-show="heartColor(item.iboard)">
-                  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-heart" viewBox="0 0 16 16" v-if="!heartColor(item.iboard)">
-                  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-                </svg>
-                <img src="http://www.newsinside.kr/news/photo/202107/1112546_790699_4239.jpg" 
+                <i class="fa-solid fa-heart fa-2x" v-if="heartColor($event, item.iboard)" style="color: red;" @click="good($event, item.iboard)"></i>
+                <i class="fa-regular fa-heart fa-2x" v-if="!heartColor($event, item.iboard)" @click="good($event, item.iboard)"></i>
+                <img src="https://d30y0swoxkbnsm.cloudfront.net/community/20200324/748d6a3d-648e-426b-a705-f47f654b6d4a/%EC%B9%B4%EB%AC%B4%EC%9D%B4.jpg" 
                 @click="goToDetail(item.iboard)"
                   class="card-img-top"
                   alt="이미지">
@@ -20,12 +16,12 @@
               <div class="card-body">
                 <h5 class="card-title">{{item.title}}</h5>
                 <p class="card-text">
-                  <span class="badge bg-dark text-white me-1">작성자:{{item.nick}}</span>
+                  <span class="badge bg-dark text-white me-1 pointer" @click="goToMyPage(item.iuser)">작성자:{{item.nick}}</span>
                   <span class="badge bg-dark text-white me-1">area:{{item.area}}</span>
                   <span class="badge bg-dark text-white me-1">location:{{item.location}}</span>
                 </p>
-                <small class="text-dark">{{ item.s_date}} ~ {{ item.e_date}}</small>
               </div>
+              <small class="text-dark">{{ item.s_date}} ~ {{ item.e_date}}</small>
             </div>
         </div>
                       
@@ -44,35 +40,54 @@ export default {
     return{
     list: [],
     boardFavList: [],
-    favIboardList: []
+    favIboardList: [],
+    iuser: null
     }
   },
   methods: {
     async boardList() {
       this.list = await this.$get('/board/boardList');
-      console.log(this.list);
+      // console.log(this.list);
     },
     async goToDetail(iboardNum) {
-      this.$router.push({name: 'detail', query: {iboard: iboardNum}});
+      this.$router.push({name: 'detail', params: {iboard: iboardNum}});
     },
-    async good() {
-
-    },
-
     async favIboard() {
-      const iuser = this.$store.state.user.iuser;
-      this.boardFavList = await this.$get(`/board/boardFav/${iuser}`, {});
+      this.iuser = this.$store.state.user.iuser;
+      this.boardFavList = await this.$get(`/board/boardFav/${this.iuser}`, {});
       this.boardFavList.result.forEach(item => {
         this.favIboardList.push(item.iboard);
       });
       console.log(this.favIboardList);
     },
-    heartColor(iboard) {
+    heartColor(event, iboard) {
+      console.log(this.favIboardList);
+      console.log(iboard);
       if(this.favIboardList.includes(iboard)){
         return true;
       }else{
         return false;
       }
+    },
+    async good(event, iboard) {
+      if(event.target.classList.contains('fa-regular')){ //검은 하트일 때
+        const res = await this.$post(`/board/boardFav/${this.iuser}/${iboard}`);
+        if(res.result === 1){ // 좋아요 성공 시
+          event.target.classList.remove('fa-regular');
+          event.target.classList.add('fa-solid');
+          event.target.style.color = "red";
+        }
+      }else if(event.target.classList.contains('fa-solid')){
+        const res = await this.$delete(`/board/boardFav/${this.iuser}/${iboard}`);
+        if(res.result === 1){ // 좋아요 취소 성공 시
+          event.target.classList.add('fa-regular');
+          event.target.classList.remove('fa-solid');
+          event.target.style.color = "";
+        }
+      }
+    },
+    async goToMyPage(iuserNum) {
+      this.$router.push({name: 'mypage', params: {iuser: iuserNum}});
     }
   },
   created() {
@@ -89,11 +104,14 @@ export default {
    position : relative;
 }
 
-svg {
+i {
    position : absolute;
    right: 4px;
    top: 4px; 
    cursor: pointer;
  }
+ .pointer {
+  cursor: pointer;
+}
 
 </style>

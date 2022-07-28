@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     async getDetail() {
-      const iboard = this.$route.query.iboard; // iboard 가져옴
+      const iboard = this.$route.params.iboard; // iboard 가져옴
       this.data = await this.$get(`/board/detail/${iboard}`, {}); // controllers / method / 가져온iboard
       console.log(detail);
     }
