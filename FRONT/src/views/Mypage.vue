@@ -1,26 +1,72 @@
 <template>
   <div class="container">
     <!-- 마이페이지 섹션1 - 프로필 -->
-    <div>
-      <div>사진 {{ data.profile_img }}</div>
-      <div>
-        <div>닉네임 : {{ data.nm }}</div>
-        <div>상태메세지 : {{ data.cmt }}</div>
-        <div><svg id="dmIcon" aria-label="다이렉트 메시지" class="_8-yf5 pointer" color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>DM</div>
-        <div><svg xmlns="http://www.w3.org/2000/svg" id="heart" onclick="icon" width="20" height="20"
-                fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                <path
-                  d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" /></svg>인기도</div>
+    <div class="mypage_profile">
+      <div class="mypage_profile_img">사진{{ selUser.profile_img }}</div>
+      <div class="mypage_profile_txt">
+        <div>닉네임 : {{ selUser.nick }}
+          <input type="button" value="프로필편집">
+        </div>
+        <div>상태메세지 : {{ selUser.cmt }}</div>
+        <div><i class="fa-regular fa-paper-plane"></i>DM</div>
+        <div><i class="fa-solid fa-heart"></i>인기도</div>
       </div>
     </div>
     <br>
-    <!-- 마이페이지 섹션2 - 호스팅한 여행 , 참여한 여행-->
-    <div>호스팅한 여행</div>
-    <div>참여한 여행</div>
+
+    <!-- 마이페이지 섹션2 - 찜한 여행, 호스팅한 여행 , 참여한 여행-->
+    <div v-if="feedIuser == loginIuser">
+      <div class="title">찜한 여행</div>
+      <div>
+        <div :key="item.iboard" v-for="item in myPageBoardFav">
+          {{ item.iboard }} {{ item.title }}
+        </div>
+      </div>
+    </div>
     <br>
-    <!-- 마이페이지 섹션3 - 리뷰 , 찜한 여행-->
-    <div>리뷰</div>
-    <div>찜한 여행</div>
+
+    <div>
+      <div class="title">호스팅한 여행</div>
+      <div :key="item.iboard" v-for="item in myPageHost">
+        <div>{{ item.title }}</div>
+      </div>
+    </div>
+    <br>
+
+    <div>
+      <div class="title">참여한 여행</div>
+      <div :key="item.iboard" v-for="item in myPageTrip">
+        <span>{{ item.title }}</span>
+      </div>
+    </div>
+    <br>
+
+    <!-- 마이페이지 섹션3 - 리뷰-->
+    <!-- <div> -->
+    <!-- <div class="row">리뷰</div> -->
+    <!-- <div :key="item.icmt" v-for="item in myPageCmt"> -->
+    <!-- <span>{{ item.cmt }}</span> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <div class="card">
+      <div class="card-header bg-dark text-white"><i class="fa-solid fa-comment"></i>댓글</div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="form-inline mb-2">
+              <i class="fa-solid fa-user"></i><input type="text" class="form-control ml-2" placeholder="Enter yourId"
+                id="replyId">
+              <i class="fa-solid fa-unlock"></i><input type="password" class="form-control ml-2"
+                placeholder="Enter password" id="replyPassword">
+            </div>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <button type="button" class="btn bg-dark text-white mt-3" onClick="javascript:addReply();">댓글 작성</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
   </div> <!-- container 닫기 -->
 </template>
 
@@ -28,14 +74,31 @@
 export default {
   data() {
     return {
-      data: {}
+      data: [],
+      myPageBoardFav: [],
+      myPageHost: [],
+      myPageTrip: [],
+      myPageCmt: [],
+      selUser: {},
+      feedIuser: 0,
+      loginIuser: 0
     }
   },
   methods: {
-    async getMyPage() {
-      const iuser = this.$route.query.iuser;
-      this.data = await this.$get(`/user/myPage/${iuser}`, {}); // controllers / method
-    }
+    async getMyPage() { // iuser
+      console.log(this.$store.state.user);
+      this.feedIuser = this.$route.params.iuser;
+      this.loginIuser = this.$store.state.user.iuser;
+      console.log('feedIuser : ' + this.feedIuser);
+      console.log('loginIuser : ' + this.loginIuser);
+
+      this.data = await this.$get(`/user/myPage/${this.feedIuser}`, {}); // controllers / method
+      this.myPageBoardFav = this.data.result.myPageBoardFav;
+      this.myPageHost = this.data.result.myPageHost;
+      this.myPageTrip = this.data.result.myPageTrip;
+      this.myPageCmt = this.data.result.myPageCmt;
+      this.selUser = this.data.result.selUser;
+    },
   },
   created() {
     this.getMyPage();
@@ -44,5 +107,36 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
+/* css 한거 아님 보기편하게 하려고 임시로 해놓은거임 구리다고 뭐라하지마세여.. */
+.title {
+  background-color: rgb(170, 170, 170);
+  border: 1px solid rgb(170, 170, 170);
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  color: #fff;
+}
+
+.title :hover {
+  background-color: rgb(192, 192, 192);
+}
+
+.mypage_profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* .mypage_profile .mypage_profile_img {
+    display: flex;    
+} */
+
+.mypage_profile .mypage_profile_txt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 </style>
+
+<!-- console.log(this.$store.state.user); // 로그인한 유저정보가 담겨져 있음 -->

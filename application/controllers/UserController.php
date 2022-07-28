@@ -1,16 +1,20 @@
 <?php
+
 namespace application\controllers;
+
 use application\libs\Application;
 
-class UserController extends Controller{
-  public function join(){
+class UserController extends Controller
+{
+  public function join()
+  {
     switch (getMethod()) {
       case _POST:
         $json = getJson();
         //아이디 중복 체크
-        if($this->model->selUser($json)){
+        if ($this->model->selUser($json)) {
           return [_RESULT => 2];
-        }else{
+        } else {
           $json["pw"] = password_hash($json["pw"], PASSWORD_BCRYPT);
           return [_RESULT => $this->model->insUser($json)];
         }
@@ -18,14 +22,15 @@ class UserController extends Controller{
     }
   }
 
-  public function login(){
+  public function login()
+  {
     switch (getMethod()) {
       case _POST:
         $json = getJson();
         $dbUser = $this->model->selUser($json);
-        if(!$dbUser || !password_verify($json["pw"], $dbUser->pw)){
+        if (!$dbUser || !password_verify($json["pw"], $dbUser->pw)) {
           return [_RESULT => 0];
-        }else{
+        } else {
           $dbUser->pw = null;
           $dbUser->regdt = null;
           $this->flash(_LOGINUSER, $dbUser);
@@ -34,7 +39,8 @@ class UserController extends Controller{
     }
   }
 
-  public function logout(){
+  public function logout()
+  {
     switch (getMethod()) {
       case _POST:
         $this->flash(_LOGINUSER);
@@ -42,9 +48,27 @@ class UserController extends Controller{
     }
   }
 
-  public function myUser()
+  public function myPage()
   {
-    return $this->model->myUser();
-  }
+    $urlPaths = getUrlPaths();
+    $param = [
+      "iuser" => intval($urlPaths[2]) // iuser 타인으로 바꾸기
+    ];
 
+    $myPageHost = $this->model->myPageHost($param); // 함수 쓰는법
+    $myPageTrip = $this->model->myPageTrip($param);
+    $myPageCmt = $this->model->myPageCmt($param);
+    $myPageBoardFav = $this->model->myPageBoardFav($param);
+    $selUser = $this->model->selUser($param);
+
+    $data = [
+      "myPageBoardFav" => $myPageBoardFav,
+      "myPageHost" => $myPageHost,
+      "myPageTrip" => $myPageTrip,
+      "myPageCmt" => $myPageCmt,
+      "selUser" => $selUser,
+    ];
+    return [_RESULT => $data];
+    // return $this->model->myPage($param);
+  }
 }
