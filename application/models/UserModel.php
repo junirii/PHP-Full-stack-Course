@@ -40,6 +40,23 @@ class UserModel extends Model
   }
 
   /* mypage 시작 */
+  public function myPageBoardFav(&$param)
+  { // mypage 찜한 여행 (title 뿌리기)
+    $sql =
+      "SELECT A.iboard, A.iuser, A.reg_dt,
+      B.title, B.reg_dt, B.mod_dt, B.area, B.location, B.main_img, B.s_date, B.e_date, B.f_people, B.f_price, B.f_gender, B.f_age
+      FROM t_board_fav A
+      INNER JOIN t_board B
+      ON A.iboard = B.iboard
+      WHERE A.iuser = :iuser;
+      ";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":iuser", $param["iuser"]);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+
   public function myPagehost(&$param)
   // mypage 호스팅한 여행 (title 뿌리기)
   {
@@ -80,23 +97,6 @@ class UserModel extends Model
       FROM t_cmt D
       WHERE host_iuser = :iuser
     ";
-
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->bindValue(":iuser", $param["iuser"]);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_OBJ);
-  }
-
-  public function myPageBoardFav(&$param)
-  { // mypage 찜한 여행 (title 뿌리기)
-    $sql =
-      "SELECT A.iboard, A.iuser, A.reg_dt,
-      B.title, B.reg_dt, B.mod_dt, B.area, B.location, B.main_img, B.s_date, B.e_date, B.f_people, B.f_price, B.f_gender, B.f_age
-      FROM t_board_fav A
-      INNER JOIN t_board B
-      ON A.iboard = B.iboard
-      WHERE A.iuser = :iuser;
-      ";
 
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);

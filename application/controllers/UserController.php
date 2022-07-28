@@ -52,7 +52,7 @@ class UserController extends Controller
   {
     $urlPaths = getUrlPaths();
     $param = [
-      "iuser" => intval($urlPaths[2])
+      "iuser" => intval($urlPaths[2]) // iuser 타인으로 바꾸기
     ];
 
     $myPagehost = $this->model->myPagehost($param); // 함수 쓰는법
@@ -61,10 +61,10 @@ class UserController extends Controller
     $myPageBoardFav = $this->model->myPageBoardFav($param);
 
     $data = [
+      "myPageBoardFav" => $myPageBoardFav,
       "myPagehost" => $myPagehost,
       "myPageTrip" => $myPageTrip,
       "myPageCmt" => $myPageCmt,
-      "myPageBoardFav" => $myPageBoardFav,
     ];
     return [_RESULT => $data];
     // return $this->model->myPage($param);

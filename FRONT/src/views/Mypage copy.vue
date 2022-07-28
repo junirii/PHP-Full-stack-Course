@@ -1,41 +1,53 @@
 <template>
   <div class="container">
     <!-- 마이페이지 섹션1 - 프로필 -->
-    <div class="row">
-      <div class="col">사진 : {{ this.$store.state.user.profile_img }}</div>
-      <div class="col">
-        <div>닉네임 : {{ this.$store.state.user.nick }}</div>
-        <div>상태메세지 : {{ this.$store.state.user.cmt }}</div>
-        <div>DM {{ }}</div>
-        <div>인기도 {{ }}</div>
+    <div :key="item.iuser" v-for="item in myPagehost">
+      <div class="row">사진 : {{ item.profile_img }}</div>
+      <div>
+        <div>닉네임 : {{ item.nick }}
+          <input type="button" value="프로필편집">
+        </div>
+        <div>상태메세지 : {{ item.cmt }}</div>
+        <div><i class="fa-regular fa-paper-plane"></i>DM {{ }}</div>
+        <div><i class="fa-solid fa-heart"></i>인기도 {{ }}</div>
       </div>
     </div>
     <br>
 
-    <!-- 마이페이지 섹션2 - 호스팅한 여행 , 참여한 여행-->
+    <!-- 마이페이지 섹션2 - 찜한 여행, 호스팅한 여행 , 참여한 여행-->
     <div>
-      <div>호스팅한 여행</div>
-      <!-- <div :key="item.iuser" v-for="item in $store.state.user.iuser">
-        <div>{{ $store.state.user.iuser.title }}</div>
-        <div>{{ item.s_date }} ~ {{ item.e_date }}</div>
-      </div> -->
-      <ul>
-        <li :key="item.iuser" v-for="item in data"></li>
-      </ul>
+      <div class="row">찜한 여행</div>
+      <div :key="item.iuser" v-for="item in myPageBoardFav">
+        <span>{{ item.iboard }}</span>
+        <span>{{ item.title }}</span>
+      </div>
     </div>
     <br>
 
     <div>
-      <div>참여한 여행</div>
-      <div>리스트 뿌리기(title)</div>
+      <div class="row">호스팅한 여행</div>
+      <div :key="item.iuser" v-for="item in myPagehost">
+        <div>{{ item.title }}</div>
+      </div>
     </div>
     <br>
 
-    <!-- 마이페이지 섹션3 - 리뷰 , 찜한 여행-->
-    <div class="row">
-      <div class="col">리뷰 {{ }}</div>
-      <div class="col">찜한 여행 {{ }}</div>
+    <div>
+      <div class="row">참여한 여행</div>
+      <div :key="item.iuser" v-for="item in myPageTrip">
+        <span>{{ item.title }}</span>
+      </div>
     </div>
+    <br>
+
+    <!-- 마이페이지 섹션3 - 리뷰 -->
+    <div>
+      <div class="row">리뷰</div>
+      <div :key="item.iuser" v-for="item in myPageCmt">
+        <span>{{ item.cmt }}</span>
+      </div>
+    </div>
+
   </div> <!-- container 닫기 -->
 </template>
 
@@ -43,14 +55,22 @@
 export default {
   data() {
     return {
-      data: []
+      data: [],
+      myPageBoardFav: [],
+      myPagehost: [],
+      myPageTrip: [],
+      myPageCmt: [],
     }
   },
   methods: {
     async getMyPage() { // iuser
-      const iuser = this.$store.state.user.iuser;
+      const iuser = this.$route.params.iuser;
       this.data = await this.$get(`/user/myPage/${iuser}`, {}); // controllers / method
       console.log(this.data);
+      this.myPageBoardFav = this.data.result.myPageBoardFav;
+      this.myPagehost = this.data.result.myPagehost;
+      this.myPageTrip = this.data.result.myPageTrip;
+      this.myPageCmt = this.data.result.myPageCmt;
     },
 
   },
