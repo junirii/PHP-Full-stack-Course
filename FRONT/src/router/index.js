@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import SelecPage from '../views/SelecPage.vue'
+// import SelectPage from '../views/SelectPage.vue'
 import Map from '../views/Map.vue'
 import Calender from '../views/Calender.vue'
 import Option from '../views/Option.vue'
@@ -15,11 +15,11 @@ const routes = [
     name: 'home',
     component: Home
   },
-  {
-    path: '/selecpage',
-    name: 'selecpage',
-    component: SelecPage
-  },
+  // {
+  //   path: '/selectpage',
+  //   name: 'selectpage',
+  //   component: SelectPage
+  // },
   {
     path: '/map',
     name: 'map',

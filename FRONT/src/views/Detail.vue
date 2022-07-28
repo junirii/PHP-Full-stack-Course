@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="detail container">
     <!-- 디테일 섹션1 - 간단 정보(필터)-->
     <div>{{ data.main_img }}</div>
     <div>
@@ -63,4 +63,9 @@ export default {
 </script>
 
 <style>
+.detail { 
+  z-index: auto;
+  margin: 0 auto;
+  padding: 150px;
+}
 </style>

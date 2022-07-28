@@ -1,5 +1,5 @@
 <template>
-  <main class="mt-3">
+  <main class="list mt-3">
     <div class="container">   
       <div class="row">
         <div class="col-xl-3 col-lg-4 col-md-6" 
@@ -62,6 +62,11 @@ export default {
 </script>
 
 <style>
+.list { 
+  z-index: auto;
+  margin: 0 auto;
+  padding: 150px;
+}
 .hearticon {
    position : relative;
 }

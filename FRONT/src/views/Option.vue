@@ -1,6 +1,6 @@
 <template>
-  <h3>옵션 선택</h3>
-  <div>
+  <div class="option">
+    <h3>옵션 선택</h3>
     <div>
       <form>
         <span>인원</span>
@@ -46,5 +46,9 @@ export default {
 </script>
 
 <style>
-
+.option { 
+  z-index: auto;
+  margin: 0 auto;
+  padding: 150px;
+}
 </style>

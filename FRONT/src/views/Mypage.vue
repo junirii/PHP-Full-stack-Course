@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="myPage container">
     <!-- 마이페이지 섹션1 - 프로필 -->
     <div>
       <div>사진 {{ data.profile_img }}</div>
@@ -46,4 +46,9 @@ export default {
 </script>
 
 <style>
+.myPage { 
+  z-index: auto;
+  margin: 0 auto;
+  padding: 150px;
+}
 </style>

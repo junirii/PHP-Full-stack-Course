@@ -1,4 +1,5 @@
 <template>
+    <div class="create_box">
         <div>
             <span>글 제목</span>
             <input type="text" placeholder="제목" v-model="board.title">
@@ -6,6 +7,7 @@
         <div>
             <span>지역</span>
             <select v-model="board.iarea">
+                <option value="" selected>전체</option>
                 <option :key="iarea" v-for="(value, iarea) in areaList">{{ value.area_nm }}</option>
             </select>
             <select v-model="board.ilocation" v-if="showLocationSelect">
@@ -15,7 +17,7 @@
         <div>
             <span>성별</span>
             <select v-model="board.gender">
-                <option value="0">혼성</option>
+                <option value="0" selected>혼성</option>
                 <option value="1">남</option>
                 <option value="2">여</option>
             </select>
@@ -27,7 +29,7 @@
         <div>
             <span>연령대</span>
             <select v-model="board.age">
-                <option value="1">10대</option>
+                <option value="1" selected>10대</option>
                 <option value="2">20대</option>
                 <option value="3">30대</option>
                 <option value="4">40대</option>
@@ -38,6 +40,7 @@
         <div>
             <button type="button" class="btn btn-lg btn-danger" @click="boardInsert">저장</button>
         </div>
+    </div>
 </template>
 
 <script>
@@ -83,4 +86,8 @@ export default {
 </script>
 
 <style>
+.create_box {
+    margin: 0 auto;
+    padding: 150px;
+}
 </style>

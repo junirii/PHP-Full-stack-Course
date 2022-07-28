@@ -1,6 +1,6 @@
 <template>
-  <h3>날짜 선택</h3>
-  <div>
+  <div class="calender">
+    <h3>날짜 선택</h3>
     달력 예정<br>
     출발일
     <input type="date" name="startDay">
@@ -150,4 +150,9 @@ export default {
 </script>
 
 <style>
+.calender {
+  z-index: auto;
+  margin: 0 auto;
+  padding: 150px;
+}
 </style>

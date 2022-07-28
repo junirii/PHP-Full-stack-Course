@@ -1,8 +1,7 @@
 <template>
-  <div>message</div>
-  <div>
+  <div class="setting-btn">
     <button class="btn" type="button" v-if="isLogin" @click="loginCheck('Create')">HOSTING</button>
-    <button class="btn" type="button" v-if="isLogin" @click="loginCheck('SelecPage')">SEARCH</button>
+    <button class="btn" type="button" v-if="isLogin" @click="loginCheck('Map')">SEARCH</button>
     <button class="btn" type="button" v-if="!isLogin" @click="showModal">JOIN</button>
     <div>
       <button class="btn" type="button" v-if="isLogin" @click="logout">로그아웃</button>
@@ -72,3 +71,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .setting-btn {
+    padding: 150px;
+  }
+</style>
