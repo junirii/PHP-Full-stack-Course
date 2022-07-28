@@ -14,6 +14,21 @@ class BoardController extends Controller{
         return [_RESULT => $this->model->boardInsert($json)];
     }
 
+    // area list
+    public function areaList() {
+        return $this->model->areaList();
+    }
+
+    // location list
+    public function locationList() {
+        $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 3) {
+            exit();
+        }        
+        $param = [ "iarea" => $urlPaths[2] ];
+        return $this->model->locationList($param);
+    }
+
     public function detail() {
         $urlPaths = getUrlPaths();
         $param = [
