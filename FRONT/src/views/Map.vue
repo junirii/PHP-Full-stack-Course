@@ -122,7 +122,7 @@ export default {
     bottom: 2241px;
     left: 818px;
   }
-  img { cursor: pointer; }
+  .img { cursor: pointer; }
   .Center:hover, .C1:hover, .C2:hover, .J1:hover, .J2:hover, .JJ:hover {
     transform: translateX(-10px);
     transition: 0.3s;

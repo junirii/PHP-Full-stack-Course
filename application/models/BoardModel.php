@@ -34,7 +34,7 @@ class BoardModel extends Model {
         $stmt->execute();
         return intval($this->pdo->lastInsertId());
     }
-
+    // 디테일
     public function detail(&$param) {
         $sql="SELECT *
         FROM t_board A
@@ -48,6 +48,36 @@ class BoardModel extends Model {
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":iboard", $param["iboard"]);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_OBJ);
+        return $stmt->fetch(PDO::FETCH_OBJ); // 행을 하나만 가져오는것  fetch = SELECT 
+    }
+    // 좋아요 한 게시물
+    public function selBoardFav(&$param){
+        $sql = "SELECT * FROM t_board_fav WHERE iuser = :iuser";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ); // 여러 값 fetchAll (SELECT)
+    }
+    // 좋아요
+    public function BoardUserFav(&$param) {
+        $sql="INSERT INTO t_board_fav
+        (iboard,iuser)
+        VALUES
+        (:iboard,:iuser)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iboard", $param["iboard"]);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->execute();
+        return $stmt->rowCount(); // 값이 한개 추가될때 
+    }
+    // 좋아요 취소 
+    public function boardDelteFav(&$param) {
+        $sql="DELETE FROM t_board_fav 
+        WHERE iboard=:iboard AND iuser=:iuser";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iboard", $param["iboard"]);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->execute();
+        return $stmt->rowCount(); // 값이 한개 추가될때 
     }
 }
