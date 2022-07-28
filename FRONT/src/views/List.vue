@@ -13,16 +13,6 @@
                   class="card-img-top"
                   alt="이미지">
               </div>
-              <div class="card-body">
-                <h5 class="card-title">{{item.title}}</h5>
-                <p class="card-text">
-                  <span class="badge bg-dark text-white me-1 pointer" @click="goToMyPage(item.iuser)">작성자:{{item.nick}}</span>
-                  <span class="badge bg-dark text-white me-1">area:{{item.area}}</span>
-                  <span class="badge bg-dark text-white me-1">location:{{item.location}}</span>
-                </p>
-              </div>
-              <small class="text-dark">{{ item.s_date}} ~ {{ item.e_date}}</small>
-            </div>
             <div class="card-body">
               <h5 class="card-title">{{ item.title }}</h5>
               <p class="card-text">
@@ -32,12 +22,9 @@
               </p>
               <small class="text-dark">{{ item.s_date }} ~ {{ item.e_date }}</small>
             </div>
-        </div>
-                      
+          </div>
+        </div>         
       </div>
-      <router-link :to="{ path: '/Mypage' }">
-        <button type="button">마이페이지</button>
-      </router-link>
     </div>
   </main>
 </template>
