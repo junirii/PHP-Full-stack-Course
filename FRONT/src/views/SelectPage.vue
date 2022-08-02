@@ -60,6 +60,8 @@
           <br>
 
           <span>연령대 : </span>
+          <!-- select option으로 바꾸기 나이제한없음, 20, 30, 40, 50, 20~30, 30~40, 40~50대(value값: 0~8)-->
+          <!-- 테이블 t_age 사용할 것 -->
           <label for="male">20~30대 </label>
           <input type="radio" id="20s" name="age" value="male">
           <label for="female">30~40대 </label>

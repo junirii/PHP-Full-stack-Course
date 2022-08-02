@@ -94,7 +94,6 @@ export default {
         nick: '',
         gender: 0,
         birth: '',
-        age: 0,
         tel: '',
         profile_img: '',
         cmt: ''
@@ -127,10 +126,6 @@ export default {
       this.loginUser.pw = '';
     },
     async joinForm(){
-      const birth = this.joinUser.birth;
-      const birthYear = birth.substr(0, 4);
-      const thisYear = new Date().getFullYear();
-      this.joinUser.age = thisYear - birthYear;
       const res = await this.$post('/user/join', this.joinUser);
       if(res.result === 2){ 
         this.$swal.fire('중복되는 아이디가 있습니다.', '', 'error');

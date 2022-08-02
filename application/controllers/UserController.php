@@ -56,15 +56,15 @@ class UserController extends Controller
     ];
 
     $myPageHost = $this->model->myPageHost($param); // 함수 쓰는법
-    $myPageTrip = $this->model->myPageTrip($param);
+    $myPageTravelState = $this->model->myPageTravelState($param);
     $myPageCmt = $this->model->myPageCmt($param);
-    $myPageBoardFav = $this->model->myPageBoardFav($param);
+    $myPageTravelFav = $this->model->myPageTravelFav($param);
     $selUser = $this->model->selUser($param);
 
     $data = [
-      "myPageBoardFav" => $myPageBoardFav,
+      "myPageTravelFav" => $myPageTravelFav,
       "myPageHost" => $myPageHost,
-      "myPageTrip" => $myPageTrip,
+      "myPageTravelState" => $myPageTravelState,
       "myPageCmt" => $myPageCmt,
       "selUser" => $selUser,
     ];

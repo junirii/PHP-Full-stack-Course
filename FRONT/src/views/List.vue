@@ -3,20 +3,20 @@
     <div class="container">   
       <div class="row">
         <div class="col-xl-3 col-lg-4 col-md-6" style="padding: 25px;"
-            :key="item.iboard" v-for="item in list">
+            :key="item.itravel" v-for="item in list">
             <div class="card" style="width: 18rem;">
               <div class="hearticon">
-                <i class="fa-solid fa-heart fa-2x" v-if="heartColor($event, item.iboard)" style="color: red;" @click="good($event, item.iboard)"></i>
-                <i class="fa-regular fa-heart fa-2x" v-if="!heartColor($event, item.iboard)" @click="good($event, item.iboard)"></i>
+                <i class="fa-solid fa-heart fa-2x" v-if="heartColor($event, item.itravel)" style="color: red;" @click="good($event, item.itravel)"></i>
+                <i class="fa-regular fa-heart fa-2x" v-if="!heartColor($event, item.itravel)" @click="good($event, item.itravel)"></i>
                 <img src="https://d30y0swoxkbnsm.cloudfront.net/community/20200324/748d6a3d-648e-426b-a705-f47f654b6d4a/%EC%B9%B4%EB%AC%B4%EC%9D%B4.jpg" 
-                @click="goToDetail(item.iboard)"
+                @click="goToDetail(item.itravel)"
                   class="card-img-top"
                   alt="이미지">
               </div>
             <div class="card-body">
               <h5 class="card-title">{{ item.title }}</h5>
               <p class="card-text">
-                <span class="badge bg-dark text-white me-1 pointer" @click="goToMyPage(item.iuser)">작성자:{{ item.nick}}</span>
+                <span class="badge bg-dark text-white me-1 pointer" @click="goToMyPage(item.iuser)">작성자:{{ item.nick }}</span>
                 <span class="badge bg-dark text-white me-1">area:{{ item.area }}</span>
                 <span class="badge bg-dark text-white me-1">location:{{ item.location }}</span>
               </p>
@@ -34,46 +34,46 @@ export default {
   data() {
     return{
     list: [],
-    boardFavList: [],
-    favIboardList: [],
+    travelFavList: [],
+    favItravelList: [],
     iuser: null
     }
   },
   methods: {
-    async boardList() {
-      this.list = await this.$get('/board/boardList');
+    async travelList() {
+      this.list = await this.$get('/travel/travelList');
       // console.log(this.list);
     },
-    async goToDetail(iboardNum) {
-      this.$router.push({name: 'detail', params: {iboard: iboardNum}});
+    async goToDetail(itravelNum) {
+      this.$router.push({name: 'detail', params: {itravel: itravelNum}});
     },
-    async favIboard() {
+    async favItravel() {
       this.iuser = this.$store.state.user.iuser;
-      this.boardFavList = await this.$get(`/board/boardFav/${this.iuser}`, {});
-      this.boardFavList.result.forEach(item => {
-        this.favIboardList.push(item.iboard);
+      this.travelFavList = await this.$get(`/travel/travelFav/${this.iuser}`, {});
+      this.travelFavList.result.forEach(item => {
+        this.favItravelList.push(item.itravel);
       });
-      console.log(this.favIboardList);
+      console.log(this.favItravelList);
     },
-    heartColor(event, iboard) {
-      console.log(this.favIboardList);
-      console.log(iboard);
-      if(this.favIboardList.includes(iboard)){
+    heartColor(event, itravel) {
+      console.log(this.favItravelList);
+      console.log(itravel);
+      if(this.favItravelList.includes(itravel)){
         return true;
       }else{
         return false;
       }
     },
-    async good(event, iboard) {
+    async good(event, itravel) {
       if(event.target.classList.contains('fa-regular')){ //검은 하트일 때
-        const res = await this.$post(`/board/boardFav/${this.iuser}/${iboard}`);
+        const res = await this.$post(`/travel/travelFav/${this.iuser}/${itravel}`);
         if(res.result === 1){ // 좋아요 성공 시
           event.target.classList.remove('fa-regular');
           event.target.classList.add('fa-solid');
           event.target.style.color = "red";
         }
       }else if(event.target.classList.contains('fa-solid')){
-        const res = await this.$delete(`/board/boardFav/${this.iuser}/${iboard}`);
+        const res = await this.$delete(`/travel/travelFav/${this.iuser}/${itravel}`);
         if(res.result === 1){ // 좋아요 취소 성공 시
           event.target.classList.add('fa-regular');
           event.target.classList.remove('fa-solid');
@@ -87,8 +87,8 @@ export default {
   },
 
   created() {
-    this.boardList();
-    this.favIboard();
+    this.travelList();
+    this.favItravel();
   },
 }
 

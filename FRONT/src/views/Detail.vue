@@ -101,17 +101,17 @@ export default {
   data() {
     return {
       data: [],
-      iboard: ''
+      itravel: ''
     }
   },
   methods: {
     async getDetail() {
-      this.iboard = this.$route.params.iboard; // iboard 가져옴
-      this.data = await this.$get(`/board/detail/${this.iboard}`, {}); // controllers / method / 가져온iboard
+      this.itravel = this.$route.params.itravel; // itravel 가져옴
+      this.data = await this.$get(`/travel/detail/${this.itravel}`, {}); // controllers / method / 가져온itravel
       // console.log(detail);
     },
     goToChat(){
-      this.$router.push({name: 'chat', params: {iboard: this.iboard}});
+      this.$router.push({name: 'chat', params: {itravel: this.itravel}});
     }
   },
   created() {

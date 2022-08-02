@@ -18,8 +18,8 @@
     <div v-if="feedIuser == loginIuser">
       <div class="title">찜한 여행</div>
       <div>
-        <div :key="item.iboard" v-for="item in myPageBoardFav">
-          {{ item.iboard }} {{ item.title }}
+        <div :key="item.itravel" v-for="item in myPageTravelFav">
+          {{ item.itravel }} {{ item.title }}
         </div>
       </div>
     </div>
@@ -27,7 +27,7 @@
 
     <div>
       <div class="title">호스팅한 여행</div>
-      <div :key="item.iboard" v-for="item in myPageHost">
+      <div :key="item.itravel" v-for="item in myPageHost">
         <div>{{ item.title }}</div>
       </div>
     </div>
@@ -35,7 +35,7 @@
 
     <div>
       <div class="title">참여한 여행</div>
-      <div :key="item.iboard" v-for="item in myPageTrip">
+      <div :key="item.itravel" v-for="item in myPageTravelState">
         <span>{{ item.title }}</span>
       </div>
     </div>
@@ -75,9 +75,9 @@ export default {
   data() {
     return {
       data: [],
-      myPageBoardFav: [],
+      myPageTravelFav: [],
       myPageHost: [],
-      myPageTrip: [],
+      myPageTravelState: [],
       myPageCmt: [],
       selUser: {},
       feedIuser: 0,
@@ -93,9 +93,9 @@ export default {
       console.log('loginIuser : ' + this.loginIuser);
 
       this.data = await this.$get(`/user/myPage/${this.feedIuser}`, {}); // controllers / method
-      this.myPageBoardFav = this.data.result.myPageBoardFav;
+      this.myPageTravelFav = this.data.result.myPageTravelFav;
       this.myPageHost = this.data.result.myPageHost;
-      this.myPageTrip = this.data.result.myPageTrip;
+      this.myPageTravelState = this.data.result.myPageTravelState;
       this.myPageCmt = this.data.result.myPageCmt;
       this.selUser = this.data.result.selUser;
     },
