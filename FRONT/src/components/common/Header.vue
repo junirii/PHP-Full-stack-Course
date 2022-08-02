@@ -1,23 +1,23 @@
 <template>
     <header>
-        <router-link :to="{ path: '/Home' }">
+        <router-link :to="{ path: '/' }">
             <h2 class="logo">여행어쩌구</h2>
         </router-link>
         <nav>
-            <i class="hamburger fa-solid fa-bars"></i>
-            <ul class="li_drop">
-                <div>
+            <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="hamburger fa-solid fa-bars fa-3x dropdown"></i>
+            </a>
+                <ul class="li_drop dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <router-link :to="{ path: '/Mypage' }">
-                        <li>마이페이지</li>
+                        <li class="dropdown-item">마이페이지</li>
                     </router-link>
-                    <li>내 계정 관리</li>
-                    <li>DM</li>
+                    <li class="dropdown-item">내 계정 관리</li>
+                    <li class="dropdown-item">DM</li>
                     <router-link :to="{ path: '/Create' }">
-                        <li>여행 호스팅 하기</li>
+                        <li class="dropdown-item">여행 호스팅 하기</li>
                     </router-link>
-                    <li >로그아웃</li>
-                </div>
-            </ul>
+                    <li class="dropdown-item">로그아웃</li>
+                </ul>
         </nav>
     </header>
 </template>
@@ -64,12 +64,15 @@ header {
     color: white;
 }
 .hamburger {
-    max-width: 20px;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: end;
 }
 li {
     color: white;
     font-size: 1.2rem;
-    display: inline-block;
+    /* display: inline-block; */
     /* position: relative; */
     cursor: pointer;
     /* z-index: 4; */
@@ -79,9 +82,12 @@ li {
 li:hover {
     background: #285d92 !important;
 }
+/* .li_drop {
+    di
+}
 .li_drop li {
     transform: translate(0, -108%);
     transition: all 0.5s 0.1s;
     position: relative;
-}
+} */
 </style>
