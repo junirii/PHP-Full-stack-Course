@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+// import SelectPage from '../views/SelectPage.vue'
 import Map from '../views/Map.vue'
 import Calender from '../views/Calender.vue'
 import Option from '../views/Option.vue'
@@ -7,12 +8,18 @@ import List from '../views/List.vue'
 import Detail from '../views/Detail.vue'
 import Create from '../views/Create.vue'
 import Mypage from '../views/Mypage.vue'
+import SelectPage from '../views/SelectPage.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/selectpage',
+    name: 'selectpage',
+    component: SelectPage
   },
   {
     path: '/map',
@@ -49,8 +56,7 @@ const routes = [
     name: 'mypage',
     component: Mypage
   }
-]//dasgsdgsdgasdg
-
+]
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes

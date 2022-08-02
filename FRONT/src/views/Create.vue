@@ -1,7 +1,7 @@
 <template>
     <div>
         <span>글 제목</span>
-        <input type="text" placeholder="제목" v-model="board.title">
+        <input type="text" placeholder="제목" v-model="travel.title">
     </div>
     <div>
         <span>지역</span>
@@ -17,7 +17,7 @@
     </div>
     <div>
         <span>성별</span>
-        <select v-model="board.f_gender">
+        <select v-model="travel.f_gender">
             <option value="1">남</option>
             <option value="2">여</option>
             <option value="3">혼성</option>
@@ -25,11 +25,11 @@
     </div>
     <div>
         <span>인원수</span>
-        <input type="number" min="0" placeholder="인원수" v-model="board.f_people">
+        <input type="number" min="0" placeholder="인원수" v-model="travel.f_people">
     </div>
     <div>
         <span>비용</span>
-        <select v-model="board.f_price">
+        <select v-model="travel.f_price">
             <option value="1">0~5만원</option>
             <option value="2">5~10만원</option>
             <option value="3">10~20만원</option>
@@ -41,7 +41,7 @@
     </div>
     <div>
         <span>연령대</span>
-        <select v-model="board.f_age">
+        <select v-model="travel.f_age">
             <option value="1">20~30대</option>
             <option value="2">30~40대</option>
             <option value="3">40~50대</option>
@@ -50,7 +50,7 @@
     </div>
     <div>
         <span>날짜</span>
-        <input type="date" v-model="board.s_date"> ~ <input type="date" v-model="board.e_date">
+        <input type="date" v-model="travel.s_date"> ~ <input type="date" v-model="travel.e_date">
     </div>
     <div>
         <span>사진등록</span>
@@ -75,16 +75,15 @@
 
     </div>
     <div>
-        <button type="button" class="btn btn-lg btn-danger" @click="boardInsert">저장</button>
+        <button type="button" class="btn btn-lg btn-danger" @click="travelInsert">저장</button>
     </div>
-
 </template>
 
 <script>
 export default {
     data() {
         return {
-            board: {
+            travel: {
                 iuser: 1,
                 title: '',
                 f_gender: 0,
@@ -114,11 +113,11 @@ export default {
     },
     methods: {
         async getAreaList() {
-            this.areaList = await this.$get('/board/areaList', {});
+            this.areaList = await this.$get('/travel/areaList', {});
             console.log(this.areaList);
         },
         async getLocationList(iarea) {
-            this.locationList = await this.$get(`/board/locationList/${iarea}`, {});
+            this.locationList = await this.$get(`/travel/locationList/${iarea}`, {});
             console.log(this.locationList);
         },
         showLocationOption() {
@@ -126,17 +125,17 @@ export default {
             this.locationList = [];
             this.getLocationList(this.selectedArea);
         },
-        async boardInsert() {
+        async travelInsert() {
             const inputFile = document.querySelector('#file');
             console.log(inputFile.files[0].name);
-            this.board.main_img = inputFile.files[0].name;
-            this.board.area = this.selectedArea;
+            this.travel.main_img = inputFile.files[0].name;
+            this.travel.area = this.selectedArea;
             if (this.selectedLocation) {
-                this.board.location = this.selectedLocation;
+                this.travel.location = this.selectedLocation;
             } else {
-                this.board.location = 0;
+                this.travel.location = 0;
             }
-            const result = this.$post('/board/create', this.board);
+            const result = this.$post('/travel/create', this.travel);
             console.log(result);
             this.$swal.fire('글작성 성공!', '', 'success');
         },
@@ -182,7 +181,7 @@ export default {
         //     console.log(this.files);
         // },
         // inputImgFile() {
-        //     this.board.main_img = this.$refs.files.name;
+        //     this.travel.main_img = this.$refs.files.name;
         // },
     }
 }
@@ -190,4 +189,8 @@ export default {
 </script>
 
 <style>
+.create_box {
+    margin: 0 auto;
+    padding: 150px;
+}
 </style>

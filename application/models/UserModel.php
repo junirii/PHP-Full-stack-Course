@@ -1,21 +1,25 @@
 <?php
+
 namespace application\models;
+
 use PDO;
 
-class UserModel extends Model {
-  public function insUser(&$param){
-    $sql = 
-    " INSERT INTO t_user
-      (email, pw, nm, nick, gender, age, tel, profile_img, cmt)
+class UserModel extends Model
+{
+  public function insUser(&$param)
+  {
+    $sql =
+      " INSERT INTO t_user
+      (email, pw, nm, nick, gender, birth, tel, profile_img, cmt)
       VALUES
-      (:email, :pw, :nm, :nick, :gender, :age, :tel, :profile_img, :cmt)";
+      (:email, :pw, :nm, :nick, :gender, :birth, :tel, :profile_img, :cmt)";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":email", $param["email"]);
     $stmt->bindValue(":pw", $param["pw"]);
     $stmt->bindValue(":nm", $param["nm"]);
     $stmt->bindValue(":nick", $param["nick"]);
     $stmt->bindValue(":gender", $param["gender"]);
-    $stmt->bindValue(":age", $param["age"]);
+    $stmt->bindValue(":birth", $param["birth"]);
     $stmt->bindValue(":tel", $param["tel"]);
     $stmt->bindValue(":profile_img", $param["profile_img"]);
     $stmt->bindValue(":cmt", $param["cmt"]);
@@ -23,36 +27,83 @@ class UserModel extends Model {
     return $stmt->rowCount();
   }
 
-  public function selUser(&$param){
-    $sql = 
-    " SELECT * FROM t_user
-      WHERE email = :email
-    ";
+  public function selUser(&$param) // mypage 프로필 띄우기
+  {
+    $sql = " SELECT * FROM t_user WHERE";
+    if(array_key_exists("email", $param)){
+      $email = $param["email"];
+      $sql .= " email = '{$email}'";
+    }else if(array_key_exists("iuser", $param)){
+      $sql .= " iuser = " . $param["iuser"];
+    }
+
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindValue(":email", $param["email"]);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_OBJ);
   }
 
-  public function myUser(&$param)
-  {
+  /* mypage 시작 */
+  public function myPageTravelFav(&$param)
+  { // mypage 찜한 여행 (title 뿌리기)
     $sql =
-      "     SELECT *
-    FROM t_user A
-    INNER JOIN t_board B
-    ON A.iuser = B.iuser
-    INNER JOIN t_trip C
-    ON A.iuser = C.iuser
-    INNER JOIN t_cmt D
-    ON A.iuser = D.host_iuser
-    INNER JOIN t_board_fav E
-    ON A.iuser = E.iuser
-    WHERE A.iuser = 1;
-    ";
+      "SELECT A.itravel, A.iuser, A.reg_dt,
+      B.title, B.reg_dt, B.mod_dt, B.area, B.location, B.main_img, B.s_date, B.e_date, B.f_people, B.f_price, B.f_gender, B.f_age
+      FROM t_travel_fav A
+      INNER JOIN t_travel B
+      ON A.itravel = B.itravel
+      WHERE A.iuser = :iuser
+      ";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
     $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_OBJ);
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
+  public function myPageHost(&$param)
+  // mypage 호스팅한 여행 (title 뿌리기)
+  {
+    $sql =
+      " SELECT *
+      FROM t_user A
+      INNER JOIN t_travel B
+      ON A.iuser = B.iuser
+      WHERE A.iuser = :iuser
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":iuser", $param["iuser"]);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+
+  public function myPageTrip(&$param)
+  { // mypage 참여한 여행 (title 뿌리기)
+    $sql =
+      " SELECT *
+      FROM t_travel_state A
+      INNER JOIN t_travel B
+      ON A.itravel = B.itravel
+      WHERE A.iuser = :iuser
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":iuser", $param["iuser"]);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+
+  public function myPageCmt(&$param)
+  { // mypage 호스트 리뷰 (list 뿌리기)
+    $sql =
+      " SELECT *
+      FROM t_mypage_cmt D
+      WHERE itravel = :itravel
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":iuser", $param["iuser"]);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+  /* mypage 끝 */
 }

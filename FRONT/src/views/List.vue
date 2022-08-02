@@ -1,76 +1,116 @@
 <template>
-<!-- test  -->
-  <main class="mt-3">
+  <main class="list mt-3">
     <div class="container">   
       <div class="row">
-        <div class="col-xl-3 col-lg-4 col-md-6" 
-            :key="item.iboard" v-for="item in list">
+        <div class="col-xl-3 col-lg-4 col-md-6" style="padding: 25px;"
+            :key="item.itravel" v-for="item in list">
             <div class="card" style="width: 18rem;">
               <div class="hearticon">
-                <svg xmlns="http://www.w3.org/2000/svg" @click="good()" style="color: red;"
-                width="20" height="20" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-                </svg>
-                  <img src="http://www.newsinside.kr/news/photo/202107/1112546_790699_4239.jpg" 
-                  @click="goToDetail(item.iboard)"
-                    class="card-img-top"
-                    alt="이미지">
+                <i class="fa-solid fa-heart fa-2x" v-if="heartColor($event, item.itravel)" style="color: red;" @click="good($event, item.itravel)"></i>
+                <i class="fa-regular fa-heart fa-2x" v-if="!heartColor($event, item.itravel)" @click="good($event, item.itravel)"></i>
+                <img src="https://d30y0swoxkbnsm.cloudfront.net/community/20200324/748d6a3d-648e-426b-a705-f47f654b6d4a/%EC%B9%B4%EB%AC%B4%EC%9D%B4.jpg" 
+                @click="goToDetail(item.itravel)"
+                  class="card-img-top"
+                  alt="이미지">
               </div>
-              <div class="card-body">
-                <h5 class="card-title">{{item.title}}</h5>
-                <p class="card-text">
-                  <span class="badge bg-dark text-white me-1">작성자:{{item.nick}}</span>
-                  <span class="badge bg-dark text-white me-1">area:{{item.area}}</span>
-                  <span class="badge bg-dark text-white me-1">location:{{item.location}}</span>
-                </p>
-                <small class="text-dark">{{ item.s_date}} ~ {{ item.e_date}}</small>
-              </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ item.title }}</h5>
+              <p class="card-text">
+                <span class="badge bg-dark text-white me-1 pointer" @click="goToMyPage(item.iuser)">작성자:{{ item.nick }}</span>
+                <span class="badge bg-dark text-white me-1">area:{{ item.area }}</span>
+                <span class="badge bg-dark text-white me-1">location:{{ item.location }}</span>
+              </p>
+              <small class="text-dark">{{ item.s_date }} ~ {{ item.e_date }}</small>
             </div>
-        </div>
+          </div>
+        </div>         
       </div>
-    <router-link :to="{ path: '/Mypage' }">
-      <button type="button">마이페이지</button>
-    </router-link>
     </div>
   </main>
 </template>
 
 <script>
-
 export default {
   data() {
     return{
-    list: []
+    list: [],
+    travelFavList: [],
+    favItravelList: [],
+    iuser: null
     }
   },
   methods: {
-    async boardList() {
-      this.list = await this.$get('/board/boardList');
-      console.log(this.list);
+    async travelList() {
+      this.list = await this.$get('/travel/travelList');
+      // console.log(this.list);
     },
-    async goToDetail(iboardNum) {
-      this.$router.push({name: 'detail', query: {iboard: iboardNum}});
+    async goToDetail(itravelNum) {
+      this.$router.push({name: 'detail', params: {itravel: itravelNum}});
+    },
+    async favItravel() {
+      this.iuser = this.$store.state.user.iuser;
+      this.travelFavList = await this.$get(`/travel/travelFav/${this.iuser}`, {});
+      this.travelFavList.result.forEach(item => {
+        this.favItravelList.push(item.itravel);
+      });
+      console.log(this.favItravelList);
+    },
+    heartColor(event, itravel) {
+      console.log(this.favItravelList);
+      console.log(itravel);
+      if(this.favItravelList.includes(itravel)){
+        return true;
+      }else{
+        return false;
+      }
+    },
+    async good(event, itravel) {
+      if(event.target.classList.contains('fa-regular')){ //검은 하트일 때
+        const res = await this.$post(`/travel/travelFav/${this.iuser}/${itravel}`);
+        if(res.result === 1){ // 좋아요 성공 시
+          event.target.classList.remove('fa-regular');
+          event.target.classList.add('fa-solid');
+          event.target.style.color = "red";
+        }
+      }else if(event.target.classList.contains('fa-solid')){
+        const res = await this.$delete(`/travel/travelFav/${this.iuser}/${itravel}`);
+        if(res.result === 1){ // 좋아요 취소 성공 시
+          event.target.classList.add('fa-regular');
+          event.target.classList.remove('fa-solid');
+          event.target.style.color = "";
+        }
+      }
+    },
+    async goToMyPage(iuserNum) {
+      this.$router.push({name: 'mypage', params: {iuser: iuserNum}});
     }
   },
-  created() {
-    this.boardList();
-  },
-  good() {
 
-  }
+  created() {
+    this.travelList();
+    this.favItravel();
+  },
 }
 
 </script>
 
 <style>
-.hearticon {
-   position : relative;
+.list { 
+  z-index: auto;
+  margin: 0 auto;
+  padding: 150px;
 }
-
-svg {
+.hearticon {
+  position: relative;
+}
+i {
    position : absolute;
    right: 4px;
-   top: 4px;
+   top: 4px; 
+   cursor: pointer;
+ }
+ .pointer {
   cursor: pointer;
 }
+
 </style>
