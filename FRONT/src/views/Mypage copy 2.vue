@@ -18,8 +18,8 @@
     <div v-if="feedIuser == loginIuser">
       <div class="title">찜한 여행</div>
       <div>
-        <div :key="item.iboard" v-for="item in myPageBoardFav" @click="goToDetailFromMyPage(item.iboard)">
-          {{ item.iboard }} {{ item.title }}
+        <div :key="item.iboard" v-for="item in myPageBoardFav">
+          <a href="#">{{ item.iboard }} {{ item.title }}</a>
         </div>
       </div>
     </div>
@@ -27,16 +27,16 @@
 
     <div>
       <div class="title">호스팅한 여행</div>
-      <div :key="item.iboard" v-for="item in myPageHost" @click="goToDetailFromMyPage(item.iboard)">
-        {{ item.title }}
+      <div :key="item.iboard" v-for="item in myPageHost">
+        <a href="#">{{ item.title }}</a>
       </div>
     </div>
     <br>
 
     <div>
       <div class="title">참여한 여행</div>
-      <div :key="item.iboard" v-for="item in myPageTrip" @click="goToDetailFromMyPage(item.iboard)">
-        {{ item.title }}
+      <div :key="item.iboard" v-for="item in myPageTrip">
+        <a href="#">{{ item.title }}</a>
       </div>
     </div>
     <br>
@@ -83,12 +83,8 @@ export default {
       this.myPageCmt = this.data.result.myPageCmt;
       this.selUser = this.data.result.selUser;
     },
-    async goToDetailFromMyPage(iboardNum) { // 클릭시 여행게시물로 이동
-      this.$router.push({name: 'detail', params: {iboard: iboardNum}});
-    },
-    async comment() { // 댓글기능
-      const comment = await this.$post('/user/comment', params);
-    }
+
+
   },
   created() {
     this.getMyPage();

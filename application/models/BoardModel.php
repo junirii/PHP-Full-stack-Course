@@ -85,7 +85,7 @@ class BoardModel extends Model
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":iboard", $param["iboard"]);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_OBJ); // 행을 하나만 가져오는것  fetch = SELECT 
+        return $stmt->fetchAll(PDO::FETCH_OBJ); // 행을 하나만 가져오는것  fetch = SELECT 
     }
     // 좋아요 한 게시물
     public function selBoardFav(&$param){

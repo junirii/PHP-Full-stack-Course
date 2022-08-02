@@ -95,8 +95,10 @@ class UserModel extends Model
   public function myPageCmt(&$param)
   { // mypage 호스트 리뷰 (list 뿌리기)
     $sql =
-      " SELECT *
-      FROM t_cmt D
+      "SELECT A.icmt, A.host_iuser, A.guest_iuser, A.cmt, A.reg_dt, B.nick, B.profile_img
+      FROM t_cmt A
+      INNER JOIN t_user B
+      ON A.guest_iuser = B.iuser
       WHERE host_iuser = :iuser
     ";
 
