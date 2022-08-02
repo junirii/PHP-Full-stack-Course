@@ -8,7 +8,7 @@ import List from '../views/List.vue'
 import Detail from '../views/Detail.vue'
 import Create from '../views/Create.vue'
 import Mypage from '../views/Mypage.vue'
-import Chat from '../views/Chat.vue'
+import SelectPage from '../views/SelectPage.vue'
 
 const routes = [
   {
@@ -16,11 +16,11 @@ const routes = [
     name: 'home',
     component: Home
   },
-  // {
-  //   path: '/selectpage',
-  //   name: 'selectpage',
-  //   component: SelectPage
-  // },
+  {
+    path: '/selectpage',
+    name: 'selectpage',
+    component: SelectPage
+  },
   {
     path: '/map',
     name: 'map',
@@ -55,12 +55,7 @@ const routes = [
     path: '/mypage',
     name: 'mypage',
     component: Mypage
-  },
-  {
-    path: '/chat',
-    name: 'chat',
-    component: Chat
-  },
+  }
 ]
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

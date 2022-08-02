@@ -1,117 +1,128 @@
 <template>
-<div class="total">
-    <div class="location">
+  <div class="total">
+    <div id="location">
+      <div>
         <h3>여행지 선택</h3>
-      <div>
-          시/도
-          <select>
-          <option value="" selected>선택</option>
-          </select><br>
-          군/구
-          <select>
-            <option value="" selected>선택</option>
-          </select>
       </div>
-          <router-link :to="{ path: '/Option' }">
-          <button type="button">↓</button>
-          </router-link>
-        <!-- <div class="box">
-          <div class="map"><img id="map" src="../../mapImg/map_1.png" alt="map"></div>
-          <router-link :to="{ path: '/Option' }">
-              <div class="Center"><img src="../../mapImg/i.png" alt="수도권"></div>
-              <div class="Gang"><img src="../../mapImg/Gang.png" alt="강원도"></div>
-              <div class="K1"><img src="../../mapImg/k.png" alt="경상북도"></div>
-              <div class="K2"><img src="../../mapImg/k2.png" alt="경상남도"></div>
-              <div class="C1"><img src="../../mapImg/chung1.png" alt="충청북도"></div>
-              <div class="C2"><img src="../../mapImg/chung2.png" alt="충청남도"></div>
-              <div class="J1"><img src="../../mapImg/j1.png" alt="전라북도"></div>
-              <div class="J2"><img src="../../mapImg/j2.png" alt="전라남도"></div>
-              <div class="JJ"><img src="../../mapImg/jj.png" alt="제주도"></div>
-              <div class="I"><img src="../../mapImg/island.png" alt="울릉/독도"></div>
-          </router-link>
-        </div> -->
-    </div>
-
-    <div class="filter">
-        <h3>옵션 선택</h3>
       <div>
-          <form>
-              <span>인원</span>
-              <input type="number">
-              <br>
-              
-              <span>성별</span>
-              <input type="radio" id="male" name="gender" value="male">
-              <label for="male">남성</label>
-              <input type="radio" id="female" name="gender" value="female">
-              <label for="female">여성</label>
-              <input type="radio" id="nolimit_gender" name="gender" value="other">
-              <label for="nolimit_gender">혼성</label>
-              <br>
-
-              <span>연령대</span>
-              <input type="radio" id="20s" name="age" value="male">
-              <label for="male">20대</label>
-              <input type="radio" id="30s" name="age" value="female">
-              <label for="female">30대</label>
-              <input type="radio" id="40s" name="age" value="other">
-              <label for="other">40대</label>
-              <input type="radio" id="nolimit_age" name="age" value="other">
-              <label for="nolimit_age">제한없음</label>
-              <br>
-
-              <span>비용</span>
-              <input type="range" name="points" min="0" max="1000000">
-          </form>
+        시/도
+        <select>
+          <option value=""></option>
+        </select><br>
+        군/구
+        <select>
+          <option value=""></option>
+        </select>
       </div>
-    </div>
-    <div>
-        <router-link :to="{ path: '/Calender' }">
+      <!-- <router-link :to="{ path: '#' }">
         <button type="button">↓</button>
-        </router-link>
+      </router-link> -->
+      <div class="box d-flex">
+        <div class="container-map">
+          <a href="#filter">
+            <div class="sec1">
+              <img class="center" src="../../mapImg/i.png" alt="수도권">
+              <img class="gang" src="../../mapImg/Gang.png" alt="강원도">
+            </div>
+            <div class="sec2">
+              <img class="K1" src="../../mapImg/k.png" alt="경상북도">
+              <img class="I" src="../../mapImg/island.png" alt="울릉/독도">
+              <img class="C1" src="../../mapImg/chung1.png" alt="충청북도"><img class="C2" src="../../mapImg/chung2.png"
+                alt="충청남도">
+            </div>
+            <div class="sec3">
+              <img class="K2" src="../../mapImg/k2.png" alt="경상남도">
+              <img class="J1" src="../../mapImg/j1.png" alt="전라북도">
+              <img class="J2" src="../../mapImg/j2.png" alt="전라남도">
+              <img class="JJ" src="../../mapImg/jj.png" alt="제주도">
+            </div>
+            <img class="map" src="../../mapImg/map_1.png" alt="map">
+          </a>
+        </div>
+      </div>
     </div>
 
-    <div class="date">
-        <h3>날짜 선택</h3>
+    <div id="filter">
+      <h3>옵션 선택</h3>
       <div>
-          출발일
-          <input type="date" name="startDay">
-          도착일
-          <input type="date" name="endDay">
+        <form>
+          <span>인원</span>
+          <input type="number">
+          <br>
+
+          <span>성별 : </span>
+          <label for="female">여성</label>
+          <input type="radio" id="female" name="gender" value="female">
+          <label for="male">남성</label>
+          <input type="radio" id="male" name="gender" value="male">
+          <label for="nolimit_gender">혼성</label>
+          <input type="radio" id="nolimit_gender" name="gender" value="other">
+          <br>
+
+          <span>연령대 : </span>
+          <!-- select option으로 바꾸기 나이제한없음, 20, 30, 40, 50, 20~30, 30~40, 40~50대(value값: 0~8)-->
+          <!-- 테이블 t_age 사용할 것 -->
+          <label for="male">20~30대 </label>
+          <input type="radio" id="20s" name="age" value="male">
+          <label for="female">30~40대 </label>
+          <input type="radio" id="30s" name="age" value="female">
+          <label for="other">40~50대 </label>
+          <input type="radio" id="40s" name="age" value="other">
+          <label for="nolimit_age">제한없음</label>
+          <input type="radio" id="nolimit_age" name="age" value="other">
+          <br>
+
+          <span>비용</span>
+          <input type="range" name="points" min="0" max="1000000">
+        </form>
+      </div>
+      <div>
+        <a href="#date">
+          <button class="btn" type="button">↓</button>
+        </a>
+      </div>
+    </div>
+
+    <div id="date">
+      <h3>날짜 선택</h3>
+      <div>
+        출발일
+        <input type="date" name="startDay">
+        도착일
+        <input type="date" name="endDay">
       </div>
       <section class="section">
-          <div class="container">
+        <div class="container">
           <h2 class="subtitle has-text-centered">
-              <button class="button is-small is-primary is-outlined mr-5" @click="calendarData(-1)">&lt;</button>
-              {{ year }}년 {{ month }}월
-              <button class="button is-small is-primary is-outlined ml-5" @click="calendarData(1)">&gt;</button>
+            <button class="button is-small is-primary is-outlined mr-5" @click="calendarData(-1)">&lt;</button>
+            {{ year }}년 {{ month }}월
+            <button class="button is-small is-primary is-outlined ml-5" @click="calendarData(1)">&gt;</button>
           </h2>
           <table class="table has-text-centered is-fullwidth">
-              <thead>
+            <thead>
               <th v-for="day in days" :key="day">{{ day }}</th>
-              </thead>
-              <tbody>
+            </thead>
+            <tbody>
               <tr v-for="(date, idx) in dates" :key="idx">
-                  <td v-for="(day, secondIdx) in date" :key="secondIdx" :class="{
+                <td v-for="(day, secondIdx) in date" :key="secondIdx" :class="{
                   'has-text-info-dark': idx === 0 && day >= lastMonthStart,
                   'has-text-danger': dates.length - 1 === idx && nextMonthStart > day,
                   'has-text-primary': day === today && month === currentMonth && year === currentYear
                   }">
                   {{ day }}
-                  </td>
+                </td>
               </tr>
-              </tbody>
+            </tbody>
           </table>
-          </div>
+        </div>
       </section>
-    </div>
-
-    <div>
+      <div class="moveToListBtn">
         <router-link :to="{ path: '/List' }">
-        <button class="btn" type="button">여행 찾기</button>
+          <button class="btn" type="button">여행 찾기</button>
         </router-link>
+      </div>
     </div>
-</div>
+  </div> <!-- div total 닫음 -->
 
 </template>
 
@@ -224,91 +235,107 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
-.total { 
+.total {
   z-index: auto;
   margin: 0 auto;
   padding: 150px;
 }
 .box {
-  margin: 100px auto 0;
-  float: left;
-  width: 255px;
-  height: 515px;
-  margin: 0 30px;
-  position: relative;
-  max-width: 700px;
+  margin-top: 100px;
+  /* float: left; */
+  /* position: relative; */
+  /* display: flex; */
+  justify-content: center;
+  /* align-items: center; */
+}
+img {
+  vertical-align: middle;
+  cursor: pointer;
 }
 .map {
-  position: relative;
+  max-width: 500px;
+  /* position: relative;
   top: 0;
-  left: 0;
+  left: 0; */
 }
-/* #map {
-  width: 600px;
-} */
-.Center {
-  position: relative;
-  top: 55px;
-  left: 33px;
+.sec1, .sec2, .sec3 {
+  position: absolute;
 }
-.Gang {
-  position: relative;
-  bottom: 344px;
-  left: 231px;
+.center {
+  max-width: 170px;
+  position: absolute;
+  top: 24px;
+  left: 13px;
+} 
+.gang {
+  max-width: 225px;
+  position: absolute;
+  left: 114px;
+  top: 1px;
 }
 .K1 {
-  position: relative;
-  bottom: 365px;
-  left: 377px;
+  position: absolute;
+  top: 172px;
+  max-width: 178px;
+  left: 188px;
 }
 .K2 {
-  position: relative;
-  bottom: 446px;
-  left: 324px;
+  position: absolute;
+  max-width: 190px;
+  top: 333px;
+  left: 162px;
 }
 .C1 {
-  position: relative;
-  bottom: 1112px;
-  left: 258px;
+  position: absolute;
+  max-width: 135px;
+  top: 156px;
+  left: 126px;
 }
 .C2 {
-  position: relative;
-  bottom: 1377px;
-  left: 21px;
+  position: absolute;
+  max-width: 156px;
+  top: 182px;
+  left: 5px;
 }
 .J1 {
-  position: relative;
-  bottom: 1418px;
-  left: 74px;
+  position: absolute;
+  max-width: 150px;
+  top: 300px;
+  left: 36px;
 }
 .J2 {
-  position: relative;
-  bottom: 1459px;
-  left: 2px;
+  position: absolute;
+  max-width: 176px;
+  top: 388px;
+  left: -2px;
 }
 .JJ {
-  position: relative;
-  bottom: 1372px;
-  right: 36px;
+  position: absolute;
+  max-width: 81px;
+  top: 575px;
+  left: 2px;
 }
 .I {
-  position: relative;
-  bottom: 2241px;
-  left: 818px;
+  position: absolute;
+  max-width: 59px;
+  top: 189px;
+  left: 439px;
 }
-img { cursor: pointer; }
-.Center:hover, .C1:hover, .C2:hover, .J1:hover, .J2:hover, .JJ:hover {
-  transform: translateX(-10px);
+.center:hover, .C1:hover, .C2:hover, .J1:hover, .J2:hover, .JJ:hover {
+  transform: translateX(-5px);
   transition: 0.3s;
 }
-.Gang:hover, .K1:hover, .K2:hover, .I:hover {
-  transform: translateX(10px);
+.gang:hover, .K1:hover, .K2:hover, .I:hover {
+  transform: translateX(5px);
   transition: 0.3s;
 }
-.location, .date {
-  clear: both;
-};
+#location, #filter, #date {
+  padding: 100px;
+}
+.moveToListBtn {
+  padding: 10px;
+}
   
 </style>

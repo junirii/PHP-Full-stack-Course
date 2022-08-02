@@ -4,13 +4,13 @@ namespace application\models;
 
 use PDO;
 
-class BoardModel extends Model
+class TravelModel extends Model
 {
     // 리스트 
-    public function boardList()
+    public function travelList()
     {
         $sql = "SELECT * 
-            FROM t_board A
+            FROM t_travel A
             INNER JOIN t_user B
             ON A.iuser = B.iuser";
         $stmt = $this->pdo->prepare($sql);
@@ -40,9 +40,9 @@ class BoardModel extends Model
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function boardInsert(&$param)
+    public function travelInsert(&$param)
     {
-        $sql = "INSERT INTO t_board
+        $sql = "INSERT INTO t_travel
                 SET iuser = :iuser
                   , title = :title
                   , area = :area
@@ -74,45 +74,45 @@ class BoardModel extends Model
     // 디테일
     public function detail(&$param) {
         $sql="SELECT *
-        FROM t_board A
-        INNER JOIN t_board_ctnt B
-        ON A.iboard = B.iboard
-        INNER JOIN t_board_img C
-        ON A.iboard = C.iboard
+        FROM t_travel A
+        INNER JOIN t_travel_ctnt B
+        ON A.itravel = B.itravel
+        INNER JOIN t_travel_img C
+        ON A.itravel = C.itravel
         INNER JOIN t_user D
         ON A.iuser = D.iuser
-        WHERE A.iboard = :iboard";
+        WHERE A.itravel = :itravel";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":iboard", $param["iboard"]);
+        $stmt->bindValue(":itravel", $param["itravel"]);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ); // 행을 하나만 가져오는것  fetch = SELECT 
     }
     // 좋아요 한 게시물
-    public function selBoardFav(&$param){
-        $sql = "SELECT * FROM t_board_fav WHERE iuser = :iuser";
+    public function selTravelFav(&$param){
+        $sql = "SELECT * FROM t_travel_fav WHERE iuser = :iuser";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ); // 여러 값 fetchAll (SELECT)
     }
     // 좋아요
-    public function BoardUserFav(&$param) {
-        $sql="INSERT INTO t_board_fav
-        (iboard,iuser)
+    public function TravelUserFav(&$param) {
+        $sql="INSERT INTO t_travel_fav
+        (itravel,iuser)
         VALUES
-        (:iboard,:iuser)";
+        (:itravel,:iuser)";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":iboard", $param["iboard"]);
+        $stmt->bindValue(":itravel", $param["itravel"]);
         $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->execute();
         return $stmt->rowCount(); // 값이 한개 추가될때 
     }
     // 좋아요 취소 
-    public function boardDelteFav(&$param) {
-        $sql="DELETE FROM t_board_fav 
-        WHERE iboard=:iboard AND iuser=:iuser";
+    public function travelDeleteFav(&$param) {
+        $sql="DELETE FROM t_travel_fav 
+        WHERE itravel=:itravel AND iuser=:iuser";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":iboard", $param["iboard"]);
+        $stmt->bindValue(":itravel", $param["itravel"]);
         $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->execute();
         return $stmt->rowCount(); // 값이 한개 추가될때 

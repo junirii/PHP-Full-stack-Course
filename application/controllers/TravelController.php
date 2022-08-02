@@ -2,16 +2,16 @@
 namespace application\controllers;
 use application\libs\application;
 
-class BoardController extends Controller{
+class TravelController extends Controller{
     // 리스트
-    public function boardList() {
-        return $this->model->boardList();
+    public function travelList() {
+        return $this->model->travelList();
     }
 
     public function create() {
         $json = getJson();
         print_r($json);
-        return [_RESULT => $this->model->boardInsert($json)];
+        return [_RESULT => $this->model->travelInsert($json)];
     }
 
     // area list
@@ -32,12 +32,12 @@ class BoardController extends Controller{
     public function detail() {
         $urlPaths = getUrlPaths();
         $param = [
-            "iboard" => intval($urlPaths[2])
+            "itravel" => intval($urlPaths[2])
         ];
         return $this->model->detail($param);
     }
     // 좋아요한 게시물
-    public function boardFav() {
+    public function travelFav() {
         $urlPaths = getUrlPaths();
         $iuser = $urlPaths[2];
         $param = [
@@ -45,32 +45,32 @@ class BoardController extends Controller{
         ];
         switch (getMethod()) {
             case _GET:
-                return [_RESULT => $this->model->selBoardFav($param)];
+                return [_RESULT => $this->model->selTravelFav($param)];
             case _POST:
-                $iboard = $urlPaths[3];
-                $param["iboard"] = $iboard;
-                return [_RESULT => $this->model->BoardUserFav($param)];
+                $itravel = $urlPaths[3];
+                $param["itravel"] = $itravel;
+                return [_RESULT => $this->model->TravelUserFav($param)];
             case _DELETE:
-                $iboard = $urlPaths[3];
-                $param["iboard"] = $iboard;
-                return [_RESULT => $this->model->boardDelteFav($param)];           
+                $itravel = $urlPaths[3];
+                $param["itravel"] = $itravel;
+                return [_RESULT => $this->model->travelDeleteFav($param)];           
         }
     }
 
-    public function BoardUserFav() {
+    public function TravelUserFav() {
         $urlPaths = getUrlPaths();
         $param = [
             "iuser" => intval($urlPaths[2])
         ];
-        return [_RESULT => $this->model->BoardUserFav($param)];
+        return [_RESULT => $this->model->TravelUserFav($param)];
     }
 
-    public function boardDeleteFav() {
+    public function travelDeleteFav() {
         $urlPaths = getUrlPaths();
         $param = [
             "iuser" => intval($urlPaths[2])
         ];
-        return [_RESULT => $this->model->boardDeleteFav($param)];
+        return [_RESULT => $this->model->travelDeleteFav($param)];
     }
     
 }
