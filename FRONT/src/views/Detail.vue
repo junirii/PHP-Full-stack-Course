@@ -36,28 +36,45 @@
     </div>
     <br> -->
 
-    <div class="accordion" id="accordionPanelsStayOpenExample">
-      <div class="accordion-item" :key="item.day" v-for="item in data">
-        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse"
-            data-bs-target="#panelsStayOpen-collapseOne1" aria-expanded="true"
-            aria-controls="panelsStayOpen-collapseOne">
-            DAY {{ item.day }}
-          </button>
-        </h2>
-        <div id="panelsStayOpen-collapseOne1" class="accordion-collapse collapse show"
-          aria-labelledby="panelsStayOpen-headingOne">
-          <div class="accordion-body">
-            <strong>{{ item.img }}</strong>{{ item.ctnt }} It is shown by default, until the collapse plugin adds the
-            appropriate classes that we use to style each element. These classes control the overall appearance, as well
-            as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our
-            default variables. It's also worth noting that just about any HTML can go within the
-            <code>.accordion-body</code>, though the transition does limit overflow.
-          </div>
-        </div>
+<div class="accordion" id="accordionPanelsStayOpenExample" :key="item.day" v-for="item in data">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+        DAY {{item.day}}
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+      <div class="accordion-body">
+        <strong>{{ item.img }}</strong>{{ item.ctnt }} 여행자료조사내용내용
       </div>
     </div>
-
+  </div>
+  <!-- <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+        Accordion Item #2
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+      <div class="accordion-body">
+        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+        Accordion Item #3
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+      <div class="accordion-body">
+        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+      </div>
+    </div>
+  </div> -->
+</div>
+<br>
     <div>
       <input type="button" value="찜하기">
       <input type="submit" value="신청하기">
@@ -70,7 +87,7 @@ export default {
   data() {
     return {
       data: [],
-
+      day: 1
     }
   },
   methods: {
@@ -78,11 +95,16 @@ export default {
       const iboard = this.$route.params.iboard; // iboard 가져옴
       this.data = await this.$get(`/board/detail/${iboard}`, {}); // controllers / method / 가져온iboard
       console.log(this.data);
-    }
+    },
   },
   created() {
     this.getDetail();
-  }
+  },
+  // computed: {
+  //   dayIncreament(){
+  //     return this.day++;
+  //   }
+  // }
 }
 
 </script>

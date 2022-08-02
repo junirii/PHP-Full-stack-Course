@@ -42,14 +42,15 @@
     <br>
 
     <!-- 마이페이지 섹션3 - 리뷰-->
-    <div>
+
+    <!-- <div>
     <div class="title"><i class="fa-solid fa-comment"></i>리뷰</div>
     <div :key="item.icmt" v-for="item in myPageCmt">
     <span>{{item. profile_img}} {{ item.nick }} {{ item.cmt }} {{ item.reg_dt }} </span>
     </div>
     <div><input type="textarea">
     <input type="submit" value="등록"></div>
-    </div>
+    </div> -->
 
   </div> <!-- container 닫기 -->
 </template>
@@ -86,9 +87,11 @@ export default {
     async goToDetailFromMyPage(iboardNum) { // 클릭시 여행게시물로 이동
       this.$router.push({name: 'detail', params: {iboard: iboardNum}});
     },
-    async comment() { // 댓글기능
-      const comment = await this.$post('/user/comment', params);
-    }
+    // async comment() { // 댓글기능
+    //   const comment = await this.$post('/user/comment', {
+    //     hostiuser = 
+    //   });
+    // }
   },
   created() {
     this.getMyPage();
