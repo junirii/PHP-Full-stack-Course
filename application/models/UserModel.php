@@ -10,16 +10,16 @@ class UserModel extends Model
   {
     $sql =
       " INSERT INTO t_user
-      (email, pw, nm, nick, gender, age, tel, profile_img, cmt)
+      (email, pw, nm, nick, gender, birth, tel, profile_img, cmt)
       VALUES
-      (:email, :pw, :nm, :nick, :gender, :age, :tel, :profile_img, :cmt)";
+      (:email, :pw, :nm, :nick, :gender, :birth, :tel, :profile_img, :cmt)";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":email", $param["email"]);
     $stmt->bindValue(":pw", $param["pw"]);
     $stmt->bindValue(":nm", $param["nm"]);
     $stmt->bindValue(":nick", $param["nick"]);
     $stmt->bindValue(":gender", $param["gender"]);
-    $stmt->bindValue(":age", $param["age"]);
+    $stmt->bindValue(":birth", $param["birth"]);
     $stmt->bindValue(":tel", $param["tel"]);
     $stmt->bindValue(":profile_img", $param["profile_img"]);
     $stmt->bindValue(":cmt", $param["cmt"]);

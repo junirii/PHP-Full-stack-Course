@@ -75,6 +75,8 @@
 </template>
 
 <script>
+// import { request } from 'http';
+
 export default {
   name: "LoginModal",
   props: {
@@ -94,7 +96,6 @@ export default {
         nick: '',
         gender: 0,
         birth: '',
-        age: 0,
         tel: '',
         profile_img: '',
         cmt: ''
@@ -127,21 +128,30 @@ export default {
       this.loginUser.pw = '';
     },
     async joinForm(){
-      const birth = this.joinUser.birth;
-      const birthYear = birth.substr(0, 4);
-      const thisYear = new Date().getFullYear();
-      this.joinUser.age = thisYear - birthYear;
       const res = await this.$post('/user/join', this.joinUser);
-      if(res.result === 2){ 
+      if(res.result === 2){ //아이디 중복
         this.$swal.fire('중복되는 아이디가 있습니다.', '', 'error');
-      }else if(res.result === 0){ //회원가입 실패
-        this.$swal.fire('회원가입할 수 없습니다.', '', 'error');
-      }else{ //회원가입 성공
+      }else if(res.result === 1){ //회원가입 성공
         this.$swal.fire('회원가입 되었습니다!', '', 'success');
         this.showLogin();
+      }else{ //회원가입 실패
+        this.$swal.fire('회원가입할 수 없습니다.', '', 'error');
       }
     },
     async loginForm(){
+      // const options = { //$enc_data 를 php 의 main 에서 가져오기 위한 옵션
+      //   url: '/user/login',
+      //   method: 'POST',
+      //   form: {
+      //     email: this.loginUser.email,
+      //     pw: this.loginUser.pw
+      //   },
+      //   json: true
+      // };
+      // request.post(options, function(err, httpResponse, body){
+      //   console.log(httpResponse);
+      // });
+
       const res = await this.$post('/user/login', {
         email: this.loginUser.email,
         pw: this.loginUser.pw
