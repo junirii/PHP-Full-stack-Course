@@ -18,8 +18,8 @@
     <div v-if="feedIuser == loginIuser">
       <div class="title">찜한 여행</div>
       <div>
-        <div :key="item.itravel" v-for="item in myPageTravelFav" @click="goToDetailFromMyPage(item.itravel)">
-          {{ item.itravel }} {{ item.title }}
+        <div :key="item.iboard" v-for="item in myPageBoardFav">
+          <a href="#">{{ item.iboard }} {{ item.title }}</a>
         </div>
       </div>
     </div>
@@ -27,16 +27,16 @@
 
     <div>
       <div class="title">호스팅한 여행</div>
-      <div :key="item.itravel" v-for="item in myPageHost" @click="goToDetailFromMyPage(item.itravel)">
-        <div>{{ item.title }}</div>
+      <div :key="item.iboard" v-for="item in myPageHost">
+        <a href="#">{{ item.title }}</a>
       </div>
     </div>
     <br>
 
     <div>
       <div class="title">참여한 여행</div>
-      <div :key="item.itravel" v-for="item in myPageTravelState" @click="goToDetailFromMyPage(item.itravel)">
-        <span>{{ item.title }}</span>
+      <div :key="item.iboard" v-for="item in myPageTrip">
+        <a href="#">{{ item.title }}</a>
       </div>
     </div>
     <br>
@@ -59,9 +59,9 @@ export default {
   data() {
     return {
       data: [],
-      myPageTravelFav: [],
+      myPageBoardFav: [],
       myPageHost: [],
-      myPageTravelState: [],
+      myPageTrip: [],
       myPageCmt: [],
       selUser: {},
       feedIuser: 0,
@@ -77,18 +77,14 @@ export default {
       console.log('loginIuser : ' + this.loginIuser);
 
       this.data = await this.$get(`/user/myPage/${this.feedIuser}`, {}); // controllers / method
-      this.myPageTravelFav = this.data.result.myPageTravelFav;
+      this.myPageBoardFav = this.data.result.myPageBoardFav;
       this.myPageHost = this.data.result.myPageHost;
-      this.myPageTravelState = this.data.result.myPageTravelState;
+      this.myPageTrip = this.data.result.myPageTrip;
       this.myPageCmt = this.data.result.myPageCmt;
       this.selUser = this.data.result.selUser;
     },
-    async goToDetailFromMyPage(iboardNum) { // 클릭시 여행게시물로 이동
-      this.$router.push({name: 'detail', params: {iboard: iboardNum}});
-    },
-    async comment() { // 댓글기능
-      const comment = await this.$post('/user/comment', params);
-    }
+
+
   },
   created() {
     this.getMyPage();
