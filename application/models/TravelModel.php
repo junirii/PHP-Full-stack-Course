@@ -72,20 +72,47 @@ class TravelModel extends Model
         return intval($this->pdo->lastInsertId());
     }
     // 디테일
-    public function detail(&$param) {
-        $sql="SELECT *
-        FROM t_travel A
-        INNER JOIN t_travel_ctnt B
-        ON A.itravel = B.itravel
-
-        INNER JOIN t_user D
-        ON A.iuser = D.iuser
-        WHERE A.itravel = :itravel";
+    public function selTravelByItravel(&$param){
+        $sql = "SELECT * FROM t_travel
+        WHERE itravel = :itravel";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":itravel", $param["itravel"]);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ); // 행을 하나만 가져오는것  fetch = SELECT 
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
+
+    public function selUserByItravel(&$param){
+        $sql = "SELECT * FROM t_user
+        WHERE iuser = 
+        (SELECT iuser FROM t_travel
+        WHERE itravel = :itravel)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function selDayByItravel(&$param){
+        $sql = "SELECT day FROM t_travel_ctnt
+        WHERE itravel = :itravel
+        GROUP BY DAY";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function selCtntByItravel(&$param){
+        $sql = "SELECT * FROM t_travel_ctnt
+        WHERE itravel = :itravel
+        ORDER BY DAY";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+
     // 좋아요 한 게시물
     public function selTravelFav(&$param){
         $sql = "SELECT * FROM t_travel_fav WHERE iuser = :iuser";

@@ -27,7 +27,7 @@ class UserModel extends Model
     return $stmt->rowCount();
   }
 
-  public function selUser(&$param) // mypage 프로필 띄우기
+  public function selUser(&$param) // mypage 프로필 띄우기, myaccount 프로필 띄우기
   {
     $sql = " SELECT * FROM t_user WHERE";
     if (array_key_exists("email", $param)) {
@@ -111,12 +111,19 @@ class UserModel extends Model
 
   public function insMypageCmt(&$param)
   { // mypage cmt (호스트 유저에게 댓글 달기)
+
+    // $sql =
+    //   "SELECT A.*, B.iuser, B.title
+    //   FROM t_travel_state A
+    //   INNER JOIN t_travel B
+    //   ON A.itravel = B.itravel
+    //   WHERE A.iuser = :iuser AND B.iuser = :iuser";
+
     $sql =
-      "SELECT A.*, B.iuser, B.title
-      FROM t_travel_state A
-      INNER JOIN t_travel B
-      ON A.itravel = B.itravel
-      WHERE A.iuser = :iuser AND B.iuser = :iuser";
+    "INSERT INTO t_mypage_cmt
+    SET itravel = 8
+      , guest_iuser = 9
+      , cmt = '즐거운여행이였습니당'";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":itravel", $param["itravel"]);
     $stmt->bindValue(":guest_iuser", $param["guest_iuser"]);
@@ -125,4 +132,7 @@ class UserModel extends Model
     return $stmt->rowCount();
   }
   /* mypage 끝 */
+
+  // myaccount
+
 }

@@ -8,13 +8,10 @@
               <div class="hearticon">
                 <i class="fa-solid fa-heart fa-2x" v-if="heartColor($event, item.itravel)" style="color: red;" @click="good($event, item.itravel)"></i>
                 <i class="fa-regular fa-heart fa-2x" v-if="!heartColor($event, item.itravel)" @click="good($event, item.itravel)"></i>
-                <img src="https://d30y0swoxkbnsm.cloudfront.net/community/20200324/748d6a3d-648e-426b-a705-f47f654b6d4a/%EC%B9%B4%EB%AC%B4%EC%9D%B4.jpg" 
-                @click="goToDetail(item.itravel)"
-                  class="card-img-top"
-                  alt="이미지">
+                <div class="card-img-top" @click="goToDetail(item.itravel)">{{item.main_img}}</div>
               </div>
             <div class="card-body">
-              <h5 class="card-title">{{ item.title }}</h5>
+              <h5 class="card-title" @click="goToDetail(item.itravel)">{{ item.title }}</h5>
               <p class="card-text">
                 <span class="badge bg-dark text-white me-1 pointer" @click="goToMyPage(item.iuser)">작성자:{{ item.nick }}</span>
                 <span class="badge bg-dark text-white me-1">area:{{ item.area }}</span>

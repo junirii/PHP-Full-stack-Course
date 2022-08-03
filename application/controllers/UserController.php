@@ -48,7 +48,6 @@ class UserController extends Controller
     }
   }
 
-  // 마이페이지 리스트 뿌리기
   public function myPage()
   {
     $urlPaths = getUrlPaths();
@@ -71,18 +70,5 @@ class UserController extends Controller
     ];
     return [_RESULT => $data];
     // return $this->model->myPage($param);
-  }
-
-  // 마이페이지 댓글기능
-  public function myPageCmt() {
-    $json = getJson();
-    $param = [
-      "" => ,
-      "guest_iuser" =>,
-      "cmt" =>
-    ];
-
-    insMypageCmt($param);
-    return
   }
 }

@@ -36,8 +36,10 @@
               <div><input v-model="joinUser.pw" type="password" placeholder="비밀번호" required></div>
               <div>
                 <input v-model="joinUser.pwCheck" type="password" placeholder="비밀번호 확인" required>
-                <div v-show="joinUser.pw===joinUser.pwCheck">비밀번호가 일치합니다.</div>
-                <div v-show="joinUser.pw!==joinUser.pwCheck">비밀번호가 일치하지 않습니다.</div>
+                <div v-if="joinUser.pwCheck !== ''">
+                  <div v-show="joinUser.pw===joinUser.pwCheck">비밀번호가 일치합니다.</div>
+                  <div v-show="joinUser.pw!==joinUser.pwCheck">비밀번호가 일치하지 않습니다.</div>
+                </div>
               </div>
               <div><input v-model="joinUser.nm" type="text" placeholder="이름" required></div>
               <div><input v-model="joinUser.nick" type="text" placeholder="닉네임"></div>
@@ -62,7 +64,7 @@
             <div class="modal-footer">
               <div v-if="join" class="modal-login-button">
                 <slot name="footer">
-                  <button type="submit" v-bind:disabled="joinUser.pw!=joinUser.pwCheck">회원가입</button>
+                  <button type="submit" v-bind:disabled="joinUser.pw !== joinUser.pwCheck || joinUser.pwCheck === ''">회원가입</button>
                   <button type="button" @click="$emit('close'); showLogin();">취소</button>
                 </slot>
               </div>

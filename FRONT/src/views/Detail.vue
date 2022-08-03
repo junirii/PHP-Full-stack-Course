@@ -1,85 +1,61 @@
 <template>
+
   <div class="container">
     <!-- 디테일 섹션1 - 간단 정보(필터)-->
     <div class="row">
-      <div class="col">{{ data[0].main_img }}</div>
+      <div class="col">{{ data.hostUser.main_img }}</div>
       <div class="col">
-        <div>{{ data[0].title }}</div>
-        <div>지역 : {{ data[0].area }} / {{ data[0].location }}</div>
-        <div>기간 : {{ data[0].s_date }} ~ {{ data[0].e_date }}</div>
-        <div>성별 : {{ data[0].f_people }}</div>
-        <div>연령 : {{ data[0].f_age }}</div>
-        <div>인원 : {{ data[0].f_people }}</div>
-        <div>비용 : {{ data[0].f_price }}</div>
+        <div>{{ data.hostUser.title }}</div>
+        <div>지역 : {{ data.travelData.area }} / {{ data.travelData.location }}</div>
+        <div>기간 : {{ data.travelData.s_date }} ~ {{ data.travelData.e_date }}</div>
+        <div>성별 : {{ data.travelData.f_people }}</div>
+        <div>연령 : {{ data.travelData.f_age }}</div>
+        <div>인원 : {{ data.travelData.f_people }}</div>
+        <div>비용 : {{ data.travelData.f_price }}</div>
       </div>
     </div>
     <br>
 
     <!-- 디테일 섹션2 - 호스트 정보-->
     <div class="row">
-      <div class="col">{{ data[0].profile_img }}</div>
+      <div class="col">{{ data.hostUser.profile_img }}</div>
       <div class="col">
-        <div>{{ data[0].nm }}</div>
-        <div>{{ data[0].cmt }}</div>
+        <div>{{ data.hostUser.nm }}</div>
+        <div>{{ data.hostUser.cmt }}</div>
       </div>
     </div>
     <br>
 
     <!-- 디테일 섹션3 - 상세 정보-->
-    <!-- <div :key="data.iboard" v-for="data in list">
-      <div>일정</div>
-      <div class="row">
-        <div class="col">{{ data.day }}</div>
-        <div class="col">{{ data.img }}</div>
-        <div class="col">{{ data.ctnt }}</div>
-      </div>
-    </div>
-    <br> -->
 
-<div class="accordion" id="accordionPanelsStayOpenExample" :key="item.day" v-for="item in data">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-        DAY {{item.day}}
-      </button>
-    </h2>
-    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-      <div class="accordion-body">
-        <strong>{{ item.img }}</strong>{{ item.ctnt }} 여행자료조사내용내용
+    <div>일정</div>
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+      <div class="accordion-item" :key="idx" v-for="(dayObj, idx) in data.day">
+        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+            aria-controls="panelsStayOpen-collapseOne">
+            DAY {{ dayObj.day }}
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+          aria-labelledby="panelsStayOpen-headingOne" :key="idx" v-for="(item, idx) in data.ctnt">
+          <div class="accordion-body" v-if="dayObj.day == item.day">
+            <strong>{{ item.img }}</strong>{{ item.ctnt }} {{ dayObj.day }} {{ item.day }}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- <div class="accordion-item">
-    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-        Accordion Item #2
-      </button>
-    </h2>
-    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-      <div class="accordion-body">
-        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-      </div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-        Accordion Item #3
-      </button>
-    </h2>
-    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-      <div class="accordion-body">
-        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-      </div>
-    </div>
-  </div> -->
-</div>
-<br>
+
+
+
     <div>
       <input type="button" value="찜하기">
       <input type="submit" value="신청하기">
     </div>
+
   </div> <!-- container 닫기 -->
+
 </template>
 
 <script>
@@ -87,31 +63,30 @@ export default {
   data() {
     return {
       data: [],
-      day: 1,
       itravel: ''
     }
   },
   methods: {
     async getDetail() {
       this.itravel = this.$route.params.itravel; // itravel 가져옴
-      this.data = await this.$get(`/travel/detail/${this.itravel}`, {}); // controllers / method / 가져온itravel
-      // console.log(detail);
+      const res = await this.$get(`/travel/detail/${this.itravel}`, {}); // controllers / method / 가져온itravel
+      this.data = res.result;
+      console.log(this.data);
     },
-    goToChat(){
-      this.$router.push({name: 'chat', params: {itravel: this.itravel}});
+    goToChat() {
+      this.$router.push({ name: 'chat', params: { itravel: this.itravel } });
     }
   },
   created() {
     this.getDetail();
-  },
-  // computed: {
-  //   dayIncreament(){
-  //     return this.day++;
-  //   }
-  // }
+  }
 }
 
 </script>
 
 <style scoped>
+.accordion {
+  width: 60vw;
+  margin: 0 auto;
+}
 </style>

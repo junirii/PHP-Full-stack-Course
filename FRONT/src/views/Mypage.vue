@@ -1,12 +1,11 @@
 <template>
+
   <div class="container">
     <!-- 마이페이지 섹션1 - 프로필 -->
     <div class="mypage_profile">
       <div class="mypage_profile_img">사진{{ selUser.profile_img }}</div>
       <div class="mypage_profile_txt">
-        <div>닉네임 : {{ selUser.nick }}
-          <input type="button" value="프로필편집">
-        </div>
+        <div>닉네임 : {{ selUser.nick }}</div>
         <div>상태메세지 : {{ selUser.cmt }}</div>
         <div><i class="fa-regular fa-paper-plane"></i>DM</div>
         <div><i class="fa-solid fa-heart"></i>인기도</div>
@@ -56,6 +55,7 @@
     </div>
 
   </div> <!-- container 닫기 -->
+
 </template>
 
 <script>
@@ -90,7 +90,7 @@ export default {
       this.selUser = this.data.result.selUser;
     },
     async goToDetailFromMyPage(iboardNum) { // 클릭시 여행게시물로 이동
-      this.$router.push({ name: 'detail', params: { iboard: iboardNum } });
+      this.$router.push({ name: 'detail', params: { itravel: iboardNum } });
     },
     async insComment() { // 댓글기능
       const res = await this.$post('/user/myPageCmt', {
@@ -98,7 +98,7 @@ export default {
         guest_iuser: this.loginIuser,
         cmt: this.cmt
       });
-    }
+    },
   },
   created() {
     this.getMyPage();

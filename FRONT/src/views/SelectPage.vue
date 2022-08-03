@@ -46,8 +46,10 @@
       <h3>옵션 선택</h3>
       <div>
         <form>
-          <span>인원</span>
-          <input type="number">
+          <span>인원 :
+            <input type="number">
+            명
+          </span>
           <br>
 
           <span>성별 : </span>
@@ -59,21 +61,31 @@
           <input type="radio" id="nolimit_gender" name="gender" value="other">
           <br>
 
-          <span>연령대 : </span>
           <!-- select option으로 바꾸기 나이제한없음, 20, 30, 40, 50, 20~30, 30~40, 40~50대(value값: 0~8)-->
           <!-- 테이블 t_age 사용할 것 -->
-          <label for="male">20~30대 </label>
-          <input type="radio" id="20s" name="age" value="male">
-          <label for="female">30~40대 </label>
-          <input type="radio" id="30s" name="age" value="female">
-          <label for="other">40~50대 </label>
-          <input type="radio" id="40s" name="age" value="other">
-          <label for="nolimit_age">제한없음</label>
-          <input type="radio" id="nolimit_age" name="age" value="other">
-          <br>
+          <span>연령대 : </span>
+          <table>
+            <tr>
+              <td>
+                <select>
+                  <option value="20s">20대</option>
+                  <option value="30s">30대</option>
+                  <option value="40s">40대</option>
+                  <option value="50s">50대</option>
+                  <option value="20s30s">20~30대</option>
+                  <option value="30s40s">30~40대</option>
+                  <option value="40s50s">40~50대</option>
+                  <option value="nolimit_age">제한없음</option>
+                </select>
+              </td>
+            </tr>
+          </table>
 
-          <span>비용</span>
-          <input type="range" name="points" min="0" max="1000000">
+          <span>비용 :
+            <input type="number" step="1000">~<input type="number" step="1000">원
+          </span>
+
+
         </form>
       </div>
       <div>
@@ -108,7 +120,7 @@
                   'has-text-info-dark': idx === 0 && day >= lastMonthStart,
                   'has-text-danger': dates.length - 1 === idx && nextMonthStart > day,
                   'has-text-primary': day === today && month === currentMonth && year === currentYear
-                  }">
+                }">
                   {{ day }}
                 </td>
               </tr>
@@ -128,7 +140,7 @@
 
 <script>
 export default {
- data() {
+  data() {
     return {
       days: [
         '일요일',
@@ -231,17 +243,18 @@ export default {
       this.nextMonthStart = weekOfDays[0]; // 이번 달 마지막 주에서 제일 작은 날짜
       return dates;
     },
+
   }
 };
 </script>
 
 <style scoped>
-
 .total {
   z-index: auto;
   margin: 0 auto;
   padding: 150px;
 }
+
 .box {
   margin-top: 100px;
   /* float: left; */
@@ -250,92 +263,126 @@ export default {
   justify-content: center;
   /* align-items: center; */
 }
+
 img {
   vertical-align: middle;
   cursor: pointer;
 }
+
 .map {
   max-width: 500px;
   /* position: relative;
   top: 0;
   left: 0; */
 }
-.sec1, .sec2, .sec3 {
+
+.sec1,
+.sec2,
+.sec3 {
   position: absolute;
 }
+
 .center {
   max-width: 170px;
   position: absolute;
   top: 24px;
   left: 13px;
-} 
+}
+
 .gang {
   max-width: 225px;
   position: absolute;
   left: 114px;
   top: 1px;
 }
+
 .K1 {
   position: absolute;
   top: 172px;
   max-width: 178px;
   left: 188px;
 }
+
 .K2 {
   position: absolute;
   max-width: 190px;
   top: 333px;
   left: 162px;
 }
+
 .C1 {
   position: absolute;
   max-width: 135px;
   top: 156px;
   left: 126px;
 }
+
 .C2 {
   position: absolute;
   max-width: 156px;
   top: 182px;
   left: 5px;
 }
+
 .J1 {
   position: absolute;
   max-width: 150px;
   top: 300px;
   left: 36px;
 }
+
 .J2 {
   position: absolute;
   max-width: 176px;
   top: 388px;
   left: -2px;
 }
+
 .JJ {
   position: absolute;
   max-width: 81px;
   top: 575px;
   left: 2px;
 }
+
 .I {
   position: absolute;
   max-width: 59px;
   top: 189px;
   left: 439px;
 }
-.center:hover, .C1:hover, .C2:hover, .J1:hover, .J2:hover, .JJ:hover {
+
+.center:hover,
+.C1:hover,
+.C2:hover,
+.J1:hover,
+.J2:hover,
+.JJ:hover {
   transform: translateX(-5px);
   transition: 0.3s;
 }
-.gang:hover, .K1:hover, .K2:hover, .I:hover {
+
+.gang:hover,
+.K1:hover,
+.K2:hover,
+.I:hover {
   transform: translateX(5px);
   transition: 0.3s;
 }
-#location, #filter, #date {
+
+#location,
+#filter,
+#date {
   padding: 100px;
 }
+
 .moveToListBtn {
   padding: 10px;
 }
-  
+
+form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 </style>
