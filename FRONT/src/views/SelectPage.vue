@@ -46,44 +46,41 @@
       <h3>옵션 선택</h3>
       <div>
         <form>
-          <span>인원 :
+          <div>인원 :
             <input type="number">
             명
-          </span>
+          </div>
           <br>
 
-          <span>성별 : </span>
-          <label for="female">여성</label>
+          <div>성별 :
+                      <label for="female">여성</label>
           <input type="radio" id="female" name="gender" value="female">
           <label for="male">남성</label>
           <input type="radio" id="male" name="gender" value="male">
           <label for="nolimit_gender">혼성</label>
           <input type="radio" id="nolimit_gender" name="gender" value="other">
+          </div>
+
           <br>
 
           <!-- select option으로 바꾸기 나이제한없음, 20, 30, 40, 50, 20~30, 30~40, 40~50대(value값: 0~8)-->
           <!-- 테이블 t_age 사용할 것 -->
-          <span>연령대 : </span>
-          <table>
-            <tr>
-              <td>
-                <select>
-                  <option value="20s">20대</option>
-                  <option value="30s">30대</option>
-                  <option value="40s">40대</option>
-                  <option value="50s">50대</option>
-                  <option value="20s30s">20~30대</option>
-                  <option value="30s40s">30~40대</option>
-                  <option value="40s50s">40~50대</option>
-                  <option value="nolimit_age">제한없음</option>
-                </select>
-              </td>
-            </tr>
-          </table>
+          <div>연령대 :
+            <select>
+              <option value="1">20대</option>
+              <option value="2">30대</option>
+              <option value="3">40대</option>
+              <option value="4">50대</option>
+              <option value="5">20~30대</option>
+              <option value="6">30~40대</option>
+              <option value="7">40~50대</option>
+              <option value="0">제한없음</option>
+            </select>
+          </div>
 
-          <span>비용 :
+          <div>비용 :
             <input type="number" step="1000">~<input type="number" step="1000">원
-          </span>
+          </div>
 
 
         </form>
@@ -378,11 +375,5 @@ img {
 
 .moveToListBtn {
   padding: 10px;
-}
-
-form {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
 }
 </style>
