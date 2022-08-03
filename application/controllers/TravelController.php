@@ -53,7 +53,7 @@ class TravelController extends Controller{
             case _DELETE:
                 $itravel = $urlPaths[3];
                 $param["itravel"] = $itravel;
-                return [_RESULT => $this->model->travelDelteFav($param)];           
+                return [_RESULT => $this->model->travelDeleteFav($param)];           
         }
     }
 
