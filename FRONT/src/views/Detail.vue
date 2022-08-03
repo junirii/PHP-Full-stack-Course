@@ -1,6 +1,8 @@
 <template>
-
+<div class="location">
   <div class="container">
+    <h1>Detail</h1>
+
     <!-- 디테일 섹션1 - 간단 정보(필터)-->
     <div class="row">
       <div class="col">{{ data.hostUser.main_img }}</div>
@@ -55,7 +57,7 @@
     </div>
 
   </div> <!-- container 닫기 -->
-
+</div>
 </template>
 
 <script>
@@ -85,6 +87,11 @@ export default {
 </script>
 
 <style scoped>
+.location {
+  z-index: auto;
+  margin: 0 auto;
+  padding: 150px;
+}
 .accordion {
   width: 60vw;
   margin: 0 auto;

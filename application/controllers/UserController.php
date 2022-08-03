@@ -71,4 +71,19 @@ class UserController extends Controller
     return [_RESULT => $data];
     // return $this->model->myPage($param);
   }
+
+  public function myAccount()
+  {
+    $urlPaths = getUrlPaths();
+    $param = [
+      "iuser" => intval($urlPaths[2]) // iuser 타인으로 바꾸기
+    ];
+
+    $selUser = $this->model->selUser($param);
+
+    $data = [
+      "selUser" => $selUser,
+    ];
+    return [_RESULT => $data];
+  }
 }
