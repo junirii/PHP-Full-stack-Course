@@ -46,20 +46,6 @@
       <div>
         <div class="title"><i class="fa-solid fa-comment"></i>리뷰</div>
         <div :key="item.icmt" v-for="item in myPageCmt">
-          <span>{{ item.profile_img }} {{ item.nick }} {{ item.cmt }} {{ item.reg_dt }} </span>
-        </div>
-
-        <div>
-          <input v-model="cmt" type="textarea">
-          <input type="submit" value="등록">
-        </div>
-      </div>
-
-      <!-- 마이페이지 섹션3 - 리뷰-->
-
-      <div>
-        <div class="title"><i class="fa-solid fa-comment"></i>리뷰</div>
-        <div :key="item.icmt" v-for="item in myPageCmt">
           <span>{{ item.title }} {{ item.cmt }} {{ item.profile_img }} {{ item.nick }} {{ item.reg_dt }} </span>
         </div>
 
