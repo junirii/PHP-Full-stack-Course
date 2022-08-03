@@ -1,4 +1,5 @@
 <template>
+    <div class="create_box"></div>
     <div>
         <span>글 제목</span>
         <input type="text" placeholder="제목" v-model="travel.title">
@@ -126,7 +127,7 @@ export default {
             this.getLocationList(this.selectedArea);
         },
         async travelInsert() {
-            const inputFile = document.querySelector('#file');
+            const inputFile = document.querySelector('#inputImg');
             console.log(inputFile.files[0].name);
             this.travel.main_img = inputFile.files[0].name;
             this.travel.area = this.selectedArea;

@@ -34,7 +34,17 @@ class TravelController extends Controller{
         $param = [
             "itravel" => intval($urlPaths[2])
         ];
-        return $this->model->detail($param);
+        $hostUser = $this->model->selUserByItravel($param);
+        $travelData = $this->model->selTravelByItravel($param);
+        $day = $this->model->selDayByItravel($param);
+        $ctnt = $this->model->selCtntByItravel($param);
+        $data = [
+            "hostUser" => $hostUser,
+            "day" => $day,
+            "ctnt" => $ctnt,
+            "travelData" => $travelData
+        ];
+        return [_RESULT => $data];
     }
     // 좋아요한 게시물
     public function travelFav() {
