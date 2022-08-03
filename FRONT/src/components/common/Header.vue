@@ -19,6 +19,9 @@
                 <router-link :to="{ path: '/Create' }">
                     <li v-if="this.$store.state.isLogin" class="dropdown-item">여행 호스팅 하기</li>
                 </router-link>
+                <router-link :to="{ path: '/List' }">
+                    <li v-if="this.$store.state.isLogin" class="dropdown-item">전체 리스트</li>
+                </router-link>
                 <li v-if="this.$store.state.isLogin" class="dropdown-item" @click="logout">로그아웃</li>
                 <li v-if="!this.$store.state.isLogin" class="dropdown-item" @click="logout">로그인</li>
             </ul>
