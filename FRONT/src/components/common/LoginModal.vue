@@ -23,7 +23,7 @@
               <div v-if="login" class="modal-login-button">
                 <slot name="footer">
                   <button type="submit">로그인</button>
-                  <button type="button" @click="$emit('close')">취소</button>
+                  <button type="button" @click="$emit('close'); showLogin();">취소</button>
                 </slot>
               </div>
             </div>
@@ -162,6 +162,9 @@ export default {
         this.$swal.fire('일치하는 회원이 없습니다.', '', 'error'); //로그인 실패
       }else{
         this.$store.commit('user', res.result); //로그인 성공
+        this.$store.state.isLogin = true;
+        console.log(this.$store.state.user);
+        console.log(this.$store.state.isLogin);
         this.$emit('close');
         this.$emit('update');
       }

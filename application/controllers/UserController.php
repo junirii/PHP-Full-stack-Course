@@ -57,18 +57,43 @@ class UserController extends Controller
 
     $myPageHost = $this->model->myPageHost($param); // 함수 쓰는법
     $myPageTravelState = $this->model->myPageTravelState($param);
-    $myPageCmt = $this->model->myPageCmt($param);
     $myPageTravelFav = $this->model->myPageTravelFav($param);
     $selUser = $this->model->selUser($param);
+    $param["loginIuser"] = intval($urlPaths[3]);
+    $guestTravel = $this->model->selGuestTravel($param);
 
     $data = [
       "myPageTravelFav" => $myPageTravelFav,
       "myPageHost" => $myPageHost,
       "myPageTravelState" => $myPageTravelState,
-      "myPageCmt" => $myPageCmt,
       "selUser" => $selUser,
+      "guestTravel" => $guestTravel
     ];
     return [_RESULT => $data];
     // return $this->model->myPage($param);
+  }
+
+  public function getCmt(){
+    switch (getMethod()) {
+      case _GET:
+        $urlPaths = getUrlPaths();
+        $param = [
+          "iuser" => intval($urlPaths[2]),
+        ];
+        return [_RESULT => $this->model->myPageCmt($param)];
+    }
+  }
+
+  public function insCmt(){
+    switch (getMethod()) {
+      case _POST:
+        $json = getJson();
+        $param = [
+        "itravel" => $json["itravel"],
+        "guest_iuser" => $json["guest_iuser"],
+        "cmt" => $json["cmt"],
+        ];
+        return [_RESULT => $this->model->insMypageCmt($param)];
+    }
   }
 }

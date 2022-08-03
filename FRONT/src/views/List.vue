@@ -42,7 +42,6 @@ export default {
   methods: {
     async travelList() {
       this.list = await this.$get('/travel/travelList');
-      // console.log(this.list);
     },
     async goToDetail(itravelNum) {
       this.$router.push({name: 'detail', params: {itravel: itravelNum}});

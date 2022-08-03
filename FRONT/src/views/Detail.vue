@@ -1,8 +1,9 @@
 <template>
+  <div class="create_box"></div>
   <div class="container">
     <!-- 디테일 섹션1 - 간단 정보(필터)-->
     <div class="row">
-      <div class="col">{{ data.hostUser.main_img }}</div>
+      <div class="col">메인이미지 : {{ data.travelData.main_img }}</div>
       <div class="col">
         <div>{{ data.hostUser.title }}</div>
         <div>지역 : {{ data.travelData.area }} / {{ data.travelData.location }}</div>
@@ -92,4 +93,8 @@ export default {
 </script>
 
 <style scoped>
+.create_box {
+    margin: 0 auto;
+    padding: 150px;
+}
 </style>

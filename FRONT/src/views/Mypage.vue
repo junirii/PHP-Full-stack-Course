@@ -1,4 +1,5 @@
 <template>
+  <div class="create_box"></div>
   <div class="container">
     <!-- 마이페이지 섹션1 - 프로필 -->
     <div class="mypage_profile">
@@ -42,13 +43,21 @@
     <br>
 
     <!-- 마이페이지 섹션3 - 리뷰-->
+
     <div>
-    <div class="title"><i class="fa-solid fa-comment"></i>리뷰</div>
-    <div :key="item.icmt" v-for="item in myPageCmt">
-    <span>{{item. profile_img}} {{ item.nick }} {{ item.cmt }} {{ item.reg_dt }} </span>
-    </div>
-    <div><input type="textarea">
-    <input type="submit" value="등록"></div>
+      <div class="title"><i class="fa-solid fa-comment"></i>리뷰</div>
+      <div :key="item.icmt" v-for="item in myPageCmt">
+        <span>{{item.title}} {{ item.cmt }} {{ item.profile_img }} {{ item.nick }} {{ item.reg_dt }} </span>
+      </div>
+
+      <div>
+        <select v-model="selectedTravel">
+          <option value="" selected>참여한 여행(selected 안됨)</option>
+          <option :value="item.itravel" :key="item.itravel" v-for="item in guestTravel">{{item.title}}</option>
+        </select>
+        <input v-model="cmt" type="textarea" @keyup="enter($event)">
+        <input type="submit" value="등록" @click="insCmt">
+      </div>
     </div>
 
   </div> <!-- container 닫기 -->
@@ -64,8 +73,11 @@ export default {
       myPageTravelState: [],
       myPageCmt: [],
       selUser: {},
+      guestTravel: [],
+      selectedTravel: null,
       feedIuser: 0,
-      loginIuser: 0
+      loginIuser: 0,
+      cmt: ''
     }
   },
   methods: {
@@ -76,22 +88,46 @@ export default {
       console.log('feedIuser : ' + this.feedIuser);
       console.log('loginIuser : ' + this.loginIuser);
 
-      this.data = await this.$get(`/user/myPage/${this.feedIuser}`, {}); // controllers / method
+      this.data = await this.$get(`/user/myPage/${this.feedIuser}/${this.loginIuser}`, {}); // controllers / method
+      console.log(this.data);
       this.myPageTravelFav = this.data.result.myPageTravelFav;
       this.myPageHost = this.data.result.myPageHost;
       this.myPageTravelState = this.data.result.myPageTravelState;
-      this.myPageCmt = this.data.result.myPageCmt;
       this.selUser = this.data.result.selUser;
+      this.guestTravel = this.data.result.guestTravel;
     },
-    async goToDetailFromMyPage(iboardNum) { // 클릭시 여행게시물로 이동
-      this.$router.push({name: 'detail', params: {iboard: iboardNum}});
+    async goToDetailFromMyPage(itravelNum) { // 클릭시 여행게시물로 이동
+      this.$router.push({ name: 'detail', params: { itravel: itravelNum } });
     },
-    async comment() { // 댓글기능
-      const comment = await this.$post('/user/comment', params);
+    async insCmt() { // 댓글삽입기능
+      const res = await this.$post('/user/insCmt', {
+        itravel: this.selectedTravel,
+        guest_iuser: this.loginIuser,
+        cmt: this.cmt
+      });
+      console.log(res.result);
+      if(res.result === 1){
+        this.selectedTravel = 0;
+        this.cmt = '';
+        this.getCmt();
+      }
+    },
+    async getCmt() {
+      const res = await this.$get(`/user/getCmt/${this.feedIuser}`, {});
+      console.log(res.result)
+      if(res){
+        this.myPageCmt = res.result;
+      }
+    },
+    enter(e){
+      if(e.key === 'Enter'){
+        this.insCmt();
+      }
     }
   },
   created() {
     this.getMyPage();
+    this.getCmt();
   }
 }
 
@@ -126,6 +162,11 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.create_box {
+    margin: 0 auto;
+    padding: 100px;
 }
 </style>
 
