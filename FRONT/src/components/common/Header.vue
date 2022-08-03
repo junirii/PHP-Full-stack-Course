@@ -3,9 +3,10 @@
         <router-link :to="{ path: '/' }">
             <h2 class="logo">여행어쩌구</h2>
         </router-link>
-        <nav>
-            <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="hamburger fa-solid fa-bars fa-3x dropdown"></i>
+        <nav class="navbar">
+            <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="hamburger nav-link fa-solid fa-bars fa-3x dropdown"></i>
             </a>
             <ul class="li_drop dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <router-link :to="{ path: '/Mypage' }">
@@ -26,6 +27,8 @@
 </template>
 
 <script>
+// import Home from '/src/components/common/Home.vue';
+
 export default {
     data(){
         return {
@@ -101,12 +104,9 @@ li {
 li:hover {
     background: #285d92 !important;
 }
-/* .li_drop {
-    di
-}
 .li_drop li {
     transform: translate(0, -108%);
     transition: all 0.5s 0.1s;
     position: relative;
-} */
+}
 </style>

@@ -55,7 +55,8 @@
     </div>
     <div>
         <span>사진등록</span>
-        <img id="preview" @click="clickInputFile()" src="https://www.picng.com/upload/plus/png_plus_52132.png" width="160" height="160" style="cursor:pointer">
+        <img id="preview" @click="clickInputFile()" src="https://www.picng.com/upload/plus/png_plus_52132.png"
+            width="160" height="160" style="cursor:pointer">
         <div class="d-none">
             <input id="inputImg" @change="readURL();" type="file" name="img" accept="image/*">
         </div>
@@ -63,18 +64,81 @@
         <!-- <div>
             <label for="file">사진 등록</label>
             <input type="file" id="file" ref="files" @change="imageUpload" v-on:change="inputImgFile" />
+    <div class="create_box">
+        <div>
+            <span>글 제목</span>
+            <input type="text" placeholder="제목" v-model="travel.title">
         </div>
         <div>
-            <span>이미지</span>
-            <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
-                <div class="file-close-button" @click="imgDeleteButton" :name="file.number">
-                    X
-                </div>
-                <img :src="file.preview" />
+            <span>지역</span>
+            <select v-model="selectedArea" @change="showLocationOption()">
+                <option value="" selected>전체</option>
+                <option :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
+            </select>
+            <select v-model="selectedLocation" v-if="locationList.length > 1">
+                <option value="" selected>전체</option>
+                <option :key="item.ilocation" :value="item.ilocation" v-for="item in locationList">{{ item.location_nm }}
+                </option>
+            </select>
+        </div>
+        <div>
+            <span>성별</span>
+            <select v-model="travel.f_gender">
+                <option value="1">남</option>
+                <option value="2">여</option>
+                <option value="3">혼성</option>
+            </select>
+        </div>
+        <div>
+            <span>인원수</span>
+            <input type="number" min="0" placeholder="인원수" v-model="travel.f_people">
+        </div>
+        <div>
+            <span>비용</span>
+            <select v-model="travel.f_price">
+                <option value="1">0~5만원</option>
+                <option value="2">5~10만원</option>
+                <option value="3">10~20만원</option>
+                <option value="4">20~30만원</option>
+                <option value="5">30~40만원</option>
+                <option value="6">40~50만원</option>
+                <option value="7">50만원 이상</option>
+            </select>
+        </div>
+        <div>
+            <span>연령대</span>
+            <select v-model="travel.f_age">
+                <option value="1">20~30대</option>
+                <option value="2">30~40대</option>
+                <option value="3">40~50대</option>
+                <option value="4">제한없음</option>
+            </select>
+        </div>
+        <div>
+            <span>날짜</span>
+            <input type="date" v-model="travel.s_date"> ~ <input type="date" v-model="travel.e_date">
+        </div>
+        <div>
+            <span>사진등록</span>
+            <img id="preview" @click="clickInputFile()" src="https://www.picng.com/upload/plus/png_plus_52132.png" width="160" height="160" style="cursor:pointer">
+            <div class="d-none">
+                <input id="inputImg" @change="readURL();" type="file" name="img" accept="image/*">
             </div>
-        </div> -->
 
-    </div>
+            <div>
+                <label for="file">사진 등록</label>
+                <input type="file" id="file" ref="files" @change="imageUpload" v-on:change="inputImgFile" />
+            </div>
+            <div>
+                <span>이미지</span>
+                <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
+                    <div class="file-close-button" @click="imgDeleteButton" :name="file.number">
+                        X
+                    </div>
+                    <img :src="file.preview" />
+                </div>
+            </div> -->
+        </div>
     <div>
         <button type="button" class="btn btn-lg btn-danger" @click="travelInsert">저장</button>
     </div>
@@ -159,7 +223,7 @@ export default {
             }
         }
 
-        
+
         // imageUpload() {
         //     console.log(this.$refs.files.files);
         //     let num = -1;

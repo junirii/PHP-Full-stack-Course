@@ -22,11 +22,13 @@
               <img class="gang" src="../../mapImg/Gang.png" alt="강원도" @click="selectArea($event)">
             </div>
             <div class="sec2">
-              <img class="K1" src="../../mapImg/k.png" alt="경상북도" @click="selectArea($event)">
-              <img class="I" src="../../mapImg/island.png" alt="울릉/독도" @click="selectArea($event)">
-              <img class="C1" src="../../mapImg/chung1.png" alt="충청북도" @click="selectArea($event)">
-              <img class="C2" src="../../mapImg/chung2.png" alt="충청남도" @click="selectArea($event)">
-            </div>
+              <div class="K">
+                <img class="K1" src="../../mapImg/k.png" alt="경상북도" @click="selectArea($event)">
+                <img class="I" src="../../mapImg/island.png" alt="울릉/독도" @click="selectArea($event)">
+              </div>
+                <img class="C1" src="../../mapImg/chung1.png" alt="충청북도" @click="selectArea($event)">
+                <img class="C2" src="../../mapImg/chung2.png" alt="충청남도" @click="selectArea($event)">
+              </div>
             <div class="sec3">
               <img class="K2" src="../../mapImg/k2.png" alt="경상남도" @click="selectArea($event)">
               <img class="J1" src="../../mapImg/j1.png" alt="전라북도" @click="selectArea($event)">
@@ -400,12 +402,8 @@ img {
   transform: translateX(-5px);
   transition: 0.3s;
 }
-
-.gang:hover,
-.K1:hover,
-.K2:hover,
-.I:hover {
-  transform: translateX(5px);
+.gang:hover, .K:hover, .K2:hover {
+  transform: translateX(6px);
   transition: 0.3s;
 }
 
