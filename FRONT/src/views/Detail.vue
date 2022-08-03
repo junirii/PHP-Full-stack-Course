@@ -15,7 +15,7 @@
       </div>
     </div>
     <br>
-
+    <hr>
     <!-- 디테일 섹션2 - 호스트 정보-->
     <div class="row">
       <div class="col">{{ data.hostUser.profile_img }}</div>
@@ -25,7 +25,7 @@
       </div>
     </div>
     <br>
-
+    <hr>
     <!-- 디테일 섹션3 - 상세 정보-->
     <!-- <div :key="data.iboard" v-for="data in list">
       <div>일정</div>
@@ -60,7 +60,7 @@
     </div>
 
     <div>
-      <input type="button" value="찜하기">
+      <input type="button" value="찜하기" @click="insTravelFav">
       <input type="submit" value="신청하기">
     </div>
   </div> <!-- container 닫기 -->
@@ -71,17 +71,25 @@ export default {
   data() {
     return {
       data: [],
+      itravel: null
     }
   },
   methods: {
     async getDetail() {
-      const itravel = this.$store.state.itravel; // itravel 가져옴
-      const res = await this.$get(`/travel/detail/${itravel}`, {}); // controllers / method / 가져온itravel
+      this.itravel = this.$store.state.itravel; // itravel 가져옴
+      const res = await this.$get(`/travel/detail/${this.itravel}`, {}); // controllers / method / 가져온itravel
       this.data = res.result;
       console.log(this.data);
     },
     goToChat(){
       this.$router.push({name: 'chat'});
+    },
+    async insTravelFav(){
+      const loginIuser = this.$store.state.user.iuser;
+      const res = await this.$post(`/travel/travelFav/${loginIuser}/${this.itravel}`, {});
+      if(res.result === 1){
+        this.$swal.fire('찜 완료!', '', 'success');
+      }
     }
   },
   created() {

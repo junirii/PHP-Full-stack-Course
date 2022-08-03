@@ -14,7 +14,7 @@
       </div>
     </div>
     <br>
-
+    <hr>
     <!-- 마이페이지 섹션2 - 찜한 여행, 호스팅한 여행 , 참여한 여행-->
     <div v-if="feedIuser == loginIuser">
       <div class="title">찜한 여행</div>
