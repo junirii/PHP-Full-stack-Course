@@ -11,7 +11,9 @@
                 <router-link :to="{ path: '/Mypage' }">
                     <li v-if="this.$store.state.isLogin" class="dropdown-item">마이페이지</li>
                 </router-link>
-                <li v-if="this.$store.state.isLogin" class="dropdown-item">내 계정 관리</li>
+                <router-link :to="{ path: '/Myaccount' }">
+                    <li v-if="this.$store.state.isLogin" class="dropdown-item">내 계정 관리</li>
+                </router-link>
                 <li v-if="this.$store.state.isLogin" class="dropdown-item">DM</li>
                 <router-link :to="{ path: '/Create' }">
                     <li v-if="this.$store.state.isLogin" class="dropdown-item">여행 호스팅 하기</li>
