@@ -7,7 +7,9 @@ export default createStore({
       user: {},
       isLogin: false,
       itravel: null,
-      feedIuser: null
+      feedIuser: null,
+      filter: {},
+      selectedArea: []
     }
   },
   mutations: {

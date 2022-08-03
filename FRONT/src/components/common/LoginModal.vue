@@ -44,9 +44,9 @@
               <div><input v-model="joinUser.nm" type="text" placeholder="이름" required></div>
               <div><input v-model="joinUser.nick" type="text" placeholder="닉네임"></div>
               <div>
-                <input v-model="joinUser.gender" type="radio" id="male" name="gender" value="0" checked required>
+                <input v-model="joinUser.gender" type="radio" id="male" name="gender" value="1" checked required>
                 <label for="male">남</label>
-                <input v-model="joinUser.gender" type="radio" id="female" name="gender" value="1">
+                <input v-model="joinUser.gender" type="radio" id="female" name="gender" value="2">
                 <label for="female">여</label>
               </div>
               <div>

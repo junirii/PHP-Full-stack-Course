@@ -41,13 +41,13 @@
       <div class="accordion-item" :key="idx" v-for="(dayObj, idx) in data.day">
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
           <button class="accordion-button" type="button" data-bs-toggle="collapse"
-            data-bs-target="#panelsStayOpen-collapseOne1" aria-expanded="true"
+            :data-bs-target="`#panelsStayOpen-collapseOne${idx}`" aria-expanded="true"
             aria-controls="panelsStayOpen-collapseOne">
             DAY {{ dayObj.day }}
           </button>
         </h2>
-        <div id="panelsStayOpen-collapseOne1" class="accordion-collapse collapse show"
-          aria-labelledby="panelsStayOpen-headingOne" :key="idx" v-for="(item, idx) in data.ctnt">
+        <div :id="`panelsStayOpen-collapseOne${idx}`" class="accordion-collapse collapse show"
+          aria-labelledby="panelsStayOpen-headingOne" :key="index" v-for="(item, index) in data.ctnt">
           <div v-if="dayObj.day == item.day" class="accordion-body">
             <strong>{{ item.img }}</strong>{{ item.ctnt }} {{dayObj.day}} {{item.day}} It is shown by default, until the collapse plugin adds the
             appropriate classes that we use to style each element. These classes control the overall appearance, as well

@@ -7,17 +7,18 @@
             <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="hamburger fa-solid fa-bars fa-3x dropdown"></i>
             </a>
-                <ul class="li_drop dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <router-link :to="{ path: '/Mypage' }">
-                        <li class="dropdown-item">마이페이지</li>
-                    </router-link>
-                    <li class="dropdown-item">내 계정 관리</li>
-                    <li class="dropdown-item">DM</li>
-                    <router-link :to="{ path: '/Create' }">
-                        <li class="dropdown-item">여행 호스팅 하기</li>
-                    </router-link>
-                    <li class="dropdown-item" v-if="this.$store.state.isLogin" @click="logout">로그아웃</li>
-                </ul>
+            <ul class="li_drop dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <router-link :to="{ path: '/Mypage' }">
+                    <li v-if="this.$store.state.isLogin" class="dropdown-item">마이페이지</li>
+                </router-link>
+                <li v-if="this.$store.state.isLogin" class="dropdown-item">내 계정 관리</li>
+                <li v-if="this.$store.state.isLogin" class="dropdown-item">DM</li>
+                <router-link :to="{ path: '/Create' }">
+                    <li v-if="this.$store.state.isLogin" class="dropdown-item">여행 호스팅 하기</li>
+                </router-link>
+                <li v-if="this.$store.state.isLogin" class="dropdown-item" @click="logout">로그아웃</li>
+                <li v-if="!this.$store.state.isLogin" class="dropdown-item" @click="logout">로그인</li>
+            </ul>
         </nav>
     </header>
 </template>

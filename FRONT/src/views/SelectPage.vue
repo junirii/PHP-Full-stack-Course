@@ -5,13 +5,10 @@
         <h3>여행지 선택</h3>
       </div>
       <div>
-        시/도
-        <select>
-          <option value=""></option>
-        </select><br>
-        군/구
-        <select>
-          <option value=""></option>
+        <span>지역</span>
+        <select v-model="filter.selectedArea">
+            <option value="" selected>전체</option>
+            <option :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
         </select>
       </div>
       <!-- <router-link :to="{ path: '#' }">
@@ -21,20 +18,20 @@
         <div class="container-map">
           <a href="#filter">
             <div class="sec1">
-              <img class="center" src="../../mapImg/i.png" alt="수도권">
-              <img class="gang" src="../../mapImg/Gang.png" alt="강원도">
+              <img class="center" src="../../mapImg/i.png" alt="수도권" @click="selectArea($event)">
+              <img class="gang" src="../../mapImg/Gang.png" alt="강원도" @click="selectArea($event)">
             </div>
             <div class="sec2">
-              <img class="K1" src="../../mapImg/k.png" alt="경상북도">
-              <img class="I" src="../../mapImg/island.png" alt="울릉/독도">
-              <img class="C1" src="../../mapImg/chung1.png" alt="충청북도"><img class="C2" src="../../mapImg/chung2.png"
-                alt="충청남도">
+              <img class="K1" src="../../mapImg/k.png" alt="경상북도" @click="selectArea($event)">
+              <img class="I" src="../../mapImg/island.png" alt="울릉/독도" @click="selectArea($event)">
+              <img class="C1" src="../../mapImg/chung1.png" alt="충청북도" @click="selectArea($event)">
+              <img class="C2" src="../../mapImg/chung2.png" alt="충청남도" @click="selectArea($event)">
             </div>
             <div class="sec3">
-              <img class="K2" src="../../mapImg/k2.png" alt="경상남도">
-              <img class="J1" src="../../mapImg/j1.png" alt="전라북도">
-              <img class="J2" src="../../mapImg/j2.png" alt="전라남도">
-              <img class="JJ" src="../../mapImg/jj.png" alt="제주도">
+              <img class="K2" src="../../mapImg/k2.png" alt="경상남도" @click="selectArea($event)">
+              <img class="J1" src="../../mapImg/j1.png" alt="전라북도" @click="selectArea($event)">
+              <img class="J2" src="../../mapImg/j2.png" alt="전라남도" @click="selectArea($event)">
+              <img class="JJ" src="../../mapImg/jj.png" alt="제주도" @click="selectArea($event)">
             </div>
             <img class="map" src="../../mapImg/map_1.png" alt="map">
           </a>
@@ -47,33 +44,36 @@
       <div>
         <form>
           <span>인원</span>
-          <input type="number">
+          <input type="number" v-model="filter.f_people">
           <br>
 
           <span>성별 : </span>
-          <label for="female">여성</label>
-          <input type="radio" id="female" name="gender" value="female">
           <label for="male">남성</label>
-          <input type="radio" id="male" name="gender" value="male">
-          <label for="nolimit_gender">혼성</label>
-          <input type="radio" id="nolimit_gender" name="gender" value="other">
+          <input v-model="filter.f_gender" type="radio" id="male" name="gender" value="1">
+          <label for="female">여성</label>
+          <input v-model="filter.f_gender" type="radio" id="female" name="gender" value="2">
+          <label for="nolimit_gender">상관없음</label>
+          <input v-model="filter.f_gender" type="radio" id="nolimit_gender" name="gender" value="0">
           <br>
 
           <span>연령대 : </span>
           <!-- select option으로 바꾸기 나이제한없음, 20, 30, 40, 50, 20~30, 30~40, 40~50대(value값: 0~8)-->
           <!-- 테이블 t_age 사용할 것 -->
-          <label for="male">20~30대 </label>
-          <input type="radio" id="20s" name="age" value="male">
-          <label for="female">30~40대 </label>
-          <input type="radio" id="30s" name="age" value="female">
-          <label for="other">40~50대 </label>
-          <input type="radio" id="40s" name="age" value="other">
-          <label for="nolimit_age">제한없음</label>
-          <input type="radio" id="nolimit_age" name="age" value="other">
+          <select v-model="filter.f_age">
+            <option value="1">20대</option>
+            <option value="2">30대</option>
+            <option value="3">40대</option>
+            <option value="4">50대</option>
+            <option value="5">20~30대</option>
+            <option value="6">30~40대</option>
+            <option value="7">40~50대</option>
+            <option value="0">제한없음</option>
+          </select>
           <br>
 
-          <span>비용</span>
-          <input type="range" name="points" min="0" max="1000000">
+          <div>비용 :
+            <input v-model="filter.l_price" type="number" step="1000">~<input v-model="filter.h_price" type="number" step="1000">원
+          </div>
         </form>
       </div>
       <div>
@@ -87,9 +87,9 @@
       <h3>날짜 선택</h3>
       <div>
         출발일
-        <input type="date" name="startDay">
+        <input v-model="filter.s_date" type="date" name="startDay">
         도착일
-        <input type="date" name="endDay">
+        <input v-model="filter.e_date" type="date" name="endDay">
       </div>
       <section class="section">
         <div class="container">
@@ -118,7 +118,7 @@
       </section>
       <div class="moveToListBtn">
         <router-link :to="{ path: '/List' }">
-          <button class="btn" type="button">여행 찾기</button>
+          <button class="btn" type="button" @click="saveFilter">여행 찾기</button>
         </router-link>
       </div>
     </div>
@@ -147,6 +147,17 @@ export default {
       lastMonthStart: 0,
       nextMonthStart: 0,
       today: 0,
+      areaList: [],
+      filter: {
+        selectedArea: [],
+        f_people: 0,
+        f_gender: 0,
+        f_age: 0,
+        l_price: 0,
+        h_price: 0,
+        s_date: '',
+        e_date: ''
+      }
     };
   },
   created() { // 데이터에 접근이 가능한 첫 번째 라이프 사이클
@@ -157,6 +168,7 @@ export default {
     this.month = this.currentMonth;
     this.today = date.getDate(); // 오늘 날짜
     this.calendarData();
+    this.getAreaList();
   },
   methods: {
     calendarData(arg) { // 인자를 추가
@@ -231,6 +243,43 @@ export default {
       this.nextMonthStart = weekOfDays[0]; // 이번 달 마지막 주에서 제일 작은 날짜
       return dates;
     },
+    async getAreaList() {
+      this.areaList = await this.$get('/travel/areaList', {});
+    },
+    selectArea(e){
+      switch(e.target.alt){
+        case "수도권":
+          this.filter.selectedArea = [1, 2, 8];
+          break;
+        case '강원도':
+          this.filter.selectedArea = [9];
+          break;
+        case '충청북도':
+          this.filter.selectedArea = [10];
+          break;
+        case '충청남도':
+          this.filter.selectedArea = [6, 11];
+          break;
+        case '경상북도':
+          this.filter.selectedArea = [5, 12];
+          break;
+        case '경상남도':
+          this.filter.selectedArea = [3, 4, 13];
+          break;
+        case '전라북도':
+          this.filter.selectedArea = [14];
+          break;
+        case '전라남도':
+          this.filter.selectedArea = [7, 15];
+          break;
+        case '제주도':
+          this.filter.selectedArea = [16];
+          break;
+      }
+    },
+    saveFilter(){
+      this.$store.state.filter = this.filter;
+    }
   }
 };
 </script>

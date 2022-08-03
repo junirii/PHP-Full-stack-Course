@@ -11,7 +11,7 @@
             <option :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
         </select>
         <select v-model="selectedLocation" v-if="locationList.length > 1">
-            <option value="0" selected>전체</option>
+            <option value="" selected>전체</option>
             <option :key="item.ilocation" :value="item.ilocation" v-for="item in locationList">{{ item.location_nm }}
             </option>
         </select>

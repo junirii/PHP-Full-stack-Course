@@ -53,11 +53,8 @@ export default {
       this.travelFavList.result.forEach(item => {
         this.favItravelList.push(item.itravel);
       });
-      console.log(this.favItravelList);
     },
     heartColor(event, itravel) {
-      console.log(this.favItravelList);
-      console.log(itravel);
       if(this.favItravelList.includes(itravel)){
         return true;
       }else{
@@ -90,6 +87,8 @@ export default {
   created() {
     this.travelList();
     this.favItravel();
+    console.log(this.$store.state.filter);
+    // console.log(this.$store.state.selectedArea);
   },
 }
 
