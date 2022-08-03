@@ -1,81 +1,66 @@
 <template>
-    <div>
-        <span>글 제목</span>
-        <input type="text" placeholder="제목" v-model="travel.title">
-    </div>
-    <div>
-        <span>지역</span>
-        <select v-model="selectedArea" @change="showLocationOption()">
-            <option value="" selected>전체</option>
-            <option :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
-        </select>
-        <select v-model="selectedLocation" v-if="locationList.length > 1">
-            <option value="0" selected>전체</option>
-            <option :key="item.ilocation" :value="item.ilocation" v-for="item in locationList">{{ item.location_nm }}
-            </option>
-        </select>
-    </div>
-    <div>
-        <span>성별</span>
-        <select v-model="travel.f_gender">
-            <option value="1">남</option>
-            <option value="2">여</option>
-            <option value="3">혼성</option>
-        </select>
-    </div>
-    <div>
-        <span>인원수</span>
-        <input type="number" min="0" placeholder="인원수" v-model="travel.f_people">
-    </div>
-    <div>
-        <span>비용</span>
-        <select v-model="travel.f_price">
-            <option value="1">0~5만원</option>
-            <option value="2">5~10만원</option>
-            <option value="3">10~20만원</option>
-            <option value="4">20~30만원</option>
-            <option value="5">30~40만원</option>
-            <option value="6">40~50만원</option>
-            <option value="7">50만원 이상</option>
-        </select>
-    </div>
-    <div>
-        <span>연령대</span>
-        <select v-model="travel.f_age">
-            <option value="1">20~30대</option>
-            <option value="2">30~40대</option>
-            <option value="3">40~50대</option>
-            <option value="4">제한없음</option>
-        </select>
-    </div>
-    <div>
-        <span>날짜</span>
-        <input type="date" v-model="travel.s_date"> ~ <input type="date" v-model="travel.e_date">
-    </div>
-    <div>
-        <span>사진등록</span>
-        <img id="preview" @click="clickInputFile()" src="https://www.picng.com/upload/plus/png_plus_52132.png" width="160" height="160" style="cursor:pointer">
-        <div class="d-none">
-            <input id="inputImg" @change="readURL();" type="file" name="img" accept="image/*">
-        </div>
-
-        <!-- <div>
-            <label for="file">사진 등록</label>
-            <input type="file" id="file" ref="files" @change="imageUpload" v-on:change="inputImgFile" />
+    <div class="create_box">
+        <div>
+            <span>글 제목</span>
+            <input type="text" placeholder="제목" v-model="travel.title">
         </div>
         <div>
-            <span>이미지</span>
-            <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
-                <div class="file-close-button" @click="imgDeleteButton" :name="file.number">
-                    X
-                </div>
-                <img :src="file.preview" />
+            <span>지역</span>
+            <select v-model="selectedArea" @change="showLocationOption()">
+                <option value="" selected>전체</option>
+                <option :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
+            </select>
+            <select v-model="selectedLocation" v-if="locationList.length > 1">
+                <option value="" selected>전체</option>
+                <option :key="item.ilocation" :value="item.ilocation" v-for="item in locationList">{{ item.location_nm
+                }}
+                </option>
+            </select>
+        </div>
+        <div>
+            <span>성별</span>
+            <select v-model="travel.f_gender">
+                <option value="1">남</option>
+                <option value="2">여</option>
+                <option value="3">혼성</option>
+            </select>
+        </div>
+        <div>
+            <span>인원수</span>
+            <input type="number" min="0" placeholder="인원수" v-model="travel.f_people">
+        </div>
+        <div>
+            <span>비용</span>
+            <select v-model="travel.f_price">
+                <option value="1">0~5만원</option>
+                <option value="2">5~10만원</option>
+                <option value="3">10~20만원</option>
+                <option value="4">20~30만원</option>
+                <option value="5">30~40만원</option>
+                <option value="6">40~50만원</option>
+                <option value="7">50만원 이상</option>
+            </select>
+        </div>
+        <div>
+            <span>연령대</span>
+            <select v-model="travel.f_age">
+                <option :key="item.idx" :value="item.idx" v-for="item in ageList">{{ item.age }}</option>
+            </select>
+        </div>
+        <div>
+            <span>날짜</span>
+            <input type="date" v-model="travel.s_date"> ~ <input type="date" v-model="travel.e_date">
+        </div>
+        <div>
+            <span>사진등록</span>
+            <img id="preview" @click="clickInputFile()" src="https://www.picng.com/upload/plus/png_plus_52132.png" width="160" height="160" style="cursor:pointer">
+            <div class="d-none">
+                <input id="inputImg" @change="readURL(this);" type="file" name="img" accept="image/*">
             </div>
-        </div> -->
-
-    </div>
-    <div>
-        <button type="button" class="btn btn-lg btn-danger" @click="travelInsert">저장</button>
+        </div>
+        <div>
+            <button type="button" class="btn btn-lg btn-danger" @click="travelInsert">저장</button>
+        </div>
     </div>
 </template>
 
@@ -84,7 +69,7 @@ export default {
     data() {
         return {
             travel: {
-                iuser: 1,
+                iuser: 0,
                 title: '',
                 f_gender: 0,
                 f_price: 0,
@@ -98,18 +83,16 @@ export default {
             },
             areaList: [],
             locationList: [],
+            ageList: [],
             showLocationSelect: false,
             selectedArea: '',
             selectedLocation: '',
-            // previewImage: '',
-            // files: [],
-            // filesPreview: [],
-            // uploadImageIndex: 0,
         }
     },
     created() {
         this.getAreaList();
         this.getLocationList();
+        this.getAgeList();
     },
     methods: {
         async getAreaList() {
@@ -120,16 +103,21 @@ export default {
             this.locationList = await this.$get(`/travel/locationList/${iarea}`, {});
             console.log(this.locationList);
         },
+        async getAgeList() {
+            this.ageList = await this.$get('/travel/ageList', {});
+            console.log(this.ageList);
+        },
         showLocationOption() {
             this.selectedLocation = '';
             this.locationList = [];
             this.getLocationList(this.selectedArea);
         },
         async travelInsert() {
-            const inputFile = document.querySelector('#file');
+            const inputFile = document.querySelector('#inputImg');
             console.log(inputFile.files[0].name);
             this.travel.main_img = inputFile.files[0].name;
             this.travel.area = this.selectedArea;
+            this.travel.iuser = this.$store.state.user.iuser;
             if (this.selectedLocation) {
                 this.travel.location = this.selectedLocation;
             } else {
@@ -140,49 +128,21 @@ export default {
             this.$swal.fire('글작성 성공!', '', 'success');
         },
         clickInputFile() {
-            const preview = document.querySelector('#preview');
             const input = document.querySelector('#inputImg');
-            preview.addEventListener('click', () => {
-                input.click();
-            })
+            input.click();
         },
-        readURL() {
-            if (this.files && this.files[0]) {
+        readURL(input) {
+            const preview = document.getElementById('preview');
+            if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById('preview').src = this.target.result;
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
                 };
                 reader.readAsDataURL(input.files[0]);
             } else {
-                document.getElementById('preview').src = "";
+                preview.src = "";
             }
         }
-
-        
-        // imageUpload() {
-        //     console.log(this.$refs.files.files);
-        //     let num = -1;
-        //     for (let i = 0; i < this.$refs.files.files.length; i++) {
-        //         this.files = [
-        //             ...this.files,
-        //             //이미지 업로드
-        //             {
-        //                 //실제 파일
-        //                 file: this.$refs.files.files[i],
-        //                 //이미지 프리뷰
-        //                 preview: URL.createObjectURL(this.$refs.files.files[i]),
-        //                 //삭제및 관리를 위한 number
-        //                 number: i
-        //             }
-        //         ];
-        //         num = i;
-        //     }
-        //     this.uploadImageIndex = num + 1;
-        //     console.log(this.files);
-        // },
-        // inputImgFile() {
-        //     this.travel.main_img = this.$refs.files.name;
-        // },
     }
 }
 
@@ -190,6 +150,7 @@ export default {
 
 <style>
 .create_box {
+    z-index: auto;
     margin: 0 auto;
     padding: 150px;
 }

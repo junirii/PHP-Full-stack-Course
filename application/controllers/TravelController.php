@@ -28,6 +28,11 @@ class TravelController extends Controller{
         $param = [ "iarea" => $urlPaths[2] ];
         return $this->model->locationList($param);
     }
+    
+    // age List
+    public function ageList() {
+        return $this->model->ageList();
+    }
 
     public function detail() {
         $urlPaths = getUrlPaths();

@@ -40,6 +40,15 @@ class TravelModel extends Model
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
+    // age list
+    public function ageList()
+    {
+        $sql = "SELECT * FROM t_age";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function travelInsert(&$param)
     {
         $sql = "INSERT INTO t_travel
