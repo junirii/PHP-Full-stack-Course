@@ -31,9 +31,9 @@ class TravelModel extends Model
     public function locationList(&$param)
     {
         $sql = "SELECT * FROM t_area A
-        LEFT JOIN t_location B
-        ON A.iarea = B.iarea
-        WHERE A.iarea = :iarea";
+                LEFT JOIN t_location B
+                ON A.iarea = B.iarea
+                WHERE A.iarea = :iarea";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":iarea", $param["iarea"]);
         $stmt->execute();

@@ -3,42 +3,69 @@
         <router-link :to="{ path: '/' }">
             <h2 class="logo">여행어쩌구</h2>
         </router-link>
-        <nav>
-            <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="hamburger fa-solid fa-bars fa-3x dropdown"></i>
+        <nav class="navbar">
+            <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="hamburger nav-link fa-solid fa-bars fa-3x dropdown"></i>
             </a>
-                <ul class="li_drop dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <router-link :to="{ path: '/Mypage' }">
-                        <li class="dropdown-item">마이페이지</li>
-                    </router-link>
-                    <li class="dropdown-item">내 계정 관리</li>
-                    <li class="dropdown-item">DM</li>
-                    <router-link :to="{ path: '/Create' }">
-                        <li class="dropdown-item">여행 호스팅 하기</li>
-                    </router-link>
-                    <li class="dropdown-item">로그아웃</li>
-                </ul>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <router-link :to="{ path: '/Mypage' }">
+                    <li class="dropdown-item">마이페이지</li>
+                </router-link>
+                <li class="dropdown-item">내 계정 관리</li>
+                <li class="dropdown-item">DM</li>
+                <router-link :to="{ path: '/Create' }">
+                    <li class="dropdown-item">여행 호스팅 하기</li>
+                </router-link>
+                <a href="#" role="button"><li class="dropdown-item" @click="logout">로그아웃</li></a>
+                <router-link :to="{ path: '/List' }">
+                <li class="dropdown-item">전체 리스트</li>
+                </router-link>
+            </ul>
+
+            <!-- <div class="collapse" id="navbarToggleExternalContent">
+                <div class="bg-dark p-4">
+                    <h5 class="text-white h4">Collapsed content</h5>
+                    <span class="text-muted">Toggleable via the navbar brand.</span>
+                </div>
+            </div>
+            <nav class="navbar navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </nav> -->
+
         </nav>
     </header>
 </template>
 
 <script>
+// import Home from '/src/components/common/Home.vue';
+
 export default {
-    methods: {
-        async logout(){
-        if(this.isLogin === true){
-            const res = await this.$post('/user/logout');
-            if(res.result === 1){
-            this.$store.commit('user', {});
-            console.log(this.$store.state.user.iuser);
-            this.isLogin = false;
-            this.$swal.fire('로그아웃되었습니다.', '', 'success');
-            }else{
-            this.$swal.fire('로그아웃 실패', '', 'error');
-            }
-        }
-        }
-    }
+    name: 'Header',
+    // components: {
+    //     Home
+    // },
+    // methods: {
+    //     async logout(){
+    //     if(this.isLogin === true){
+    //         const res = await this.$post('/user/logout');
+    //         if(res.result === 1){
+    //         this.$store.commit('user', {});
+    //         console.log(this.$store.state.user.iuser);
+    //         this.isLogin = false;
+    //         this.$swal.fire('로그아웃되었습니다.', '', 'success');
+    //         }else{
+    //         this.$swal.fire('로그아웃 실패', '', 'error');
+    //         }
+    //     }
+    //     }
+    // }
 }
 </script>
 
@@ -82,12 +109,9 @@ li {
 li:hover {
     background: #285d92 !important;
 }
-/* .li_drop {
-    di
-}
 .li_drop li {
     transform: translate(0, -108%);
     transition: all 0.5s 0.1s;
     position: relative;
-} */
+}
 </style>

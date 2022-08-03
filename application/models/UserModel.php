@@ -29,7 +29,7 @@ class UserModel extends Model
 
   public function selUser(&$param) // mypage 프로필 띄우기
   {
-    $sql = " SELECT * FROM t_user WHERE";
+    $sql = "SELECT * FROM t_user WHERE";
     if(array_key_exists("email", $param)){
       $email = $param["email"];
       $sql .= " email = '{$email}'";
@@ -45,14 +45,13 @@ class UserModel extends Model
   /* mypage 시작 */
   public function myPageTravelFav(&$param)
   { // mypage 찜한 여행 (title 뿌리기)
-    $sql =
-      "SELECT A.itravel, A.iuser, A.reg_dt,
-      B.title, B.reg_dt, B.mod_dt, B.area, B.location, B.main_img, B.s_date, B.e_date, B.f_people, B.f_price, B.f_gender, B.f_age
-      FROM t_travel_fav A
-      INNER JOIN t_travel B
-      ON A.itravel = B.itravel
-      WHERE A.iuser = :iuser
-      ";
+    $sql ="SELECT A.itravel, A.iuser, A.reg_dt,
+                  B.title, B.reg_dt, B.mod_dt, B.area, B.location, B.main_img,
+                  B.s_date, B.e_date, B.f_people, B.f_price, B.f_gender, B.f_age
+           FROM t_travel_fav A
+           INNER JOIN t_travel B
+           ON A.itravel = B.itravel
+           WHERE A.iuser = :iuser";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
     $stmt->execute();
@@ -62,13 +61,10 @@ class UserModel extends Model
   public function myPageHost(&$param)
   // mypage 호스팅한 여행 (title 뿌리기)
   {
-    $sql =
-      " SELECT *
-      FROM t_user A
-      INNER JOIN t_travel B
-      ON A.iuser = B.iuser
-      WHERE A.iuser = :iuser
-    ";
+    $sql = "SELECT * FROM t_user A
+            INNER JOIN t_travel B
+            ON A.iuser = B.iuser
+            WHERE A.iuser = :iuser";
 
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
@@ -78,13 +74,10 @@ class UserModel extends Model
 
   public function myPageTrip(&$param)
   { // mypage 참여한 여행 (title 뿌리기)
-    $sql =
-      " SELECT *
-      FROM t_travel_state A
-      INNER JOIN t_travel B
-      ON A.itravel = B.itravel
-      WHERE A.iuser = :iuser
-    ";
+    $sql = "SELECT * FROM t_travel_state A
+            INNER JOIN t_travel B
+            ON A.itravel = B.itravel
+            WHERE A.iuser = :iuser";
 
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
@@ -94,11 +87,8 @@ class UserModel extends Model
 
   public function myPageCmt(&$param)
   { // mypage 호스트 리뷰 (list 뿌리기)
-    $sql =
-      " SELECT *
-      FROM t_mypage_cmt D
-      WHERE itravel = :itravel
-    ";
+    $sql = " SELECT * FROM t_mypage_cmt D
+             WHERE itravel = :itravel";
 
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
