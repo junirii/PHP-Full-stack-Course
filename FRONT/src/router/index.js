@@ -10,6 +10,7 @@ import Create from '../views/Create.vue';
 import Mypage from '../views/Mypage.vue';
 import SelectPage from '../views/SelectPage.vue';
 import store from '@/store';
+import Myaccount from '../views/Myaccount.vue'
 
 //네이게이션 가드
 const requireAuth = () => (to, from, next) => {
@@ -72,6 +73,12 @@ const routes = [
     path: '/mypage',
     name: 'mypage',
     component: Mypage,
+    beforeEnter: requireAuth(),
+  },
+  {
+    path: '/myaccount',
+    name: 'myaccount',
+    component: Myaccount,
     beforeEnter: requireAuth()
   }
 ]

@@ -96,4 +96,19 @@ class UserController extends Controller
         return [_RESULT => $this->model->insMypageCmt($param)];
     }
   }
+
+  public function myAccount()
+  {
+    $urlPaths = getUrlPaths();
+    $param = [
+      "iuser" => intval($urlPaths[2]) // iuser 타인으로 바꾸기
+    ];
+
+    $selUser = $this->model->selUser($param);
+
+    $data = [
+      "selUser" => $selUser,
+    ];
+    return [_RESULT => $data];
+  }
 }

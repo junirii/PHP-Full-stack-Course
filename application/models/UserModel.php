@@ -27,13 +27,13 @@ class UserModel extends Model
     return $stmt->rowCount();
   }
 
-  public function selUser(&$param) // mypage 프로필 띄우기
+  public function selUser(&$param) // mypage 프로필 띄우기, myaccount 프로필 띄우기
   {
     $sql = " SELECT * FROM t_user WHERE";
-    if(array_key_exists("email", $param)){
+    if (array_key_exists("email", $param)) {
       $email = $param["email"];
       $sql .= " email = '{$email}'";
-    }else if(array_key_exists("iuser", $param)){
+    } else if (array_key_exists("iuser", $param)) {
       $sql .= " iuser = " . $param["iuser"];
     }
 
@@ -139,4 +139,7 @@ class UserModel extends Model
     return $stmt->rowCount();
   }
   /* mypage 끝 */
+
+  // myaccount
+
 }

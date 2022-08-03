@@ -43,32 +43,35 @@
       <h3>옵션 선택</h3>
       <div>
         <form>
-          <span>인원</span>
-          <input type="number" v-model="filter.f_people">
+          <div>인원: 
+            <input type="number" v-model="filter.f_people">명
+          </div>
           <br>
 
-          <span>성별 : </span>
-          <label for="male">남성</label>
-          <input v-model="filter.f_gender" type="radio" id="male" name="gender" value="1">
-          <label for="female">여성</label>
-          <input v-model="filter.f_gender" type="radio" id="female" name="gender" value="2">
-          <label for="nolimit_gender">상관없음</label>
-          <input v-model="filter.f_gender" type="radio" id="nolimit_gender" name="gender" value="0">
+          <div>성별 : 
+            <label for="male">남성</label>
+            <input v-model="filter.f_gender" type="radio" id="male" name="gender" value="1">
+            <label for="female">여성</label>
+            <input v-model="filter.f_gender" type="radio" id="female" name="gender" value="2">
+            <label for="nolimit_gender">상관없음</label>
+            <input v-model="filter.f_gender" type="radio" id="nolimit_gender" name="gender" value="0">
+          </div>
           <br>
 
-          <span>연령대 : </span>
           <!-- select option으로 바꾸기 나이제한없음, 20, 30, 40, 50, 20~30, 30~40, 40~50대(value값: 0~8)-->
           <!-- 테이블 t_age 사용할 것 -->
-          <select v-model="filter.f_age">
-            <option value="1">20대</option>
-            <option value="2">30대</option>
-            <option value="3">40대</option>
-            <option value="4">50대</option>
-            <option value="5">20~30대</option>
-            <option value="6">30~40대</option>
-            <option value="7">40~50대</option>
-            <option value="0">제한없음</option>
-          </select>
+          <div>연령 : 
+            <select v-model="filter.f_age">
+              <option value="1">20대</option>
+              <option value="2">30대</option>
+              <option value="3">40대</option>
+              <option value="4">50대</option>
+              <option value="5">20~30대</option>
+              <option value="6">30~40대</option>
+              <option value="7">40~50대</option>
+              <option value="0">제한없음</option>
+            </select>
+          </div>
           <br>
 
           <div>비용 :
@@ -108,7 +111,7 @@
                   'has-text-info-dark': idx === 0 && day >= lastMonthStart,
                   'has-text-danger': dates.length - 1 === idx && nextMonthStart > day,
                   'has-text-primary': day === today && month === currentMonth && year === currentYear
-                  }">
+                }">
                   {{ day }}
                 </td>
               </tr>
@@ -128,7 +131,7 @@
 
 <script>
 export default {
- data() {
+  data() {
     return {
       days: [
         '일요일',
@@ -285,12 +288,12 @@ export default {
 </script>
 
 <style scoped>
-
 .total {
   z-index: auto;
   margin: 0 auto;
   padding: 150px;
 }
+
 .box {
   margin-top: 100px;
   /* float: left; */
@@ -299,92 +302,120 @@ export default {
   justify-content: center;
   /* align-items: center; */
 }
+
 img {
   vertical-align: middle;
   cursor: pointer;
 }
+
 .map {
   max-width: 500px;
   /* position: relative;
   top: 0;
   left: 0; */
 }
-.sec1, .sec2, .sec3 {
+
+.sec1,
+.sec2,
+.sec3 {
   position: absolute;
 }
+
 .center {
   max-width: 170px;
   position: absolute;
   top: 24px;
   left: 13px;
-} 
+}
+
 .gang {
   max-width: 225px;
   position: absolute;
   left: 114px;
   top: 1px;
 }
+
 .K1 {
   position: absolute;
   top: 172px;
   max-width: 178px;
   left: 188px;
 }
+
 .K2 {
   position: absolute;
   max-width: 190px;
   top: 333px;
   left: 162px;
 }
+
 .C1 {
   position: absolute;
   max-width: 135px;
   top: 156px;
   left: 126px;
 }
+
 .C2 {
   position: absolute;
   max-width: 156px;
   top: 182px;
   left: 5px;
 }
+
 .J1 {
   position: absolute;
   max-width: 150px;
   top: 300px;
   left: 36px;
 }
+
 .J2 {
   position: absolute;
   max-width: 176px;
   top: 388px;
   left: -2px;
 }
+
 .JJ {
   position: absolute;
   max-width: 81px;
   top: 575px;
   left: 2px;
 }
+
 .I {
   position: absolute;
   max-width: 59px;
   top: 189px;
   left: 439px;
 }
-.center:hover, .C1:hover, .C2:hover, .J1:hover, .J2:hover, .JJ:hover {
+
+.center:hover,
+.C1:hover,
+.C2:hover,
+.J1:hover,
+.J2:hover,
+.JJ:hover {
   transform: translateX(-5px);
   transition: 0.3s;
 }
-.gang:hover, .K1:hover, .K2:hover, .I:hover {
+
+.gang:hover,
+.K1:hover,
+.K2:hover,
+.I:hover {
   transform: translateX(5px);
   transition: 0.3s;
 }
-#location, #filter, #date {
+
+#location,
+#filter,
+#date {
   padding: 100px;
 }
+
 .moveToListBtn {
   padding: 10px;
 }
-  
 </style>

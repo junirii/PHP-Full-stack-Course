@@ -1,6 +1,8 @@
 <template>
-  <div class="create_box"></div>
+<div class="location">
   <div class="container">
+    <h1>Detail</h1>
+
     <!-- 디테일 섹션1 - 간단 정보(필터)-->
     <div class="row">
       <div class="col">메인이미지 : {{ data.travelData.main_img }}</div>
@@ -27,16 +29,8 @@
     <br>
     <hr>
     <!-- 디테일 섹션3 - 상세 정보-->
-    <!-- <div :key="data.iboard" v-for="data in list">
-      <div>일정</div>
-      <div class="row">
-        <div class="col">{{ data.day }}</div>
-        <div class="col">{{ data.img }}</div>
-        <div class="col">{{ data.ctnt }}</div>
-      </div>
-    </div>
-    <br> -->
 
+    <div>일정</div>
     <div class="accordion" id="accordionPanelsStayOpenExample">
       <div class="accordion-item" :key="idx" v-for="(dayObj, idx) in data.day">
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
@@ -49,21 +43,21 @@
         <div :id="`panelsStayOpen-collapseOne${idx}`" class="accordion-collapse collapse show"
           aria-labelledby="panelsStayOpen-headingOne" :key="index" v-for="(item, index) in data.ctnt">
           <div v-if="dayObj.day == item.day" class="accordion-body">
-            <strong>{{ item.img }}</strong>{{ item.ctnt }} {{dayObj.day}} {{item.day}} It is shown by default, until the collapse plugin adds the
-            appropriate classes that we use to style each element. These classes control the overall appearance, as well
-            as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our
-            default variables. It's also worth noting that just about any HTML can go within the
-            <code>.accordion-body</code>, though the transition does limit overflow.
+            <strong>{{ item.img }}</strong>{{ item.ctnt }} {{dayObj.day}} {{item.day}}
           </div>
         </div>
       </div>
     </div>
 
+
+
     <div>
       <input type="button" value="찜하기" @click="insTravelFav">
       <input type="submit" value="신청하기">
     </div>
+
   </div> <!-- container 닫기 -->
+</div>
 </template>
 
 <script>
@@ -100,8 +94,13 @@ export default {
 </script>
 
 <style scoped>
-.create_box {
-    margin: 0 auto;
-    padding: 150px;
+.location {
+  z-index: auto;
+  margin: 0 auto;
+  padding: 150px;
+}
+.accordion {
+  width: 60vw;
+  margin: 0 auto;
 }
 </style>

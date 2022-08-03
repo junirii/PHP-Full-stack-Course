@@ -27,6 +27,7 @@ export default {
     if(this.$store.state.user.iuser){
       this.$store.state.isLogin = true;
     }
+    console.log(this.$store.state.user);
   },
   methods: {
     showModal(){
