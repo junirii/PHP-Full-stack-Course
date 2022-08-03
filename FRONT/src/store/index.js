@@ -5,7 +5,9 @@ export default createStore({
   state(){
     return {
       user: {},
-      isLogin: false
+      isLogin: false,
+      itravel: null,
+      feedIuser: null
     }
   },
   mutations: {

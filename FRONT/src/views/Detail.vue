@@ -71,18 +71,17 @@ export default {
   data() {
     return {
       data: [],
-      itravel: ''
     }
   },
   methods: {
     async getDetail() {
-      this.itravel = this.$route.params.itravel; // itravel 가져옴
-      const res = await this.$get(`/travel/detail/${this.itravel}`, {}); // controllers / method / 가져온itravel
+      const itravel = this.$store.state.itravel; // itravel 가져옴
+      const res = await this.$get(`/travel/detail/${itravel}`, {}); // controllers / method / 가져온itravel
       this.data = res.result;
       console.log(this.data);
     },
     goToChat(){
-      this.$router.push({name: 'chat', params: {itravel: this.itravel}});
+      this.$router.push({name: 'chat'});
     }
   },
   created() {

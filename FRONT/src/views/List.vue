@@ -44,7 +44,8 @@ export default {
       this.list = await this.$get('/travel/travelList');
     },
     async goToDetail(itravelNum) {
-      this.$router.push({name: 'detail', params: {itravel: itravelNum}});
+      this.$store.state.itravel = itravelNum;
+      this.$router.push({name: 'detail'});
     },
     async favItravel() {
       this.iuser = this.$store.state.user.iuser;
@@ -81,7 +82,8 @@ export default {
       }
     },
     async goToMyPage(iuserNum) {
-      this.$router.push({name: 'mypage', params: {iuser: iuserNum}});
+      this.$store.state.feedIuser = iuserNum;
+      this.$router.push({name: 'mypage'});
     }
   },
 

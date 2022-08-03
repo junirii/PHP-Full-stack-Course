@@ -83,7 +83,7 @@ export default {
   methods: {
     async getMyPage() { // iuser
       console.log(this.$store.state.user);
-      this.feedIuser = this.$route.params.iuser;
+      this.feedIuser = this.$store.state.feedIuser;
       this.loginIuser = this.$store.state.user.iuser;
       console.log('feedIuser : ' + this.feedIuser);
       console.log('loginIuser : ' + this.loginIuser);
@@ -97,7 +97,8 @@ export default {
       this.guestTravel = this.data.result.guestTravel;
     },
     async goToDetailFromMyPage(itravelNum) { // 클릭시 여행게시물로 이동
-      this.$router.push({ name: 'detail', params: { itravel: itravelNum } });
+      this.$store.state.itravel = itravelNum;
+      this.$router.push({ name: 'detail'});
     },
     async insCmt() { // 댓글삽입기능
       const res = await this.$post('/user/insCmt', {
