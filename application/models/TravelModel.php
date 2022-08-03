@@ -77,8 +77,7 @@ class TravelModel extends Model
         FROM t_travel A
         INNER JOIN t_travel_ctnt B
         ON A.itravel = B.itravel
-        INNER JOIN t_travel_img C
-        ON A.itravel = C.itravel
+
         INNER JOIN t_user D
         ON A.iuser = D.iuser
         WHERE A.itravel = :itravel";

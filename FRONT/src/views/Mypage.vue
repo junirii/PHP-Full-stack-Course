@@ -43,14 +43,17 @@
 
     <!-- 마이페이지 섹션3 - 리뷰-->
 
-    <!-- <div>
-    <div class="title"><i class="fa-solid fa-comment"></i>리뷰</div>
-    <div :key="item.icmt" v-for="item in myPageCmt">
-    <span>{{item. profile_img}} {{ item.nick }} {{ item.cmt }} {{ item.reg_dt }} </span>
+    <div>
+      <div class="title"><i class="fa-solid fa-comment"></i>리뷰</div>
+      <div :key="item.icmt" v-for="item in myPageCmt">
+        <span>{{ item.profile_img }} {{ item.nick }} {{ item.cmt }} {{ item.reg_dt }} </span>
+      </div>
+
+      <div>
+        <input v-model="cmt" type="textarea">
+        <input type="submit" value="등록">
+      </div>
     </div>
-    <div><input type="textarea">
-    <input type="submit" value="등록"></div>
-    </div> -->
 
   </div> <!-- container 닫기 -->
 </template>
@@ -66,7 +69,8 @@ export default {
       myPageCmt: [],
       selUser: {},
       feedIuser: 0,
-      loginIuser: 0
+      loginIuser: 0,
+      cmt: ''
     }
   },
   methods: {
@@ -78,6 +82,7 @@ export default {
       console.log('loginIuser : ' + this.loginIuser);
 
       this.data = await this.$get(`/user/myPage/${this.feedIuser}`, {}); // controllers / method
+      console.log(this.data);
       this.myPageTravelFav = this.data.result.myPageTravelFav;
       this.myPageHost = this.data.result.myPageHost;
       this.myPageTravelState = this.data.result.myPageTravelState;
@@ -85,13 +90,15 @@ export default {
       this.selUser = this.data.result.selUser;
     },
     async goToDetailFromMyPage(iboardNum) { // 클릭시 여행게시물로 이동
-      this.$router.push({name: 'detail', params: {iboard: iboardNum}});
+      this.$router.push({ name: 'detail', params: { iboard: iboardNum } });
     },
-    // async comment() { // 댓글기능
-    //   const comment = await this.$post('/user/comment', {
-    //     hostiuser = 
-    //   });
-    // }
+    async insComment() { // 댓글기능
+      const res = await this.$post('/user/myPageCmt', {
+        feedIuser: this.feedIuser,
+        guest_iuser: this.loginIuser,
+        cmt: this.cmt
+      });
+    }
   },
   created() {
     this.getMyPage();

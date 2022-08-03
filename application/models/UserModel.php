@@ -30,10 +30,10 @@ class UserModel extends Model
   public function selUser(&$param) // mypage 프로필 띄우기
   {
     $sql = " SELECT * FROM t_user WHERE";
-    if(array_key_exists("email", $param)){
+    if (array_key_exists("email", $param)) {
       $email = $param["email"];
       $sql .= " email = '{$email}'";
-    }else if(array_key_exists("iuser", $param)){
+    } else if (array_key_exists("iuser", $param)) {
       $sql .= " iuser = " . $param["iuser"];
     }
 
@@ -76,7 +76,7 @@ class UserModel extends Model
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
-  public function myPageTrip(&$param)
+  public function myPageTravelState(&$param)
   { // mypage 참여한 여행 (title 뿌리기)
     $sql =
       " SELECT *
@@ -95,15 +95,34 @@ class UserModel extends Model
   public function myPageCmt(&$param)
   { // mypage 호스트 리뷰 (list 뿌리기)
     $sql =
-      " SELECT *
-      FROM t_mypage_cmt D
-      WHERE itravel = :itravel
+      "SELECT * FROM t_mypage_cmt A
+      INNER JOIN t_travel B
+      ON A.itravel = B.itravel
+      INNER JOIN t_user C
+      ON A.guest_iuser = C.iuser
+      WHERE B.iuser = :iuser
     ";
 
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+
+  public function insMypageCmt(&$param)
+  { // mypage cmt (호스트 유저에게 댓글 달기)
+    $sql =
+      "SELECT A.*, B.iuser, B.title
+      FROM t_travel_state A
+      INNER JOIN t_travel B
+      ON A.itravel = B.itravel
+      WHERE A.iuser = :iuser AND B.iuser = :iuser";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":itravel", $param["itravel"]);
+    $stmt->bindValue(":guest_iuser", $param["guest_iuser"]);
+    $stmt->bindValue(":cmt", $param["cmt"]);
+    $stmt->execute();
+    return $stmt->rowCount();
   }
   /* mypage 끝 */
 }
