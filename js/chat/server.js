@@ -35,6 +35,7 @@ io.sockets.on('connection', function(socket){
       'uid': socket.uid,
       'name': name
     };
+
     socket.emit('newUser', userObj);
 
     userList.push(userObj);
