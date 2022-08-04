@@ -145,7 +145,7 @@
             </div> -->
         </div>
         <div>
-            <button type="button" class="btn btn-lg btn-danger" @click="travelInsert">저장</button>
+            <!-- <button type="button" class="btn btn-lg btn-danger" @click="travelInsert">저장</button> -->
             <input id="inputImg" @change="readURL(this);" type="file" name="img" accept="image/*">
         </div>
         <div>
