@@ -16,7 +16,7 @@
     $ment = "${nm}님 환영합니다.";
     $log = "<a href='logout.php'><button>로그아웃</button></a>";
     $write = "<a href='write.php'><button>글쓰기</button></a>";
-    $profile = "<a href='profile.php'><button>프로필</button></a>";
+    $profile = "<a href='profile.php'><button>프로필 사진 수정</button></a>";
   }
   else
   {
