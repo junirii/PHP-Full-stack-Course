@@ -61,7 +61,6 @@ i {
 .myaccount_profile {
   border: 1px solid grey;
   border-radius: 5px;
-  width: 65vw;
 }
 
 .location {

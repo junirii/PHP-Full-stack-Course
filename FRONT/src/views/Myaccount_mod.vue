@@ -3,9 +3,10 @@
     <div class="container">
       <h1>Myaccount</h1>
       <div class="myaccount_profile">
-        <div class="myaccount_profile_img">사진<input type="text" placeholder="">{{ selUser.profile_img }}</div>
+        <div class="myaccount_profile_img">사진<span class="hidden">{{ selUser.profile_img }}</span><input v-model="selUser.profile_img"><button>수정</button></div>
         <div class="myaccount_profile_txt">
-          <div>이메일 : {{ selUser.email }} </div><i class="fa-light fa-pencil"></i>
+          <div>이메일 : <span class="hidden">{{ selUser.email }}</span><input v-model="selUser.email"><button>수정</button>
+          </div>
           <div>비밀번호 : </div>
           <div>이름 : {{ selUser.nm }} </div>
           <div>닉네임 : {{ selUser.nick }} </div>
@@ -86,14 +87,11 @@ export default {
 </script>
 
 <style scoped>
-i {
-  font-size: 40px;
-  color: #000;
-}
+
 .myaccount_profile {
   border: 1px solid grey;
   border-radius: 5px;
-  width: 65vw;
+  /* width: 65vw; */
 }
 
 .location {
@@ -107,5 +105,9 @@ i {
   justify-content: center;
   flex-direction: center;
   text-align: center;
+}
+
+.hidden {
+  display: none;
 }
 </style>
