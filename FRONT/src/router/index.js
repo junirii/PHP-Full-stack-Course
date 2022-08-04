@@ -11,6 +11,7 @@ import Mypage from '../views/Mypage.vue';
 import SelectPage from '../views/SelectPage.vue';
 import store from '@/store';
 import Myaccount from '../views/Myaccount.vue'
+import Myaccount_mod from '../views/Myaccount_mod.vue'
 
 //네이게이션 가드
 const requireAuth = () => (to, from, next) => {
@@ -79,6 +80,12 @@ const routes = [
     path: '/myaccount',
     name: 'myaccount',
     component: Myaccount,
+    beforeEnter: requireAuth()
+  },
+  {
+    path: '/myaccount_mod',
+    name: 'myaccount_mod',
+    component: Myaccount_mod,
     beforeEnter: requireAuth()
   }
 ]
