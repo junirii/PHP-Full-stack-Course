@@ -74,13 +74,13 @@ const routes = [
   {
     path: '/mypage',
     name: 'mypage',
-    component: Mypage,
+    component: MyPage,
     beforeEnter: requireAuth(),
   },
   {
     path: '/myaccount',
     name: 'myaccount',
-    component: Myaccount,
+    component: MyAccount,
     beforeEnter: requireAuth()
   },
   {

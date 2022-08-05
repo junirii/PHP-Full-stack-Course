@@ -17,3 +17,7 @@
     transform: translateY(4px);
     box-shadow: 0 4px 0 #2d7ac2;
 }
+
+:root {
+    --maincolor : #2d7ac2;
+}

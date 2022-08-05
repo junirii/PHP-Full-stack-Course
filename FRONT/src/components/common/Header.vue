@@ -9,10 +9,10 @@
                 <i class="hamburger nav-link fa-solid fa-bars fa-3x dropdown"></i>
             </a>
             <ul class="li_drop dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <router-link :to="{ path: '/Mypage' }">
+                <router-link :to="{ path: '/MyPage' }">
                     <li v-if="this.$store.state.isLogin" class="dropdown-item">마이페이지</li>
                 </router-link>
-                <router-link :to="{ path: '/Myaccount' }">
+                <router-link :to="{ path: '/MyAccount' }">
                     <li v-if="this.$store.state.isLogin" class="dropdown-item">내 계정 관리</li>
                 </router-link>
                 <li v-if="this.$store.state.isLogin" class="dropdown-item">DM</li>
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-// import Home from '/src/components/common/Home.vue';
 
 export default {
     data(){
@@ -89,8 +88,8 @@ header {
     color: white;
 }
 .hamburger {
-    color: white;
-    padding: 15px;
+    color: #285d92;
+    /* padding: 15px; */
     display: flex;
     justify-content: end;
 }

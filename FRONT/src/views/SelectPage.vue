@@ -1,5 +1,23 @@
 <template>
   <div class="total">
+    <!-- state bar -->
+    <div id="stateNav">
+      <ul>
+        <li>
+          <a href="#location"><span></span></a>
+          <div class="stateBar">지역</div>
+        </li>
+        <li>
+          <a href="#filter"><span></span></a>
+          <div class="stateBar">옵션</div>
+        </li>
+        <li>
+          <a href="#date"><span></span></a>
+          <div class="stateBar">날짜</div>
+        </li>
+      </ul>
+    </div>
+
     <div id="location">
       <div>
         <h3>여행지 선택</h3>
@@ -224,8 +242,16 @@ export default {
   margin: 0 auto;
   padding: 150px;
 }
+.sidebar {
+  width: 5px;
+  height: 500px;
+  background-color: var(--maincolor);
+  display: flex;
+  position: fixed;
+  /* bottom: 100px; */
+}
 
-.box {
+.box { /* 지도 전체 틀 */
   margin-top: 100px;
   /* float: left; */
   /* position: relative; */
