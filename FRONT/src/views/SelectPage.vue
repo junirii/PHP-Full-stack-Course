@@ -4,13 +4,6 @@
       <div>
         <h3>여행지 선택</h3>
       </div>
-      <div>
-        <span>지역</span>
-        <select v-model="filter.selectedArea">
-            <option value="" selected>전체</option>
-            <option :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
-        </select>
-      </div>
       <!-- <router-link :to="{ path: '#' }">
         <button type="button">↓</button>
       </router-link> -->
@@ -193,17 +186,16 @@ export default {
       }
     },
     moveToList(){
-      this.date.filter(item){
-        const s_year = this.date[0].getFullYear();
-        const s_month = this.date[0].getMonth() + 1;
-        const s_day = this.date[0].getDate();
-        this.filter.s_date = `${s_year}-${s_month}-${s_day}`;  
-      }
       const s_year = this.date[0].getFullYear();
-      const s_month = this.date[0].getMonth() + 1;
-      const s_day = this.date[0].getDate();
+      const s_month =  ("0" + (this.date[0].getMonth() + 1)).slice(-2);
+      const s_day = ("0" + this.date[0].getDate()).slice(-2);
       this.filter.s_date = `${s_year}-${s_month}-${s_day}`;
+
+      const e_year = this.date[1].getFullYear();
+      const e_month = ("0" + (this.date[1].getMonth() + 1)).slice(-2);
+      const e_day = ("0" + this.date[1].getDate()).slice(-2);
       this.filter.e_date = `${e_year}-${e_month}-${e_day}`;
+
       this.$store.state.filter = this.filter;
     },
     test(){
