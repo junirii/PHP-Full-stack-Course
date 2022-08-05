@@ -67,7 +67,7 @@
           <input v-model="filter.f_gender" type="radio" id="male" name="gender" value="1">
           <label for="female">여성</label>
           <input v-model="filter.f_gender" type="radio" id="female" name="gender" value="2">
-          <label for="nolimit_gender">상관없음</label>
+          <label for="nolimit_gender">혼성</label>
           <input v-model="filter.f_gender" type="radio" id="nolimit_gender" name="gender" value="3">
         </div>
         <br>
@@ -83,7 +83,7 @@
             <option value="5">20~30대</option>
             <option value="6">30~40대</option>
             <option value="7">40~50대</option>
-            <option value="0">제한없음</option>
+            <option value="8">제한없음</option>
           </select>
         </div>
         <br>

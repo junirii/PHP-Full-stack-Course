@@ -7,6 +7,7 @@ import Option from '../views/Option.vue';
 import List from '../views/List.vue';
 import Detail from '../views/Detail.vue';
 import Create from '../views/Create.vue';
+import Create_Ctnt from '../views/Create_Ctnt.vue';
 import Mypage from '../views/Mypage.vue';
 import SelectPage from '../views/SelectPage.vue';
 import store from '@/store';
@@ -79,6 +80,12 @@ const routes = [
     path: '/myaccount',
     name: 'myaccount',
     component: Myaccount,
+    beforeEnter: requireAuth()
+  },
+  {
+    path: '/create_ctnt',
+    name: 'create_ctnt',
+    component: Create_Ctnt,
     beforeEnter: requireAuth()
   }
 ]

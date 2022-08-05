@@ -102,5 +102,30 @@ class TravelController extends Controller{
         ];
         return [_RESULT => $this->model->travelDeleteFav($param)];
     }
+
+    public function uploadMainImg() {
+        $itravel = 
+        $json = getJson();
+        $image_parts = explode(";base64,", $json["image"]);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+        $dirPath = _IMG_PATH . "/travel/" . $json["travel"]["iuser"] . "/main";
+        $fileNm = uniqid() . "." . $image_type;
+        $filePath = $dirPath . "/" . $fileNm;
+        if(!is_dir($dirPath)) {
+            mkdir($dirPath, 0777, true);
+        }
+        $result = file_put_contents($filePath, $image_base64);
+        // if($result){
+        //     $param = [
+        //       "product_id" => $productId,
+        //       "type" => $type,
+        //       "path" => $fileNm
+        //     ];
+        //     $this->model->productImageInsert($param);
+        // }
+        return [_RESULT => $result ? 1 : 0];
+    }
     
 }
