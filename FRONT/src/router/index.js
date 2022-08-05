@@ -12,6 +12,7 @@ import Mypage from '../views/Mypage.vue';
 import SelectPage from '../views/SelectPage.vue';
 import store from '@/store';
 import Myaccount from '../views/Myaccount.vue'
+import MyaccountMod from '../views/Myaccountmod.vue'
 
 //네이게이션 가드
 const requireAuth = () => (to, from, next) => {
@@ -86,6 +87,12 @@ const routes = [
     path: '/create_ctnt',
     name: 'create_ctnt',
     component: Create_Ctnt,
+    beforeEnter: requireAuth()
+  },
+  {
+    path: '/myaccountmod',
+    name: 'myaccountmod',
+    component: MyaccountMod,
     beforeEnter: requireAuth()
   }
 ]
