@@ -9,7 +9,7 @@
         <div class="myaccount_profile_img">사진{{ selUser.profile_img }}</div>
         <div class="myaccount_profile_txt">
           <div>이메일 : {{ selUser.email }} </div>
-          <div>비밀번호 : </div>
+          <div>비밀번호 : <button>변경</button></div>
           <div>이름 : {{ selUser.nm }} </div>
           <div>닉네임 : {{ selUser.nick }} </div>
           <div>성별 : {{ selUser.gender }} </div>
