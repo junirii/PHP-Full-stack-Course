@@ -8,10 +8,10 @@ import List from '../views/List.vue';
 import Detail from '../views/Detail.vue';
 import Create from '../views/Create.vue';
 import Create_Ctnt from '../views/Create_Ctnt.vue';
-import Mypage from '../views/Mypage.vue';
+import MyPage from '../views/Mypage.vue';
 import SelectPage from '../views/SelectPage.vue';
 import store from '@/store';
-import Myaccount from '../views/Myaccount.vue'
+import MyAccount from '../views/Myaccount.vue'
 import MyaccountMod from '../views/Myaccountmod.vue'
 
 //네이게이션 가드
