@@ -9,10 +9,18 @@ import socketPlugin from "./plugins/socketPlugin";
 import '../../static/css/common.css';
 // import '@fortawesome/fontawesome-free/js/all.js'
 
+
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+
+
 createApp(App)
 .mixin(mixins)
 .use(store)
 .use(router)
+
+.use(Datepicker)
+
 .use(VueSweetalert2)
 .use(socketPlugin)
 .mount('#app');
