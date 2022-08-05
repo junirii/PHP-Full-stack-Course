@@ -44,61 +44,59 @@
     <div id="filter">
       <h3>옵션 선택</h3>
       <div>
-        <form>
-          <div>인원: 
-            <label for="two">2명</label>
-            <input v-model="filter.f_people" type="radio" id="two" name="people" value="2">
-            <label for="three">3명</label>
-            <input v-model="filter.f_people" type="radio" id="three" name="people" value="3">
-            <label for="four">4명</label>
-            <input v-model="filter.f_people" type="radio" id="four" name="people" value="4">
-            <label for="five">5명</label>
-            <input v-model="filter.f_people" type="radio" id="five" name="people" value="5">
-            <label for="six">6명</label>
-            <input v-model="filter.f_people" type="radio" id="six" name="people" value="6">
-            <label for="seven">7명</label>
-            <input v-model="filter.f_people" type="radio" id="seven" name="people" value="7">
-            <label for="eight">8명 이상</label>
-            <input v-model="filter.f_people" type="radio" id="eight" name="people" value="8">
-          </div>
+        <div>인원: 
+          <label for="two">2명</label>
+          <input v-model="filter.f_people" type="radio" id="two" name="people" value="2">
+          <label for="three">3명</label>
+          <input v-model="filter.f_people" type="radio" id="three" name="people" value="3">
+          <label for="four">4명</label>
+          <input v-model="filter.f_people" type="radio" id="four" name="people" value="4">
+          <label for="five">5명</label>
+          <input v-model="filter.f_people" type="radio" id="five" name="people" value="5">
+          <label for="six">6명</label>
+          <input v-model="filter.f_people" type="radio" id="six" name="people" value="6">
+          <label for="seven">7명</label>
+          <input v-model="filter.f_people" type="radio" id="seven" name="people" value="7">
+          <label for="eight">8명 이상</label>
+          <input v-model="filter.f_people" type="radio" id="eight" name="people" value="8">
+        </div>
           <br>
 
-          <div>성별 : 
-            <label for="male">남성</label>
-            <input v-model="filter.f_gender" type="radio" id="male" name="gender" value="1">
-            <label for="female">여성</label>
-            <input v-model="filter.f_gender" type="radio" id="female" name="gender" value="2">
-            <label for="nolimit_gender">상관없음</label>
-            <input v-model="filter.f_gender" type="radio" id="nolimit_gender" name="gender" value="3">
-          </div>
-          <br>
+        <div>성별 : 
+          <label for="male">남성</label>
+          <input v-model="filter.f_gender" type="radio" id="male" name="gender" value="1">
+          <label for="female">여성</label>
+          <input v-model="filter.f_gender" type="radio" id="female" name="gender" value="2">
+          <label for="nolimit_gender">상관없음</label>
+          <input v-model="filter.f_gender" type="radio" id="nolimit_gender" name="gender" value="3">
+        </div>
+        <br>
 
-          <!-- select option으로 바꾸기 나이제한없음, 20, 30, 40, 50, 20~30, 30~40, 40~50대(value값: 0~8)-->
-          <!-- 테이블 t_age 사용할 것 -->
-          <div>연령 : 
-            <select v-model="filter.f_age">
-              <option value="1">20대</option>
-              <option value="2">30대</option>
-              <option value="3">40대</option>
-              <option value="4">50대</option>
-              <option value="5">20~30대</option>
-              <option value="6">30~40대</option>
-              <option value="7">40~50대</option>
-              <option value="0">제한없음</option>
-            </select>
-          </div>
-          <br>
+        <!-- select option으로 바꾸기 나이제한없음, 20, 30, 40, 50, 20~30, 30~40, 40~50대(value값: 0~8)-->
+        <!-- 테이블 t_age 사용할 것 -->
+        <div>연령 : 
+          <select v-model="filter.f_age">
+            <option value="1">20대</option>
+            <option value="2">30대</option>
+            <option value="3">40대</option>
+            <option value="4">50대</option>
+            <option value="5">20~30대</option>
+            <option value="6">30~40대</option>
+            <option value="7">40~50대</option>
+            <option value="0">제한없음</option>
+          </select>
+        </div>
+        <br>
 
-          <div>비용 :
-            최소 <input v-model="filter.l_price" type="number" step="1000">원 ~ 최대 <input v-model="filter.h_price" type="number" step="1000">원
+        <div>비용 :
+          최소 <input v-model="filter.l_price" type="number" step="1000">원 ~ 최대 <input v-model="filter.h_price" type="number" step="1000">원
           </div>
-        </form>
-      </div>
-      <div>
-        <a href="#date">
-          <button class="btn" type="button">↓</button>
-        </a>
-      </div>
+        </div>
+        <div>
+          <a href="#date">
+            <button class="btn" type="button">↓</button>
+          </a>
+        </div>
     </div>
 
     <div id="date">
