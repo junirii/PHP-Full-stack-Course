@@ -42,9 +42,9 @@ footer {
   left: 0;
   right: 0;
 }
-.main {
-  /* flex: 1; */
-}
+/* .main {
+  flex: 1;
+} */
 
 /* nav {
   padding: 30px;
