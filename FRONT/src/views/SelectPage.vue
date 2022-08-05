@@ -193,23 +193,34 @@ export default {
       }
     },
     moveToList(){
+      this.date.filter(item){
+        const s_year = this.date[0].getFullYear();
+        const s_month = this.date[0].getMonth() + 1;
+        const s_day = this.date[0].getDate();
+        this.filter.s_date = `${s_year}-${s_month}-${s_day}`;  
+      }
+      const s_year = this.date[0].getFullYear();
+      const s_month = this.date[0].getMonth() + 1;
+      const s_day = this.date[0].getDate();
+      this.filter.s_date = `${s_year}-${s_month}-${s_day}`;
+      this.filter.e_date = `${e_year}-${e_month}-${e_day}`;
       this.$store.state.filter = this.filter;
     },
-    // test(){
-    //   console.log(this.date);
+    test(){
+      console.log(this.date);
 
-    //   const year = this.date[0].getFullYear();
-    //   const month = this.date[0].getMonth() + 1;
-    //   const day = this.date[0].getDate();
+      const year = this.date[0].getFullYear();
+      const month = this.date[0].getMonth() + 1;
+      const day = this.date[0].getDate();
 
-    //   console.log(`${year}-${month}-${day}`);
+      console.log(`${year}-${month}-${day}`);
 
-    //   const year1 = this.date[1].getFullYear();
-    //   const month1 = this.date[1].getMonth() + 1;
-    //   const day1 = this.date[1].getDate();
+      const year1 = this.date[1].getFullYear();
+      const month1 = ("0" + (this.date[1].getMonth() + 1)).slice(-2);
+      const day1 = ("0" + this.date[1].getDate()).slice(-2);
 
-    //   console.log(`${year1}-${month1}-${day1}`);
-    // }
+      console.log(`${year1}-${month1}-${day1}`);
+    }
   }
 };
 </script>
