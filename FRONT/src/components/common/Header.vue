@@ -9,10 +9,10 @@
                 <i class="hamburger nav-link fa-solid fa-bars fa-3x dropdown"></i>
             </a>
             <ul class="li_drop dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <router-link :to="{ path: '/Mypage' }">
+                <router-link :to="{ path: '/MyPage' }">
                     <li v-if="this.$store.state.isLogin" class="dropdown-item">마이페이지</li>
                 </router-link>
-                <router-link :to="{ path: '/Myaccount' }">
+                <router-link :to="{ path: '/MyAccount' }">
                     <li v-if="this.$store.state.isLogin" class="dropdown-item">내 계정 관리</li>
                 </router-link>
                 <li v-if="this.$store.state.isLogin" class="dropdown-item">DM</li>

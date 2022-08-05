@@ -1,7 +1,7 @@
 <template>
   <div class="location">
     <div class="container">
-            <h1>Myaccount</h1>
+            <h1>My Account</h1>
 
       <div class="myaccount_profile">
         <div class="myaccount_profile_img">사진{{ selUser.profile_img }}</div><i class="fa-light fa-pencil"></i>
