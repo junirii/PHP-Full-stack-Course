@@ -9,7 +9,8 @@
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
           <div><i class="fa-regular fa-paper-plane"></i>DM</div>
-          <div><i class="fa-solid fa-heart"></i>인기도</div>
+          <div><i class="fa-solid fa-heart fa"></i>인기인기</div>
+          <div><i class="fa-light fa-pencil fa"></i>인기도</div>
         </div>
       </div>
       <br>

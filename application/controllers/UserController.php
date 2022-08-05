@@ -112,18 +112,23 @@ class UserController extends Controller
     return [_RESULT => $data];
   }
 
-  public function MyAccountMod() {
-    $urlPaths = getUrlPaths();
-    $param = [
-      "iuser" => intval($urlPaths[2]) // iuser 타인으로 바꾸기
-    ];
-
-    $MyAccountMod = $this->model->MyAccountMod($param);
-
-    $data = [
-      "MyAccountMod" => $MyAccountMod,
-    ];
-    return [_RESULT => $data];
+  public function myAccountMod(){
+    switch (getMethod()) {
+      case _POST:
+        $json = getJson();
+        $param = [
+          "profile_img" => $json["profile_img"],
+          "email" => $json["email"],
+          "nm" => $json["nm"],
+          "nick" => $json["nick"],
+          "gender" => $json["gender"],
+          "birth" => $json["birth"],
+          "tel" => $json["tel"],
+          "cmt" => $json["cmt"],
+          "iuser" => $json["cmt"],
+        ];
+        return [_RESULT => $this->model->MyAccountMod($param)];
+    }
   }
 
 }
