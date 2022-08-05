@@ -46,7 +46,20 @@
       <div>
         <form>
           <div>인원: 
-            <input type="number" v-model="filter.f_people">명
+            <label for="two">2명</label>
+            <input v-model="filter.f_people" type="radio" id="two" name="people" value="2">
+            <label for="three">3명</label>
+            <input v-model="filter.f_people" type="radio" id="three" name="people" value="3">
+            <label for="four">4명</label>
+            <input v-model="filter.f_people" type="radio" id="four" name="people" value="4">
+            <label for="five">5명</label>
+            <input v-model="filter.f_people" type="radio" id="five" name="people" value="5">
+            <label for="six">6명</label>
+            <input v-model="filter.f_people" type="radio" id="six" name="people" value="6">
+            <label for="seven">7명</label>
+            <input v-model="filter.f_people" type="radio" id="seven" name="people" value="7">
+            <label for="eight">8명 이상</label>
+            <input v-model="filter.f_people" type="radio" id="eight" name="people" value="8">
           </div>
           <br>
 
@@ -56,7 +69,7 @@
             <label for="female">여성</label>
             <input v-model="filter.f_gender" type="radio" id="female" name="gender" value="2">
             <label for="nolimit_gender">상관없음</label>
-            <input v-model="filter.f_gender" type="radio" id="nolimit_gender" name="gender" value="0">
+            <input v-model="filter.f_gender" type="radio" id="nolimit_gender" name="gender" value="3">
           </div>
           <br>
 
@@ -77,7 +90,7 @@
           <br>
 
           <div>비용 :
-            <input v-model="filter.l_price" type="number" step="1000">~<input v-model="filter.h_price" type="number" step="1000">원
+            최소 <input v-model="filter.l_price" type="number" step="1000">원 ~ 최대 <input v-model="filter.h_price" type="number" step="1000">원
           </div>
         </form>
       </div>
@@ -123,7 +136,7 @@
       </section>
       <div class="moveToListBtn">
         <router-link :to="{ path: '/List' }">
-          <button class="btn" type="button" @click="saveFilter">여행 찾기</button>
+          <button class="btn" type="button" @click="moveToList">여행 찾기</button>
         </router-link>
       </div>
     </div>
@@ -158,8 +171,8 @@ export default {
         f_people: 0,
         f_gender: 0,
         f_age: 0,
-        l_price: 0,
-        h_price: 0,
+        l_price: 10000,
+        h_price: 5000000,
         s_date: '',
         e_date: ''
       }
@@ -282,7 +295,7 @@ export default {
           break;
       }
     },
-    saveFilter(){
+    moveToList(){
       this.$store.state.filter = this.filter;
     }
   }

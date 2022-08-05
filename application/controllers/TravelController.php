@@ -3,9 +3,24 @@ namespace application\controllers;
 use application\libs\application;
 
 class TravelController extends Controller{
+    public function test() {
+        // if()
+    }
     // 리스트
     public function travelList() {
-        return $this->model->travelList();
+        $json = getJson();
+
+        $param = [
+            "arr_area" => $json["filter"]["selectedArea"],
+            "s_date" => $json["filter"]["s_date"],
+            "e_date" => $json["filter"]["e_date"],
+            "f_people" => $json["filter"]["f_people"],
+            "l_price" => $json["filter"]["l_price"],
+            "h_price" => $json["filter"]["h_price"],
+            "f_gender" => $json["filter"]["f_gender"],
+            "f_age" => $json["filter"]["f_age"],
+        ];
+        return $this->model->travelList($param);
     }
 
     public function create() {

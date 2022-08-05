@@ -42,7 +42,11 @@ export default {
   },
   methods: {
     async travelList() {
-      this.list = await this.$get('/travel/travelList');
+      console.log(this.$store.state.filter);
+      const filter = this.$store.state.filter;
+      this.list = await this.$post('/travel/travelList', {
+        filter: this.$store.state.filter
+      });
     },
     async goToDetail(itravelNum) {
       this.$store.state.itravel = itravelNum;
@@ -88,8 +92,6 @@ export default {
   created() {
     this.travelList();
     this.favItravel();
-    console.log(this.$store.state.filter);
-    // console.log(this.$store.state.selectedArea);
   },
 }
 

@@ -7,12 +7,52 @@ use PDO;
 class TravelModel extends Model
 {
     // 리스트 
-    public function travelList()
+    public function travelList(&$param)
     {
+        $f_age = $param["f_age"];
+        $f_gender = $param["f_gender"];
+        $f_people = $param["f_people"];
+        $l_price = $param["l_price"];
+        $h_price = $param["h_price"];
+        $s_date = $param["s_date"];
+        $e_date = $param["e_date"];
+        $arr_area = $param["arr_area"];
+
         $sql = "SELECT * 
             FROM t_travel A
             INNER JOIN t_user B
             ON A.iuser = B.iuser";
+        if($f_age > 0){ //나이
+            $sql .= " WHERE A.f_age = {$f_age}";
+        }
+        if($f_gender > 0){ //성별
+            $sql .= " AND A.f_gender = {$f_gender}";
+        }
+        if($f_people >= 2 && $f_people < 8){ //인원
+            $sql .= " AND A.f_people = {$f_people}";
+        }else if($f_people === 8){
+            $sql .= " AND A.f_people >= 8";
+        }
+        if($l_price <= $h_price){ //비용
+            $sql .= " AND A.f_price >= {$l_price} AND A.f_price <= {$h_price}";
+        }
+        if($s_date < $e_date){ //기간
+            $sql .= " AND A.s_date >= '{$s_date}' AND A.e_date <= '{$e_date}'";
+        }
+        if(count($arr_area) > 0){ //지역
+            if(count($arr_area) === 1){
+                $sql .= " AND A.area = {$arr_area[0]}";
+            }else{
+                for ($i=0; $i < count($arr_area); $i++) { 
+                    if($i === 0){
+                        $sql .= " AND (A.area = {$arr_area[$i]}";
+                    }else{
+                        $sql .= " OR A.area = {$arr_area[$i]}";
+                    }
+                }
+                $sql .= ")";
+            }
+        }
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
