@@ -111,4 +111,19 @@ class UserController extends Controller
     ];
     return [_RESULT => $data];
   }
+
+  public function MyAccountMod() {
+    $urlPaths = getUrlPaths();
+    $param = [
+      "iuser" => intval($urlPaths[2]) // iuser 타인으로 바꾸기
+    ];
+
+    $MyAccountMod = $this->model->MyAccountMod($param);
+
+    $data = [
+      "MyAccountMod" => $MyAccountMod,
+    ];
+    return [_RESULT => $data];
+  }
+
 }

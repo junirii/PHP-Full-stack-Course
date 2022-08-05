@@ -131,6 +131,33 @@ class UserModel extends Model
   }
   /* mypage 끝 */
 
-  // myaccount
+  // myaccountmod
+  public function MyaccountMod(&$param)
+  {
+   $sql =
+    "UPDATE t_user
+      SET profile_img = :profile_img,
+          email = :email,
+          nm = :nm,
+          nick = :nick,
+          gender = :gender,
+          birth = :birth,
+          tel = :tel,
+          cmt = :cmt,
+      WHERE iuser = :iuser ;
+    ";
+  $stmt = $this->pdo->prepare($sql);
+  $stmt->bindValue(":profile_img", $param["profile_img"]);
+  $stmt->bindValue(":email", $param["email"]);
+  $stmt->bindValue(":nm", $param["nm"]);
+  $stmt->bindValue(":nick", $param["nick"]);
+  $stmt->bindValue(":gender", $param["gender"]);
+  $stmt->bindValue(":birth", $param["birth"]);
+  $stmt->bindValue(":tel", $param["tel"]);
+  $stmt->bindValue(":cmt", $param["cmt"]);
+  $stmt->bindValue(":iuser", $param["iuser"]);
+  $stmt->execute();
+  return $stmt->rowCount();
+  }
 
 }
