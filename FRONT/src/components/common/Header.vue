@@ -30,7 +30,6 @@
 </template>
 
 <script>
-// import Home from '/src/components/common/Home.vue';
 
 export default {
     data(){
@@ -89,8 +88,8 @@ header {
     color: white;
 }
 .hamburger {
-    color: white;
-    padding: 15px;
+    color: #285d92;
+    /* padding: 15px; */
     display: flex;
     justify-content: end;
 }
