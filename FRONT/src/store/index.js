@@ -9,7 +9,9 @@ export default createStore({
       itravel: null,
       feedIuser: null,
       filter: {},
-      selectedArea: []
+      selectedArea: [],
+      travel: {},
+      travelDay: 0
     }
   },
   mutations: {

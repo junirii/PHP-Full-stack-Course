@@ -10,7 +10,7 @@
             </a>
             <ul class="li_drop dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <router-link :to="{ path: '/MyPage' }">
-                    <li v-if="this.$store.state.isLogin" class="dropdown-item">마이페이지</li>
+                    <li v-if="this.$store.state.isLogin" class="dropdown-item" @click="changeFeedIuser">마이페이지</li>
                 </router-link>
                 <router-link :to="{ path: '/MyAccount' }">
                     <li v-if="this.$store.state.isLogin" class="dropdown-item">내 계정 관리</li>
@@ -38,6 +38,9 @@ export default {
         };
     },
     methods: {
+        changeFeedIuser(){
+            this.$store.state.feedIuser = this.$store.state.user.iuser;
+        },
         async logout(){
             if(this.$store.state.isLogin === true){
                 const res = await this.$post('/user/logout');

@@ -82,7 +82,6 @@ export default {
             files: [],
             filesPreview: [],
             uploadImageIndex: 0,
-            travelDay: 0
         }
     },
     created() {
@@ -95,14 +94,10 @@ export default {
             const s_date = new Date(this.travel.s_date);
             const e_date = new Date(this.travel.e_date);
             const gap = e_date.getTime() - s_date.getTime();
-            this.travelDay = gap / (1000*60*60*24) + 1;
 
-            this.$router.push({
-                name: 'create_ctnt',
-                params: {
-                    travel: this.travel,
-                    travelDay: this.travelDay
-                }});
+            this.$store.state.travel = this.travel;
+            this.$store.state.travelDay = gap / (1000*60*60*24) + 1;
+            this.$router.push({name: 'create_ctnt'});
         },
         currentDate() {
             document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);

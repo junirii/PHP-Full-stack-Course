@@ -1,20 +1,27 @@
 <template>
   <div class="create_box"></div>
   <h1>★일정★</h1>
-  <div>
-  <div>Day 1</div>
-      <label for="ctntImg"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150" style="cursor:pointer"></label>
-      <input class="d-none" type="file" id="ctntImg">
-      <textarea name="" id="" cols="20" rows="4"></textarea>
+  <div v-for="idx in travelDay">
+    <div :id="`day${idx}`">Day {{idx}}
+      <div id="ctntBox1">
+        <label for="ctntImg1"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150" style="cursor:pointer"></label>
+        <input type="file" class="d-none" id="ctntImg1" @change="addCtntImg($event, idx, 1)">
+        <textarea name="" id="" cols="20" rows="4" v-model="ctntArr[idx-1][0].ctnt"></textarea>
+      </div>
+    </div>
+    <div>
+      <button type="button" @click="addCtnt(idx)">내용 추가</button>
+      <button type="button" @click="delCtnt(idx)">내용 삭제</button>
+    </div>
+    <hr>
   </div>
 
   <div>
       <!-- <button type="button" @click="newCal()">추가</button>
       <button type="button" @click="delCal()">삭제</button> -->
   </div>
-  <hr>
   <div>
-      <!-- <button type="button" class="btn btn-lg btn-danger" @click="travelInsert">등록</button> -->
+      <button type="button" class="btn btn-lg btn-danger" @click="insTravel">등록</button>
   </div>
 </template>
 
@@ -22,19 +29,69 @@
 export default {
   data() {
     return {
-      travel: {},
-      travelDay: 0
+      travelDay: 0,
+      ctntArr: [],
+      countArr: []
     }
   },
   created() {
     this.getData();
   },
   methods: {
-    getData() {
-      this.travel = this.$route.params.travel;
-      this.travelDay = this.$route.params.travelDay;
-      console.log(this.travel);
-      console.log(this.travelDay);
+    async addCtntImg(e, dayIdx, seq) {
+      const files = e.target.files;
+      const image = await this.$base64(files[0]);
+      this.ctntArr[dayIdx-1][seq-1].img = image;
+      console.log(this.ctntArr);
+    },
+    getData() { 
+      this.travelDay = this.$store.state.travelDay;
+      for(var i=0; i<this.travelDay; i++){
+        this.ctntArr.push([{
+          ctnt: null,
+          img: null,
+          seq: 1
+        }]);
+      }
+      console.log(this.ctntArr);
+    },
+    addCtnt(idx){
+      for(var i=0; i<this.travelDay; i++){
+         this.countArr.push(2);
+      }
+      const seq = this.countArr[idx-1];
+      const divDay = document.querySelector(`#day${idx}`);
+      const ctntBox = divDay.appendChild(document.createElement('div'));
+      ctntBox.classList.add(`ctntBox${seq}`);
+      ctntBox.innerHTML = `<label for="ctntImg${seq}"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImg${seq}" type="file"><textarea name="" id="txtArea" cols="20" rows="4"></textarea>`;
+      const txtArea = document.querySelector('#txtArea');
+      console.log(this.ctntArr[idx-1][seq]);
+      // txtArea.setAttribute('v-model', this.ctntArr[idx-1][seq-1].ctnt);
+      const inputImg = document.querySelector(`#ctntImg${seq}`);
+      inputImg.addEventListener('change', async (e) => {
+        const files = e.target.files;
+        const image = await this.$base64(files[0]);
+        this.ctntArr[idx-1][seq-1].img = image;
+        console.log(this.ctntArr);
+      });
+
+      this.ctntArr[idx-1].push({
+        ctnt: null,
+        img: null,
+        seq: this.countArr[idx-1]
+      });
+      this.countArr[idx-1]++;
+    },
+    delCtnt(idx){
+      const divDay = document.querySelector(`#day${idx}`);
+      divDay.removeChild(divDay.lastChild);
+      this.countArr[idx-1]--;
+    },
+    insTravel(){
+      for(var i=0; i<this.travelDay; i++){
+        
+        this.ctntArr.push();
+      }
     }
   }
 }
