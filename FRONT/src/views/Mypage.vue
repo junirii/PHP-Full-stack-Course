@@ -78,7 +78,7 @@ export default {
       feedIuser: 0,
       loginIuser: 0,
       cmt: '',
-      selUserFav: [],
+      selUserFav: [], //수정 필요
     }
   },
   methods: {
