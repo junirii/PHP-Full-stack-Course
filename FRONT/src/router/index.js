@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
-// import SelectPage from '../views/SelectPage.vue';
 import Map from '../views/Map.vue';
 import Calender from '../views/Calender.vue';
 import Option from '../views/Option.vue';
@@ -8,11 +7,11 @@ import List from '../views/List.vue';
 import Detail from '../views/Detail.vue';
 import Create from '../views/Create.vue';
 import Create_Ctnt from '../views/Create_Ctnt.vue';
-import MyPage from '../views/Mypage.vue';
+import MyPage from '../views/MyPage.vue';
 import SelectPage from '../views/SelectPage.vue';
 import store from '@/store';
-import MyAccount from '../views/Myaccount.vue'
-import MyaccountMod from '../views/Myaccountmod.vue'
+import MyAccount from '../views/MyAccount.vue'
+import MyAccountMod from '../views/MyAccountMod.vue'
 
 //네이게이션 가드
 const requireAuth = () => (to, from, next) => {
@@ -92,7 +91,7 @@ const routes = [
   {
     path: '/myaccountmod',
     name: 'myaccountmod',
-    component: MyaccountMod,
+    component: MyAccountMod,
     beforeEnter: requireAuth()
   }
 ]

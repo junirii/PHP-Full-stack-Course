@@ -132,7 +132,7 @@ class UserModel extends Model
   /* mypage 끝 */
 
   // myaccountmod
-  public function MyaccountMod(&$param)
+  public function MyAccountMod(&$param)
   {
    $sql =
     "UPDATE t_user
@@ -143,8 +143,8 @@ class UserModel extends Model
           gender = :gender,
           birth = :birth,
           tel = :tel,
-          cmt = :cmt,
-      WHERE iuser = :iuser ;
+          cmt = :cmt
+      WHERE iuser = :iuser
     ";
   $stmt = $this->pdo->prepare($sql);
   $stmt->bindValue(":profile_img", $param["profile_img"]);

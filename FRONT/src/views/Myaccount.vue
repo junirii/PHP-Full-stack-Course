@@ -1,10 +1,8 @@
 <template>
   <div class="location">
     <div class="container">
-      <h1>Myaccount</h1><i class="fa-light fa-pencil"></i><i class="fa-light fa-pencil"></i>
-      <router-link :to="{ path: '/Myaccountmod' }">
-        <button type="button">편집</button>
-      </router-link>
+      <h1>Myaccount</h1><i class="fa-thin fa-pencil"></i>
+
       <div class="myaccount_profile">
         <div class="myaccount_profile_img">사진{{ loginUser.profile_img }}</div>
         <div class="myaccount_profile_txt">
@@ -16,11 +14,16 @@
           <div>생년월일 : {{ loginUser.birth }} </div>
           <div>전화번호 : {{ loginUser.tel }} </div>
           <div>상태메세지 : {{ loginUser.cmt }} </div>
-          <div><i class="fa-regular fa-paper-plane"></i>DM</div>
-          <div><i class="fa-solid fa-heart"></i>인기도</div>
+          <div><i class="fa-regular fa-paper-plane fa"></i>DM</div>
+          <div><i class="fa-solid fa-heart fa"></i>인기도</div>
         </div>
       </div>
 
+      <div>
+        <router-link :to="{ path: '/MyAccountMod' }">
+          <button type="button">편집</button>
+        </router-link>
+      </div>
       <br>
     </div>
   </div>
@@ -36,7 +39,7 @@ export default {
   },
   methods: {
     async getMyAccount() { // iuser
-      console.log(this.$store.state.user);
+      // console.log(this.$store.state.user);
       this.loginUser = this.$store.state.user;
     },
   },
@@ -52,9 +55,9 @@ export default {
   margin: 0 auto;
   padding: 150px;
 }
+
 .myaccount_profile {
   border: 1px solid grey;
   border-radius: 5px;
 }
-
 </style>
