@@ -53,7 +53,7 @@ export default {
                     if(result.isConfirmed){
                         this.$router.push({name: 'home'});
                     }
-                })
+                });
                 }else{
                 this.$swal.fire('로그아웃 실패', '', 'error');
                 }

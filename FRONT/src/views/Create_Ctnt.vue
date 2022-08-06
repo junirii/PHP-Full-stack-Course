@@ -108,6 +108,16 @@ export default {
         ctnt: this.ctntArr
       });
       console.log(res);
+      if(res.result){
+        this.$router.push({name: 'create_ctnt'});
+        this.$swal.fire('글 작성 성공', '', 'success')
+        .then(async result => {
+            if(result.isConfirmed){
+                this.$store.state.itravel = res.result;
+                this.$router.push({name: 'detail'});
+            }
+        });
+      }
     }
   }
 }

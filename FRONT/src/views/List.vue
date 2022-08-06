@@ -44,6 +44,7 @@ export default {
   },
   methods: {
     async travelList() {
+      console.log(`filter:`);
       console.log(this.$store.state.filter);
       const filter = this.$store.state.filter;
       console.log(filter);

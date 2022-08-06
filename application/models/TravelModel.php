@@ -88,7 +88,7 @@ class TravelModel extends Model
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-
+    //travel 추가
     public function travelInsert(&$param)
     {
         $sql = "INSERT INTO t_travel
@@ -120,6 +120,23 @@ class TravelModel extends Model
         $stmt->execute();
         return intval($this->pdo->lastInsertId());
     }
+    //ctnt 추가
+    public function insCtnt(&$param){
+        $sql = "INSERT INTO t_travel_ctnt
+                SET itravel = :itravel
+                  , day = :day
+                  , seq = :seq
+                  , ctnt = :ctnt
+                  , img = :img";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->bindValue(":day", $param["day"]);
+        $stmt->bindValue(":seq", $param["seq"]);
+        $stmt->bindValue(":ctnt", $param["ctnt"]);
+        $stmt->bindValue(":img", $param["img"]);
+        $stmt->execute();
+    }
+
     // 디테일
     public function selTravelByItravel(&$param){
         $sql = "SELECT * FROM t_travel

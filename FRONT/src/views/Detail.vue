@@ -71,6 +71,7 @@ export default {
   methods: {
     async getDetail() {
       this.itravel = this.$store.state.itravel; // itravel 가져옴
+      console.log(this.itravel);
       const res = await this.$get(`/travel/detail/${this.itravel}`, {}); // controllers / method / 가져온itravel
       this.data = res.result;
       console.log(this.data);
