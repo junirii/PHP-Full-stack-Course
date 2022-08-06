@@ -4,16 +4,21 @@
       <h1>Myaccount Mod</h1>
 
       <div class="myaccount_profile">
-        <div class="myaccount_profile_img">사진<input v-model="loginUser.profile_img"></div>
+        <div class="myaccount_profile_img">사진<input type="file"></div>
         <div class="myaccount_profile_txt">
-          <div>이메일 : <input v-model="loginUser.email"></div>
+          <div>이메일 : <input type="email" v-model="loginUser.email"></div>
           <div>비밀번호 : </div>
-          <div>이름 : <input v-model="loginUser.nm"></div>
-          <div>닉네임 : <input v-model="loginUser.nick"></div>
-          <div>성별 : <input v-model="loginUser.gender"></div>
-          <div>생년월일 : <input v-model="loginUser.birth"></div>
-          <div>전화번호 : <input v-model="loginUser.tel"></div>
-          <div>상태메세지 : <input v-model="loginUser.cmt"></div>
+          <div>이름 : <input type="text" v-model="loginUser.nm"></div>
+          <div>닉네임 : <input type="text" v-model="loginUser.nick"></div>
+          <div>성별 :
+            <input v-model="loginUser.gender" type="radio" id="male" name="gender" value="1">
+            <label for="male">남</label>
+            <input v-model="loginUser.gender" type="radio" id="female" name="gender" value="2">
+            <label for="female">여</label>
+          </div>
+          <div>생년월일 : <input type="date" v-model="loginUser.birth"></div>
+          <div>전화번호 : <input type="tel" v-model="loginUser.tel"></div>
+          <div>상태메세지 : <input type="text" v-model="loginUser.cmt"></div>
           <div><i class="fa-regular fa-paper-plane fa"></i>DM</div>
           <div><i class="fa-solid fa-heart fa"></i>인기도</div>
         </div>
@@ -38,7 +43,19 @@ export default {
   data() {
     return {
       data: [],
-      loginUser: 0, 
+      loginUser: 0,
+      loginUser: {
+        profile_img: '',
+        email: '',
+        nm: '',
+        nick: '',
+        gender: 0,
+        birth: '',
+        tel: '',
+        cmt: ''
+      },
+
+
     }
   },
   methods: {
@@ -48,18 +65,8 @@ export default {
     },
     async myAccountMod() {
       this.loginIuser = this.$store.state.user;
-      // console.log('loginIuser : ' + this.loginIuser);
 
-      // this.email = this.$store.state.user.email;
-      // console.log('email : ' + this.email);
-
-      // this.email = this.loginUser.email;
-      // console.log('email : ' + this.email);
-
-      // this.myAccountMod = await this.$get(`/user/myAccountMod/${this.loginIuser}`, {});
-      // console.log(this.myAccountMod);
-
-/*마이페이지 댓글 참고.....*/
+      /*마이페이지 댓글 참고.....*/
       const res = await this.$post('/user/myAccountMod', {
         profile_img: this.loginUser.profile_img,
         email: this.loginUser.email,
@@ -70,9 +77,6 @@ export default {
         tel: this.loginUser.tel,
         cmt: this.loginUser.cmt
       });
-
-      
-      console.log(res);
 
       if (res.result === 1) {
         this.loginUser.profile_img = '';
@@ -86,7 +90,6 @@ export default {
         this.getMyAccount();
       }
     }
-
 
   },
   created() {
