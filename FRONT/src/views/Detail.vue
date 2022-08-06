@@ -22,7 +22,7 @@
     <div class="row">
       <div class="col">{{ data.hostUser.profile_img }}</div>
       <div class="col">
-        <div>{{ data.hostUser.nm }}</div>
+        <div>{{ data.hostUser.nick }}</div>
         <div>{{ data.hostUser.cmt }}</div>
       </div>
     </div>
@@ -43,7 +43,7 @@
         <div :id="`panelsStayOpen-collapseOne${idx}`" class="accordion-collapse collapse show"
           aria-labelledby="panelsStayOpen-headingOne" :key="index" v-for="(item, index) in data.ctnt">
           <div v-if="dayObj.day == item.day" class="accordion-body">
-            <strong>{{ item.img }}</strong>{{ item.ctnt }} {{dayObj.day}} {{item.day}}
+            <strong>{{ item.img }}</strong>{{ item.ctnt }}
           </div>
         </div>
       </div>

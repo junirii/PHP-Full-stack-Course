@@ -19,14 +19,12 @@
           <div>전화번호 : <input type="tel" v-model="loginUser.tel"></div>
           <div>상태메세지 : <input type="text" v-model="loginUser.cmt"></div>
           <div><i class="fa-regular fa-paper-plane fa"></i>DM</div>
-          <div><i class="fa-solid fa-heart fa"></i>인기도</div>
+          <div><i class="fa-solid fa-heart fa"></i>인기도오케이</div>
         </div>
       </div>
 
       <div>
-        <router-link :to="{ path: '/Myaccount' }">
           <button type="button" @click="myAccountMod">수정</button>
-        </router-link>
         <router-link :to="{ path: '/Myaccount' }">
           <button type="reset">취소</button>
         </router-link>
@@ -42,17 +40,7 @@ export default {
   data() {
     return {
       data: [],
-      loginUser: 0,
-      loginUser: {
-        profile_img: '',
-        email: '',
-        nm: '',
-        nick: '',
-        gender: 0,
-        birth: '',
-        tel: '',
-        cmt: ''
-      },
+      loginUser: {},
 
 
     }
@@ -63,8 +51,6 @@ export default {
       this.loginUser = this.$store.state.user;
     },
     async myAccountMod() {
-      this.loginIuser = this.$store.state.user;
-
       /*마이페이지 댓글 참고.....*/
       const res = await this.$post('/user/myAccountMod', {
         profile_img: this.loginUser.profile_img,
@@ -74,26 +60,19 @@ export default {
         gender: this.loginUser.gender,
         birth: this.loginUser.birth,
         tel: this.loginUser.tel,
-        cmt: this.loginUser.cmt
+        cmt: this.loginUser.cmt,
+        iuser: this.loginUser.iuser
       });
-
+      console.log(res);
       if (res.result === 1) {
-        this.loginUser.profile_img = '';
-        this.loginUser.email = '';
-        this.loginUser.nm = '';
-        this.loginUser.nick = '';
-        this.loginUser.gender = 0;
-        this.loginUser.birth = 0;
-        this.loginUser.tel = 0;
-        this.loginUser.cmt = '';
-        this.getMyAccount();
+        this.$store.state.user = this.loginUser;
+        this.$router.push({name: 'myaccount'});
       }
     }
 
   },
   created() {
     this.getMyAccount();
-    this.myAccountMod();
   }
 }
 </script>
