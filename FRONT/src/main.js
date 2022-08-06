@@ -7,7 +7,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import socketPlugin from "./plugins/socketPlugin";
 import '../../static/css/common.css';
-import '@fortawesome/fontawesome-free/js/all.js'
+// import '@fortawesome/fontawesome-free/js/all.js'
 
 
 import Datepicker from '@vuepic/vue-datepicker';
