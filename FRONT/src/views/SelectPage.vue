@@ -9,8 +9,8 @@
     </div>
 
     <!-- 지역 상관 x 버튼 -->
-    <div>
-      <button>가보자고</button>
+    <div class="anywhere">
+      <button class="anywhereBtn" alt="어디든지" @click="selectArea($event)">가보자고</button>
     </div>
 
     <div id="location">
@@ -189,6 +189,9 @@ components: { Datepicker },
         case '제주도':
           this.filter.selectedArea = [16];
           break;
+        case '어디든지':
+          this.filter.selectedArea = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
+          break;
       }
     },
     moveToList(){
@@ -257,15 +260,34 @@ components: { Datepicker },
   color: var(--maincolor);
 }
 
-.state-slider {
-    position: fixed;
-    top: 460px;
-    width: 6px;
-    height: 0;
-    background: #66B1F1;
-    transition: left 0.3s ease;
+.state-slider { /* 보류 */
+  position: fixed;
+  top: 460px;
+  width: 6px;
+  height: 0;
+  background: #66B1F1;
+  transition: left 0.3s ease;
 }
+.anywhereBtn {
+  position: fixed;
+  bottom: 111px;
+  right: 220px;
+  width: 80px;
+  height: 80px;
+  z-index: 10;
 
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  border: 0px;
+  background-color: var(--maincolor);
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 8px 8 #285d92; 
+}
+.anywhereBtn:hover {
+  transition: 0.3s;
+}
 .box { /* 지도 전체 틀 */
   margin-top: 100px;
   justify-content: center;
