@@ -22,7 +22,7 @@
     <div class="row">
       <div class="col">{{ data.hostUser.profile_img }}</div>
       <div class="col">
-        <div>{{ data.hostUser.nm }}</div>
+        <div>{{ data.hostUser.nick }}</div>
         <div>{{ data.hostUser.cmt }}</div>
       </div>
     </div>

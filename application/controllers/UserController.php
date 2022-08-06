@@ -127,7 +127,7 @@ class UserController extends Controller
           "birth" => $json["birth"],
           "tel" => $json["tel"],
           "cmt" => $json["cmt"],
-          "iuser" => $json["cmt"],
+          "iuser" => $json["iuser"],
         ];
         return [_RESULT => $this->model->MyAccountMod($param)];
     }
