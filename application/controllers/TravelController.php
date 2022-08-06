@@ -1,6 +1,7 @@
 <?php
 namespace application\controllers;
 use application\libs\application;
+use Exception;
 
 class TravelController extends Controller{
     public function test() {

@@ -10,7 +10,7 @@
                 <i class="fa-solid fa-heart fa-2x abcd" v-if="heartColor(item.itravel)" style="color: red;" @click="good($event, item.itravel)"></i>
                 <i class="fa-regular fa-heart fa-2x abcd" v-if="!heartColor(item.itravel)" @click="good($event, item.itravel)"></i>
                 <!-- <div class="card-img-top" @click="goToDetail(item.itravel)">{{item.main_img}}</div> -->
-                <img src="https://d30y0swoxkbnsm.cloudfront.net/community/20200324/748d6a3d-648e-426b-a705-f47f654b6d4a/%EC%B9%B4%EB%AC%B4%EC%9D%B4.jpg" 
+                <img :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
                 @click="goToDetail(item.itravel)"
                   class="card-img-top" style="width: 20rem; height: 16rem;"
                   alt="이미지">
@@ -44,13 +44,12 @@ export default {
   },
   methods: {
     async travelList() {
-      console.log(`filter:`);
-      console.log(this.$store.state.filter);
       const filter = this.$store.state.filter;
       console.log(filter);
       this.list = await this.$post('/travel/travelList', {
       filter: this.$store.state.filter
       });
+      console.log(this.list);
     },
     async goToDetail(itravelNum) {
       this.$store.state.itravel = itravelNum;

@@ -135,6 +135,7 @@ class TravelModel extends Model
         $stmt->bindValue(":ctnt", $param["ctnt"]);
         $stmt->bindValue(":img", $param["img"]);
         $stmt->execute();
+        return $stmt->rowCount();
     }
 
     // 디테일

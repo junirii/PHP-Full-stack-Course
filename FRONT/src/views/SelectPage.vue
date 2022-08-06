@@ -10,7 +10,7 @@
 
     <!-- 지역 상관 x 버튼 -->
     <div>
-      <button>가보자고</button>
+      <button @click="goToAllList">가보자고</button>
     </div>
 
     <div id="location">
@@ -107,7 +107,6 @@
       <h3>날짜 선택</h3>
       <div>
         <Datepicker v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false" />
-        <button @click="test">asd</button>
       </div>
 
       <div class="moveToListBtn">
@@ -203,22 +202,24 @@ components: { Datepicker },
       this.filter.e_date = `${e_year}-${e_month}-${e_day}`;
 
       this.$store.state.filter = this.filter;
+      console.log(this.$store.state.filter);
     },
-    test(){
-      console.log(this.date);
+    goToAllList(){
+      this.filter = {
+        selectedArea: [],
+        f_people: 0,
+        f_gender: 0,
+        f_age: 0,
+        l_price: 10000,
+        h_price: 5000000,
+        s_date: '1900-01-01',
+        e_date: '2032-08-06',
+      };
+      this.$store.state.filter = this.filter;
+      console.log(this.$store.state.filter);
 
-      const year = this.date[0].getFullYear();
-      const month = this.date[0].getMonth() + 1;
-      const day = this.date[0].getDate();
-
-      console.log(`${year}-${month}-${day}`);
-
-      const year1 = this.date[1].getFullYear();
-      const month1 = ("0" + (this.date[1].getMonth() + 1)).slice(-2);
-      const day1 = ("0" + this.date[1].getDate()).slice(-2);
-
-      console.log(`${year1}-${month1}-${day1}`);
-    },
+      this.$router.push({name: 'list'});
+    }
   }
 };
 </script>
