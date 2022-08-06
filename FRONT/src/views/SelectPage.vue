@@ -285,8 +285,9 @@ components: { Datepicker },
   font-weight: bold;
   box-shadow: 0 8px 8 #285d92; 
 }
-.anywhereBtn:hover {
-  transition: 0.3s;
+.anywhereBtn:active {
+    transform: translateY(4px);
+    box-shadow: 0 4px 0 #2d7ac2;
 }
 .box { /* 지도 전체 틀 */
   margin-top: 100px;
