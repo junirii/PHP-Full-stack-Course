@@ -1,30 +1,22 @@
 <template>
   <div class="total">
     <!-- state bar -->
-    <div id="stateNav">
-      <ul>
-        <li>
-          <a href="#location"><span></span></a>
-          <div class="stateBar">지역</div>
-        </li>
-        <li>
-          <a href="#filter"><span></span></a>
-          <div class="stateBar">옵션</div>
-        </li>
-        <li>
-          <a href="#date"><span></span></a>
-          <div class="stateBar">날짜</div>
-        </li>
-      </ul>
+    <div class="state-tab-container">
+      <a href="#location" class="state-tab">지역</a>
+      <a href="#filter" class="state-tab">옵션</a>
+      <a href="#date" class="state-tab">날짜</a>
+      <span class="state-slider"></span>
+    </div>
+
+    <!-- 지역 상관 x 버튼 -->
+    <div>
+      <button>가보자고</button>
     </div>
 
     <div id="location">
       <div>
         <h3>여행지 선택</h3>
       </div>
-      <!-- <router-link :to="{ path: '#' }">
-        <button type="button">↓</button>
-      </router-link> -->
       <div class="box d-flex">
         <div class="container-map">
           <a href="#filter">
@@ -37,9 +29,9 @@
                 <img class="K1" src="../../mapImg/k.png" alt="경상북도" @click="selectArea($event)">
                 <img class="I" src="../../mapImg/island.png" alt="울릉/독도" @click="selectArea($event)">
               </div>
-                <img class="C1" src="../../mapImg/chung1.png" alt="충청북도" @click="selectArea($event)">
-                <img class="C2" src="../../mapImg/chung2.png" alt="충청남도" @click="selectArea($event)">
-              </div>
+              <img class="C1" src="../../mapImg/chung1.png" alt="충청북도" @click="selectArea($event)">
+              <img class="C2" src="../../mapImg/chung2.png" alt="충청남도" @click="selectArea($event)">
+            </div>
             <div class="sec3">
               <img class="K2" src="../../mapImg/k2.png" alt="경상남도" @click="selectArea($event)">
               <img class="J1" src="../../mapImg/j1.png" alt="전라북도" @click="selectArea($event)">
@@ -55,7 +47,7 @@
     <div id="filter">
       <h3>옵션 선택</h3>
       <div>
-        <div>인원: 
+        <div>인원:
           <label for="two">2명</label>
           <input v-model="filter.f_people" type="radio" id="two" name="people" value="2">
           <label for="three">3명</label>
@@ -71,9 +63,9 @@
           <label for="eight">8명 이상</label>
           <input v-model="filter.f_people" type="radio" id="eight" name="people" value="8">
         </div>
-          <br>
+        <br>
 
-        <div>성별 : 
+        <div>성별 :
           <label for="male">남성</label>
           <input v-model="filter.f_gender" type="radio" id="male" name="gender" value="1">
           <label for="female">여성</label>
@@ -85,7 +77,7 @@
 
         <!-- select option으로 바꾸기 나이제한없음, 20, 30, 40, 50, 20~30, 30~40, 40~50대(value값: 0~8)-->
         <!-- 테이블 t_age 사용할 것 -->
-        <div>연령 : 
+        <div>연령 :
           <select v-model="filter.f_age">
             <option value="1">20대</option>
             <option value="2">30대</option>
@@ -100,21 +92,22 @@
         <br>
 
         <div>비용 :
-          최소 <input v-model="filter.l_price" type="number" step="1000">원 ~ 최대 <input v-model="filter.h_price" type="number" step="1000">원
-          </div>
+          최소 <input v-model="filter.l_price" type="number" step="1000">원 ~ 최대 <input v-model="filter.h_price"
+            type="number" step="1000">원
         </div>
-        <div>
-          <a href="#date">
-            <button class="btn" type="button">↓</button>
-          </a>
-        </div>
+      </div>
+      <div>
+        <a href="#date">
+          <button class="btn" type="button">↓</button>
+        </a>
+      </div>
     </div>
 
     <div id="date">
       <h3>날짜 선택</h3>
       <div>
-     <Datepicker v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false"/>
-     <button @click="test">asd</button>
+        <Datepicker v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false" />
+        <button @click="test">asd</button>
       </div>
 
       <div class="moveToListBtn">
@@ -130,24 +123,21 @@
 <script>
 import { ref, onMounted } from 'vue';
 import Datepicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
+import '@vuepic/vue-datepicker/dist/main.css';
     
-
 export default {
- components: { Datepicker },
-   setup() {
-        const date = ref();
-
-        onMounted(() => {
-          const startDate = new Date() ;
-          const endDate = new Date(new Date().setDate(startDate.getDate()) );
-          date.value = [startDate, endDate];
-        })
-
-        return{
-          date,
-        }
-   },
+components: { Datepicker },
+  setup() {
+    const date = ref();
+    onMounted(() => {
+      const startDate = new Date() ;
+      const endDate = new Date(new Date().setDate(startDate.getDate()) );
+      date.value = [startDate, endDate];
+    })
+    return{
+      date,
+    }
+  },
   data() {
     return {
       areaList: [],
@@ -164,11 +154,9 @@ export default {
     };
   },
   created() {
-
     this.getAreaList();
   },
   methods: {
-
     async getAreaList() {
       this.areaList = await this.$get('/travel/areaList', {});
     },
@@ -230,34 +218,57 @@ export default {
       const day1 = ("0" + this.date[1].getDate()).slice(-2);
 
       console.log(`${year1}-${month1}-${day1}`);
-    }
+    },
   }
 };
 </script>
 
 <style scoped>
-/* @import '@vuepic/vue-datepicker/src/VueDatePicker/style/main.scss'; */
-.total {
+
+.total { /* 페이지 전체 */
   z-index: auto;
   margin: 0 auto;
   padding: 150px;
 }
-.sidebar {
-  width: 5px;
-  height: 500px;
-  background-color: var(--maincolor);
-  display: flex;
+
+/* state bar */
+.state-tab-container {
+  display: grid;
   position: fixed;
-  /* bottom: 100px; */
+  top: 440px;
+  left: 69px;
+  width: 100px;
+  height: 140px;
+  z-index: 10;
+}
+
+.state-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  color: var(--mainDark);
+  letter-spacing: 0.1rem;
+  transition: all 0.5s ease;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.state-tab:hover {
+  color: var(--maincolor);
+}
+
+.state-slider {
+    position: fixed;
+    top: 460px;
+    width: 6px;
+    height: 0;
+    background: #66B1F1;
+    transition: left 0.3s ease;
 }
 
 .box { /* 지도 전체 틀 */
   margin-top: 100px;
-  /* float: left; */
-  /* position: relative; */
-  /* display: flex; */
   justify-content: center;
-  /* align-items: center; */
 }
 
 img {
@@ -265,16 +276,11 @@ img {
   cursor: pointer;
 }
 
-.map {
+.map { /* 지도 밑판 */
   max-width: 500px;
-  /* position: relative;
-  top: 0;
-  left: 0; */
 }
 
-.sec1,
-.sec2,
-.sec3 {
+.sec1, .sec2, .sec3 { /* 위치별 지역 묶음 */
   position: absolute;
 }
 
@@ -347,13 +353,8 @@ img {
   top: 189px;
   left: 439px;
 }
-
-.center:hover,
-.C1:hover,
-.C2:hover,
-.J1:hover,
-.J2:hover,
-.JJ:hover {
+/* 지역별 hover 효과 */
+.center:hover, .C1:hover, .C2:hover, .J1:hover, .J2:hover, .JJ:hover {
   transform: translateX(-5px);
   transition: 0.3s;
 }
@@ -361,13 +362,13 @@ img {
   transform: translateX(6px);
   transition: 0.3s;
 }
+/* 지도 css 끝*/
 
-#location,
-#filter,
-#date {
+/* 섹션별 간격 */
+#location, #filter, #date {
   padding: 100px;
 }
-
+/* 여행찾기 버튼 */
 .moveToListBtn {
   padding: 10px;
 }

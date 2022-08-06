@@ -1,8 +1,10 @@
 <template>
   <div class="location">
     <div class="container">
-      <h1>Myaccount</h1><i class="fa-thin fa-pencil"></i>
-
+      <h1>내 계정</h1><i class="fa-light fa-pencil"></i><i class="fa-light fa-pencil"></i>
+      <router-link :to="{ path: '/MyAccountMod' }">
+        <button type="button">회원정보 수정</button>
+      </router-link>
       <div class="myaccount_profile">
         <div class="myaccount_profile_img">사진{{ loginUser.profile_img }}</div>
         <div class="myaccount_profile_txt">
