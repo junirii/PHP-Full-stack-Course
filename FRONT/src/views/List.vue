@@ -2,16 +2,17 @@
   <main class="list mt-3">
     <div class="container">   
       <div class="row">
-        <div class="col-xl-3 col-lg-4 col-md-6" style="padding: 25px;"
+        <div class="col-xl-3 col-lg-4 col-md-6" style="padding: 25px 25px 25px;"
             :key="item.itravel" v-for="item in list">
-            <div class="card" style="width: 16rem; height: 20rem; padding: 25px;">
+            <div class="card" style="width: 20rem; height: 25rem;">
               <div class="hearticon">
-                <i class="fa-solid fa-heart fa-2x" v-if="heartColor($event, item.itravel)" style="color: red;" @click="good($event, item.itravel)"></i>
-                <i class="fa-regular fa-heart fa-2x" v-if="!heartColor($event, item.itravel)" @click="good($event, item.itravel)"></i>
+                <!-- <font-awesome-icon icon="fa-solid fa-heart fa-2x abcd" v-if="heartColor(item.itravel)" style="color: red;" @click="good($event, item.itravel)"/> -->
+                <i class="fa-solid fa-heart fa-2x abcd" v-if="heartColor(item.itravel)" style="color: red;" @click="good($event, item.itravel)"></i>
+                <i class="fa-regular fa-heart fa-2x abcd" v-if="!heartColor(item.itravel)" @click="good($event, item.itravel)"></i>
                 <!-- <div class="card-img-top" @click="goToDetail(item.itravel)">{{item.main_img}}</div> -->
                 <img src="https://d30y0swoxkbnsm.cloudfront.net/community/20200324/748d6a3d-648e-426b-a705-f47f654b6d4a/%EC%B9%B4%EB%AC%B4%EC%9D%B4.jpg" 
                 @click="goToDetail(item.itravel)"
-                  class="card-img-top" style="width: 16rem; height: 16rem;"
+                  class="card-img-top" style="width: 20rem; height: 16rem;"
                   alt="이미지">
               </div>
             <div class="card-body">
@@ -24,13 +25,14 @@
               <small class="text-dark">{{ item.s_date }} ~ {{ item.e_date }}</small>
             </div>
           </div>
-        </div>         
+        </div>
       </div>
     </div>
   </main>
 </template>
 
 <script>
+
 export default {
   data() {
     return{
@@ -44,8 +46,9 @@ export default {
     async travelList() {
       console.log(this.$store.state.filter);
       const filter = this.$store.state.filter;
+      console.log(filter);
       this.list = await this.$post('/travel/travelList', {
-        filter: this.$store.state.filter
+      filter: this.$store.state.filter
       });
     },
     async goToDetail(itravelNum) {
@@ -59,7 +62,7 @@ export default {
         this.favItravelList.push(item.itravel);
       });
     },
-    heartColor(event, itravel) {
+    heartColor(itravel) {
       if(this.favItravelList.includes(itravel)){
         return true;
       }else{
@@ -97,7 +100,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .list { 
   z-index: auto;
   margin: 0 auto;
@@ -106,7 +109,7 @@ export default {
 .hearticon {
   position: relative;
 }
-i {
+.abcd{
   position : absolute;
   right: 4px;
   top: 4px; 

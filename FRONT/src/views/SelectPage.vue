@@ -119,7 +119,7 @@
 
       <div class="moveToListBtn">
         <router-link :to="{ path: '/List' }">
-          <button class="btn" type="button" @click="moveToList">여행 찾기</button>
+          <button class="btn" type="button" @click="moveToList()">여행 찾기</button>
         </router-link>
       </div>
     </div>
@@ -139,8 +139,8 @@ export default {
         const date = ref();
 
         onMounted(() => {
-          const startDate = new Date();
-          const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
+          const startDate = new Date() ;
+          const endDate = new Date(new Date().setDate(startDate.getDate()) );
           date.value = [startDate, endDate];
         })
 
@@ -159,7 +159,7 @@ export default {
         l_price: 10000,
         h_price: 5000000,
         s_date: '',
-        e_date: ''
+        e_date: '',
       }
     };
   },

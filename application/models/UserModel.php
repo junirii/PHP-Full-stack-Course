@@ -160,4 +160,38 @@ class UserModel extends Model
   return $stmt->rowCount();
   }
 
+  // ----------------- MyPage Fav ---------------
+  public function selUserFav(&$param){
+    $sql = "SELECT * FROM t_user_fav WHERE liked_iuser = :liked_iuser";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":liked_iuser", $param["liked_iuser"]);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+
+  public function userFavgood(&$param) {
+    $sql="INSERT INTO t_user_fav
+    (liking_iuser,liked_iuser)
+    VALUES
+    (:liking_iuser,:liked_iuser)
+    ";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":liking_iuser", $param["liking_iuser"]);
+    $stmt->bindValue(":liked_iuser", $param["liked_iuser"]);
+    $stmt->execute();
+    return $stmt->rowCount();
+  }
+
+  public function userFavDelete(&$param) {
+    $sql="DELETE FROM t_user_fav
+    WHERE liking_iuser = :liking_iuser
+    AND liked_iuser = :liked_iuser";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":liking_iuser", $param["liking_iuser"]);
+    $stmt->bindValue(":liked_iuser", $param["liked_iuser"]);
+    $stmt->execute();
+    return $stmt->rowCount();
+  }
+
 }

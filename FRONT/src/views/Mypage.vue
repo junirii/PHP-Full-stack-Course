@@ -1,7 +1,7 @@
 <template>
   <div class="location">
     <div class="container">
-      <h1>My Page</h1>
+      <div>{{selUser.iuser}}번의 게시판</div>
       <!-- 마이페이지 섹션1 - 프로필 -->
       <div class="mypage_profile">
         <div class="mypage_profile_img">사진{{ selUser.profile_img }}</div>
@@ -9,7 +9,8 @@
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
           <div><i class="fa-regular fa-paper-plane"></i>DM</div>
-          <div><i class="fa-solid fa-heart fa"></i>인기인기</div>
+          <div><i class="fa-regular fa-heart" @click="userFav()"></i>인기도</div>
+          <div><i class="fa-solid fa-pencil fa"></i></div>
         </div>
       </div>
       <br>
@@ -76,7 +77,7 @@ export default {
       selectedTravel: null,
       feedIuser: 0,
       loginIuser: 0,
-      cmt: ''
+      cmt: '',
     }
   },
   methods: {
@@ -123,7 +124,7 @@ export default {
       if (e.key === 'Enter') {
         this.insCmt();
       }
-    }
+    },
   },
   created() {
     this.getMyPage();
