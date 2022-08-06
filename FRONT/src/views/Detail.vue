@@ -5,7 +5,7 @@
 
     <!-- 디테일 섹션1 - 간단 정보(필터)-->
     <div class="row">
-      <div class="col">메인이미지 : {{ data.travelData.main_img }}</div>
+      <div class="col"><img :src="`/static/img/travel/${data.travelData.itravel}/main/${data.travelData.main_img}`"></div>
       <div class="col">
         <div>{{ data.hostUser.title }}</div>
         <div>지역 : {{ data.travelData.area }} / {{ data.travelData.location }}</div>
@@ -43,7 +43,7 @@
         <div :id="`panelsStayOpen-collapseOne${idx}`" class="accordion-collapse collapse show"
           aria-labelledby="panelsStayOpen-headingOne" :key="index" v-for="(item, index) in data.ctnt">
           <div v-if="dayObj.day == item.day" class="accordion-body">
-            <strong>{{ item.img }}</strong>{{ item.ctnt }} {{dayObj.day}} {{item.day}}
+            <strong><img :src="`/static/img/travel/${item.itravel}/detail/${item.img}`"></strong>{{ item.ctnt }}
           </div>
         </div>
       </div>

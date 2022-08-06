@@ -28,6 +28,7 @@ export default {
       this.$store.state.isLogin = true;
     }
     console.log(this.$store.state.user);
+    this.$store.state.filter = {};
   },
   methods: {
     showModal(){
