@@ -103,8 +103,43 @@ class TravelController extends Controller{
         return [_RESULT => $this->model->travelDeleteFav($param)];
     }
 
+    public function insTravelAndCtnt(){
+        switch (getMethod()) {
+            case _POST:
+                $json = getJson();
+                $image_parts = explode(";base64,", $json["travel"]["main_img"]);
+                $image_type_aux = explode("image/", $image_parts[0]);
+                $image_type = $image_type_aux[1];
+                $image_base64 = base64_decode($image_parts[1]);
+                $fileNm = uniqid() . "." . $image_type;
+
+                $param = [
+                    "iuser" => $json["travel"]["iuser"],
+                    "title" => $json["travel"]["title"],
+                    "area" => $json["travel"]["area"],
+                    "location" => $json["travel"]["location"],
+                    "main_img" => $fileNm,
+                    "s_date" => $json["travel"]["s_date"],
+                    "e_date" => $json["travel"]["e_date"],
+                    "f_people" => $json["travel"]["f_people"],
+                    "f_price" => $json["travel"]["f_price"],
+                    "f_gender" => $json["travel"]["f_gender"],
+                    "f_age" => $json["travel"]["f_age"],
+                ];
+                $itravel = $this->model->travelInsert($param);
+                if($itravel){
+                    $dirPath = _IMG_PATH . "/travel/" . $json["travel"]["iuser"] . "/main";
+                    $filePath = $dirPath . "/" . $fileNm;
+                    if(!is_dir($dirPath)) {
+                        mkdir($dirPath, 0777, true);
+                    }
+                    $result = file_put_contents($filePath, $image_base64);
+                }
+        }
+    }
+
     public function uploadMainImg() {
-        $itravel = 
+        // $itravel = 
         $json = getJson();
         $image_parts = explode(";base64,", $json["image"]);
         $image_type_aux = explode("image/", $image_parts[0]);

@@ -6,15 +6,13 @@
         </div>
         <div>
             <span>지역</span>
-            <select v-model="selectedArea" @change="showLocationOption()">
+            <select v-model="travel.area" @change="showLocationOption()">
                 <option value="" selected>전체</option>
                 <option :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
             </select>
-            <select v-model="selectedLocation" v-if="locationList.length > 1">
+            <select v-model="travel.location" v-if="locationList.length > 1">
                 <option value="0" selected>전체</option>
-                <option :key="item.ilocation" :value="item.ilocation" v-for="item in locationList">{{ item.location_nm
-                }}
-                </option>
+                <option :key="item.ilocation" :value="item.ilocation" v-for="item in locationList">{{ item.location_nm }}</option>
             </select>
         </div>
         <div> 
@@ -68,7 +66,7 @@ export default {
                 f_people: 2,
                 f_age: 0,
                 area: 0,
-                location: 0,
+                location: null,
                 s_date: new Date().toISOString().substring(0, 10),
                 e_date: '',
                 main_img: null
@@ -77,8 +75,6 @@ export default {
             locationList: [],
             ageList: [],
             showLocationSelect: false,
-            selectedArea: '',
-            selectedLocation: '',
             files: [],
             filesPreview: [],
             uploadImageIndex: 0,
@@ -104,31 +100,27 @@ export default {
         },
         async getAreaList() {
             this.areaList = await this.$get('/travel/areaList', {});
-            console.log(this.areaList);
         },
         async getLocationList(iarea) {
             this.locationList = await this.$get(`/travel/locationList/${iarea}`, {});
-            console.log(this.locationList);
         },
         async getAgeList() {
             this.ageList = await this.$get('/travel/ageList', {});
-            console.log(this.ageList);
         },
         showLocationOption() {
-            this.selectedLocation = '';
+            this.travel.location = null;
             this.locationList = [];
-            this.getLocationList(this.selectedArea);
+            this.getLocationList(this.travel.area);
         },
         async travelInsert() {
             const inputFile = document.querySelector('#file');
             console.log(inputFile.files[0].name);
             this.travel.main_img = inputFile.files[0].name;
-            this.travel.area = this.selectedArea;
-            if (this.selectedLocation) {
-                this.travel.location = this.selectedLocation;
-            } else {
-                this.travel.location = 0;
-            }
+            // if (this.selectedLocation) {
+            //     this.travel.location = this.selectedLocation;
+            // } else {
+            //     this.travel.location = 0;
+            // }
             const result = this.$post('/travel/create', this.travel);
             console.log(result);
             this.$swal.fire('글작성 성공!', '', 'success');

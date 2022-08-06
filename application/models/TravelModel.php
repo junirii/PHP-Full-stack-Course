@@ -103,13 +103,13 @@ class TravelModel extends Model
                   , f_gender = :f_gender
                   , f_age = :f_age";
         if(isset($param["location"])) {
-            $sql .= ", location = :location";
+            $location = $param["location"];
+            $sql .= ", location = ${location}";
         }
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->bindValue(":title", $param["title"]);
         $stmt->bindValue(":area", $param["area"]);
-        $stmt->bindValue(":location", $param["location"]);
         $stmt->bindValue(":main_img", $param["main_img"]);
         $stmt->bindValue(":s_date", $param["s_date"]);
         $stmt->bindValue(":e_date", $param["e_date"]);
