@@ -162,9 +162,10 @@ class UserModel extends Model
 
   // ----------------- MyPage Fav ---------------
   public function selUserFav(&$param){
-    $sql = "SELECT * FROM t_user_fav WHERE liked_iuser = :liked_iuser";
+    $sql = "SELECT count(liked_iuser) AS FAV
+    FROM t_user_fav WHERE liked_iuser = :liked_iuser";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindValue(":liked_iuser", $param["liked_iuser"]);
+    $stmt->bindValue(":liked_iuser", $param["iuser"]);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
