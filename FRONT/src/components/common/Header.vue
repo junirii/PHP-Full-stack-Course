@@ -13,7 +13,7 @@
                     <li v-if="this.$store.state.isLogin" class="dropdown-item">마이페이지</li>
                 </router-link>
                 <router-link :to="{ path: '/MyAccount' }">
-                    <li v-if="this.$store.state.isLogin" class="dropdown-item">내 계정 관리</li>
+                    <li v-if="this.$store.state.isLogin" class="dropdown-item">회원정보 수정</li>
                 </router-link>
                 <li v-if="this.$store.state.isLogin" class="dropdown-item">DM</li>
                 <router-link :to="{ path: '/Create' }">

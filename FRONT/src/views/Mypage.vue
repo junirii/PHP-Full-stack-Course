@@ -1,7 +1,7 @@
 <template>
   <div class="location">
     <div class="container">
-      <h1>My Page</h1>
+      <h1>마이 페이지</h1>
       <!-- 마이페이지 섹션1 - 프로필 -->
       <div class="mypage_profile">
         <div class="mypage_profile_img">사진{{ selUser.profile_img }}</div>

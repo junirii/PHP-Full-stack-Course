@@ -8,13 +8,15 @@
       <span class="state-slider"></span>
     </div>
 
+    <!-- 지역 상관 x 버튼 -->
+    <div>
+      <button>가보자고</button>
+    </div>
+
     <div id="location">
       <div>
         <h3>여행지 선택</h3>
       </div>
-      <!-- <router-link :to="{ path: '#' }">
-        <button type="button">↓</button>
-      </router-link> -->
       <div class="box d-flex">
         <div class="container-map">
           <a href="#filter">
@@ -122,7 +124,6 @@
 import { ref, onMounted } from 'vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-// import selectPage from '../../static/js/selectPage.js';
     
 export default {
 components: { Datepicker },
@@ -225,6 +226,7 @@ components: { Datepicker },
 </script>
 
 <style scoped>
+
 .total { /* 페이지 전체 */
   z-index: auto;
   margin: 0 auto;
@@ -235,22 +237,23 @@ components: { Datepicker },
 .state-tab-container {
   display: grid;
   position: fixed;
-  top: 460px;
+  top: 440px;
+  left: 69px;
   width: 100px;
-  height: 200px;
+  height: 140px;
   z-index: 10;
 }
 
 .state-tab {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-    color: var(--mainDark);
-    letter-spacing: 0.3rem;
-		transition: all 0.5s ease;
-		font-size: 1rem;
-    padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  color: var(--mainDark);
+  letter-spacing: 0.1rem;
+  transition: all 0.5s ease;
+  font-size: 1rem;
+  font-weight: bold;
 }
 .state-tab:hover {
   color: var(--maincolor);

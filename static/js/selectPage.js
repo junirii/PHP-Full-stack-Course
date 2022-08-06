@@ -30,12 +30,12 @@ class StickyNavigation {
 	}
 	
 	checkTabContainerPosition() {
-		let offset = $('.et-hero-tabs').offset().top + $('.et-hero-tabs').height() - this.tabContainerHeight;
+		let offset = $('.state-tab').offset().top + $('.state-tab').height() - this.tabContainerHeight;
 		if($(window).scrollTop() > offset) {
-			$('.et-hero-tabs-container').addClass('et-hero-tabs-container--top');
+			$('.state-tab-container').addClass('state-tab-container--left');
 		} 
 		else {
-			$('.et-hero-tabs-container').removeClass('et-hero-tabs-container--top');
+			$('.state-tab-container').removeClass('state-tab-container--left');
 		}
 	}
 	
@@ -43,7 +43,7 @@ class StickyNavigation {
 		let newCurrentId;
 		let newCurrentTab;
 		let self = this;
-		$('.et-hero-tab').each(function() {
+		$('.state-tab').each(function() {
 			let id = $(this).attr('href');
 			let offsetTop = $(id).offset().top - self.tabContainerHeight;
 			let offsetBottom = $(id).offset().top + $(id).height() - self.tabContainerHeight;

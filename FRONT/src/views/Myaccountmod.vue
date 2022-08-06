@@ -1,7 +1,7 @@
 <template>
   <div class="location">
     <div class="container">
-      <h1>Myaccount mod</h1>
+      <h1>회원정보 수정</h1>
       <div class="myaccount_profile">
         <div class="myaccount_profile_img">사진<input v-model="loginUser.profile_img"></div>
         <div class="myaccount_profile_txt">
