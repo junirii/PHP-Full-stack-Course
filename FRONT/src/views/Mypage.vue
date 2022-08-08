@@ -1,7 +1,7 @@
 <template>
   <div class="location">
     <div class="container">
-      <div>{{selUser.iuser}}번의 게시판</div>
+      <div>{{ selUser.nick }}님의 게시판</div>
       <!-- 마이페이지 섹션1 - 프로필 -->
       <div class="mypage_profile">
         <div class="mypage_profile_img">사진{{ selUser.profile_img }}</div>
@@ -9,8 +9,12 @@
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
           <div><i class="fa-regular fa-paper-plane"></i>DM</div>
-          <div><i class="fa-solid fa-heart userFav" @click="usergood()"></i>{{this.selUserFav[0]}}</div>
-          <div><i class="fa-solid fa-pencil fa"></i></div>
+          <div><i class="fa-solid fa-heart userFav" @click="usergood()"></i>{{ this.selUserFav[0] }}</div>
+          <div v-if="feedIuser == loginIuser"><router-link :to="{ path: '/MyAccount' }">
+            <div><i class="fa-solid fa-pencil fa"></i>프로필수정</div>
+          </router-link>
+          </div>
+
         </div>
       </div>
       <br>
@@ -98,7 +102,7 @@ export default {
       this.selUser = this.data.result.selUser;
       this.guestTravel = this.data.result.guestTravel;
       this.selUserFav = this.data.result.selUserFav;  // 인기도
-      console.log(this.selUserFav[0]); 
+      console.log(this.selUserFav[0]);
     },
     async goToDetailFromMyPage(itravelNum) { // 클릭시 여행게시물로 이동
       this.$store.state.itravel = itravelNum;
@@ -129,7 +133,7 @@ export default {
         this.insCmt();
       }
     },
-    async usergood(){
+    async usergood() {
       alert('dd');
     },
   },
@@ -179,7 +183,9 @@ export default {
   justify-content: center;
 }
 
-.userFav{cursor: pointer;}
+.userFav {
+  cursor: pointer;
+}
 </style>
 
 <!-- console.log(this.$store.state.user); // 로그인한 유저정보가 담겨져 있음 -->
