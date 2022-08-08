@@ -1,8 +1,8 @@
 <template>
   <div id="wrap">
-    <Header></Header>
+    <Header v-if="$route.name !== 'home'"></Header>
     <div class="main"><router-view/></div>
-    <Footer></Footer>
+    <Footer v-if="$route.name !== 'home'"></Footer>
   </div>
 </template>
 
