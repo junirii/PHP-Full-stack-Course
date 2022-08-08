@@ -49,11 +49,14 @@
       </div>
     </div>
 
-
-
     <div>
       <input type="button" value="찜하기" @click="insTravelFav">
-      <input type="submit" value="신청하기">
+      <div v-if="isJoin">
+        <input type="submit" value="취소하기" @click="deletestate()">
+      </div>
+      <div v-else>
+        <input type="submit" value="신청하기" @click="instate()">
+      </div>
     </div>
 
   </div> <!-- container 닫기 -->
@@ -65,16 +68,30 @@ export default {
   data() {
     return {
       data: [],
-      itravel: null
+      itravel: null,
+      loginIuser: null,
+      stres: {},
+      isJoin: '',
     }
   },
   methods: {
     async getDetail() {
       this.itravel = this.$store.state.itravel; // itravel 가져옴
-      console.log(this.itravel);
+      this.loginIuser = this.$store.state.user.iuser;
+      console.log('itravel ' + this.itravel);
+      console.log('loginuser ' + this.loginIuser);
       const res = await this.$get(`/travel/detail/${this.itravel}`, {}); // controllers / method / 가져온itravel
+      const res2 = await this.$get(`/user/travelState/${this.loginIuser}/${this.itravel}`, {});
       this.data = res.result;
+      this.stres = res2.result;
       console.log(this.data);
+      console.log(this.stres);
+
+      if(res2.result.tts) {
+        this.isjoin = true;
+      }else{
+        this.isjoin = false;
+      }
     },
     goToChat(){
       this.$router.push({name: 'chat'});
@@ -85,7 +102,24 @@ export default {
       if(res.result === 1){
         this.$swal.fire('찜 완료!', '', 'success');
       }
-    }
+    },
+    async instate() {                  // 컨트롤러이름 // 함수 메소드 // 필요한 값
+      const instate = await this.$post(`/user/travelState/${this.loginIuser}/${this.itravel}`, {});
+      alert("신청 되었습니다");
+      console.log(instate);
+      if(instate.result === 1){
+        this.isJoin = true;
+      }
+    },
+    async deletestate(){
+      const deletestate = await this.$delete(`/user/travelState/${this.loginIuser}/${this.itravel}`, {});
+      alert("신청 취소 되었습니다");
+      console.log(deletestate);
+          if(deletestate.result === 1){
+        this.isJoin = false;
+      }
+    },
+
   },
   created() {
     this.getDetail();

@@ -193,4 +193,22 @@ class UserController extends Controller
         return [_RESULT => $this->model->selUser($param)];
     }
   }
+
+  public function travelState() {
+    $urlPaths = getUrlPaths();
+    $iuser = $urlPaths[2];
+    $itravel = $urlPaths[3];
+    $param = [
+        "iuser" => $iuser,
+        "itravel" => $itravel
+    ];
+    switch (getMethod()) {
+        case _GET:
+            return [_RESULT => $this->model->seltravelState($param)];
+        case _POST:
+            return [_RESULT => $this->model->IntravelState($param)];
+        case _DELETE:
+            return [_RESULT => $this->model->DeletetravelState($param)];
+    }
+  }
 }
