@@ -1,15 +1,17 @@
 <template>
   <div class="location">
     <div class="container">
-      <h1>내 계정</h1><i class="fa-light fa-pencil"></i><i class="fa-light fa-pencil"></i>
+      <h1>내 계정</h1>
       <router-link :to="{ path: '/MyAccountMod' }">
-        <button type="button">회원정보 수정</button>
+        <div><i class="fa-solid fa-pencil fa"></i>프로필수정</div>
       </router-link>
       <div class="myaccount_profile">
-        <div class="myaccount_profile_img">사진{{ loginUser.profile_img }}</div>
+        <div class="myaccount_profile_img">사진
+          <!-- <img :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" style="width: 20rem; height: 16rem;" alt="이미지"> -->
+        </div>
         <div class="myaccount_profile_txt">
           <div>이메일 : {{ loginUser.email }} </div>
-          <div>비밀번호 : <button>변경</button><button>확인</button></div>
+          <div>비밀번호 : </div>
           <div>이름 : {{ loginUser.nm }} </div>
           <div>닉네임 : {{ loginUser.nick }} </div>
           <div>성별 : {{ loginUser.gender }} </div>
@@ -36,13 +38,18 @@ export default {
   data() {
     return {
       data: [],
-      loginUser: 0,
+      loginUser: {}
     }
   },
   methods: {
     async getMyAccount() { // iuser
       // console.log(this.$store.state.user);
       this.loginUser = this.$store.state.user;
+      if(this.loginUser.gender == 1) {
+        this.loginUser.gender = '남성';
+      } else {
+        this.loginUser.gender = '여성';
+      }
     },
   },
   created() {

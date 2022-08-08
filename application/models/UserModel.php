@@ -136,6 +136,7 @@ class UserModel extends Model
   {
     $profile_img = $param["profile_img"];
     $email = $param["email"];
+    $pw = $param["pw"];
     $nm = $param["nm"];
     $nick = $param["nick"];
     $gender = $param["gender"];
@@ -147,6 +148,7 @@ class UserModel extends Model
     "UPDATE t_user
       SET profile_img = '${profile_img}',
           email = '${email}',
+          pw = '${pw}',
           nm = '${nm}',
           nick = '${nick}',
           gender = ${gender},
