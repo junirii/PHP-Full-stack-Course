@@ -2,9 +2,9 @@
   <main class="list mt-3">
     <div class="container">   
       <div class="row">
-        <div class="col-xl-3 col-lg-4 col-md-6" style="padding: 25px 25px 25px;"
+        <div class="col-xl-3 col-lg-4 col-md-6" style="padding: 20px 20px 20px;"
             :key="item.itravel" v-for="item in list">
-            <div class="card" style="width: 20rem; height: 25rem;">
+            <div class="card" style="width: 17rem; height: 27rem;">
               <div class="hearticon">
                 <!-- <font-awesome-icon icon="fa-solid fa-heart fa-2x abcd" v-if="heartColor(item.itravel)" style="color: red;" @click="good($event, item.itravel)"/> -->
                 <i class="fa-solid fa-heart fa-2x abcd" v-if="heartColor(item.itravel)" style="color: red;" @click="good($event, item.itravel)"></i>
@@ -12,7 +12,7 @@
                 <!-- <div class="card-img-top" @click="goToDetail(item.itravel)">{{item.main_img}}</div> -->
                 <img :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
                 @click="goToDetail(item.itravel)"
-                  class="card-img-top" style="width: 20rem; height: 16rem;"
+                  class="card-img-top" style="width: 17rem; height: 16rem;"
                   alt="이미지">
               </div>
             <div class="card-body">

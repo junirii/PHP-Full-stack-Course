@@ -53,6 +53,7 @@ class TravelModel extends Model
                 $sql .= ")";
             }
         }
+        $sql .= " ORDER BY A.reg_dt DESC"; // 리스트 띄우는 순서 : 등록일수 역순
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);

@@ -18,8 +18,8 @@
         <div> 
             <span>성별</span>
             <select v-model="travel.f_gender">
-                <option value="1">남</option>
-                <option value="2">여</option>
+                <option value="1">남성</option>
+                <option value="2">여성</option>
                 <option value="3">혼성</option>
             </select>
         </div>

@@ -6,20 +6,20 @@
         <div class="myaccount_profile_img">사진<input type="file"></div>
         <div class="myaccount_profile_txt">
           <div>이메일 : <input type="email" v-model="loginUser.email"></div>
-          <div>비밀번호 : </div>
+          <div>비밀번호 : <input type="email" v-model="loginUser.pw"></div>
           <div>이름 : <input type="text" v-model="loginUser.nm"></div>
           <div>닉네임 : <input type="text" v-model="loginUser.nick"></div>
           <div>성별 :
             <input v-model="loginUser.gender" type="radio" id="male" name="gender" value="1">
-            <label for="male">남</label>
+            <label for="male">남성</label>
             <input v-model="loginUser.gender" type="radio" id="female" name="gender" value="2">
-            <label for="female">여</label>
+            <label for="female">여성</label>
           </div>
           <div>생년월일 : <input type="date" v-model="loginUser.birth"></div>
           <div>전화번호 : <input type="tel" v-model="loginUser.tel"></div>
           <div>상태메세지 : <input type="text" v-model="loginUser.cmt"></div>
           <div><i class="fa-regular fa-paper-plane fa"></i>DM</div>
-          <div><i class="fa-solid fa-heart fa"></i>인기도오케이</div>
+          <div><i class="fa-solid fa-heart fa"></i>인기도</div>
         </div>
       </div>
 
@@ -55,6 +55,7 @@ export default {
       const res = await this.$post('/user/myAccountMod', {
         profile_img: this.loginUser.profile_img,
         email: this.loginUser.email,
+        pw: this.loginUser.pw,
         nm: this.loginUser.nm,
         nick: this.loginUser.nick,
         gender: this.loginUser.gender,

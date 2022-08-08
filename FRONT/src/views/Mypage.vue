@@ -4,15 +4,16 @@
       <div>{{ selUser.nick }}님의 게시판</div>
       <!-- 마이페이지 섹션1 - 프로필 -->
       <div class="mypage_profile">
-        <div class="mypage_profile_img">사진{{ selUser.profile_img }}</div>
+        <div class="mypage_profile_img">사진 : {{ selUser.profile_img }}</div>
         <div class="mypage_profile_txt">
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
           <div><i class="fa-regular fa-paper-plane"></i>DM</div>
           <div><i class="fa-solid fa-heart userFav" @click="usergood()"></i>{{ this.selUserFav[0] }}</div>
-          <div v-if="feedIuser == loginIuser"><router-link :to="{ path: '/MyAccount' }">
-            <div><i class="fa-solid fa-pencil fa"></i>프로필수정</div>
-          </router-link>
+          <div v-if="feedIuser == loginIuser">
+            <router-link :to="{ path: '/MyAccount' }">
+              <div><i class="fa-solid fa-pencil fa"></i>프로필수정</div>
+            </router-link>
           </div>
 
         </div>
@@ -22,10 +23,9 @@
       <!-- 마이페이지 섹션2 - 찜한 여행, 호스팅한 여행 , 참여한 여행-->
       <div v-if="feedIuser == loginIuser">
         <div class="title">찜한 여행</div>
-        <div>
-          <div :key="item.itravel" v-for="item in myPageTravelFav" @click="goToDetailFromMyPage(item.itravel)">
-            {{ item.itravel }} {{ item.title }}
-          </div>
+        <div :key="item.itravel" v-for="item in myPageTravelFav" @click="goToDetailFromMyPage(item.itravel)">
+          <img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" @click="goToDetail(item.itravel)" alt="이미지">
+          <span>{{ item.title }}</span>
         </div>
       </div>
       <br>
@@ -33,7 +33,8 @@
       <div>
         <div class="title">호스팅한 여행</div>
         <div :key="item.itravel" v-for="item in myPageHost" @click="goToDetailFromMyPage(item.itravel)">
-          <div>{{ item.title }}</div>
+          <img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" @click="goToDetail(item.itravel)" alt="이미지">
+          <span>{{ item.title }}</span>
         </div>
       </div>
       <br>
@@ -41,6 +42,7 @@
       <div>
         <div class="title">참여한 여행</div>
         <div :key="item.itravel" v-for="item in myPageTravelState" @click="goToDetailFromMyPage(item.itravel)">
+            <img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" @click="goToDetail(item.itravel)" alt="이미지">
           <span>{{ item.title }}</span>
         </div>
       </div>
@@ -146,6 +148,7 @@ export default {
 </script>
 
 <style scoped>
+
 /* css 한거 아님 보기편하게 하려고 임시로 해놓은거임 구리다고 뭐라하지마세여.. */
 
 .location {
@@ -186,6 +189,10 @@ export default {
 .userFav {
   cursor: pointer;
 }
+
+ .myPageImg {
+  max-width: 20vw;
+ }
 </style>
 
 <!-- console.log(this.$store.state.user); // 로그인한 유저정보가 담겨져 있음 -->
