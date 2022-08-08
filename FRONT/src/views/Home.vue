@@ -1,13 +1,15 @@
 <template>
-  <div class="setting-btn">
-    <button class="btn" type="button" v-if="this.$store.state.isLogin" @click="loginCheck('Create')">HOSTING</button>
-    <button class="btn" type="button" v-if="this.$store.state.isLogin" @click="loginCheck('SelectPage')">SEARCH</button>
-    <button class="btn" type="button" v-if="!this.$store.state.isLogin" @click="showModal">JOIN</button>
-  </div>
-  <LoginModal 
-  :show="modalShow" 
-  @close="hiddenModal"
-  v-on:update="onLogin" />
+  <body>
+    <div class="setting-btn">
+      <button class="btn" type="button" v-if="this.$store.state.isLogin" @click="loginCheck('Create')">HOSTING</button>
+      <button class="btn" type="button" v-if="this.$store.state.isLogin" @click="loginCheck('SelectPage')">SEARCH</button>
+      <button class="btn" type="button" v-if="!this.$store.state.isLogin" @click="showModal">JOIN</button>
+    </div>
+    <LoginModal 
+    :show="modalShow" 
+    @close="hiddenModal"
+    v-on:update="onLogin" />
+  </body>
 </template>
 
 <script>
@@ -50,7 +52,11 @@ export default {
 </script>
 
 <style>
+  /* body {
+    background-image: url('../../../static/img_used/main.png');
+  } */
   .setting-btn {
     padding: 150px;
   }
+
 </style>
