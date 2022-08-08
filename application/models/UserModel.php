@@ -134,37 +134,38 @@ class UserModel extends Model
   // myaccountmod
   public function MyAccountMod(&$param)
   {
+    $profile_img = $param["profile_img"];
+    $email = $param["email"];
+    $nm = $param["nm"];
+    $nick = $param["nick"];
+    $gender = $param["gender"];
+    $birth = $param["birth"];
+    $tel = $param["tel"];
+    $cmt = $param["cmt"];
+    $iuser = $param["iuser"];
    $sql =
     "UPDATE t_user
-      SET profile_img = :profile_img,
-          email = :email,
-          nm = :nm,
-          nick = :nick,
-          gender = :gender,
-          birth = :birth,
-          tel = :tel,
-          cmt = :cmt
-      WHERE iuser = :iuser
+      SET profile_img = '${profile_img}',
+          email = '${email}',
+          nm = '${nm}',
+          nick = '${nick}',
+          gender = ${gender},
+          birth = '${birth}',
+          tel = '${tel}',
+          cmt = '${cmt}'
+      WHERE iuser = ${iuser}
     ";
   $stmt = $this->pdo->prepare($sql);
-  $stmt->bindValue(":profile_img", $param["profile_img"]);
-  $stmt->bindValue(":email", $param["email"]);
-  $stmt->bindValue(":nm", $param["nm"]);
-  $stmt->bindValue(":nick", $param["nick"]);
-  $stmt->bindValue(":gender", $param["gender"]);
-  $stmt->bindValue(":birth", $param["birth"]);
-  $stmt->bindValue(":tel", $param["tel"]);
-  $stmt->bindValue(":cmt", $param["cmt"]);
-  $stmt->bindValue(":iuser", $param["iuser"]);
   $stmt->execute();
   return $stmt->rowCount();
   }
 
   // ----------------- MyPage Fav ---------------
   public function selUserFav(&$param){
-    $sql = "SELECT * FROM t_user_fav WHERE liked_iuser = :liked_iuser";
+    $sql = "SELECT count(liked_iuser) AS FAV
+    FROM t_user_fav WHERE liked_iuser = :liked_iuser";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindValue(":liked_iuser", $param["liked_iuser"]);
+    $stmt->bindValue(":liked_iuser", $param["iuser"]);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }

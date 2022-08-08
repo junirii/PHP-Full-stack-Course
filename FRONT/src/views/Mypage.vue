@@ -9,7 +9,7 @@
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
           <div><i class="fa-regular fa-paper-plane"></i>DM</div>
-          <div><i class="fa-regular fa-heart" @click="userFav()"></i>인기도</div>
+          <div><i class="fa-solid fa-heart userFav" @click="usergood()"></i>{{this.selUserFav[0]}}</div>
           <div><i class="fa-solid fa-pencil fa"></i></div>
         </div>
       </div>
@@ -78,6 +78,7 @@ export default {
       feedIuser: 0,
       loginIuser: 0,
       cmt: '',
+      selUserFav: [], //수정 필요
     }
   },
   methods: {
@@ -85,6 +86,7 @@ export default {
       console.log(this.$store.state.user);
       this.feedIuser = this.$store.state.feedIuser;
       this.loginIuser = this.$store.state.user.iuser;
+      this.selUserFav = this.$store.state.selUserFav; // 인기도
       console.log('feedIuser : ' + this.feedIuser);
       console.log('loginIuser : ' + this.loginIuser);
 
@@ -95,6 +97,8 @@ export default {
       this.myPageTravelState = this.data.result.myPageTravelState;
       this.selUser = this.data.result.selUser;
       this.guestTravel = this.data.result.guestTravel;
+      this.selUserFav = this.data.result.selUserFav;  // 인기도
+      console.log(this.selUserFav[0]); 
     },
     async goToDetailFromMyPage(itravelNum) { // 클릭시 여행게시물로 이동
       this.$store.state.itravel = itravelNum;
@@ -124,6 +128,9 @@ export default {
       if (e.key === 'Enter') {
         this.insCmt();
       }
+    },
+    async usergood(){
+      alert('dd');
     },
   },
   created() {
@@ -171,6 +178,8 @@ export default {
   flex-direction: column;
   justify-content: center;
 }
+
+.userFav{cursor: pointer;}
 </style>
 
 <!-- console.log(this.$store.state.user); // 로그인한 유저정보가 담겨져 있음 -->

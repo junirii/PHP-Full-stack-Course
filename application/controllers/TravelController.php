@@ -1,6 +1,7 @@
 <?php
 namespace application\controllers;
 use application\libs\application;
+use Exception;
 
 class TravelController extends Controller{
     public function test() {
@@ -143,14 +144,42 @@ class TravelController extends Controller{
                     "f_gender" => $json["travel"]["f_gender"],
                     "f_age" => $json["travel"]["f_age"],
                 ];
-                $itravel = $this->model->travelInsert($param);
-                if($itravel){
-                    $dirPath = _IMG_PATH . "/travel/" . $json["travel"]["iuser"] . "/main";
+                $itravel = $this->model->travelInsert($param); //DB에 글 추가
+                if($itravel){ //프로필 사진 백엔드에 저장
+                    $dirPath = _IMG_PATH . "/travel/" . $itravel . "/main";
                     $filePath = $dirPath . "/" . $fileNm;
                     if(!is_dir($dirPath)) {
                         mkdir($dirPath, 0777, true);
                     }
                     $result = file_put_contents($filePath, $image_base64);
+                    if($result){ //ctnt 추가
+                        for ($i=0; $i < count($json["ctnt"]); $i++) { 
+                            for($z=0; $z < count($json["ctnt"][$i]); $z++){
+                                $image_parts = explode(";base64,", $json["ctnt"][$i][$z]["img"]); //ctnt사진 저장
+                                $image_type_aux = explode("image/", $image_parts[0]);
+                                $image_type = $image_type_aux[1];
+                                $image_base64 = base64_decode($image_parts[1]);
+                                $dirPath = _IMG_PATH . "/travel/" . $itravel . "/detail";
+                                $fileNm = uniqid() . "." . $image_type;
+                                $filePath = $dirPath . "/" . $fileNm;
+                                if(!is_dir($dirPath)) {
+                                    mkdir($dirPath, 0777, true);
+                                }
+                                $result = file_put_contents($filePath, $image_base64);
+                                if($result){
+                                    $param = [
+                                        "itravel" => $itravel,
+                                        "day" => $json["ctnt"][$i][$z]["day"],
+                                        "seq" => $json["ctnt"][$i][$z]["seq"],
+                                        "ctnt" => $json["ctnt"][$i][$z]["ctnt"],
+                                        "img" => $fileNm
+                                    ];
+                                    $this->model->insCtnt($param);
+                                }
+                            }
+                        }
+                        return [_RESULT => $itravel];
+                    }
                 }
         }
     }

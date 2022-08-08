@@ -61,7 +61,7 @@ class UserController extends Controller
     $selUser = $this->model->selUser($param);
     $param["loginIuser"] = intval($urlPaths[3]);
     $guestTravel = $this->model->selGuestTravel($param);
-    // $selUserFav = $this->model->selUserFav($param);
+    $selUserFav = $this->model->selUserFav($param);
 
     $data = [
       "myPageTravelFav" => $myPageTravelFav,
@@ -69,7 +69,7 @@ class UserController extends Controller
       "myPageTravelState" => $myPageTravelState,
       "selUser" => $selUser,
       "guestTravel" => $guestTravel,
-      // "selUserFav" => $selUserFav,
+      "selUserFav" => $selUserFav,
     ];
     return [_RESULT => $data];
     // return $this->model->myPage($param);
@@ -127,7 +127,7 @@ class UserController extends Controller
           "birth" => $json["birth"],
           "tel" => $json["tel"],
           "cmt" => $json["cmt"],
-          "iuser" => $json["cmt"],
+          "iuser" => $json["iuser"],
         ];
         return [_RESULT => $this->model->MyAccountMod($param)];
     }

@@ -9,9 +9,7 @@
                 <i class="hamburger nav-link fa-solid fa-bars fa-3x dropdown"></i>
             </a>
             <ul class="li_drop dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <router-link :to="{ path: '/MyPage' }">
-                    <li v-if="this.$store.state.isLogin" class="dropdown-item" @click="changeFeedIuser">마이페이지</li>
-                </router-link>
+                <li v-if="this.$store.state.isLogin" class="dropdown-item" @click="changeFeedIuser">마이페이지</li>
                 <router-link :to="{ path: '/MyAccount' }">
                     <li v-if="this.$store.state.isLogin" class="dropdown-item">회원정보 수정</li>
                 </router-link>
@@ -40,6 +38,7 @@ export default {
     methods: {
         changeFeedIuser(){
             this.$store.state.feedIuser = this.$store.state.user.iuser;
+            this.$router.push({name: 'mypage'});
         },
         async logout(){
             if(this.$store.state.isLogin === true){
@@ -53,7 +52,7 @@ export default {
                     if(result.isConfirmed){
                         this.$router.push({name: 'home'});
                     }
-                })
+                });
                 }else{
                 this.$swal.fire('로그아웃 실패', '', 'error');
                 }
