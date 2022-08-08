@@ -10,9 +10,10 @@ import Create_Ctnt from '../views/Create_Ctnt.vue';
 import MyPage from '../views/MyPage.vue';
 import SelectPage from '../views/SelectPage.vue';
 import store from '@/store';
-import MyAccount from '../views/MyAccount.vue'
-import MyAccountMod from '../views/MyAccountMod.vue'
-import FilterList from '../views/FilterList.vue'
+import MyAccount from '../views/MyAccount.vue';
+import MyAccountMod from '../views/MyAccountMod.vue';
+import FilterList from '../views/FilterList.vue';
+import Chat from '../views/Chat.vue';
 
 //네이게이션 가드 commit test
 const requireAuth = () => (to, from, next) => {
@@ -99,6 +100,12 @@ const routes = [
     path: '/filterlist',
     name: 'filterlist',
     component: FilterList,
+    beforeEnter: requireAuth()
+  },
+  {
+    path: '/chat',
+    name: 'chat',
+    component: Chat,
     beforeEnter: requireAuth()
   }
 ]

@@ -103,7 +103,7 @@ export default {
   },
   methods: {
     goToChat(){
-
+      this.$router.push({name: 'chat'});
     },
     async getUserData(){
       const res = await this.$get(`/user/selUser/${this.feedIuser}`, {});

@@ -1,4 +1,5 @@
 <template>
+    <div class="create_box"></div>
   <div> 
         <h1>Chat</h1>
         <div v-for="(item, idx) in chatList" :key="idx">
@@ -19,17 +20,29 @@ export default {
         }
     },
     created() {       
-        this.socketId = this.$socket.id
+        this.socketId = this.$socket.id;
         this.$socket.on('msg', data => {
             this.chatList.push(data);
         });
+        this.$socket.emit('newUser', {
+            nick: this.$store.state.user.nick
+        });
+        this.$socket.on('newUser', nick => {
+            const data = {
+                name: 'SERVER',
+                msg: nick + '님이 입장하셨습니다.'
+            }
+            this.chatList.push(data);
+        });
+        
     },
     methods: {        
         sendMsg() {
             this.$socket.emit("msg", {
                 msg: this.input,
-                name: this.socketId
+                name: this.$store.state.user.nick
             });
+            this.input = '';
         }
     }
 }

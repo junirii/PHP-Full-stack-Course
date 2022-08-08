@@ -114,18 +114,28 @@ export default {
     },
     async instate() {                  // 컨트롤러이름 // 함수 메소드 // 필요한 값
       const instate = await this.$post(`/user/travelState/${this.loginIuser}/${this.itravel}`, {});
-      alert("신청 되었습니다");
-      console.log(instate);
       if(instate.result === 1){
-        this.isJoin = true;
+        this.$swal.fire('신청 되었습니다.', '', 'success')
+        .then(async result => {
+          if(result.isConfirmed){
+            this.isJoin = true;
+          }
+        });
+      }else{
+        this.$swal.fire('신청할 수 없습니다.', '', 'error');
       }
     },
     async deletestate(){
       const deletestate = await this.$delete(`/user/travelState/${this.loginIuser}/${this.itravel}`, {});
-      alert("신청 취소 되었습니다");
-      console.log(deletestate);
-          if(deletestate.result === 1){
-        this.isJoin = false;
+      if(deletestate.result === 1){
+        this.$swal.fire('신청 취소되었습니다.', '', 'success')
+        .then(async result => {
+          if(result.isConfirmed){
+            this.isJoin = false;
+          }
+        });
+      }else{
+        this.$swal.fire('취소할 수 없습니다.', '', 'error');
       }
     },
   },

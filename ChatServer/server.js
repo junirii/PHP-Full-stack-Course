@@ -40,10 +40,15 @@ const io = socketIO(server, { path: '/socket.io'});
 io.on('connection', (socket) => {
     console.log('a user connected');
     socket.on('msg', (msg) => {
-      io.emit('msg', msg);
+        console.log(msg);
+        io.emit('msg', msg);
     });
     socket.on('disconnect', reason => {
         console.log(reason);
         console.log('user disconnected');
     });
+    socket.on('newUser', (dataObj) => {
+        console.log(dataObj);
+        io.emit('newUser', dataObj.nick)
+    })
   });
