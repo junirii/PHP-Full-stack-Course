@@ -14,7 +14,7 @@ import MyAccount from '../views/MyAccount.vue'
 import MyAccountMod from '../views/MyAccountMod.vue'
 import FilterList from '../views/FilterList.vue'
 
-//네이게이션 가드
+//네이게이션 가드 commit test
 const requireAuth = () => (to, from, next) => {
   if(store.state.user.iuser === undefined) {
     swal.fire('로그인을 하세요.', '', 'warning');
