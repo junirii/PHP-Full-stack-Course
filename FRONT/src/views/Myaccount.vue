@@ -2,7 +2,7 @@
   <div class="location">
     <div class="container">
       <h1>내 계정</h1>
-      <router-link :to="{ path: '/MyAccountMod' }">
+      <router-link :to="{ path: '/myaccountmod' }">
         <div><i class="fa-solid fa-pencil fa"></i>프로필수정</div>
       </router-link>
       <div class="myaccount_profile">
@@ -24,7 +24,7 @@
       </div>
 
       <div>
-        <router-link :to="{ path: '/MyAccountMod' }">
+        <router-link :to="{ path: '/myaccountmod' }">
           <button type="button">편집</button>
         </router-link>
       </div>
