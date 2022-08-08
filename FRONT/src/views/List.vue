@@ -105,6 +105,11 @@ export default {
   z-index: auto;
   margin: 0 auto;
   padding: 150px;
+  /* position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; */
 }
 .hearticon {
   position: relative;

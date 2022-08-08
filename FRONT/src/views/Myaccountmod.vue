@@ -23,7 +23,7 @@
 
       <div>
           <button type="button" @click="myAccountMod">수정</button>
-        <router-link :to="{ path: '/Myaccount' }">
+        <router-link :to="{ path: '/MyAccount' }">
           <button type="reset">취소</button>
         </router-link>
       </div>

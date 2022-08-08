@@ -3,25 +3,27 @@
         <router-link :to="{ path: '/' }">
             <h2 class="logo">여행어쩌구</h2>
         </router-link>
-        <nav class="navbar">
-            <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <i class="hamburger nav-link fa-solid fa-bars fa-3x dropdown"></i>
-            </a>
-            <ul class="li_drop dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li v-if="this.$store.state.isLogin" class="dropdown-item" @click="changeFeedIuser">마이페이지</li>
+        <input type="checkbox" id="sideMenu">
+        <label id="burger" for="sideMenu">
+            <div></div>
+            <div></div>
+            <div></div>
+        </label>
+        <nav id="menu">
+            <ul>
+                <li v-if="this.$store.state.isLogin" @click="changeFeedIuser">마이페이지</li>
                 <router-link :to="{ path: '/MyAccount' }">
-                    <li v-if="this.$store.state.isLogin" class="dropdown-item">회원정보 수정</li>
+                    <li v-if="this.$store.state.isLogin">회원정보 수정</li>
                 </router-link>
-                <li v-if="this.$store.state.isLogin" class="dropdown-item">DM</li>
+                <li v-if="this.$store.state.isLogin">DM</li>
                 <router-link :to="{ path: '/Create' }">
-                    <li v-if="this.$store.state.isLogin" class="dropdown-item">여행 호스팅 하기</li>
+                    <li v-if="this.$store.state.isLogin">여행 호스팅 하기</li>
                 </router-link>
                 <router-link :to="{ path: '/List' }">
-                    <li v-if="this.$store.state.isLogin" class="dropdown-item">전체 리스트</li>
+                    <li v-if="this.$store.state.isLogin">전체 리스트</li>
                 </router-link>
-                <li v-if="this.$store.state.isLogin" class="dropdown-item" @click="logout">로그아웃</li>
-                <li v-if="!this.$store.state.isLogin" class="dropdown-item" @click="logout">로그인</li>
+                <li v-if="this.$store.state.isLogin" @click="logout">로그아웃</li>
+                <li v-if="!this.$store.state.isLogin" @click="logout">로그인</li>
             </ul>
         </nav>
     </header>
@@ -70,6 +72,13 @@ export default {
 
 <style>
 
+* {
+    margin: 0;
+}
+html {
+    font-size: 16px;
+    font-family: Arial;
+}
 header {
     z-index: 1;
     position: fixed;
@@ -85,18 +94,34 @@ header {
     align-items: center;
     background-color: #2d7ac2;
     text-decoration: none;
+
+    border-bottom: 1px solid #eee;
+    height: 4rem;
 }
 .logo {
     color: white;
 }
+.burger-wrapper {
+    cursor: pointer;
+}
 .hamburger {
-    color: #285d92;
-    /* padding: 15px; */
-    display: flex;
-    justify-content: end;
+    padding-bottom: 15px;
+}
+#menu {
+    background: white;
+    width: 20rem;
+    height: 100vh;
+    position: fixed;
+    right: 0;
+    transition-timing-function: cubic-bezier(10,2,3,1);
+    transform: translateX(50rem);
+    top: 0;
+    z-index: 0;
+    transition: 0.5s;
+    padding-top: 100px;
 }
 li {
-    color: white;
+    color: var(--mainDark);
     font-size: 1.2rem;
     /* display: inline-block; */
     /* position: relative; */
@@ -104,13 +129,43 @@ li {
     /* z-index: 4; */
     transition: 0.3s;
     min-width: 120px;
+    list-style: none;
+    padding: 8px;
 }
-li:hover {
-    background: #285d92 !important;
+#sideMenu {
+    display: none;
 }
-.li_drop li {
-    transform: translate(0, -108%);
-    transition: all 0.5s 0.1s;
-    position: relative;
+#sideMenu:checked ~ #menu {
+    transform: translateX(0rem);
+}
+#burger {
+    position: absolute;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    right: 1rem;
+    top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+#burger > div {
+    height: 2px;
+    background-color: white;
+    transition: 0.5s;
+    z-index: 999;
+}
+#sideMenu:checked ~ #burger > div {
+    background-color: var(--mainDark);
+}
+
+#sideMenu:checked ~ #burger > div:nth-child(1) {
+    transform: translateY(15px) rotate(45deg);
+}
+#sideMenu:checked ~ #burger > div:nth-child(2) {
+    opacity: 0;
+}
+#sideMenu:checked ~ #burger > div:nth-child(3) {
+    transform: translateY(-15px) rotate(-45deg);
 }
 </style>
