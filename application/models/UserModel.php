@@ -195,4 +195,41 @@ class UserModel extends Model
     return $stmt->rowCount();
   }
 
+  // 신청하기
+  public function seltravelState($param){
+    $sql = "SELECT count(*) AS tts FROM t_travel_state 
+    WHERE iuser = :iuser
+    AND itravel = :itravel";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":iuser", $param["iuser"]);
+    $stmt->bindValue(":itravel", $param["itravel"]);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_OBJ);
+  }
+
+  public function IntravelState(&$param) {
+    $sql="INSERT INTO t_travel_state
+    (iuser,itravel,isconfirm)
+    VALUES
+    (:iuser,:itravel, 0)
+    ";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":iuser", $param["iuser"]);
+    $stmt->bindValue(":itravel", $param["itravel"]);
+    $stmt->execute();
+    return $stmt->rowCount();
+  }
+
+  public function DeletetravelState($param) {
+    $sql="DELETE FROM t_travel_state
+    WHERE iuser = :iuser
+    AND itravel = :itravel";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":iuser", $param["iuser"]);
+    $stmt->bindValue(":itravel", $param["itravel"]);
+    $stmt->execute();
+    return $stmt->rowCount();
+  }
+
 }
