@@ -63,6 +63,51 @@ class TravelModel extends Model
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
+    // filter list
+    public function travelFilterList(&$param)
+    {
+        $f_area = $param["area"];
+        $f_location = $param["location"];
+        $s_date = $param["s_date"];
+        $e_date = $param["e_date"];
+        $f_people = $param["people"];
+        $f_gender = $param["gender"];
+        $f_age = $param["age"];
+        $l_price = $param["l_price"];
+        $h_price = $param["h_price"];
+
+        $sql = "SELECT * 
+                FROM t_travel A
+                INNER JOIN t_user B
+                ON A.iuser = B.iuser";
+        if($f_area > 0) {
+            $sql .= " WHERE A.area = $f_area";
+        }
+        if($f_location > 0) {
+            $sql .= " AND A.location = $f_location";
+        }
+        if($f_age > 0) {
+            $sql .= " AND A.f_age = $f_age";
+        }
+        if($f_gender > 0) {
+            $sql .= " AND A.f_gender = $f_gender";
+        }
+        if($f_people >= 2 && $f_people < 8) {
+            $sql .= " AND A.f_people = {$f_people}";
+        }else if($f_people >= 8){
+            $sql .= " AND A.f_people >= 8";
+        }
+        if($l_price <= $h_price) {
+            $sql .= " AND A.f_price >= $l_price AND A.f_price <= $h_price";
+        }
+        if($s_date < $e_date) {
+            $sql .= " AND A.s_date >= '$s_date' AND A.e_date <= '$e_date'";
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
     // area list
     public function areaList()
     {
