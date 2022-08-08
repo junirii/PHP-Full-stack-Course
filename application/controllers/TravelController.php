@@ -23,6 +23,23 @@ class TravelController extends Controller{
         return $this->model->travelList($param);
     }
 
+    // FilterList
+    public function travelFilterList() {
+        $json = getJson();
+        $param = [
+            "area" => $json["area"],
+            "location" => $json["location"],
+            "s_date" => $json["s_date"],
+            "e_date" => $json["e_date"],
+            "people" => $json["people"],
+            "gender" => $json["gender"],
+            "age" => $json["age"],
+            "l_price" => $json["l_price"],
+            "h_price" => $json["h_price"]
+        ];
+        return $this->model->travelFilterList($param);
+    }
+
     public function create() {
         $json = getJson();
         print_r($json);

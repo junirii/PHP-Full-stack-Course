@@ -55,13 +55,11 @@ export default {
     hiddenModal() {
       this.modalShow = false;
     },
-    async travelList() {
+    async travelFilterList() {
       console.log(this.$store.state.filter);
       const filter = this.$store.state.filter;
       console.log(filter);
-      this.list = await this.$post('/travel/travelList', {
-      filter: this.$store.state.filter
-      });
+      this.list = await this.$post('/travel/traveFilterlList', { filter: this.$store.state.filter });
     },
     async goToDetail(itravelNum) {
       this.$store.state.itravel = itravelNum;
@@ -105,7 +103,7 @@ export default {
   },
 
   created() {
-    this.travelList();
+    this.travelFilterList();
     this.favItravel();
   },
 }

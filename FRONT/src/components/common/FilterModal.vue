@@ -1,8 +1,8 @@
 <template>
   <Transition name="modal">
     <div v-if="show" class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container">
+      <div class="modal-wrapper" @click="$emit('close')">
+        <div class="modal-container" @click.stop="">
           <div class="modal-header">
             <slot name="header">필터</slot>
             <button @click="$emit('close')">X</button>
@@ -21,50 +21,50 @@
               </select>
               <hr>
               <h4>날짜선택</h4>
-
+              <Datepicker v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false" />
               <hr>
               <h4>인원 수</h4>
               <label for="two">2</label>
-              <input type="radio" id="two" name="people" value="2">
+              <input type="radio" v-model="filter.people" id="two" name="people" value="2">
               <label for="three">3</label>
-              <input type="radio" id="three" name="people" value="3">
+              <input type="radio" v-model="filter.people" id="three" name="people" value="3">
               <label for="four">4</label>
-              <input type="radio" id="four" name="people" value="4">
+              <input type="radio" v-model="filter.people" id="four" name="people" value="4">
               <label for="five">5</label>
-              <input type="radio" id="five" name="people" value="5">
+              <input type="radio" v-model="filter.people" id="five" name="people" value="5">
               <label for="six">6</label>
-              <input type="radio" id="six" name="people" value="6">
+              <input type="radio" v-model="filter.people" id="six" name="people" value="6">
               <label for="seven">7</label>
-              <input type="radio" id="seven" name="people" value="7">
+              <input type="radio" v-model="filter.people" id="seven" name="people" value="7">
               <label for="eight">8+</label>
-              <input type="radio" id="eight" name="people" value="8">
+              <input type="radio" v-model="filter.people" id="eight" name="people" value="8">
               <hr>
               <h4>성별</h4>
               <label for="M">남</label>
-              <input type="radio" id="M" name="gender" value="1">
+              <input type="radio" v-model="filter.gender" id="M" name="gender" value="1">
               <label for="F">여</label>
-              <input type="radio" id="F" name="gender" value="2">
+              <input type="radio" v-model="filter.gender" id="F" name="gender" value="2">
               <label for="X">혼성</label>
-              <input type="radio" id="X" name="gender" value="3">
+              <input type="radio" v-model="filter.gender" id="X" name="gender" value="3">
               <hr>
               <h4>연령대</h4>
-              <div :key="item.idx" v-for="(item, i) in ageList">
+              <div :key="item.idx" v-for="item in ageList">
                 <label :for="item.idx">{{ item.age }}</label>
-                <input type="radio" :id="item.idx" :value="item.idx">
+                <input type="radio" v-model="filter.age" :id="item.idx" :value="item.idx" name="age">
               </div>
-              <!-- <select>
-                <option :key="item.idx" :value="item.idx" v-for="item in ageList">{{ item.age }}</option>
-              </select> -->
               <hr>
               <h4>여행경비</h4>
-              <input type="number" step="1000"> 원
+              <div>
+                <span>￦<input type="number" v-model="filter.l_price" step="1000" id="number" min="0"></span> - 
+                <span>￦<input type="number" v-model="filter.h_price" step="1000" id="number" min="0"></span>
+              </div>
             </slot>
           </div>
           <div class="modal-footer">
             <slot name="footer">
-              default footer
-
-              <button type="submit">확인</button>
+              <router-link :to="{ path: '/FilterList' }">
+                <button type="button" @click="moveToList()">여행 찾기</button>
+              </router-link>
             </slot>
           </div>
         </div>
@@ -74,7 +74,26 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue';
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+import { nextDay } from 'date-fns';
+
 export default {
+  components: {
+    Datepicker
+  },
+  setup() {
+    const date = ref();
+    onMounted(() => {
+      const startDate = new Date();
+      const endDate = new Date(new Date().setDate(startDate.getDate()));
+      date.value = [startDate, endDate];
+    })
+    return {
+      date,
+    }
+  },
   data() {
     return {
       areaList: [],
@@ -82,6 +101,17 @@ export default {
       ageList: [],
       selectedArea: '',
       selectedLocation: '',
+      filter: {
+        area: 0,
+        location: 0,
+        s_date: '',
+        e_date: '',
+        people: 0,
+        gender: 0,
+        age: 0,
+        l_price: 0,
+        h_price: 0,
+      }
     }
   },
   props: {
@@ -93,11 +123,6 @@ export default {
     this.getAgeList();
   },
   methods: {
-    showLocationOption() {
-      this.selectedLocation = '';
-      this.locationList = [];
-      this.getLocationList(this.selectedArea);
-    },
     async getAreaList() {
       this.areaList = await this.$get('/travel/areaList', {});
       console.log(this.areaList);
@@ -109,6 +134,32 @@ export default {
     async getAgeList() {
       this.ageList = await this.$get('/travel/ageList', {});
       console.log(this.ageList);
+    },
+    showLocationOption() {
+      this.selectedLocation = '';
+      this.locationList = [];
+      this.getLocationList(this.selectedArea);
+    },
+    moveToList() {
+      this.filter.area = this.selectedArea;
+      if (this.selectedLocation) {
+        this.filter.location = this.selectedLocation;
+      } else {
+        this.filter.location = 0;
+      }
+
+      const s_year = this.date[0].getFullYear();
+      const s_month =  ("0" + (this.date[0].getMonth() + 1)).slice(-2);
+      const s_day = ("0" + this.date[0].getDate()).slice(-2);
+      this.filter.s_date = `${s_year}-${s_month}-${s_day}`;
+
+      const e_year = this.date[1].getFullYear();
+      const e_month = ("0" + (this.date[1].getMonth() + 1)).slice(-2);
+      const e_day = ("0" + this.date[1].getDate()).slice(-2);
+      this.filter.e_date = `${e_year}-${e_month}-${e_day}`;
+
+      const result = this.$post('/travel/travelFilterList', this.filter);
+      console.log(result);
     },
   }
 }
@@ -133,7 +184,7 @@ export default {
 }
 
 .modal-container {
-  width: 500px;
+  width: 600px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -155,10 +206,6 @@ export default {
   text-align: center;
 }
 
-.modal-login-button {
-  display: inline-block;
-}
-
 .modal-enter-from {
   opacity: 0;
 }
@@ -172,11 +219,9 @@ export default {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
-.modal-content{
-overflow-y: initial !important
-}
-.modal-body{
-height: 500px;
-overflow-y: auto;
+
+.modal-body {
+  height: 500px;
+  overflow-y: auto;
 }
 </style>
