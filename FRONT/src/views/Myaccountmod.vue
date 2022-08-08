@@ -18,8 +18,6 @@
           <div>생년월일 : <input type="date" v-model="loginUser.birth"></div>
           <div>전화번호 : <input type="tel" v-model="loginUser.tel"></div>
           <div>상태메세지 : <input type="text" v-model="loginUser.cmt"></div>
-          <div><i class="fa-regular fa-paper-plane fa"></i>DM</div>
-          <div><i class="fa-solid fa-heart fa"></i>인기도오케이</div>
         </div>
       </div>
 

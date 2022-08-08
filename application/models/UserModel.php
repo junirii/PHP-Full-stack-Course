@@ -162,7 +162,7 @@ class UserModel extends Model
 
   // ----------------- MyPage Fav ---------------
   public function selUserFav(&$param){
-    $sql = "SELECT count(liked_iuser) AS FAV
+    $sql = "SELECT count(liked_iuser) AS favCount
     FROM t_user_fav WHERE liked_iuser = :liked_iuser";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":liked_iuser", $param["iuser"]);
@@ -195,4 +195,19 @@ class UserModel extends Model
     return $stmt->rowCount();
   }
 
+  public function updProfileImg(&$param){
+    $sql="UPDATE t_user SET profile_img = ";
+    if(isset($param["profile_img"])){
+      $profile_img = $param["profile_img"];
+      $sql .= "'${profile_img}'";
+    }
+    if(isset($param["del"])){
+      $sql .= "null";
+    }
+    $sql .= " WHERE iuser = :iuser";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":iuser", $param["iuser"]);
+    $stmt->execute();
+    return $stmt->rowCount();
+  }
 }

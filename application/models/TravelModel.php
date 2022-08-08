@@ -21,7 +21,11 @@ class TravelModel extends Model
         $sql = "SELECT * 
             FROM t_travel A
             INNER JOIN t_user B
-            ON A.iuser = B.iuser";
+            ON A.iuser = B.iuser
+            INNER JOIN t_area C
+            ON A.area = C.iarea
+            INNER JOIN t_location D
+            ON A.location = D.ilocation";
         if($f_age > 0){ //나이
             $sql .= " WHERE A.f_age = {$f_age}";
         }

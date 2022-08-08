@@ -10,5 +10,5 @@ function getIuser() {
 }
 
 function getMainImgSrc() {
-    return getIuser() . "/" . getLoginUser()->profileimg;
+    return getIuser() . "/" . getLoginUser()->profile_img;
 }

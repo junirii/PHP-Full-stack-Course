@@ -58,7 +58,6 @@ class UserController extends Controller
     $myPageHost = $this->model->myPageHost($param); // 함수 쓰는법
     $myPageTravelState = $this->model->myPageTravelState($param);
     $myPageTravelFav = $this->model->myPageTravelFav($param);
-    $selUser = $this->model->selUser($param);
     $param["loginIuser"] = intval($urlPaths[3]);
     $guestTravel = $this->model->selGuestTravel($param);
     $selUserFav = $this->model->selUserFav($param);
@@ -67,7 +66,6 @@ class UserController extends Controller
       "myPageTravelFav" => $myPageTravelFav,
       "myPageHost" => $myPageHost,
       "myPageTravelState" => $myPageTravelState,
-      "selUser" => $selUser,
       "guestTravel" => $guestTravel,
       "selUserFav" => $selUserFav,
     ];
@@ -133,4 +131,66 @@ class UserController extends Controller
     }
   }
 
+  public function profileImg(){
+    switch (getMethod()) {
+      case _PUT:
+        $json = getJson();
+        $iuser = $json["params"]["iuser"];
+        $image_parts = explode(";base64,", $json["params"]["profileImg"]);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+        $dirPath = _IMG_PATH . "/profile/" . $iuser;
+        if(!is_dir($dirPath)) {
+          mkdir($dirPath, 0777, true);
+        }
+        $loginUser = getLoginUser();
+        if($loginUser->profile_img){
+          $savedImg = $dirPath . "/" . $loginUser->profile_img;
+          if(file_exists($savedImg)){
+            unlink($savedImg);
+          }
+        }
+        $fileNm = uniqid() . "." . $image_type;
+        $filePath = $dirPath . "/" . $fileNm;
+        $result = file_put_contents($filePath, $image_base64);
+        if($result){
+          $param = [
+            "profile_img" => $fileNm,
+            "iuser" => $iuser
+          ];
+          if($this->model->updProfileImg($param)){
+            $loginUser->profile_img = $fileNm;
+            return [_RESULT => 1];
+          }
+        }
+        break;
+      case _DELETE:
+        $loginUser = getLoginUser();
+        if($loginUser){
+          $path = _IMG_PATH . "/profile/" . getIuser() . "/" . $loginUser->profile_img;
+          if(file_exists($path) && unlink($path)){
+            $param = [ "iuser" => getIuser(), "del" => 1 ];
+            if($this->model->updProfileImg($param)){
+              $loginUser->profile_img = null;
+              return [_RESULT => 1];
+            }
+          }
+        }
+        return [_RESULT => 0];
+        break;
+    }
+  }
+
+  public function selUser(){
+    switch (getMethod()) {
+      case _GET:
+        $urlPaths = getUrlPaths();
+        $iuser = $urlPaths[2];
+        $param = [
+          "iuser" => $iuser
+        ];
+        return [_RESULT => $this->model->selUser($param)];
+    }
+  }
 }

@@ -7,13 +7,13 @@
     <div class="row">
       <div class="col"><img :src="`/static/img/travel/${data.travelData.itravel}/main/${data.travelData.main_img}`"></div>
       <div class="col">
-        <div>{{ data.hostUser.title }}</div>
+        <div>제목 : {{ data.travelData.title }}</div>
         <div>지역 : {{ data.travelData.area }} / {{ data.travelData.location }}</div>
         <div>기간 : {{ data.travelData.s_date }} ~ {{ data.travelData.e_date }}</div>
         <div>성별 : {{ data.travelData.f_people }}</div>
         <div>연령 : {{ data.travelData.f_age }}</div>
-        <div>인원 : {{ data.travelData.f_people }}</div>
-        <div>비용 : {{ data.travelData.f_price }}</div>
+        <div>인원 : {{ data.travelData.f_people }} 명</div>
+        <div>비용 : {{ data.travelData.f_price }} 원</div>
       </div>
     </div>
     <br>

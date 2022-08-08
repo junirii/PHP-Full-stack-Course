@@ -4,13 +4,16 @@
       <div>{{selUser.iuser}}번의 게시판</div>
       <!-- 마이페이지 섹션1 - 프로필 -->
       <div class="mypage_profile">
-        <div class="mypage_profile_img">사진{{ selUser.profile_img }}</div>
+        <div class="mypage_profile_img">
+          <img :src="`/static/img/profile/${selUser.iuser}/${selUser.profile_img}`"
+           onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';"
+           alt="프로필사진" @click="showModal" id="profileImg"></div>
         <div class="mypage_profile_txt">
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
-          <div><i class="fa-regular fa-paper-plane"></i>DM</div>
-          <div><i class="fa-solid fa-heart userFav" @click="usergood()"></i>{{this.selUserFav[0]}}</div>
-          <div><i class="fa-solid fa-pencil fa"></i></div>
+          <div><i class="fa-regular fa-paper-plane" @click="goToChat"></i>DM</div>
+          <div><i class="fa-solid fa-heart userFav" @click="usergood()"></i>{{favCount}}</div>
+          <div><i class="fa-solid fa-pencil fa"></i>프로필 수정</div>
         </div>
       </div>
       <br>
@@ -61,9 +64,17 @@
       </div>
     </div> <!-- container 닫기 -->
   </div>
+
+  <ProfileImgModal 
+    :show="modalShow" 
+    @close="hiddenModal"
+    v-on:update="getUserData"
+    v-on:defaultImg="setDefaultImg" />
 </template>
 
 <script>
+import ProfileImgModal from '/src/components/common/ProfileImgModal.vue';
+
 export default {
   data() {
     return {
@@ -78,10 +89,32 @@ export default {
       feedIuser: 0,
       loginIuser: 0,
       cmt: '',
-      selUserFav: [], //수정 필요
+      favCount: null, //수정 필요
+      modalShow: false,
     }
   },
+  components: {
+    ProfileImgModal
+  },
   methods: {
+    goToChat(){
+
+    },
+    async getUserData(){
+      const res = await this.$get(`/user/selUser/${this.feedIuser}`, {});
+      console.log(res);
+      this.selUser = res.result;
+    },
+    setDefaultImg(){
+      document.querySelector('#profileImg').src = '/static/img/profile/common/defaultImg.webp';
+    },
+    hiddenModal(){
+      this.modalShow = false;
+    },
+    showModal(){
+      this.modalShow = true;
+      console.log(this.modalShow);
+    },
     async getMyPage() { // mypage 받아오기
       console.log(this.$store.state.user);
       this.feedIuser = this.$store.state.feedIuser;
@@ -95,10 +128,9 @@ export default {
       this.myPageTravelFav = this.data.result.myPageTravelFav;
       this.myPageHost = this.data.result.myPageHost;
       this.myPageTravelState = this.data.result.myPageTravelState;
-      this.selUser = this.data.result.selUser;
       this.guestTravel = this.data.result.guestTravel;
       this.selUserFav = this.data.result.selUserFav;  // 인기도
-      console.log(this.selUserFav[0]); 
+      this.favCount = this.selUserFav[0].favCount; 
     },
     async goToDetailFromMyPage(itravelNum) { // 클릭시 여행게시물로 이동
       this.$store.state.itravel = itravelNum;
@@ -135,6 +167,7 @@ export default {
   },
   created() {
     this.getMyPage();
+    this.getUserData();
     this.getCmt();
   }
 }

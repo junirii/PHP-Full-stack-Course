@@ -18,6 +18,13 @@ export default {
                 console.error(e);
             })).data;
         },
+        async $put(url, param) {
+            return (await axios.put(url, {
+                params: param
+            }).catch( e => {
+                console.error(e);
+            })).data;
+        },
         async $delete(url, param) {
             return (await axios.delete(url, {
                 params: param
