@@ -248,4 +248,15 @@ class UserModel extends Model
     $stmt->execute();
     return $stmt->rowCount();
   }
+
+  public function usertravelState(&$param){ // 신청상태 보여주기
+    $sql = "SELECT * FROM t_travel_state A
+    INNER JOIN t_travel B
+    ON A.itravel = B.itravel
+    WHERE A.iuser=:iuser";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":iuser", $param["iuser"]);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
 }
