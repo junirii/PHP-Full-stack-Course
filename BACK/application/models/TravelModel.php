@@ -265,4 +265,18 @@ class TravelModel extends Model
         $stmt->execute();
         return $stmt->rowCount(); // 값이 한개 추가될때 
     }
+
+    public function selState(&$param) { // 헤더 알림
+        $sql="SELECT * FROM t_travel_state A
+        INNER JOIN t_user B
+        ON A.iuser = B.iuser
+        INNER JOIN t_travel C
+        ON A.itravel = C.itravel
+        WHERE A.isconfirm = 0
+        AND C.iuser = :iuser";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }

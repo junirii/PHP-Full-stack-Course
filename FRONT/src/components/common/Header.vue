@@ -8,10 +8,15 @@
             </div>
             <div class="icons">
                 <div class="notifi">
-                    <i class="fa-regular fa-bell fa-2x"></i>
-                    <div class="notifi-window">
-
+                    <i class="fa-regular fa-bell fa-2x dropdown" @click="selRequest()"
+                    type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                <ul class="dropdown-menu">
+                    <div>
+                    <li class="dropdown-item" >ㅇㅇ</li>
+                    <li class="dropdown-item" >Another action</li>
+                    <li class="dropdown-item" >Something else here</li>
                     </div>
+                </ul>
                 </div>
                 <div class="burger-wrapper">
                     <input type="checkbox" id="sideMenu">
@@ -44,11 +49,11 @@
 </template>
 
 <script>
-
 export default {
+    
     data(){
         return {
-            
+
         };
     },
     methods: {
@@ -76,6 +81,9 @@ export default {
         },
         loginCheck(){
             this.isLogin = this.$store.state.isLogin;
+        },
+        async selRequest() {
+
         }
     },
     created(){
@@ -200,4 +208,5 @@ li {
 #sideMenu:checked ~ #burger > div:nth-child(3) {
     transform: translateY(-15px) rotate(-45deg);
 }
+
 </style>

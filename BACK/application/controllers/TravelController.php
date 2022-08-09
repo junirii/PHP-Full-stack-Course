@@ -206,5 +206,13 @@ class TravelController extends Controller{
         // }
         return [_RESULT => $result ? 1 : 0];
     }
-    
+ 
+    public function selRequest()
+  {
+    $iuser = getIuser();
+    $param = [
+        "iuser" => $iuser
+    ];
+    return [_RESULT => $this->model->selState($param)]; 
+  }
 }
