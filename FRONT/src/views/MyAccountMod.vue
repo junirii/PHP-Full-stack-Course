@@ -5,8 +5,8 @@
       <h1>회원정보 수정</h1>
       <div class="myaccount_profile">
         <div class="myaccount_profile_txt">
-          <div>이메일 : <input type="email" v-model="loginUser.email"></div>
-          <div>비밀번호 : <input type='button' value='비밀번호 변경' id='btn3' @click="clickBtn1">
+          <div class="item">이메일 : <input type="email" v-model="loginUser.email"></div>
+          <div class="item">비밀번호 : <input type='button' value='비밀번호 변경' id='btn3' @click="clickBtn1">
 
             <div>
               <input type='password' v-model="pw" id='btn1' style="display:none;" placeholder="새 비밀번호">
@@ -19,18 +19,18 @@
           <input type='button' value='취소' id='btn4' @click="clickBtn2" style="display:none;">
         </div>
 
-        <div>이름 : <input type="text" v-model="loginUser.nm"></div>
-        <div>닉네임 : <input type="text" v-model="loginUser.nick"></div>
-        <div>성별 :
+        <div class="item">이름 : <input type="text" v-model="loginUser.nm"></div>
+        <div class="item">닉네임 : <input type="text" v-model="loginUser.nick"></div>
+        <div class="item">성별 :
           <input v-model="loginUser.gender" type="radio" id="male" name="gender" value="1"
             checked="this.loginUser.gender == 1 ? ='checked' : =''">
           <label for="male">남성</label>
           <input v-model="loginUser.gender" type="radio" id="female" name="gender" value="2">
           <label for="female">여성</label>
         </div>
-        <div>생년월일 : <input type="date" v-model="loginUser.birth"></div>
-        <div>전화번호 : <input type="tel" v-model="loginUser.tel"></div>
-        <div>상태메세지 : <input type="text" v-model="loginUser.cmt"></div>
+        <div class="item">생년월일 : <input type="date" v-model="loginUser.birth"></div>
+        <div class="item">전화번호 : <input type="tel" v-model="loginUser.tel"></div>
+        <div class="item">상태메세지 : <input type="text" v-model="loginUser.cmt"></div>
       </div>
 
 
@@ -124,9 +124,19 @@ export default {
   margin: 0 auto;
   padding: 150px;
 }
-
-.myaccount_profile {
-  border: 1px solid grey;
-  border-radius: 5px;
+.container {
+color: var(--maincolor);
 }
+
+.item{
+  background-color: #fff;
+  color: var(--maincolor);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 5vh;
+  margin: 15px;
+  padding: 15px;
+}
+
 </style>

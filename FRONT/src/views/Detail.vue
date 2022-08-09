@@ -4,7 +4,7 @@
       <h1>Detail</h1>
 
       <!-- 디테일 섹션1 - 간단 정보(필터)-->
-      <div class="row">
+      <div class="section">
         <div class="col"><img class="detailMainImg"
             :src="`/static/img/travel/${data.travelData.itravel}/main/${data.travelData.main_img}`"></div>
         <div class="col">
@@ -20,22 +20,24 @@
       <br>
       <hr>
       <!-- 디테일 섹션2 - 호스트 정보-->
-      <div class="row">
-        <div>호스트 정보</div>
+      <div>
+        <div class="title host">호스트 정보</div>
+        <div class="section">
         <div class="col">
           <img class="hostImg" :src="`/static/img/profile/${data.hostUser.iuser}/${data.hostUser.profile_img}`"
           onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진"
-          @click="showModal" id="profileImg">
+          @click="goMypage(data.hostUser.iuser)" id="profileImg">
         </div>
         <div class="col">
-          <div>닉네임 : {{ data.hostUser.nick }}</div>
-          <div>소개글 : {{ data.hostUser.cmt }}</div>
+          <div @click="goMypage(data.hostUser.iuser)">닉네임 : {{ data.hostUser.nick }}</div>
+          <div @click="goMypage(data.hostUser.iuser)">소개글 : {{ data.hostUser.cmt }}</div>
         </div>
+</div>
       </div>
       <hr>
       <button type="button" @click="goToChat">채팅</button>
       <!-- 디테일 섹션3 - 상세 정보-->
-      <div>여행 일정</div>
+      <div class="title">여행 일정</div>
       <div class="accordion" id="accordionPanelsStayOpenExample">
         <div class="accordion-item" :key="idx" v-for="(dayObj, idx) in data.day">
           <h2 class="accordion-header" id="panelsStayOpen-headingOne">
@@ -65,7 +67,7 @@
           <input class="submitBtn" type="submit" value="신청하기" @click="instate()">
         </div>
       </div>
-
+    <button class="topBtn" @click="top">Top</button>
     </div> <!-- container 닫기 -->
   </div>
 </template>
@@ -82,6 +84,16 @@ export default {
     }
   },
   methods: {
+    top() {
+      window.scrollTo(0,0);
+    },
+    goMypage(iuserNum) {
+      this.$store.state.feedIuser = iuserNum;
+      this.$router.push({name: 'mypage'});
+      window.scrollTo(0,0)
+            // this.$router.push({name: 'mypage'});
+      
+    },
     goToChat(){
       this.$router.push({name: 'chat'});
     },
@@ -161,20 +173,24 @@ export default {
   margin: 0 auto;
   padding: 150px;
 }
-
 .container {
-  color: blue;
+  color: var(--maincolor);
+}
+.section {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .title {
   color: #fff;
-  background-color: blue;
+  background-color: var(--maincolor);
   padding: 20px;
 }
 
 .hostImg {
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -183,13 +199,6 @@ export default {
   width: 60vw;
   margin: 0 auto;
 }
-
-.col {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
 .detailMainImg {
   max-width: 40vw;
   max-height: 50vh;
@@ -202,7 +211,7 @@ export default {
 .containerCtnt {
   display: flex;
   background-color: #fff;
-  border-bottom: 1px solid blue;
+  border-bottom: 1px solid var(--maincolor);
 }
 
 .containerCtntImg {
@@ -219,7 +228,7 @@ export default {
 
 .accordion-button {
   background-color: white;
-  color: blue;
+  color: var(--maincolor);
 
 }
 
@@ -272,6 +281,29 @@ export default {
 }
 
 .submitBtn:active {
+  transform: translateY(4px);
+  box-shadow: 0 4px 0 #2d7ac2;
+}
+
+.topBtn {
+  position: fixed;
+  bottom: 333px;
+  right: 220px;
+  width: 80px;
+  height: 80px;
+  z-index: 10;
+
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  border: 0px;
+  background-color: var(--maincolor);
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 8px 8 #285d92;
+}
+
+.topBtn:active {
   transform: translateY(4px);
   box-shadow: 0 4px 0 #2d7ac2;
 }
