@@ -3,7 +3,7 @@
   <main class="list mt-3" >
     <div class="container">   
       <button type="button" @click="showFilterModal">필터</button>
-      <FilterModal :show="modalShow" @close="hiddenModal" v-on:update="filterList()"></FilterModal>
+      <FilterModal :show="modalShow" @close="hiddenModal" v-on:update="travelList()"></FilterModal>
       <div class="row" slot="body">
         <div class="col-xl-3 col-lg-4 col-md-6" style="padding: 25px 25px 25px;"
             :key="item.itravel" v-for="item in list">
@@ -64,9 +64,6 @@ export default {
       filter: this.$store.state.filter
       });
       console.log(this.list);
-    },
-    filterList() {
-      this.travelList();
     },
     async goToDetail(itravelNum) {
       this.$store.state.itravel = itravelNum;
