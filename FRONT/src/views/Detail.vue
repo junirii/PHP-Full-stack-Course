@@ -193,7 +193,7 @@ export default {
 }
 
 .title-filter {
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: var(--mainDark);
 }
 
@@ -257,11 +257,8 @@ export default {
   right: 220px;
   width: 80px;
   height: 80px;
-  z-index: 10;
 
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
   border: 0px;
   background-color: var(--maincolor);
   color: white;
@@ -281,11 +278,8 @@ export default {
   right: 220px;
   width: 80px;
   height: 80px;
-  z-index: 10;
 
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
   border: 0px;
   background-color: var(--maincolor);
   color: white;
@@ -305,11 +299,8 @@ export default {
   right: 220px;
   width: 80px;
   height: 80px;
-  z-index: 10;
 
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
   border: 0px;
   background-color: var(--maincolor);
   color: white;

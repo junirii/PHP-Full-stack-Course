@@ -4,14 +4,14 @@
 
       <h1>회원정보 수정</h1>
       <div class="myaccount-profile">
-          <div class="item">이메일 : <input type="email" v-model="loginUser.email"></div>
-          <div class="item">비밀번호 : <input type='button' value='비밀번호 변경' id='btn3' @click="clickBtn1">
-            <span>
-              <input type='password' v-model="pw" id='btn1' style="display:none;" placeholder="새 비밀번호">
-            </span>
-            <span>
-              <input type='password' v-model="pwCheck" id='btn2' style="display:none;" placeholder="새 비밀번호 확인">
-            </span>
+        <div class="item">이메일 : <input type="email" v-model="loginUser.email"></div>
+        <div class="item">비밀번호 : <input type='button' value='비밀번호 변경' id='btn3' @click="clickBtn1">
+          <span>
+            <input type='password' v-model="pw" id='btn1' style="display:none;" placeholder="새 비밀번호">
+          </span>
+          <span>
+            <input type='password' v-model="pwCheck" id='btn2' style="display:none;" placeholder="새 비밀번호 확인">
+          </span>
           <input type='button' value='취소' id='btn4' @click="clickBtn2" style="display:none;">
         </div>
         <div class="item">이름 : <input type="text" v-model="loginUser.nm"></div>
@@ -123,14 +123,11 @@ export default {
 
 .container {
   color: var(--maincolor);
-  width: 70vh;
-
+  width: 60vh;
 }
 
 .myaccount-profile {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
   border: 1px solid var(--maincolor);
 }
@@ -143,4 +140,11 @@ export default {
   margin: 5px;
   padding: 5px;
 }
+
+input {
+  border: none;
+  border-bottom: 1px solid var(--maincolor);
+  padding: 5px;
+}
+
 </style>
