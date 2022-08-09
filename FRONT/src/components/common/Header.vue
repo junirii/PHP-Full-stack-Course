@@ -46,16 +46,7 @@
 export default {
     data() {
         return {
-            filter: {
-                selectedArea: [],
-                f_people: 0,
-                f_gender: 0,
-                f_age: 0,
-                l_price: 10000,
-                h_price: 5000000,
-                s_date: '',
-                e_date: '',
-            }
+
         };
     },
     methods: {
