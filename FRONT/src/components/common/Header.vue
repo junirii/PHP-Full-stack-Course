@@ -12,40 +12,52 @@
                     <button style="margin-top: 100px;" type="button" @click="showDivChat">채팅</button>
                     <div v-if="divChatShow">
                         <div v-for="item in chatRooms" :key="item.itravel">
-                            <div style="color: black;" @click="goToChat(item.itravel)">{{item.title}} : {{item.lastMsg}}</div>
+                            <div style="color: black;" @click="goToChat(item.itravel)">{{ item.title }} : {{ item.lastMsg }}
+                            </div>
+                        </div>
+                        <div class="notifi">
+                            <i class="fa-regular fa-bell fa-2x dropdown" @click="selRequest()" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false"></i>
+                            <ul class="dropdown-menu">
+                                <div>
+                                    <li class="dropdown-item">ㅇㅇ</li>
+                                    <li class="dropdown-item">Another action</li>
+                                    <li class="dropdown-item">Something else here</li>
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="notifi">
+                            <i class="fa-regular fa-bell fa-2x" style="color: var(--maincolor);"></i>
+                        </div>
+                        <div class="chat">
+                            <router-link :to="{ path: '/chat' }">
+                                <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);"></i>
+                            </router-link>
+                        </div>
+                        <div class="burger-wrapper">
+                            <input type="checkbox" id="sideMenu">
+                            <label id="burger" for="sideMenu">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </label>
+                            <nav id="menu">
+                                <ul>
+                                    <li v-if="this.$store.state.isLogin" @click="changeFeedIuser">마이페이지</li>
+                                    <router-link :to="{ path: '/MyAccount' }">
+                                        <li v-if="this.$store.state.isLogin">회원정보 수정</li>
+                                    </router-link>
+                                    <li v-if="this.$store.state.isLogin">DM</li>
+                                    <router-link :to="{ path: '/Create' }">
+                                        <li v-if="this.$store.state.isLogin">여행 호스팅 하기</li>
+                                    </router-link>
+                                    <li v-if="this.$store.state.isLogin" @click="goToAllList">전체 리스트</li>
+                                    <li v-if="this.$store.state.isLogin" @click="logout">로그아웃</li>
+                                    <li v-if="!this.$store.state.isLogin" @click="logout">로그인</li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
-                </div>
-                <div class="notifi">
-                    <i class="fa-regular fa-bell fa-2x" style="color: var(--maincolor);"></i>
-                </div>
-                <div class="chat">
-                    <router-link :to="{ path: '/chat' }">
-                        <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);"></i>
-                    </router-link>
-                </div>
-                <div class="burger-wrapper">
-                    <input type="checkbox" id="sideMenu">
-                    <label id="burger" for="sideMenu">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </label>
-                    <nav id="menu">
-                        <ul>
-                            <li v-if="this.$store.state.isLogin" @click="changeFeedIuser">마이페이지</li>
-                            <router-link :to="{ path: '/MyAccount' }">
-                                <li v-if="this.$store.state.isLogin">회원정보 수정</li>
-                            </router-link>
-                            <li v-if="this.$store.state.isLogin">DM</li>
-                            <router-link :to="{ path: '/Create' }">
-                                <li v-if="this.$store.state.isLogin">여행 호스팅 하기</li>
-                            </router-link>
-                            <li v-if="this.$store.state.isLogin" @click="goToAllList">전체 리스트</li>
-                            <li v-if="this.$store.state.isLogin" @click="logout">로그아웃</li>
-                            <li v-if="!this.$store.state.isLogin" @click="logout">로그인</li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
@@ -61,18 +73,18 @@ export default {
         };
     },
     methods: {
-        goToChat(itravel){
+        goToChat(itravel) {
             this.$store.state.itravel = itravel;
-            this.$router.push({name: 'chat'});
+            this.$router.push({ name: 'chat' });
             this.divChatShow = false;
         },
-        async showDivChat(){
+        async showDivChat() {
             this.divChatShow = !this.divChatShow;
             const res = await this.$get(`/chat/selChatRooms`, {});
             this.chatRooms = res.result;
             console.log(this.chatRooms);
         },
-        changeFeedIuser(){
+        changeFeedIuser() {
         }
     },
     methods: {
@@ -114,6 +126,9 @@ export default {
             };
             console.log(this.$store.state.filter);
             this.$router.push({ name: 'list' });
+        },
+        async selRequest() {
+
         }
     },
     created() {
@@ -156,7 +171,7 @@ header {
 }
 
 .logo-box {
-    
+
     display: flex;
     justify-content: space-between;
 }
@@ -177,6 +192,7 @@ header {
     right: 65px;
     top: 3px;
 }
+
 .chat {
     padding: 6px;
     display: flex;
@@ -187,6 +203,7 @@ header {
     right: 125px;
     bottom: 40px;
 }
+
 .burger-wrap {
     cursor: pointer;
     padding: 6px;
@@ -237,13 +254,15 @@ li {
     justify-content: space-between;
     flex-direction: column;
 }
-#burger > div {
+
+#burger>div {
     height: 3px;
     background-color: var(--maincolor);
     transition: 0.5s;
     z-index: 999;
 }
-#sideMenu:checked ~ #burger > div {
+
+#sideMenu:checked~#burger>div {
     background-color: #fff;
 }
 

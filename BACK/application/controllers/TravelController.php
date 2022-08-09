@@ -217,4 +217,13 @@ class TravelController extends Controller{
                 return [_RESULT => $this->model->DeletetravelState($param)];
         }
       }
+ 
+    public function selRequest()
+    {
+        $iuser = getIuser();
+        $param = [
+            "iuser" => $iuser
+        ];
+        return [_RESULT => $this->model->selState($param)]; 
+    }
 }
