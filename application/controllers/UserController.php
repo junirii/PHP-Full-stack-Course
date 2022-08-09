@@ -61,6 +61,7 @@ class UserController extends Controller
     $param["loginIuser"] = intval($urlPaths[3]);
     $guestTravel = $this->model->selGuestTravel($param);
     $selUserFav = $this->model->selUserFav($param);
+    $userTravelState = $this->model->userTravelState($param);
 
     $data = [
       "myPageTravelFav" => $myPageTravelFav,
@@ -68,6 +69,7 @@ class UserController extends Controller
       "myPageTravelState" => $myPageTravelState,
       "guestTravel" => $guestTravel,
       "selUserFav" => $selUserFav,
+      "userTravelState" => $userTravelState,
     ];
     return [_RESULT => $data];
     // return $this->model->myPage($param);
@@ -214,4 +216,5 @@ class UserController extends Controller
             return [_RESULT => $this->model->DeletetravelState($param)];
     }
   }
+
 }
