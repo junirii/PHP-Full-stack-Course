@@ -12,11 +12,11 @@
             <slot name="body">
               <h4>지역</h4>
               <select v-model="selectedArea" @change="showLocationOption()">
-                <option value="" selected>전체</option>
+                <option value="0" selected>전체</option>
                 <option :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
               </select>
               <select v-model="selectedLocation" v-if="locationList.length > 1">
-                <option value="" selected>전체</option>
+                <option value="0" selected>전체</option>
                 <option :key="item.ilocation" :value="item.ilocation" v-for="item in locationList">{{ item.location_nm }}</option>
               </select>
               <hr>
@@ -25,32 +25,32 @@
               <hr>
               <h4>인원 수</h4>
               <label for="two">2</label>
-              <input type="radio" v-model="filter.people" id="two" name="people" value="2">
+              <input type="radio" v-model="filter.f_people" id="two" name="people" value="2">
               <label for="three">3</label>
-              <input type="radio" v-model="filter.people" id="three" name="people" value="3">
+              <input type="radio" v-model="filter.f_people" id="three" name="people" value="3">
               <label for="four">4</label>
-              <input type="radio" v-model="filter.people" id="four" name="people" value="4">
+              <input type="radio" v-model="filter.f_people" id="four" name="people" value="4">
               <label for="five">5</label>
-              <input type="radio" v-model="filter.people" id="five" name="people" value="5">
+              <input type="radio" v-model="filter.f_people" id="five" name="people" value="5">
               <label for="six">6</label>
-              <input type="radio" v-model="filter.people" id="six" name="people" value="6">
+              <input type="radio" v-model="filter.f_people" id="six" name="people" value="6">
               <label for="seven">7</label>
-              <input type="radio" v-model="filter.people" id="seven" name="people" value="7">
+              <input type="radio" v-model="filter.f_people" id="seven" name="people" value="7">
               <label for="eight">8+</label>
-              <input type="radio" v-model="filter.people" id="eight" name="people" value="8">
+              <input type="radio" v-model="filter.f_people" id="eight" name="people" value="8">
               <hr>
               <h4>성별</h4>
               <label for="M">남</label>
-              <input type="radio" v-model="filter.gender" id="M" name="gender" value="1">
+              <input type="radio" v-model="filter.f_gender" id="M" name="gender" value="1">
               <label for="F">여</label>
-              <input type="radio" v-model="filter.gender" id="F" name="gender" value="2">
+              <input type="radio" v-model="filter.f_gender" id="F" name="gender" value="2">
               <label for="X">혼성</label>
-              <input type="radio" v-model="filter.gender" id="X" name="gender" value="3">
+              <input type="radio" v-model="filter.f_gender" id="X" name="gender" value="3">
               <hr>
               <h4>연령대</h4>
               <div :key="item.idx" v-for="item in ageList">
                 <label :for="item.idx">{{ item.age }}</label>
-                <input type="radio" v-model="filter.age" :id="item.idx" :value="item.idx" name="age">
+                <input type="radio" v-model="filter.f_age" :id="item.idx" :value="item.idx" name="age">
               </div>
               <hr>
               <h4>여행경비</h4>
@@ -103,7 +103,7 @@ export default {
       selectedLocation: '',
       filter: {
         selectedArea: [],
-        // selectedLocation: [],
+        selectedLocation: null,
         s_date: '',
         e_date: '',
         f_people: 0,
@@ -121,6 +121,7 @@ export default {
     this.getAreaList();
     this.getLocationList();
     this.getAgeList();
+    this.getPrice();
   },
   methods: {
     async getAreaList() {
@@ -140,10 +141,18 @@ export default {
       this.locationList = [];
       this.getLocationList(this.selectedArea);
     },
+    async getPrice(){
+      const res = await this.$get('/travel/getPrice');
+      if(res.result){
+        this.filter.h_price = res.result.max;
+        this.filter.l_price = res.result.min;
+        console.log(this.filter);
+      }
+    },
     moveToFilterList() {
       this.filter.selectedArea.push(this.selectedArea);
       if (this.selectedLocation) {
-        this.filter.selectedLocation.push(this.selectedLocation);
+        this.filter.selectedLocation = this.selectedLocation;
       } else {
         this.filter.selectedLocation = null;
       }
@@ -152,17 +161,37 @@ export default {
       const s_month =  ("0" + (this.date[0].getMonth() + 1)).slice(-2);
       const s_day = ("0" + this.date[0].getDate()).slice(-2);
       this.filter.s_date = `${s_year}-${s_month}-${s_day}`;
+      // this.filter.s_date = '1900-01-01';
 
       const e_year = this.date[1].getFullYear();
       const e_month = ("0" + (this.date[1].getMonth() + 1)).slice(-2);
       const e_day = ("0" + this.date[1].getDate()).slice(-2);
       this.filter.e_date = `${e_year}-${e_month}-${e_day}`;
+      // this.filter.e_date = '2032-08-06';
+
+      if(this.selectedArea == 0) {
+        this.filter.selectedArea = [];
+      }
 
       this.$store.state.filter = this.filter;
       console.log(this.$store.state.filter);
+      this.clearFilter();
       this.$emit('close');
       this.$emit('update');
     },
+    clearFilter(){
+      this.filter = {
+        selectedArea: [],
+        selectedLocation: null,
+        s_date: '',
+        e_date: '',
+        f_people: 0,
+        f_gender: 0,
+        f_age: 0,
+        s_date: '',
+        e_date: '',
+      };
+    }
   }
 }
 </script>

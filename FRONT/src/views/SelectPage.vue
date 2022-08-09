@@ -142,6 +142,7 @@ components: { Datepicker },
       areaList: [],
       filter: {
         selectedArea: [],
+        selectedLocation: null,
         f_people: 0,
         f_gender: 0,
         f_age: 0,
@@ -154,8 +155,17 @@ components: { Datepicker },
   },
   created() {
     this.getAreaList();
+    this.getPrice();
   },
   methods: {
+    async getPrice(){
+      const res = await this.$get('/travel/getPrice');
+      if(res.result){
+        this.filter.h_price = res.result.max;
+        this.filter.l_price = res.result.min;
+        console.log(this.filter);
+      }
+    },
     async getAreaList() {
       this.areaList = await this.$get('/travel/areaList', {});
     },
@@ -207,9 +217,10 @@ components: { Datepicker },
     goToAllList(){
       this.filter = {
         selectedArea: [],
+        selectedLocation: null,
         f_people: 0,
         f_gender: 0,
-        f_age: 0,
+        f_age: -1,
         l_price: 10000,
         h_price: 5000000,
         s_date: '1900-01-01',

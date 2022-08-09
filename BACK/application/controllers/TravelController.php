@@ -10,7 +10,7 @@ class TravelController extends Controller{
 
         $param = [
             "arr_area" => $json["filter"]["selectedArea"],
-            // "arr_location" => $json["filter"]["selectedLocation"],
+            "location" => $json["filter"]["selectedLocation"],
             "s_date" => $json["filter"]["s_date"],
             "e_date" => $json["filter"]["e_date"],
             "f_people" => $json["filter"]["f_people"],
@@ -20,23 +20,6 @@ class TravelController extends Controller{
             "f_age" => $json["filter"]["f_age"],
         ];
         return $this->model->travelList($param);
-    }
-
-    // FilterList
-    public function travelFilterList() {
-        $json = getJson();
-        $param = [
-            "area" => $json["area"],
-            "location" => $json["location"],
-            "s_date" => $json["s_date"],
-            "e_date" => $json["e_date"],
-            "people" => $json["people"],
-            "gender" => $json["gender"],
-            "age" => $json["age"],
-            "l_price" => $json["l_price"],
-            "h_price" => $json["h_price"]
-        ];
-        return $this->model->travelFilterList($param);
     }
 
     public function create() {
@@ -205,6 +188,10 @@ class TravelController extends Controller{
         //     $this->model->productImageInsert($param);
         // }
         return [_RESULT => $result ? 1 : 0];
+    }
+
+    public function getPrice(){
+        return [_RESULT => $this->model->getPrice()];
     }
     
 }

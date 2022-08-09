@@ -17,7 +17,7 @@ class TravelModel extends Model
         $s_date = $param["s_date"];
         $e_date = $param["e_date"];
         $arr_area = $param["arr_area"];
-        // $arr_location = $param["arr_location"];
+        $location = $param["location"];
 
         $sql = "SELECT * 
             FROM t_travel A
@@ -27,8 +27,11 @@ class TravelModel extends Model
             ON A.area = C.iarea
             LEFT JOIN t_location D
             ON A.location = D.ilocation";
+        if($l_price <= $h_price){ //비용
+            $sql .= " WHERE A.f_price >= {$l_price} AND A.f_price <= {$h_price}";
+        }
         if($f_age > 0){ //나이
-            $sql .= " WHERE A.f_age = {$f_age}";
+            $sql .= " AND A.f_age = {$f_age}";
         }
         if($f_gender > 0){ //성별
             $sql .= " AND A.f_gender = {$f_gender}";
@@ -38,72 +41,27 @@ class TravelModel extends Model
         }else if($f_people === 8){
             $sql .= " AND A.f_people >= 8";
         }
-        if($l_price <= $h_price){ //비용
-            $sql .= " AND A.f_price >= {$l_price} AND A.f_price <= {$h_price}";
-        }
         if($s_date < $e_date){ //기간
             $sql .= " AND A.s_date >= '{$s_date}' AND A.e_date <= '{$e_date}'";
         }
-        // if(count($arr_area) > 0){ //지역
-        //     if(count($arr_area) === 1) {
-        //         $sql .= " AND A.area = {$arr_area[0]}";
-        //     }else{
-        //         for ($i=0; $i < count($arr_area); $i++) { 
-        //             if($i === 0){
-        //                 $sql .= " AND (A.area = {$arr_area[$i]}";
-        //             }else{
-        //                 $sql .= " OR A.area = {$arr_area[$i]}";
-        //             }
-        //         }
-        //         $sql .= ")";
-        //     }
-        // }
+        if(count($arr_area) > 0){ //지역
+            if(count($arr_area) === 1) {
+                $sql .= " AND A.area = {$arr_area[0]}";
+            }else{
+                for ($i=0; $i < count($arr_area); $i++) { 
+                    if($i === 0){
+                        $sql .= " AND (A.area = {$arr_area[$i]}";
+                    }else{
+                        $sql .= " OR A.area = {$arr_area[$i]}";
+                    }
+                }
+                $sql .= ")";
+            }
+        }
+        if($location > 0) {
+            $sql .= " AND A.location = $location";
+        }
         $sql .= " ORDER BY A.reg_dt DESC"; // 리스트 띄우는 순서 : 등록일수 역순
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    // filter list
-    public function travelFilterList(&$param)
-    {
-        $f_area = $param["area"];
-        $f_location = $param["location"];
-        $s_date = $param["s_date"];
-        $e_date = $param["e_date"];
-        $f_people = $param["people"];
-        $f_gender = $param["gender"];
-        $f_age = $param["age"];
-        $l_price = $param["l_price"];
-        $h_price = $param["h_price"];
-
-        $sql = "SELECT * 
-                FROM t_travel A
-                INNER JOIN t_user B
-                ON A.iuser = B.iuser";
-        if($f_area > 0) {
-            $sql .= " WHERE A.area = $f_area";
-        }
-        if($f_location > 0) {
-            $sql .= " AND A.location = $f_location";
-        }
-        if($f_age > 0) {
-            $sql .= " AND A.f_age = $f_age";
-        }
-        if($f_gender > 0) {
-            $sql .= " AND A.f_gender = $f_gender";
-        }
-        if($f_people >= 2 && $f_people < 8) {
-            $sql .= " AND A.f_people = {$f_people}";
-        }else if($f_people >= 8){
-            $sql .= " AND A.f_people >= 8";
-        }
-        if($l_price <= $h_price) {
-            $sql .= " AND A.f_price >= $l_price AND A.f_price <= $h_price";
-        }
-        if($s_date < $e_date) {
-            $sql .= " AND A.s_date >= '$s_date' AND A.e_date <= '$e_date'";
-        }
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -264,5 +222,15 @@ class TravelModel extends Model
         $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->execute();
         return $stmt->rowCount(); // 값이 한개 추가될때 
+    }
+
+    public function getPrice(){
+        $sql = 
+        " SELECT max(f_price) as max, min(f_price) as min
+          FROM t_travel
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 }
