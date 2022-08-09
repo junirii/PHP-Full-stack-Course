@@ -12,7 +12,6 @@ import SelectPage from '../views/SelectPage.vue';
 import store from '@/store';
 import MyAccount from '../views/MyAccount.vue'
 import MyAccountMod from '../views/MyAccountMod.vue'
-import FilterList from '../views/FilterList.vue'
 
 //네이게이션 가드 commit test
 const requireAuth = () => (to, from, next) => {
@@ -95,12 +94,6 @@ const routes = [
     component: MyAccountMod,
     beforeEnter: requireAuth()
   },
-  {
-    path: '/filterlist',
-    name: 'filterlist',
-    component: FilterList,
-    beforeEnter: requireAuth()
-  }
 ]
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

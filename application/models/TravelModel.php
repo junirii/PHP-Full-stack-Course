@@ -17,6 +17,7 @@ class TravelModel extends Model
         $s_date = $param["s_date"];
         $e_date = $param["e_date"];
         $arr_area = $param["arr_area"];
+        // $arr_location = $param["arr_location"];
 
         $sql = "SELECT * 
             FROM t_travel A
@@ -43,20 +44,20 @@ class TravelModel extends Model
         if($s_date < $e_date){ //기간
             $sql .= " AND A.s_date >= '{$s_date}' AND A.e_date <= '{$e_date}'";
         }
-        if(count($arr_area) > 0){ //지역
-            if(count($arr_area) === 1){
-                $sql .= " AND A.area = {$arr_area[0]}";
-            }else{
-                for ($i=0; $i < count($arr_area); $i++) { 
-                    if($i === 0){
-                        $sql .= " AND (A.area = {$arr_area[$i]}";
-                    }else{
-                        $sql .= " OR A.area = {$arr_area[$i]}";
-                    }
-                }
-                $sql .= ")";
-            }
-        }
+        // if(count($arr_area) > 0){ //지역
+        //     if(count($arr_area) === 1) {
+        //         $sql .= " AND A.area = {$arr_area[0]}";
+        //     }else{
+        //         for ($i=0; $i < count($arr_area); $i++) { 
+        //             if($i === 0){
+        //                 $sql .= " AND (A.area = {$arr_area[$i]}";
+        //             }else{
+        //                 $sql .= " OR A.area = {$arr_area[$i]}";
+        //             }
+        //         }
+        //         $sql .= ")";
+        //     }
+        // }
         $sql .= " ORDER BY A.reg_dt DESC"; // 리스트 띄우는 순서 : 등록일수 역순
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();

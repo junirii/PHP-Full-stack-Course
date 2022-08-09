@@ -62,8 +62,8 @@
           </div>
           <div class="modal-footer">
             <slot name="footer">
-              <router-link :to="{ path: '/FilterList' }">
-                <button type="button" @click="moveToList()">여행 찾기</button>
+              <router-link :to="{ path: '/List' }">
+                <button type="button" @click="moveToFilterList()">여행 찾기</button>
               </router-link>
             </slot>
           </div>
@@ -102,13 +102,13 @@ export default {
       selectedArea: '',
       selectedLocation: '',
       filter: {
-        area: 0,
-        location: 0,
+        selectedArea: [],
+        // selectedLocation: [],
         s_date: '',
         e_date: '',
-        people: 0,
-        gender: 0,
-        age: 0,
+        f_people: 0,
+        f_gender: 0,
+        f_age: 0,
         l_price: 0,
         h_price: 0,
       }
@@ -140,12 +140,12 @@ export default {
       this.locationList = [];
       this.getLocationList(this.selectedArea);
     },
-    moveToList() {
-      this.filter.area = this.selectedArea;
+    moveToFilterList() {
+      this.filter.selectedArea.push(this.selectedArea);
       if (this.selectedLocation) {
-        this.filter.location = this.selectedLocation;
+        this.filter.selectedLocation.push(this.selectedLocation);
       } else {
-        this.filter.location = 0;
+        this.filter.selectedLocation = null;
       }
 
       const s_year = this.date[0].getFullYear();
@@ -158,8 +158,10 @@ export default {
       const e_day = ("0" + this.date[1].getDate()).slice(-2);
       this.filter.e_date = `${e_year}-${e_month}-${e_day}`;
 
-      const result = this.$post('/travel/travelFilterList', this.filter);
-      console.log(result);
+      this.$store.state.filter = this.filter;
+      console.log(this.$store.state.filter);
+      this.$emit('close');
+      this.$emit('update');
     },
   }
 }
