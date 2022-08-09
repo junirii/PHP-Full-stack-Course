@@ -9,6 +9,9 @@
             <div class="icons">
                 <div class="notifi">
                     <i class="fa-regular fa-bell fa-2x"></i>
+                    <div class="notifi-window">
+
+                    </div>
                 </div>
                 <div class="burger-wrapper">
                     <input type="checkbox" id="sideMenu">
@@ -129,7 +132,8 @@ header {
     justify-content: center;
     align-items: center;
     position: relative;
-    right: 55px;
+    right: 65px;
+    top: 3px;
 }
 .burger-wrap {
     cursor: pointer;
@@ -171,8 +175,8 @@ li {
     cursor: pointer;
     width: 2rem;
     height: 2rem;
-    right: 1rem;
-    top: 1rem;
+    /* right: 1rem; */
+    top: 1.5rem;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
