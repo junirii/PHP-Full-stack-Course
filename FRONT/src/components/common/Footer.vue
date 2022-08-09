@@ -1,5 +1,6 @@
 <template>
-    <footer class="mt-5 py-5 text-white">
+    <footer> 
+        <!-- class="mt-5 py-5" -->
         <div>hihi</div>
     </footer>
 </template>
@@ -13,17 +14,22 @@ export default {
 
 <style>
 footer{
-    background-color: #2d7ac2;
+    background-color: #fff;
     z-index: 5;
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: 80px;
     right: 0;
+
+    width: 90%;
     height: 100px;
-    padding: 1rem;
-    color: white;
+    padding: 4rem;
+    /* padding-top: 10rem; */
+    color: var(--maincolor);
     font-weight: bold;
     align-items: center;
-    text-decoration: none;
+
+    border-top: 2px solid rgb(255, 136, 0);
+    height: 5rem;
 }
 </style>

@@ -8,10 +8,12 @@
             </div>
             <div class="icons">
                 <div class="notifi">
-                    <i class="fa-regular fa-bell fa-2x"></i>
-                    <div class="notifi-window">
-
-                    </div>
+                    <i class="fa-regular fa-bell fa-2x" style="color: var(--maincolor);"></i>
+                </div>
+                <div class="chat">
+                    <router-link :to="{ path: '/chat' }">
+                        <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);"></i>
+                    </router-link>
                 </div>
                 <div class="burger-wrapper">
                     <input type="checkbox" id="sideMenu">
@@ -48,7 +50,6 @@
 export default {
     data(){
         return {
-            
         };
     },
     methods: {
@@ -95,21 +96,19 @@ html {
 }
 header {
     z-index: 1;
+    width: 90%;
     position: fixed;
     top: 0;
-    left: 0;
+    left: 80px;
     right: 0;
-    /* max-width: 100%; */
 
-    /* height: 100px; */
     padding: 1rem;
     color: white;
     font-weight: bold;
     align-items: center;
-    background-color: #2d7ac2;
-    text-decoration-line: none;
+    background-color: #fff;
 
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid var(--mainOrange);
     height: 5rem;
 }
 .header-box {
@@ -117,13 +116,14 @@ header {
     justify-content: space-between;
 }
 .logo-box {
-    padding: 6px;
+    
     display: flex;
     justify-content: space-between;
 }
 .logo {
-    text-decoration-line: none;
-    color: white;
+    padding: 12px;
+    color: var(--maincolor);
+    font-weight: bolder;
 }
 .notifi {
     padding: 6px;
@@ -135,13 +135,23 @@ header {
     right: 65px;
     top: 3px;
 }
+.chat {
+    padding: 6px;
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    right: 125px;
+    bottom: 40px;
+}
 .burger-wrap {
     cursor: pointer;
     padding: 6px;
 }
 #menu {
-    background: white;
-    width: 20rem;
+    background: var(--mainOrange);
+    width: 15rem;
     height: 100vh;
     position: fixed;
     right: 0;
@@ -151,18 +161,17 @@ header {
     z-index: 0;
     transition: 0.5s;
     padding-top: 100px;
+    border-left-color: var(--mainOrange);
 }
 li {
-    color: var(--mainDark);
+    color: #fff;
     font-size: 1.2rem;
-    /* display: inline-block; */
-    /* position: relative; */
     cursor: pointer;
-    /* z-index: 4; */
     transition: 0.3s;
     min-width: 120px;
     list-style: none;
     padding: 8px;
+    text-decoration-line: none;
 }
 #sideMenu {
     display: none;
@@ -182,13 +191,13 @@ li {
     flex-direction: column;
 }
 #burger > div {
-    height: 2px;
-    background-color: white;
+    height: 3px;
+    background-color: var(--maincolor);
     transition: 0.5s;
     z-index: 999;
 }
 #sideMenu:checked ~ #burger > div {
-    background-color: var(--mainDark);
+    background-color: #fff;
 }
 
 #sideMenu:checked ~ #burger > div:nth-child(1) {

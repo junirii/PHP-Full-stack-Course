@@ -81,5 +81,10 @@ export default {
 </script>
 
 <style>
-
+hr {
+    height: 2px;
+    color: var(--maincolor);
+    width: 70%;
+    margin: 0 auto;
+}
 </style>

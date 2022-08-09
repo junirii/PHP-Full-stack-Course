@@ -7,7 +7,7 @@
     <div class="setting-btn">
       <button class="main-btn" type="button" v-if="this.$store.state.isLogin" @click="loginCheck('Create')">여행 만들기</button>
       <button class="main-btn" type="button" v-if="this.$store.state.isLogin" @click="loginCheck('SelectPage')">여행 찾기</button>
-      <button class="main-btn" type="button" v-if="!this.$store.state.isLogin" @click="showModal">회원가입</button>
+      <button class="main-btn" type="button" v-if="!this.$store.state.isLogin" @click="showModal">들어가기</button>
     </div>
     <LoginModal 
     :show="modalShow" 
