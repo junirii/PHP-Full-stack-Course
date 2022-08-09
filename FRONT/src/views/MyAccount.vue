@@ -3,9 +3,6 @@
     <div class="container">
       <h1>회원정보</h1>
       <div class="myaccount_profile">
-        <div class="myaccount_profile_img">사진
-          <!-- <img :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" style="width: 20rem; height: 16rem;" alt="이미지"> -->
-        </div>
         <div class="myaccount_profile_txt">
           <div>이메일 : {{ loginUser.email }} </div>
           <div>비밀번호 : </div>

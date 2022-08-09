@@ -4,7 +4,6 @@
 
       <h1>회원정보 수정</h1>
       <div class="myaccount_profile">
-        <div class="myaccount_profile_img">사진<input type="file"></div>
         <div class="myaccount_profile_txt">
           <div>이메일 : <input type="email" v-model="loginUser.email"></div>
           <div>비밀번호 : <input type='button' value='비밀번호 변경' id='btn3' @click="clickBtn1">
@@ -37,7 +36,7 @@
 
       <div>
         <button type="submit" @click="myAccountMod">수정</button>
-        <button type="reset">취소</button> <!-- reset 안먹힘다-->
+        <button>취소</button>
       </div>
 
       <br>
@@ -84,9 +83,6 @@ export default {
         this.$router.push({ name: 'myaccount' });
       }
     },
-
-    // // 아아아아아아아아아아아아아아아아악 하고야만다아아아아아아아아아악
-
     // 비밀번호 변경버튼
     clickBtn1() {
       const btn1 = document.getElementById('btn1');
@@ -108,7 +104,6 @@ export default {
       }
     },
 
-  },
   // 비밀번호 취소버튼
   clickBtn2() {
     const btn1 = document.getElementById('btn1');
@@ -120,16 +115,11 @@ export default {
     btn2.style.display = 'none';
     btn3.style.display = 'inline';
     btn4.style.display = 'none';
-
   },
 
-  // 비밀번호 확인버튼
-  chgPw() {
-    if (this.pw1 === this.pw2) {
-      this.pw2 = this.loginUser.pw;
-    }
-
+// 전체페이지 취소버튼
   },
+
   created() {
     this.getMyAccount();
   }
