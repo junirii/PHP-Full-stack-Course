@@ -108,14 +108,16 @@ export default {
         ctnt: this.ctntArr
       });
       if(res.result){
-        this.$router.push({name: 'create_ctnt'});
-        this.$swal.fire('글 작성 성공', '', 'success')
-        .then(async result => {
-            if(result.isConfirmed){
-                this.$store.state.itravel = res.result;
-                this.$router.push({name: 'detail'});
-            }
-        });
+        const makeChat = await this.$post(`/chat/insChatRoom/${res.result}/${this.$store.state.user.iuser}`, {});
+        if(makeChat.result){
+          this.$swal.fire('글 작성 성공', '', 'success')
+          .then(async result => {
+              if(result.isConfirmed){
+                  this.$store.state.itravel = res.result;
+                  this.$router.push({name: 'detail'});
+              }
+          });
+        }
       }
     }
   }

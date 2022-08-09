@@ -4,9 +4,6 @@ use application\libs\application;
 use Exception;
 
 class TravelController extends Controller{
-    public function test() {
-        // if()
-    }
     // 리스트
     public function travelList() {
         $json = getJson();

@@ -77,7 +77,7 @@
 import { ref, onMounted } from 'vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-import { nextDay } from 'date-fns';
+import { isThisHour, nextDay } from 'date-fns';
 
 export default {
   components: {

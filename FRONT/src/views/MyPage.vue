@@ -11,7 +11,7 @@
         <div class="mypage_profile_txt">
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
-          <div><i class="fa-regular fa-paper-plane" @click="goToChat"></i>DM</div>
+          <div><i class="fa-regular fa-paper-plane"></i>DM</div>
           <div><i class="fa-solid fa-heart userFav" @click="usergood()"></i>{{favCount}}</div>
           <div v-if="feedIuser == loginIuser">
             <router-link :to="{ path: '/MyAccount' }">
@@ -102,9 +102,6 @@ export default {
     ProfileImgModal
   },
   methods: {
-    goToChat(){
-      this.$router.push({name: 'chat'});
-    },
     async getUserData(){
       const res = await this.$get(`/user/selUser/${this.feedIuser}`, {});
       console.log(res);

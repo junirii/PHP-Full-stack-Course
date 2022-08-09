@@ -36,19 +36,52 @@ const server = http.listen(port, () => {
 
 const socketIO = require('socket.io');
 
+const userList = {};
 const io = socketIO(server, { path: '/socket.io'});
-io.on('connection', (socket) => {
-    console.log('a user connected');
-    socket.on('msg', (msg) => {
-        console.log(msg);
-        io.emit('msg', msg);
+io.on('connection', async (socket) => {
+    socket.on('newUser', (data) => {
+        socket.name = data.nick;
+        socket.id = data.id;
+        const room = data.itravel;
+        console.log(room);
+        socket.join(room);
+        if(userList[room]){
+            userList[room].push({
+                id: socket.id,
+                nick: socket.name,
+            });
+        }else{
+            userList[room] = [{
+                id: socket.id,
+                nick: socket.name,
+            }];
+        }
+        console.log(`${socket.name}님이 입장하셨습니다.`);
+        io.to(room).emit('update', {
+            type: 'connect',
+            name: 'SERVER',
+            msg: `${socket.name}님이 입장하셨습니다.`
+        });
+        io.to(room).emit('users', userList);
+
+        socket.on('msg', (msg) => {
+            console.log(msg);
+            socket.broadcast.to(room).emit('update', msg);
+        });
+        
+        socket.on('disconnect', reason => {
+            console.log(reason);
+            console.log(`${socket.name}님이 퇴장하셨습니다.`);
+            io.to(room).emit('update', {
+                type: 'disconnect',
+                name: 'SERVER',
+                msg: `${socket.name}님이 퇴장하셨습니다.`
+            });
+            userList[room] = userList[room].filter(item => {
+                return item.id !== socket.id;
+            });
+            io.to(room).emit('users', userList);
+        });
     });
-    socket.on('disconnect', reason => {
-        console.log(reason);
-        console.log('user disconnected');
-    });
-    socket.on('newUser', (dataObj) => {
-        console.log(dataObj);
-        io.emit('newUser', dataObj.nick)
-    })
+
   });

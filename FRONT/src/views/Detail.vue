@@ -28,8 +28,8 @@
         </div>
       </div>
       <hr>
+      <button type="button" @click="goToChat">채팅</button>
       <!-- 디테일 섹션3 - 상세 정보-->
-
       <div>여행 일정</div>
       <div class="accordion" id="accordionPanelsStayOpenExample">
         <div class="accordion-item" :key="idx" v-for="(dayObj, idx) in data.day">
@@ -76,6 +76,9 @@ export default {
     }
   },
   methods: {
+    goToChat(){
+      this.$router.push({name: 'chat'});
+    },
     async getDetail() {
       this.itravel = this.$store.state.itravel; // itravel 가져옴
       this.loginIuser = this.$store.state.user.iuser;
