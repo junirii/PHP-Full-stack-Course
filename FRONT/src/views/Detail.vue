@@ -1,14 +1,15 @@
 <template>
   <div class="location">
     <div class="container">
-      <h1>{{ data.travelData.title }}</h1>
+      <h1>Detail</h1>
 
       <!-- 디테일 섹션1 - 간단 정보(필터)-->
       <div class="row">
         <div class="col"><img class="detailMainImg"
             :src="`/static/img/travel/${data.travelData.itravel}/main/${data.travelData.main_img}`"></div>
         <div class="col">
-          <div>지역 : {{ data.travelData.area }} / {{ data.travelData.location }}</div>
+          <div class="title">제목 : {{ data.travelData.title }} </div>
+          <div>지역 : {{ data.travelData.area_nm }} / {{ data.travelData.location_nm }}</div>
           <div>기간 : {{ data.travelData.s_date }} ~ {{ data.travelData.e_date }}</div>
           <div>성별 : {{ data.travelData.f_gender }}</div>
           <div>연령 : {{ data.travelData.f_age }}</div>
@@ -21,7 +22,11 @@
       <!-- 디테일 섹션2 - 호스트 정보-->
       <div class="row">
         <div>호스트 정보</div>
-        <div class="col">{{ data.hostUser.profile_img }}</div>
+        <div class="col">
+          <img class="hostImg" :src="`/static/img/profile/${data.hostUser.iuser}/${data.hostUser.profile_img}`"
+          onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진"
+          @click="showModal" id="profileImg">
+        </div>
         <div class="col">
           <div>닉네임 : {{ data.hostUser.nick }}</div>
           <div>소개글 : {{ data.hostUser.cmt }}</div>
@@ -40,7 +45,7 @@
               DAY {{ dayObj.day }}
             </button>
           </h2>
-          <div :id="`panelsStayOpen-collapseOne${idx}`" class="accordion-collapse collapse show"
+          <div :id="`panelsStayOpen-collapseOne${idx}`" class="accordion-collapse collapse show underline"
             aria-labelledby="panelsStayOpen-headingOne" :key="index" v-for="(item, index) in data.ctnt">
             <div v-if="dayObj.day == item.day" class="accordion-body containerCtnt">
               <img class="detailImg containerCtntImg" :src="`/static/img/travel/${item.itravel}/detail/${item.img}`">
@@ -50,18 +55,19 @@
         </div>
       </div>
 
-    <div>
-      <input type="button" value="찜하기" @click="insTravelFav">
-      <div v-if="isJoin">
-        <input type="submit" value="취소하기" @click="deletestate()">
-      </div>
-      <div v-else>
-        <input type="submit" value="신청하기" @click="instate()">
-      </div>
-    </div>
 
-  </div> <!-- container 닫기 -->
-</div>
+      <div><input class="travelFavBtn" type="button" value="찜하기" @click="insTravelFav"></div>
+      <div>
+        <div v-if="isJoin">
+          <input class="submitBtn" type="submit" value="취소하기" @click="deletestate()">
+        </div>
+        <div v-else>
+          <input class="submitBtn" type="submit" value="신청하기" @click="instate()">
+        </div>
+      </div>
+
+    </div> <!-- container 닫기 -->
+  </div>
 </template>
 
 <script>
@@ -91,9 +97,9 @@ export default {
       console.log(this.data);
       console.log(this.stres);
 
-      if(res2.result.tts) {
+      if (res2.result.tts) {
         this.isjoin = true;
-      }else{
+      } else {
         this.isjoin = false;
       }
 
@@ -128,7 +134,7 @@ export default {
         this.$swal.fire('신청할 수 없습니다.', '', 'error');
       }
     },
-    async deletestate(){
+    async deletestate() {
       const deletestate = await this.$delete(`/user/travelState/${this.loginIuser}/${this.itravel}`, {});
       if(deletestate.result === 1){
         this.$swal.fire('신청 취소되었습니다.', '', 'success')
@@ -156,6 +162,23 @@ export default {
   padding: 150px;
 }
 
+.container {
+  color: blue;
+}
+
+.title {
+  color: #fff;
+  background-color: blue;
+  padding: 20px;
+}
+
+.hostImg {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .accordion {
   width: 60vw;
   margin: 0 auto;
@@ -169,6 +192,7 @@ export default {
 
 .detailMainImg {
   max-width: 40vw;
+  max-height: 50vh;
 }
 
 .detailImg {
@@ -177,9 +201,8 @@ export default {
 
 .containerCtnt {
   display: flex;
-  background-color: rgb(235, 235, 235);
-  margin: 10px;
-  border-radius: 5px;
+  background-color: #fff;
+  border-bottom: 1px solid blue;
 }
 
 .containerCtntImg {
@@ -188,5 +211,68 @@ export default {
 
 .containerCtntTxt {
   padding: 20px;
+}
+
+.accordion-item {
+  border: 1px solid #fff;
+}
+
+.accordion-button {
+  background-color: white;
+  color: blue;
+
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #fff;
+  box-shadow: inset 0 -1px 0 rgba(255, 0, 0, 0.13);
+}
+
+
+
+.travelFavBtn {
+  position: fixed;
+  bottom: 222px;
+  right: 220px;
+  width: 80px;
+  height: 80px;
+  z-index: 10;
+
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  border: 0px;
+  background-color: var(--maincolor);
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 8px 8 #285d92;
+}
+
+.travelFavBtn:active {
+  transform: translateY(4px);
+  box-shadow: 0 4px 0 #2d7ac2;
+}
+
+.submitBtn {
+  position: fixed;
+  bottom: 111px;
+  right: 220px;
+  width: 80px;
+  height: 80px;
+  z-index: 10;
+
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  border: 0px;
+  background-color: var(--maincolor);
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 8px 8 #285d92;
+}
+
+.submitBtn:active {
+  transform: translateY(4px);
+  box-shadow: 0 4px 0 #2d7ac2;
 }
 </style>

@@ -5,7 +5,7 @@
       <!-- 마이페이지 섹션1 - 프로필 -->
       <div class="mypage_profile">
         <div class="mypage_profile_img">
-          <img :src="`/static/img/profile/${selUser.iuser}/${selUser.profile_img}`"
+          <img class="profileImg" :src="`/static/img/profile/${selUser.iuser}/${selUser.profile_img}`"
            onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';"
            alt="프로필사진" @click="showModal" id="profileImg"></div>
         <div class="mypage_profile_txt">
@@ -205,10 +205,6 @@ export default {
   justify-content: space-between;
 }
 
-/* .mypage_profile .mypage_profile_img {
-    display: flex;    
-} */
-
 .mypage_profile .mypage_profile_txt {
   display: flex;
   flex-direction: column;
@@ -222,6 +218,14 @@ export default {
  .myPageImg {
   max-width: 20vw;
  }
+.profileImg {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
 </style>
 
 <!-- console.log(this.$store.state.user); // 로그인한 유저정보가 담겨져 있음 -->
