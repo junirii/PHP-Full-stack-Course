@@ -22,7 +22,11 @@
       <!-- 디테일 섹션2 - 호스트 정보-->
       <div class="row">
         <div>호스트 정보</div>
-        <div class="col">{{ data.hostUser.profile_img }}</div>
+        <div class="col">
+          <img class="hostImg" :src="`/static/img/profile/${data.hostUser.iuser}/${data.hostUser.profile_img}`"
+          onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진"
+          @click="showModal" id="profileImg">
+        </div>
         <div class="col">
           <div>닉네임 : {{ data.hostUser.nick }}</div>
           <div>소개글 : {{ data.hostUser.cmt }}</div>
@@ -155,6 +159,12 @@ export default {
   padding: 20px;
 }
 
+.hostImg {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
 .accordion {
   width: 60vw;
@@ -195,8 +205,9 @@ export default {
 }
 
 .accordion-button {
-  background-color: #fff;
+  background-color: white;
   color: blue;
+
 }
 
 .accordion-button:not(.collapsed) {
@@ -208,7 +219,7 @@ export default {
 
 .travelFavBtn {
   position: fixed;
-  bottom: 111px;
+  bottom: 222px;
   right: 220px;
   width: 80px;
   height: 80px;

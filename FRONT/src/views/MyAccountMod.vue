@@ -36,7 +36,8 @@
 
       <div>
         <button type="submit" @click="myAccountMod">수정</button>
-        <button>취소</button>
+        <router-link :to="{ path: '/MyAccount' }"><button>취소</button></router-link>
+        <!-- <button @clink="clickBtn3">취소</button> -->
       </div>
 
       <br>
@@ -53,8 +54,6 @@ export default {
       loginUser: {},
       pw: '',
       pwCheck: ''
-
-
     }
   },
   methods: {
@@ -63,7 +62,7 @@ export default {
       this.loginUser = this.$store.state.user;
     },
     async myAccountMod() {
-      /*마이페이지 댓글 참고.....*/
+      // 회원정보 수정 (마이페이지 댓글 참고)
       const res = await this.$post('/user/myAccountMod', {
         profile_img: this.loginUser.profile_img,
         email: this.loginUser.email,
@@ -89,35 +88,28 @@ export default {
       const btn2 = document.getElementById('btn2');
       const btn3 = document.getElementById('btn3');
       const btn4 = document.getElementById('btn4');
-
-      if (btn1.style.display !== 'none' && btn2.style.display !== 'none') {
-        btn1.style.display = 'none';
-        btn2.style.display = 'none';
-        btn3.style.display = 'inline';
-        btn4.style.display = 'none';
-      }
-      else {
-        btn1.style.display = 'inline';
-        btn2.style.display = 'inline';
-        btn3.style.display = 'none';
-        btn4.style.display = 'inline';
-      }
+      btn1.style.display = 'inline';
+      btn2.style.display = 'inline';
+      btn3.style.display = 'none';
+      btn4.style.display = 'inline';
     },
 
-  // 비밀번호 취소버튼
-  clickBtn2() {
-    const btn1 = document.getElementById('btn1');
-    const btn2 = document.getElementById('btn2');
-    const btn3 = document.getElementById('btn3');
-    const btn4 = document.getElementById('btn4');
+    // 비밀번호 취소버튼
+    clickBtn2() {
+      const btn1 = document.getElementById('btn1');
+      const btn2 = document.getElementById('btn2');
+      const btn3 = document.getElementById('btn3');
+      const btn4 = document.getElementById('btn4');
+      btn1.style.display = 'none';
+      btn2.style.display = 'none';
+      btn3.style.display = 'inline';
+      btn4.style.display = 'none';
+    },
 
-    btn1.style.display = 'none';
-    btn2.style.display = 'none';
-    btn3.style.display = 'inline';
-    btn4.style.display = 'none';
-  },
+    // 전체페이지 취소버튼 (myaccount페이지로 가도록)
+    // clickBtn3() {
 
-// 전체페이지 취소버튼
+    // }
   },
 
   created() {
