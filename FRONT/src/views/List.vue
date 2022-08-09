@@ -1,8 +1,9 @@
 <template>
-  <main class="list mt-3">
+<body>
+  <main class="list mt-3" >
     <div class="container">   
       <button type="button" @click="showFilterModal">필터</button>
-      <FilterModal :show="modalShow" @close="hiddenModal"></FilterModal>
+      <FilterModal :show="modalShow" @close="hiddenModal" ></FilterModal>
       <div class="row" slot="body">
         <div class="col-xl-3 col-lg-4 col-md-6" style="padding: 25px 25px 25px;"
             :key="item.itravel" v-for="item in list">
@@ -31,6 +32,7 @@
       </div>
     </div>
   </main>
+</body>
 </template>
 
 <script>
@@ -101,9 +103,17 @@ export default {
     async goToMyPage(iuserNum) {
       this.$store.state.feedIuser = iuserNum;
       this.$router.push({name: 'mypage'});
-    }
+    },
   },
-
+  // watch: {
+  //   isModalVisible: function() {
+  //     if(this.isModalVisible) {
+  //       document.documentElement.style.overflow = 'hidden'
+  //       return
+  //     }
+  //     document.documentElement.style.overflow = 'auto'
+  //   }
+  // },
   created() {
     this.travelList();
     this.favItravel();
@@ -113,15 +123,20 @@ export default {
 </script>
 
 <style scoped>
+/* html::-webkit-scrollbar {
+  display: none;
+  overflow: hidden;
+  height: 100%;
+} */
+/* .stop-scroll {
+  display: block;
+} */
 .list { 
   z-index: auto;
   margin: 0 auto;
   padding: 150px;
-  /* position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; */
+  font-family: 'LeferiPoint-WhiteA';
+  font-weight: bold;
 }
 .hearticon {
   position: relative;
@@ -132,11 +147,12 @@ export default {
   top: 4px; 
   cursor: pointer;
  }
- .img {
-  max-width: 150px;
- }
 .pointer {
   cursor: pointer;
+}
+.card-body {
+  font-family: 'LeferiPoint-WhiteA';
+  font-weight: bold;
 }
 
 </style>
