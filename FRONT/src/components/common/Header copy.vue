@@ -7,15 +7,6 @@
                 </router-link>
             </div>
             <div class="icons">
-                <!-- 임시 -->
-                <div class="chat">
-                    <button style="margin-top: 100px;" type="button" @click="showDivChat">채팅</button>
-                    <div v-if="divChatShow">
-                        <div v-for="item in chatRooms" :key="item.itravel">
-                            <div style="color: black;" @click="goToChat(item.itravel)">{{item.title}} : {{item.lastMsg}}</div>
-                        </div>
-                    </div>
-                </div>
                 <div class="notifi">
                     <i class="fa-regular fa-bell fa-2x"></i>
                     <div class="notifi-window">
@@ -39,7 +30,9 @@
                             <router-link :to="{ path: '/Create' }">
                                 <li v-if="this.$store.state.isLogin">여행 호스팅 하기</li>
                             </router-link>
-                            <li v-if="this.$store.state.isLogin" @click="goToAllList">전체 리스트</li>
+                            <router-link :to="{ path: '/List' }">
+                                <li v-if="this.$store.state.isLogin">전체 리스트</li>
+                            </router-link>
                             <li v-if="this.$store.state.isLogin" @click="logout">로그아웃</li>
                             <li v-if="!this.$store.state.isLogin" @click="logout">로그인</li>
                         </ul>
@@ -51,85 +44,55 @@
 </template>
 
 <script>
+
 export default {
-    data() {
+    data(){
         return {
-            divChatShow: false,
-            chatRooms: []
+            
         };
     },
     methods: {
-        goToChat(itravel){
-            this.$store.state.itravel = itravel;
-            this.$router.push({name: 'chat'});
-            this.divChatShow = false;
-        },
-        async showDivChat(){
-            this.divChatShow = !this.divChatShow;
-            const res = await this.$get(`/chat/selChatRooms`, {});
-            this.chatRooms = res.result;
-            console.log(this.chatRooms);
-        },
         changeFeedIuser(){
-        }
-    },
-    methods: {
-        changeFeedIuser() {
             this.$store.state.feedIuser = this.$store.state.user.iuser;
-            this.$router.push({ name: 'mypage' });
+            this.$router.push({name: 'mypage'});
         },
-        async logout() {
-            if (this.$store.state.isLogin === true) {
+        async logout(){
+            if(this.$store.state.isLogin === true){
                 const res = await this.$post('/user/logout');
-                if (res.result === 1) {
-                    this.$store.commit('user', {});
-                    console.log(this.$store.state.user.iuser);
-                    this.$store.state.isLogin = false;
-                    this.$swal.fire('로그아웃되었습니다.', '', 'success')
-                        .then(async result => {
-                            if (result.isConfirmed) {
-                                this.$router.push({ name: 'home' });
-                            }
-                        });
-                } else {
-                    this.$swal.fire('로그아웃 실패', '', 'error');
+                if(res.result === 1){
+                this.$store.commit('user', {});
+                console.log(this.$store.state.user.iuser);
+                this.$store.state.isLogin = false;
+                this.$swal.fire('로그아웃되었습니다.', '', 'success')
+                .then(async result => {
+                    if(result.isConfirmed){
+                        this.$router.push({name: 'home'});
+                    }
+                });
+                }else{
+                this.$swal.fire('로그아웃 실패', '', 'error');
                 }
             }
         },
-        loginCheck() {
+        loginCheck(){
             this.isLogin = this.$store.state.isLogin;
-        },
-        goToAllList() {
-            this.$store.state.filter = {
-                selectedArea: [],
-                f_people: 0,
-                f_gender: 0,
-                f_age: 0,
-                l_price: 10000,
-                h_price: 5000000,
-                s_date: '1900-01-01',
-                e_date: '2032-08-06',
-            };
-            console.log(this.$store.state.filter);
-            this.$router.push({ name: 'list' });
         }
     },
-    created() {
+    created(){
         this.loginCheck();
     }
 }
 </script>
 
 <style>
+
 * {
     margin: 0;
 }
-
 html {
     font-size: 16px;
     font-family: 'LeferiPoint-WhiteA';
 }
-
 header {
     z-index: 1;
     position: fixed;
@@ -149,23 +112,19 @@ header {
     border-bottom: 1px solid #eee;
     height: 5rem;
 }
-
 .header-box {
     display: flex;
     justify-content: space-between;
 }
-
 .logo-box {
     padding: 6px;
     display: flex;
     justify-content: space-between;
 }
-
 .logo {
     text-decoration-line: none;
     color: white;
 }
-
 .notifi {
     padding: 6px;
     display: flex;
@@ -176,26 +135,23 @@ header {
     right: 65px;
     top: 3px;
 }
-
 .burger-wrap {
     cursor: pointer;
     padding: 6px;
 }
-
 #menu {
     background: white;
     width: 20rem;
     height: 100vh;
     position: fixed;
     right: 0;
-    transition-timing-function: cubic-bezier(10, 2, 3, 1);
+    transition-timing-function: cubic-bezier(10,2,3,1);
     transform: translateX(50rem);
     top: 0;
     z-index: 0;
     transition: 0.5s;
     padding-top: 100px;
 }
-
 li {
     color: var(--mainDark);
     font-size: 1.2rem;
@@ -208,15 +164,12 @@ li {
     list-style: none;
     padding: 8px;
 }
-
 #sideMenu {
     display: none;
 }
-
-#sideMenu:checked~#menu {
+#sideMenu:checked ~ #menu {
     transform: translateX(0rem);
 }
-
 #burger {
     position: absolute;
     cursor: pointer;
@@ -228,27 +181,23 @@ li {
     justify-content: space-between;
     flex-direction: column;
 }
-
-#burger>div {
+#burger > div {
     height: 2px;
     background-color: white;
     transition: 0.5s;
     z-index: 999;
 }
-
-#sideMenu:checked~#burger>div {
+#sideMenu:checked ~ #burger > div {
     background-color: var(--mainDark);
 }
 
-#sideMenu:checked~#burger>div:nth-child(1) {
+#sideMenu:checked ~ #burger > div:nth-child(1) {
     transform: translateY(15px) rotate(45deg);
 }
-
-#sideMenu:checked~#burger>div:nth-child(2) {
+#sideMenu:checked ~ #burger > div:nth-child(2) {
     opacity: 0;
 }
-
-#sideMenu:checked~#burger>div:nth-child(3) {
+#sideMenu:checked ~ #burger > div:nth-child(3) {
     transform: translateY(-15px) rotate(-45deg);
 }
 </style>

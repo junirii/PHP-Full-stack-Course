@@ -3,41 +3,36 @@
     <div class="container">
 
       <h1>회원정보 수정</h1>
-      <div class="myaccount_profile">
-        <div class="myaccount_profile_txt">
-          <div>이메일 : <input type="email" v-model="loginUser.email"></div>
-          <div>비밀번호 : <input type='button' value='비밀번호 변경' id='btn3' @click="clickBtn1">
-
-            <div>
-              <input type='password' v-model="pw" id='btn1' style="display:none;" placeholder="새 비밀번호">
-            </div>
-            <div>
-              <input type='password' v-model="pwCheck" id='btn2' style="display:none;" placeholder="새 비밀번호 확인">
-            </div>
-
-          </div>
+      <div class="myaccount-profile">
+        <div class="item">이메일 : <input type="email" v-model="loginUser.email"></div>
+        <div class="item">비밀번호 : <input type='button' value='비밀번호 변경' id='btn3' @click="clickBtn1">
+          <span>
+            <input type='password' v-model="pw" id='btn1' style="display:none;" placeholder="새 비밀번호">
+          </span>
+          <span>
+            <input type='password' v-model="pwCheck" id='btn2' style="display:none;" placeholder="새 비밀번호 확인">
+          </span>
           <input type='button' value='취소' id='btn4' @click="clickBtn2" style="display:none;">
         </div>
-
-        <div>이름 : <input type="text" v-model="loginUser.nm"></div>
-        <div>닉네임 : <input type="text" v-model="loginUser.nick"></div>
-        <div>성별 :
+        <div class="item">이름 : <input type="text" v-model="loginUser.nm"></div>
+        <div class="item">닉네임 : <input type="text" v-model="loginUser.nick"></div>
+        <div class="item">성별 :
           <input v-model="loginUser.gender" type="radio" id="male" name="gender" value="1"
             checked="this.loginUser.gender == 1 ? ='checked' : =''">
           <label for="male">남성</label>
           <input v-model="loginUser.gender" type="radio" id="female" name="gender" value="2">
           <label for="female">여성</label>
         </div>
-        <div>생년월일 : <input type="date" v-model="loginUser.birth"></div>
-        <div>전화번호 : <input type="tel" v-model="loginUser.tel"></div>
-        <div>상태메세지 : <input type="text" v-model="loginUser.cmt"></div>
+        <div class="item">생년월일 : <input type="date" v-model="loginUser.birth"></div>
+        <div class="item">전화번호 : <input type="tel" v-model="loginUser.tel"></div>
+        <div class="item">상태메세지 : <input type="text" v-model="loginUser.cmt"></div>
       </div>
 
 
       <div>
         <button type="submit" @click="myAccountMod">수정</button>
-        <router-link :to="{ path: '/MyAccount' }"><button>취소</button></router-link>
-        <!-- <button @clink="clickBtn3">취소</button> -->
+        <!-- <router-link :to="{ path: '/MyAccount' }"><button>취소</button></router-link> -->
+        <button type="button" @click="clickBtn3">취소</button>
       </div>
 
       <br>
@@ -106,10 +101,11 @@ export default {
       btn4.style.display = 'none';
     },
 
-    // 전체페이지 취소버튼 (myaccount페이지로 가도록)
-    // clickBtn3() {
+    // 전체페이지 취소버튼 (myaccount페이지로 가도록, DB입력은 되지않으나, front에서 띄워짐ㅠㅠ)
+    clickBtn3() {
+      this.$router.push({ name: 'myaccount' });
 
-    // }
+    }
   },
 
   created() {
@@ -125,8 +121,30 @@ export default {
   padding: 150px;
 }
 
-.myaccount_profile {
-  border: 1px solid grey;
-  border-radius: 5px;
+.container {
+  color: var(--maincolor);
+  width: 60vh;
 }
+
+.myaccount-profile {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--maincolor);
+}
+
+.item {
+  background-color: #fff;
+  color: var(--maincolor);
+  text-align: start;
+  height: 5vh;
+  margin: 5px;
+  padding: 5px;
+}
+
+input {
+  border: none;
+  border-bottom: 1px solid var(--maincolor);
+  padding: 5px;
+}
+
 </style>

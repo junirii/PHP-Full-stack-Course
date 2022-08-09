@@ -3,16 +3,17 @@
     <div class="container">
       <div>{{ selUser.nick }}님의 게시판</div>
       <!-- 마이페이지 섹션1 - 프로필 -->
-      <div class="mypage_profile">
-        <div class="mypage_profile_img">
-          <img class="profileImg" :src="`/static/img/profile/${selUser.iuser}/${selUser.profile_img}`"
-           onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';"
-           alt="프로필사진" @click="showModal" id="profileImg"></div>
-        <div class="mypage_profile_txt">
+      <div class="mypage-profile">
+        <div class="mypage-profile-img">
+          <img class="profile-img" :src="`/static/img/profile/${selUser.iuser}/${selUser.profile_img}`"
+            onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진"
+            @click="showModal" id="profile-img">
+        </div>
+        <div class="mypage-profile-txt">
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
-          <div><i class="fa-regular fa-paper-plane"></i>DM</div>
-          <div><i class="fa-solid fa-heart userFav" @click="usergood()"></i>{{favCount}}</div>
+          <div>DM<i class="fa-regular fa-paper-plane"></i></div>
+          <div>인기도 : {{ favCount }}<i class="fa-solid fa-heart userFav" @click="usergood()"></i></div>
           <div v-if="feedIuser == loginIuser">
             <router-link :to="{ path: '/MyAccount' }">
               <div><i class="fa-solid fa-pencil fa"></i>프로필수정</div>
@@ -21,46 +22,58 @@
         </div>
       </div>
       <br>
+      <!-- 마이페이지 섹션2 - 신청 여행(신청중, 신청수락), 찜한 여행, 호스팅한 여행 , 참여한 여행 -->
 
       <div v-if="feedIuser == loginIuser">
-        <div class="title">신청 여행</div>
-        <div :key="item.itravel" v-for="item in myPageTravelState" @click="goToDetailFromMyPage(item.itravel)">
-          <div v-if="item.isconfirm == 0"> 신청중
-            <img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" @click="goToDetail(item.itravel)" alt="이미지">
-            <span>{{ item.title }}</span>
+        <div class="state-title">신청 여행</div> <!-- 신청중, 신청수락 여행 슬라이드로 띄우기-->
+        <div :key="item.itravel" v-for="item in userTravelState" @click="goToDetailFromMyPage(item.itravel)">
+
+          <div v-if="item.isconfirm == 0">
+            <div>신청중</div>
+            <div><img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
+                @click="goToDetail(item.itravel)" alt="이미지"></div>
+            <div>{{ item.title }}</div>
           </div>
-          <div v-if="item.isconfirm == 1"> 신청수락
-            <img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" @click="goToDetail(item.itravel)" alt="이미지">
-            <span>{{ item.title }}</span>
+
+          <div v-if="item.isconfirm == 1">
+            <div>신청수락</div>
+            <div><img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
+                @click="goToDetail(item.itravel)" alt="이미지"></div>
+            <div>{{ item.title }}</div>
           </div>
         </div>
       </div>
       <br>
-      <!-- 마이페이지 섹션2 - 찜한 여행, 호스팅한 여행 , 참여한 여행-->
+
       <div v-if="feedIuser == loginIuser">
         <div class="title">찜한 여행</div>
-        <div :key="item.itravel" v-for="item in myPageTravelFav" @click="goToDetailFromMyPage(item.itravel)">
-          <img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" @click="goToDetail(item.itravel)" alt="이미지">
-          <span>{{ item.title }}</span>
+        <div class="ctnt" :key="item.itravel" v-for="item in myPageTravelFav"
+          @click="goToDetailFromMyPage(item.itravel)">
+          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
+            @click="goToDetail(item.itravel)" alt="이미지">
+          <span class="ctnt-title">{{ item.title }}</span>
         </div>
       </div>
       <br>
 
       <div>
         <div class="title">호스팅한 여행</div>
-        <div :key="item.itravel" v-for="item in myPageHost" @click="goToDetailFromMyPage(item.itravel)">
-          <img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" @click="goToDetail(item.itravel)" alt="이미지">
-          <span>{{ item.title }}</span>
+        <div class="ctnt" :key="item.itravel" v-for="item in myPageHost" @click="goToDetailFromMyPage(item.itravel)">
+          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
+            @click="goToDetail(item.itravel)" alt="이미지">
+          <span class="ctnt-title">{{ item.title }}</span>
         </div>
       </div>
       <br>
 
       <div>
         <div class="title">참여한 여행</div>
-        <div :key="item.itravel" v-for="item in myPageTravelState" @click="goToDetailFromMyPage(item.itravel)">
-            <div v-if="item.isconfirm == 2">
-            <img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" @click="goToDetail(item.itravel)" alt="이미지">
-            <span>{{ item.title }}</span>
+        <div class="ctnt" :key="item.itravel" v-for="item in userTravelState"
+          @click="goToDetailFromMyPage(item.itravel)">
+          <div v-if="item.isconfirm == 2">
+            <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
+              @click="goToDetail(item.itravel)" alt="이미지">
+            <span class="ctnt-title">{{ item.title }}</span>
           </div>
         </div>
       </div>
@@ -76,7 +89,7 @@
 
         <div>
           <select v-model="selectedTravel">
-            <option value="" selected>참여한 여행(selected 안됨)</option>
+            <option class="selected-travel" value="" selected>참여한 여행(selected 안됨)</option>
             <option :value="item.itravel" :key="item.itravel" v-for="item in guestTravel">{{ item.title }}</option>
           </select>
           <input v-model="cmt" type="textarea" @keyup="enter($event)">
@@ -86,11 +99,7 @@
     </div> <!-- container 닫기 -->
   </div>
 
-  <ProfileImgModal 
-    :show="modalShow" 
-    @close="hiddenModal"
-    v-on:update="getUserData"
-    v-on:defaultImg="setDefaultImg" />
+  <ProfileImgModal :show="modalShow" @close="hiddenModal" v-on:update="getUserData" v-on:defaultImg="setDefaultImg" />
 </template>
 
 <script>
@@ -118,18 +127,19 @@ export default {
     ProfileImgModal
   },
   methods: {
-    async getUserData(){
+    async getUserData() {
       const res = await this.$get(`/user/selUser/${this.feedIuser}`, {});
       console.log(res);
       this.selUser = res.result;
+
     },
-    setDefaultImg(){
-      document.querySelector('#profileImg').src = '/static/img/profile/common/defaultImg.webp';
+    setDefaultImg() {
+      document.querySelector('#profile-img').src = '/static/img/profile/common/defaultImg.webp';
     },
-    hiddenModal(){
+    hiddenModal() {
       this.modalShow = false;
     },
-    showModal(){
+    showModal() {
       this.modalShow = true;
       console.log(this.modalShow);
     },
@@ -192,55 +202,85 @@ export default {
 </script>
 
 <style scoped>
-
-/* css 한거 아님 보기편하게 하려고 임시로 해놓은거임 구리다고 뭐라하지마세여.. */
-
 .location {
   z-index: auto;
   margin: 0 auto;
   padding: 150px;
 }
-
-.title {
-  background-color: rgb(170, 170, 170);
-  border: 1px solid rgb(170, 170, 170);
-  border-radius: 5px;
-  padding: 5px;
-  margin: 5px;
-  color: #fff;
+.container {
+color: var(--maincolor);
 }
-
-.title :hover {
-  background-color: rgb(192, 192, 192);
-}
-
-.mypage_profile {
+/* 마이페이지 섹션1 - 프로필 */
+.mypage-profile {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
-.mypage_profile .mypage_profile_txt {
+.mypage-profile .mypage-profile-txt {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+/* 마이페이지 섹션2 - 신청 여행(신청중, 신청수락), 찜한 여행, 호스팅한 여행 , 참여한 여행 */
+.state-title {
+  background-color: var(--maincolor);
+  color: #fff;
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.state-title:hover {
+  background-color: rgb(207, 207, 207);
+}
+
+.title {
+  background-color: var(--maincolor);
+  color: #fff;
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title:hover {
+  background-color: rgb(207, 207, 207);
+}
+
+.ctnt {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--maincolor);
+}
+
+.ctnt-title {
+  display: flex;
+  align-self: center;
 }
 
 .userFav {
   cursor: pointer;
 }
 
- .myPageImg {
+.my-page-img {
   max-width: 20vw;
- }
-.profileImg {
+}
+
+.profile-img {
   width: 300px;
   height: 300px;
   object-fit: cover;
   border-radius: 50%;
 }
 
-
+/* 마이페이지 섹션3 - 리뷰 */
+.selected-travel {
+  width: 200px;
+}
 </style>
 
 <!-- console.log(this.$store.state.user); // 로그인한 유저정보가 담겨져 있음 -->
