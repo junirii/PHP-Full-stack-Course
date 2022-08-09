@@ -25,7 +25,12 @@
     box-shadow: 0 4px 0 #2d7ac2;
 }
 
+a {
+    text-decoration: none;
+}
+
 :root {
     --maincolor : #2d7ac2;
     --mainDark : #285d92;
+    --mainOrange : rgb(255, 136, 0);
 }

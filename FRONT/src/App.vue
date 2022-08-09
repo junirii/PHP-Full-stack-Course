@@ -38,12 +38,12 @@ html, body { height: 100%; margin: 0; padding: 0;  }
   position: relative;
   /* padding-bottom: 100px; */
 }
-footer {
+/* footer {
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 80px;
   right: 0;
-}
+} */
 /* .main {
   overflow: hidden;
 } */

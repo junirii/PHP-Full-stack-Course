@@ -1,6 +1,6 @@
 <template>
   <div class="total">
-    <!-- state bar -->
+    <!-- 상태바 -->
     <div class="state-tab-container">
       <a href="#location" class="state-tab">지역</a>
       <a href="#filter" class="state-tab">옵션</a>
@@ -10,44 +10,50 @@
 
     <!-- 지역 상관 x 버튼 -->
     <div class="anywhere">
-      <button class="anywhereBtn" alt="어디든지" @click="goToAllList">가보자고</button>
+      <button class="anywhere-btn" alt="어디든지" @click="goToAllList">가보자고</button>
     </div>
 
+    <!-- 지역 -->
     <div id="location">
       <div>
         <h3>여행지 선택</h3>
+        <h6>떠나고 싶은 여행지를 선택하세요.</h6>
+        <h4 class="area-name"> {{ areaName }} </h4>
       </div>
       <div class="box d-flex">
         <div class="container-map">
-          <a href="#filter">
-            <div class="sec1">
-              <img class="center" src="../../mapImg/i.png" alt="수도권" @click="selectArea($event)">
-              <img class="gang" src="../../mapImg/Gang.png" alt="강원도" @click="selectArea($event)">
+          <div class="sec1">
+            <img class="center" src="../../mapImg/i.png" alt="수도권" @click="[selectArea($event),insAreaName($event)]">
+              <img class="gang" src="../../mapImg/Gang.png" alt="강원도" @click="[selectArea($event),insAreaName($event)]">
+          </div>
+          <div class="sec2">
+            <div class="K">
+              <img class="K1" src="../../mapImg/k.png" alt="경상북도" @click="[selectArea($event),insAreaName($event)]">
+              <img class="I" src="../../mapImg/island.png" alt="경상북도" @click="[selectArea($event),insAreaName($event)]">
             </div>
-            <div class="sec2">
-              <div class="K">
-                <img class="K1" src="../../mapImg/k.png" alt="경상북도" @click="selectArea($event)">
-                <img class="I" src="../../mapImg/island.png" alt="울릉/독도" @click="selectArea($event)">
-              </div>
-              <img class="C1" src="../../mapImg/chung1.png" alt="충청북도" @click="selectArea($event)">
-              <img class="C2" src="../../mapImg/chung2.png" alt="충청남도" @click="selectArea($event)">
-            </div>
-            <div class="sec3">
-              <img class="K2" src="../../mapImg/k2.png" alt="경상남도" @click="selectArea($event)">
-              <img class="J1" src="../../mapImg/j1.png" alt="전라북도" @click="selectArea($event)">
-              <img class="J2" src="../../mapImg/j2.png" alt="전라남도" @click="selectArea($event)">
-              <img class="JJ" src="../../mapImg/jj.png" alt="제주도" @click="selectArea($event)">
-            </div>
-            <img class="map" src="../../mapImg/map_1.png" alt="map">
-          </a>
+            <img class="C1" src="../../mapImg/chung1.png" alt="충청북도" @click="[selectArea($event),insAreaName($event)]">
+            <img class="C2" src="../../mapImg/chung2.png" alt="충청남도" @click="[selectArea($event),insAreaName($event)]">
+          </div>
+          <div class="sec3">
+            <img class="K2" src="../../mapImg/k2.png" alt="경상남도" @click="[selectArea($event),insAreaName($event)]">
+            <img class="J1" src="../../mapImg/j1.png" alt="전라북도" @click="[selectArea($event),insAreaName($event)]">
+            <img class="J2" src="../../mapImg/j2.png" alt="전라남도" @click="[selectArea($event),insAreaName($event)]">
+            <img class="JJ" src="../../mapImg/jj.png" alt="제주도" @click="[selectArea($event),insAreaName($event)]">
+          </div>
+          <img class="map" src="../../mapImg/map_1.png" alt="map">
         </div>
       </div>
+      <a href="#filter">밑으로 </a>
     </div>
 
+    <hr>
+
+    <!-- 옵션 -->
     <div id="filter">
       <h3>옵션 선택</h3>
-      <div>
-        <div>인원:
+      <h6>여행의 옵션을 선택하세요.</h6>
+      <div class="filter-box">
+        <div class="choose-people">인원 :
           <label for="two">2명</label>
           <input v-model="filter.f_people" type="radio" id="two" name="people" value="2">
           <label for="three">3명</label>
@@ -65,7 +71,7 @@
         </div>
         <br>
 
-        <div>성별 :
+        <div class="choose-gender">성별 :
           <label for="male">남성</label>
           <input v-model="filter.f_gender" type="radio" id="male" name="gender" value="1">
           <label for="female">여성</label>
@@ -77,8 +83,9 @@
 
         <!-- select option으로 바꾸기 나이제한없음, 20, 30, 40, 50, 20~30, 30~40, 40~50대(value값: 0~8)-->
         <!-- 테이블 t_age 사용할 것 -->
-        <div>연령 :
-          <select v-model="filter.f_age">
+        <div class="choose-age">연령 :
+          <select class="age-box" v-model="filter.f_age">
+            <option value="0">제한없음</option>
             <option value="1">20대</option>
             <option value="2">30대</option>
             <option value="3">40대</option>
@@ -86,12 +93,11 @@
             <option value="5">20~30대</option>
             <option value="6">30~40대</option>
             <option value="7">40~50대</option>
-            <option value="8">제한없음</option>
           </select>
         </div>
         <br>
 
-        <div>비용 :
+        <div class="choose-price">비용 : 
           최소 <input v-model="filter.l_price" type="number" step="1000">원 ~ 최대 <input v-model="filter.h_price"
             type="number" step="1000">원
         </div>
@@ -103,13 +109,16 @@
       </div>
     </div>
 
+    <hr>
+
     <div id="date">
       <h3>날짜 선택</h3>
-      <div>
-        <Datepicker v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false" />
+      <h6>떠나고 싶은 날짜를 선택하세요.</h6>
+      <div class="date-input">
+        <Datepicker class="date-pick" v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false" />
       </div>
 
-      <div class="moveToListBtn">
+      <div class="move-to-list-btn">
         <router-link :to="{ path: '/List' }">
           <button class="btn" type="button" @click="moveToList()">여행 찾기</button>
         </router-link>
@@ -150,7 +159,8 @@ components: { Datepicker },
         h_price: 5000000,
         s_date: '',
         e_date: '',
-      }
+      },
+      areaName: '',
     };
   },
   created() {
@@ -200,6 +210,9 @@ components: { Datepicker },
           break;
       }
     },
+    insAreaName(e) {
+      this.areaName = e.target.alt;
+    },
     moveToList(){
       const s_year = this.date[0].getFullYear();
       const s_month =  ("0" + (this.date[0].getMonth() + 1)).slice(-2);
@@ -241,6 +254,24 @@ components: { Datepicker },
   z-index: auto;
   margin: 0 auto;
   padding: 150px;
+  color: var(--maincolor);
+}
+h3 { font-weight: bolder; }
+h4, h6 { 
+  font-weight: bolder;
+  padding: 15px;
+}
+h4 {
+  color: var(--mainOrange);
+}
+.area-name {
+  padding: 20px;
+}
+hr {
+  height: 2px;
+  color: var(--maincolor);
+  width: 70%;
+  margin: 0 auto;
 }
 
 /* state bar */
@@ -253,7 +284,6 @@ components: { Datepicker },
   height: 140px;
   z-index: 10;
 }
-
 .state-tab {
   display: flex;
   justify-content: center;
@@ -277,13 +307,10 @@ components: { Datepicker },
   background: #66B1F1;
   transition: left 0.3s ease;
 }
-.anywhereBtn {
+.anywhere-btn {
   position: fixed;
-  bottom: 111px;
+  bottom: 175px;
   right: 220px;
-  width: 80px;
-  height: 80px;
-  z-index: 10;
 
   border-radius: 50%;
   width: 100px;
@@ -291,10 +318,9 @@ components: { Datepicker },
   border: 0px;
   background-color: var(--maincolor);
   color: white;
-  font-weight: bold;
-  box-shadow: 0 8px 8 #285d92; 
+  font-weight: bolder; 
 }
-.anywhereBtn:active {
+.anywhere-btn:active {
     transform: translateY(4px);
     box-shadow: 0 4px 0 #2d7ac2;
 }
@@ -302,83 +328,70 @@ components: { Datepicker },
   margin-top: 100px;
   justify-content: center;
 }
-
 img {
   vertical-align: middle;
   cursor: pointer;
 }
-
 .map { /* 지도 밑판 */
   max-width: 500px;
 }
-
 .sec1, .sec2, .sec3 { /* 위치별 지역 묶음 */
   position: absolute;
 }
-
 .center {
   max-width: 170px;
   position: absolute;
   top: 24px;
   left: 13px;
 }
-
 .gang {
   max-width: 225px;
   position: absolute;
   left: 114px;
   top: 1px;
 }
-
 .K1 {
   position: absolute;
   top: 172px;
   max-width: 178px;
   left: 188px;
 }
-
 .K2 {
   position: absolute;
   max-width: 190px;
   top: 333px;
   left: 162px;
 }
-
 .C1 {
   position: absolute;
   max-width: 135px;
   top: 156px;
   left: 126px;
 }
-
 .C2 {
   position: absolute;
   max-width: 156px;
   top: 182px;
   left: 5px;
 }
-
 .J1 {
   position: absolute;
   max-width: 150px;
   top: 300px;
   left: 36px;
 }
-
 .J2 {
   position: absolute;
   max-width: 176px;
   top: 388px;
   left: -2px;
 }
-
 .JJ {
   position: absolute;
   max-width: 81px;
   top: 575px;
   left: 2px;
 }
-
 .I {
   position: absolute;
   max-width: 59px;
@@ -396,12 +409,48 @@ img {
 }
 /* 지도 css 끝*/
 
+/* 옵션 */
+.filter-box {
+  border: 1px solid var(--maincolor);
+  width: 500px;
+  height: 300px;
+  margin: 0 auto;
+  text-align: left;
+  padding: 20px;
+}
+.choose-people, .choose-gender, .choose-age, .choose-price {
+  padding-top: 10px;
+  padding-left: 20px;
+}
+.choose-people label {
+  padding: 0 5px;
+}
+.age-box {
+  border: none;
+  border-bottom: 1px solid var(--maincolor);
+  width: 20px;
+  height: 10px;
+}
+/* 날짜 */
+.date-input {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+.date-pick {
+  width: 50%;
+}
+/* 날짜 css 끝 */
+
 /* 섹션별 간격 */
-#location, #filter, #date {
+#location, #filter, #date{
   padding: 100px;
 }
+#date {
+  padding-bottom: 10rem;
+} 
 /* 여행찾기 버튼 */
-.moveToListBtn {
+.move-to-list-btn {
   padding: 10px;
 }
 </style>
