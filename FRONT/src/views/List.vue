@@ -75,6 +75,7 @@ export default {
     async favItravel() {
       this.iuser = this.$store.state.user.iuser;
       this.travelFavList = await this.$get(`/travel/travelFav/${this.iuser}`, {});
+      console.log(this.travelFavList);
       this.travelFavList.result.forEach(item => {
         this.favItravelList.push(item.itravel);
       });

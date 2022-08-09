@@ -33,7 +33,7 @@
         </div>
       </div>
       <hr>
-      <button type="button" @click="goToChat">채팅</button>
+      <button type="button" @click="goToChat" v-if="isChat">채팅</button>
       <!-- 디테일 섹션3 - 상세 정보-->
       <div>여행 일정</div>
       <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -77,8 +77,9 @@ export default {
       data: [],
       itravel: null,
       loginIuser: null,
-      stres: {},
+      stres: null,
       isJoin: '',
+      isChat: null
     }
   },
   methods: {
@@ -91,11 +92,10 @@ export default {
       console.log('itravel ' + this.itravel);
       console.log('loginuser ' + this.loginIuser);
       const res = await this.$get(`/travel/detail/${this.itravel}`, {}); // controllers / method / 가져온itravel
-      const res2 = await this.$get(`/user/travelState/${this.loginIuser}/${this.itravel}`, {});
+      const res2 = await this.$get(`/travel/travelState/${this.loginIuser}/${this.itravel}`, {});
       this.data = res.result;
-      this.stres = res2.result;
-      console.log(this.data);
-      console.log(this.stres);
+      this.stres = res2.result.seltravelState.tts;
+      this.isChat = res2.result.selIsJoin.isChat;
 
       if (res2.result.tts) {
         this.isjoin = true;

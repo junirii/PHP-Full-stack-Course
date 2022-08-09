@@ -44,20 +44,20 @@ class TravelModel extends Model
         if($s_date < $e_date){ //기간
             $sql .= " AND A.s_date >= '{$s_date}' AND A.e_date <= '{$e_date}'";
         }
-        // if(count($arr_area) > 0){ //지역
-        //     if(count($arr_area) === 1) {
-        //         $sql .= " AND A.area = {$arr_area[0]}";
-        //     }else{
-        //         for ($i=0; $i < count($arr_area); $i++) { 
-        //             if($i === 0){
-        //                 $sql .= " AND (A.area = {$arr_area[$i]}";
-        //             }else{
-        //                 $sql .= " OR A.area = {$arr_area[$i]}";
-        //             }
-        //         }
-        //         $sql .= ")";
-        //     }
-        // }
+        if(count($arr_area) > 0){ //지역
+            if(count($arr_area) === 1) {
+                $sql .= " AND A.area = {$arr_area[0]}";
+            }else{
+                for ($i=0; $i < count($arr_area); $i++) { 
+                    if($i === 0){
+                        $sql .= " AND (A.area = {$arr_area[$i]}";
+                    }else{
+                        $sql .= " OR A.area = {$arr_area[$i]}";
+                    }
+                }
+                $sql .= ")";
+            }
+        }
         $sql .= " ORDER BY A.reg_dt DESC"; // 리스트 띄우는 순서 : 등록일수 역순
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
@@ -264,5 +264,56 @@ class TravelModel extends Model
         $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->execute();
         return $stmt->rowCount(); // 값이 한개 추가될때 
+    }
+
+    // 신청하기
+    public function seltravelState($param){
+        $sql = "SELECT count(*) as tts FROM t_travel_state 
+        WHERE iuser = :iuser
+        AND itravel = :itravel";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function IntravelState(&$param) {
+        $sql="INSERT INTO t_travel_state
+        (iuser,itravel,isconfirm)
+        VALUES
+        (:iuser,:itravel, 0)
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
+
+    public function DeletetravelState($param) {
+        $sql="DELETE FROM t_travel_state
+        WHERE iuser = :iuser
+        AND itravel = :itravel";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
+
+    public function selIsJoin(&$param){
+        $sql = 
+        " SELECT count(*) as isChat FROM t_travel_state
+          WHERE iuser = :iuser
+          AND itravel = :itravel
+          AND isconfirm = 1
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 }

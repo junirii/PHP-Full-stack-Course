@@ -207,4 +207,27 @@ class TravelController extends Controller{
         return [_RESULT => $result ? 1 : 0];
     }
     
+    public function travelState() {
+        $urlPaths = getUrlPaths();
+        $iuser = $urlPaths[2];
+        $itravel = $urlPaths[3];
+        $param = [
+            "iuser" => $iuser,
+            "itravel" => $itravel
+        ];
+        switch (getMethod()) {
+            case _GET:
+                $seltravelState = $this->model->seltravelState($param);
+                $selIsJoin = $this->model->selIsJoin($param);
+                $data = [
+                    "seltravelState" => $seltravelState,
+                    "selIsJoin" => $selIsJoin
+                ];
+                return [_RESULT => $data];
+            case _POST:
+                return [_RESULT => $this->model->IntravelState($param)];
+            case _DELETE:
+                return [_RESULT => $this->model->DeletetravelState($param)];
+        }
+      }
 }

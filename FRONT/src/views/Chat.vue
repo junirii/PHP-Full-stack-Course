@@ -1,46 +1,54 @@
 <template>
-    <div class="create_box"></div>
-  <div> 
+    <div> 
         <h1>Chat</h1>
-        <div>
-            {{myInfo.nick}} (나)
-            <span v-for="item in userList" :key="item.id">
-                <span v-if="item.id !== myInfo.id">
-                    | {{item.nick}} 님
+        <div id="main">
+            <div id="users">
+                {{myInfo.nick}} (나)
+                <span v-for="item in chatUser" :key="item.iuser">
+                    <span v-if="item.iuser !== myInfo.iuser">
+                        | {{item.nick}} 님
+                    </span>
                 </span>
-            </span>
+            </div>
+            <hr>
+            <div id="chat">
+                <div v-for="(item, idx) in chatList" :key="idx">
+                <div id="other" v-if="item.name !== myInfo.nick">
+                {{ item.name }} : {{ item.msg }}
+                </div>
+                <div id="me" v-if="item.name === myInfo.nick">
+                    {{item.msg}}
+                </div>
+                </div>
+            </div>
+            <div id="input">
+                <input type="text" v-model="input" @keypress="enter($event);">
+                <button @click="sendMsg">전송</button>
+            </div>
         </div>
-        <hr>
-        <div v-for="(item, idx) in chatList" :key="idx">
-          <div v-if="item.name">
-          {{ item.name }} : {{ item.msg }}
-          </div>
-          <div v-if="!item.name">
-            {{item.msg}}
-          </div>
-        </div>
-        <div>
-            <input type="text" v-model="input" @keypress="enter($event);"><button @click="sendMsg">전송</button>
-        </div>
-  </div>
+    </div>
 </template>
 
 <script>
+
 export default {
     data() {
         return {
             myInfo: {
                 id: null,
                 nick: null,
+                iuser: this.$store.state.user.iuser
             },
             input: '',
             chatList: [],
-            userList: [],
-            itravel: null
+            // userList: [],
+            itravel: null,
+            chatUser: []
         }
     },
     created() {
         this.itravel = this.$store.state.itravel;
+        this.selChat(this.itravel);
         this.socketId = this.$socket.id;
         this.myInfo.id = this.socketId;
         this.myInfo.nick = this.$store.state.user.nick
@@ -49,37 +57,74 @@ export default {
             nick: this.myInfo.nick,
             itravel: this.itravel
         });
-        this.$socket.on('users', userList => {
-            this.userList = userList[this.itravel];
-            console.log(this.userList);
-        });
+        // this.$socket.on('users', userList => {
+        //     this.userList = userList[this.itravel];
+        //     console.log(this.userList);
+        // });
         this.$socket.on('update', data => {
             this.chatList.push(data);
         });
         
     },
     methods: {
-        sendMsg() {
+        async sendMsg() {
             this.$socket.emit('msg', {
                 msg: this.input,
                 name: this.myInfo.nick
             });
             const data = {
-                msg: this.input
+                msg: this.input,
+                name: this.myInfo.nick
             };
             this.chatList.push(data);
-            
-            this.input = '';
+            const res = await this.$post('/chat/insChatMsg', {
+                itravel: this.itravel,
+                iuser: this.$store.state.user.iuser,
+                msg: this.input
+            });
+            console.log(res);
+            if(res.result === 1){
+                this.input = '';
+            }
         },
         enter(e){
             if(e.keyCode === 13){
             this.sendMsg();
-    }
-        }
+            }
+        },
+        async selChat(itravel){
+            const res = await this.$get(`/chat/selChatList/${itravel}`);
+            console.log(res);
+            this.chatList = res.result.chatList;
+            this.chatUser = res.result.chatUser;
+            console.log(this.chatList);
+            console.log(this.chatUser);
+        },
     }
 }
 </script>
 
 <style>
-
+    #main{
+        margin: auto;
+        margin-top: 100px;
+        border-radius: 20px;
+        border: blue 1px solid;
+        text-align: center;
+        width: 500px;
+        height: 500px;
+        position: relative;
+    }
+    #chat {
+        height: 90%;
+        width: 100%;
+        overflow-y: auto;
+        padding: 20px;
+    }
+    #other {
+        text-align: left;
+    }
+    #me {
+        text-align: right;
+    }
 </style>

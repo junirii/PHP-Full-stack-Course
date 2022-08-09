@@ -108,7 +108,10 @@ export default {
         ctnt: this.ctntArr
       });
       if(res.result){
-        const makeChat = await this.$post(`/chat/insChatRoom/${res.result}/${this.$store.state.user.iuser}`, {});
+        const makeChat = await this.$post(`/chat/insChatRoom`, {
+          itravel: res.result,
+          iuser: this.$store.state.user.iuser
+        });
         if(makeChat.result){
           this.$swal.fire('글 작성 성공', '', 'success')
           .then(async result => {

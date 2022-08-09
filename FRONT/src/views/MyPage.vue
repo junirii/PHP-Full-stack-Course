@@ -24,7 +24,7 @@
 
       <div v-if="feedIuser == loginIuser">
         <div class="title">신청 여행</div>
-        <div :key="item.itravel" v-for="item in userTravelState" @click="goToDetailFromMyPage(item.itravel)">
+        <div :key="item.itravel" v-for="item in myPageTravelState" @click="goToDetailFromMyPage(item.itravel)">
           <div v-if="item.isconfirm == 0"> 신청중
             <img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" @click="goToDetail(item.itravel)" alt="이미지">
             <span>{{ item.title }}</span>
@@ -57,7 +57,7 @@
 
       <div>
         <div class="title">참여한 여행</div>
-        <div :key="item.itravel" v-for="item in userTravelState" @click="goToDetailFromMyPage(item.itravel)">
+        <div :key="item.itravel" v-for="item in myPageTravelState" @click="goToDetailFromMyPage(item.itravel)">
             <div v-if="item.isconfirm == 2">
             <img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" @click="goToDetail(item.itravel)" alt="이미지">
             <span>{{ item.title }}</span>
@@ -106,7 +106,6 @@ export default {
       myPageCmt: [],
       selUser: {},
       guestTravel: [],
-      userTravelState: [],
       selectedTravel: null,
       feedIuser: 0,
       loginIuser: 0,
@@ -138,7 +137,6 @@ export default {
       console.log(this.$store.state.user);
       this.feedIuser = this.$store.state.feedIuser;
       this.loginIuser = this.$store.state.user.iuser;
-      this.selUserFav = this.$store.state.selUserFav; // 인기도
       console.log('feedIuser : ' + this.feedIuser);
       console.log('loginIuser : ' + this.loginIuser);
 
@@ -147,11 +145,9 @@ export default {
       this.myPageTravelFav = this.data.result.myPageTravelFav;
       this.myPageHost = this.data.result.myPageHost;
       this.myPageTravelState = this.data.result.myPageTravelState;
-      this.userTravelState = this.data.result.userTravelState;
       this.guestTravel = this.data.result.guestTravel;
       this.selUserFav = this.data.result.selUserFav;  // 인기도
       console.log(this.selUserFav[0]);
-      console.log(this.userTravelState);
     },
     async goToDetailFromMyPage(itravelNum) { // 클릭시 여행게시물로 이동
       this.$store.state.itravel = itravelNum;

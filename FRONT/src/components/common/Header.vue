@@ -7,6 +7,15 @@
                 </router-link>
             </div>
             <div class="icons">
+                <!-- 임시 -->
+                <div class="chat">
+                    <button style="margin-top: 100px;" type="button" @click="showDivChat">채팅</button>
+                    <div v-if="divChatShow">
+                        <div v-for="item in chatRooms" :key="item.itravel">
+                            <div style="color: black;" @click="goToChat(item.itravel)">{{item.title}} : {{item.lastMsg}}</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="notifi">
                     <i class="fa-regular fa-bell fa-2x"></i>
                     <div class="notifi-window">
@@ -44,14 +53,25 @@
 </template>
 
 <script>
-
 export default {
     data(){
         return {
-            
+            divChatShow: false,
+            chatRooms: []
         };
     },
     methods: {
+        goToChat(itravel){
+            this.$store.state.itravel = itravel;
+            this.$router.push({name: 'chat'});
+            this.divChatShow = false;
+        },
+        async showDivChat(){
+            this.divChatShow = !this.divChatShow;
+            const res = await this.$get(`/chat/selChatRooms`, {});
+            this.chatRooms = res.result;
+            console.log(this.chatRooms);
+        },
         changeFeedIuser(){
             this.$store.state.feedIuser = this.$store.state.user.iuser;
             this.$router.push({name: 'mypage'});
