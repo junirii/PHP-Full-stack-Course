@@ -62,7 +62,7 @@ export default {
     width: 100vw;
     background-repeat : no-repeat;
     background-size : cover;
-    background-image: url('../../../static/img_used/main.png');
+    background-image: url('../../static/img_used/main.png');
     background-position-y: -100px;
     /* transition: 3s; */
   }
