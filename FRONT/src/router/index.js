@@ -12,7 +12,6 @@ import SelectPage from '../views/SelectPage.vue';
 import store from '@/store';
 import MyAccount from '../views/MyAccount.vue';
 import MyAccountMod from '../views/MyAccountMod.vue';
-import FilterList from '../views/FilterList.vue';
 import Chat from '../views/Chat.vue';
 
 //네이게이션 가드 commit test
@@ -94,12 +93,6 @@ const routes = [
     path: '/myaccountmod',
     name: 'myaccountmod',
     component: MyAccountMod,
-    beforeEnter: requireAuth()
-  },
-  {
-    path: '/filterlist',
-    name: 'filterlist',
-    component: FilterList,
     beforeEnter: requireAuth()
   },
   {

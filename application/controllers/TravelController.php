@@ -10,6 +10,7 @@ class TravelController extends Controller{
 
         $param = [
             "arr_area" => $json["filter"]["selectedArea"],
+            // "arr_location" => $json["filter"]["selectedLocation"],
             "s_date" => $json["filter"]["s_date"],
             "e_date" => $json["filter"]["e_date"],
             "f_people" => $json["filter"]["f_people"],
