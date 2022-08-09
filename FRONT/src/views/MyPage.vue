@@ -3,13 +3,13 @@
     <div class="container">
       <div>{{ selUser.nick }}님의 게시판</div>
       <!-- 마이페이지 섹션1 - 프로필 -->
-      <div class="mypage_profile">
-        <div class="mypage_profile_img">
-          <img class="profileImg" :src="`/static/img/profile/${selUser.iuser}/${selUser.profile_img}`"
+      <div class="mypage-profile">
+        <div class="mypage-profile-img">
+          <img class="profile-img" :src="`/static/img/profile/${selUser.iuser}/${selUser.profile_img}`"
             onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진"
-            @click="showModal" id="profileImg">
+            @click="showModal" id="profile-img">
         </div>
-        <div class="mypage_profile_txt">
+        <div class="mypage-profile-txt">
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
           <div>DM<i class="fa-regular fa-paper-plane"></i></div>
@@ -22,36 +22,36 @@
         </div>
       </div>
       <br>
+      <!-- 마이페이지 섹션2 - 신청 여행(신청중, 신청수락), 찜한 여행, 호스팅한 여행 , 참여한 여행 -->
 
       <div v-if="feedIuser == loginIuser">
-        <div class="stateTitle">신청 여행</div> <!-- 신청중, 신청수락 여행 슬라이드로 띄우기-->
+        <div class="state-title">신청 여행</div> <!-- 신청중, 신청수락 여행 슬라이드로 띄우기-->
         <div :key="item.itravel" v-for="item in userTravelState" @click="goToDetailFromMyPage(item.itravel)">
 
           <div v-if="item.isconfirm == 0">
             <div>신청중</div>
-            <div><img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
+            <div><img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
                 @click="goToDetail(item.itravel)" alt="이미지"></div>
             <div>{{ item.title }}</div>
           </div>
 
           <div v-if="item.isconfirm == 1">
             <div>신청수락</div>
-            <div><img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
+            <div><img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
                 @click="goToDetail(item.itravel)" alt="이미지"></div>
             <div>{{ item.title }}</div>
           </div>
         </div>
       </div>
-
       <br>
-      <!-- 마이페이지 섹션2 - 찜한 여행, 호스팅한 여행 , 참여한 여행-->
+
       <div v-if="feedIuser == loginIuser">
         <div class="title">찜한 여행</div>
         <div class="ctnt" :key="item.itravel" v-for="item in myPageTravelFav"
           @click="goToDetailFromMyPage(item.itravel)">
-          <img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
+          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
             @click="goToDetail(item.itravel)" alt="이미지">
-          <span class="ctnt_title">{{ item.title }}</span>
+          <span class="ctnt-title">{{ item.title }}</span>
         </div>
       </div>
       <br>
@@ -59,9 +59,9 @@
       <div>
         <div class="title">호스팅한 여행</div>
         <div class="ctnt" :key="item.itravel" v-for="item in myPageHost" @click="goToDetailFromMyPage(item.itravel)">
-          <img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
+          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
             @click="goToDetail(item.itravel)" alt="이미지">
-          <span class="ctnt_title">{{ item.title }}</span>
+          <span class="ctnt-title">{{ item.title }}</span>
         </div>
       </div>
       <br>
@@ -71,9 +71,9 @@
         <div class="ctnt" :key="item.itravel" v-for="item in userTravelState"
           @click="goToDetailFromMyPage(item.itravel)">
           <div v-if="item.isconfirm == 2">
-            <img class="myPageImg" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
+            <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
               @click="goToDetail(item.itravel)" alt="이미지">
-            <span class="ctnt_title">{{ item.title }}</span>
+            <span class="ctnt-title">{{ item.title }}</span>
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@
 
         <div>
           <select v-model="selectedTravel">
-            <option class="selectedTravel" value="" selected>참여한 여행(selected 안됨)</option>
+            <option class="selected-travel" value="" selected>참여한 여행(selected 안됨)</option>
             <option :value="item.itravel" :key="item.itravel" v-for="item in guestTravel">{{ item.title }}</option>
           </select>
           <input v-model="cmt" type="textarea" @keyup="enter($event)">
@@ -135,7 +135,7 @@ export default {
 
     },
     setDefaultImg() {
-      document.querySelector('#profileImg').src = '/static/img/profile/common/defaultImg.webp';
+      document.querySelector('#profile-img').src = '/static/img/profile/common/defaultImg.webp';
     },
     hiddenModal() {
       this.modalShow = false;
@@ -214,19 +214,21 @@ export default {
 .container {
 color: var(--maincolor);
 }
-.mypage_profile {
+/* 마이페이지 섹션1 - 프로필 */
+.mypage-profile {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
 
-.mypage_profile .mypage_profile_txt {
+.mypage-profile .mypage-profile-txt {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.stateTitle {
+/* 마이페이지 섹션2 - 신청 여행(신청중, 신청수락), 찜한 여행, 호스팅한 여행 , 참여한 여행 */
+.state-title {
   background-color: var(--maincolor);
   color: #fff;
   height: 5vh;
@@ -235,7 +237,7 @@ color: var(--maincolor);
   align-items: center;
 }
 
-.stateTitle:hover {
+.state-title:hover {
   background-color: rgb(207, 207, 207);
 }
 
@@ -257,11 +259,9 @@ color: var(--maincolor);
   justify-content: flex-start;
   align-items: flex-start;
   border-bottom: 1px solid var(--maincolor);
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 
-.ctnt_title {
+.ctnt-title {
   display: flex;
   align-self: center;
 }
@@ -270,18 +270,19 @@ color: var(--maincolor);
   cursor: pointer;
 }
 
-.myPageImg {
+.my-page-img {
   max-width: 20vw;
 }
 
-.profileImg {
+.profile-img {
   width: 300px;
   height: 300px;
   object-fit: cover;
   border-radius: 50%;
 }
 
-.selectedTravel {
+/* 마이페이지 섹션3 - 리뷰 */
+.selected-travel {
   width: 200px;
 }
 </style>

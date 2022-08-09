@@ -3,22 +3,17 @@
     <div class="container">
 
       <h1>회원정보 수정</h1>
-      <div class="myaccount_profile">
-        <div class="myaccount_profile_txt">
+      <div class="myaccount-profile">
           <div class="item">이메일 : <input type="email" v-model="loginUser.email"></div>
           <div class="item">비밀번호 : <input type='button' value='비밀번호 변경' id='btn3' @click="clickBtn1">
-
-            <div>
+            <span>
               <input type='password' v-model="pw" id='btn1' style="display:none;" placeholder="새 비밀번호">
-            </div>
-            <div>
+            </span>
+            <span>
               <input type='password' v-model="pwCheck" id='btn2' style="display:none;" placeholder="새 비밀번호 확인">
-            </div>
-
-          </div>
+            </span>
           <input type='button' value='취소' id='btn4' @click="clickBtn2" style="display:none;">
         </div>
-
         <div class="item">이름 : <input type="text" v-model="loginUser.nm"></div>
         <div class="item">닉네임 : <input type="text" v-model="loginUser.nick"></div>
         <div class="item">성별 :
@@ -36,8 +31,8 @@
 
       <div>
         <button type="submit" @click="myAccountMod">수정</button>
-        <router-link :to="{ path: '/MyAccount' }"><button>취소</button></router-link>
-        <!-- <button @clink="clickBtn3">취소</button> -->
+        <!-- <router-link :to="{ path: '/MyAccount' }"><button>취소</button></router-link> -->
+        <button type="button" @click="clickBtn3">취소</button>
       </div>
 
       <br>
@@ -106,10 +101,11 @@ export default {
       btn4.style.display = 'none';
     },
 
-    // 전체페이지 취소버튼 (myaccount페이지로 가도록)
-    // clickBtn3() {
+    // 전체페이지 취소버튼 (myaccount페이지로 가도록, DB입력은 되지않으나, front에서 띄워짐ㅠㅠ)
+    clickBtn3() {
+      this.$router.push({ name: 'myaccount' });
 
-    // }
+    }
   },
 
   created() {
@@ -124,19 +120,27 @@ export default {
   margin: 0 auto;
   padding: 150px;
 }
+
 .container {
-color: var(--maincolor);
+  color: var(--maincolor);
+  width: 70vh;
+
 }
 
-.item{
+.myaccount-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid var(--maincolor);
+}
+
+.item {
   background-color: #fff;
   color: var(--maincolor);
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  text-align: start;
   height: 5vh;
-  margin: 15px;
-  padding: 15px;
+  margin: 5px;
+  padding: 5px;
 }
-
 </style>
