@@ -21,7 +21,7 @@
               </select>
               <hr>
               <h4>날짜선택</h4>
-              <Datepicker v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false" />
+              <Datepicker v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false" locale="ko-KR" />
               <hr>
               <h4>인원 수</h4>
               <label for="two">2</label>

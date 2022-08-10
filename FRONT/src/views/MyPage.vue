@@ -82,16 +82,21 @@
       <div>
         <div class="title"><i class="fa-solid fa-comment"></i>리뷰</div>
         <div :key="item.icmt" v-for="item in myPageCmt">
-          <span>{{ item.title }} {{ item.cmt }} {{ item.profile_img }} {{ item.nick }} {{ item.reg_dt }} </span>
+          <span class="section-list">
+            <span>
+            <img class="reviewr-profile-img" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
+              onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진"
+              @click="goMypage(data.hostUser.iuser)" id="profileImg">
+            </span>{{ item.profile_img }}{{ item.nick }}{{ item.cmt }}{{ item.reg_dt }}by{{ item.title }}</span>
         </div>
 
         <div>
-          <select v-model="selectedTravel">
-            <option class="selected-travel" value="" selected>참여한 여행(selected 안됨)</option>
+          <select class="section-select" v-model="selectedTravel">
+            <option value="" selected>참여한 여행(selected 안됨)</option>
             <option :value="item.itravel" :key="item.itravel" v-for="item in guestTravel">{{ item.title }}</option>
           </select>
-          <input v-model="cmt" type="textarea" @keyup="enter($event)">
-          <input type="submit" value="등록" @click="insCmt">
+          <input class="section-comment" v-model="cmt" type="textarea" @keyup="enter($event)">
+          <input class="section-submit" type="submit" value="등록" @click="insCmt">
         </div>
       </div>
     </div> <!-- container 닫기 -->
@@ -223,6 +228,7 @@ export default {
 }
 .container {
 color: var(--maincolor);
+
 }
 /* 마이페이지 섹션1 - 프로필 */
 .mypage-profile {
@@ -292,8 +298,34 @@ color: var(--maincolor);
 }
 
 /* 마이페이지 섹션3 - 리뷰 */
-.selected-travel {
-  width: 200px;
+.section-list{
+  color: var(--maincolor);
+}
+.reviewr-profile-img{
+  border-radius: 50%;
+}
+.section-select{
+  height: 3vh;
+  border: 1px solid var(--maincolor);
+  margin: 3px;
+
+}
+.section-comment{
+  width: 20vw;
+  height: 3vh;
+  border: 1px solid var(--maincolor);
+  border-radius: 0%;
+  margin: 3px;
+
+}
+.section-submit{
+  background-color: var(--maincolor);
+  color: #fff;
+  border: 1px solid var(--maincolor);
+  height: 3vh;
+  margin: 3px;
+
+
 }
 </style>
 

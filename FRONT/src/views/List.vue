@@ -138,6 +138,7 @@ export default {
   padding: 150px;
   font-family: 'LeferiPoint-WhiteA';
   font-weight: bold;
+  
 }
 .hearticon {
   position: relative;
