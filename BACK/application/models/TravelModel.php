@@ -296,4 +296,19 @@ class TravelModel extends Model
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function delTravel(&$param) {
+        $sql = 
+        " DELETE A.*, B.* FROM t_travel A
+          LEFT JOIN t_travel_ctnt B
+          ON A.itravel = B.itravel
+          WHERE A.itravel = :itravel
+          AND A.iuser = :iuser;
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
 }

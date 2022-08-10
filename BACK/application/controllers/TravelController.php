@@ -1,6 +1,7 @@
 <?php
 namespace application\controllers;
 use application\libs\application;
+use application\models\TravelModel;
 use Exception;
 
 class TravelController extends Controller{
@@ -225,5 +226,20 @@ class TravelController extends Controller{
             "iuser" => $iuser
         ];
         return [_RESULT => $this->model->selState($param)]; 
+    }
+
+    // del travel
+    public function del() {
+        $urlPaths = getUrlPaths();
+        $itravel = $urlPaths[2];
+        $iuser = $urlPaths[3];
+        $param = [
+            "itravel" => $itravel,
+            "iuser" => $iuser
+        ];
+        switch (getMethod()) {
+            case _DELETE:
+                return [_RESULT => $this->model->delTravel($param)];
+        }
     }
 }

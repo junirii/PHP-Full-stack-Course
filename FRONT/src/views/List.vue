@@ -22,7 +22,9 @@
               <h5 class="card-title" @click="goToDetail(item.itravel)">{{ item.title }}</h5>
               <p class="card-text">
                 <span class="badge bg-dark text-white me-1 pointer" @click="goToMyPage(item.iuser)">작성자:{{ item.nick }}</span>
-                <span class="badge bg-dark text-white me-1">지역: {{ item.area_nm }}/{{ item.location_nm }}</span>
+                <span class="badge bg-dark text-white me-1">
+                  지역: {{ item.area_nm }}<span v-if="item.location !== null">/{{ item.location_nm }}</span>
+                </span>
                 <!-- <span class="badge bg-dark text-white me-1">location:{{ item.location }}</span> -->
               </p>
               <small class="text-dark">{{ item.s_date }} ~ {{ item.e_date }}</small>
@@ -60,9 +62,7 @@ export default {
     async travelList() {
       const filter = this.$store.state.filter;
       console.log(filter);
-      this.list = await this.$post('/travel/travelList', {
-      filter: this.$store.state.filter
-      });
+      this.list = await this.$post('/travel/travelList', { filter: this.$store.state.filter });
       console.log(this.list);
     },
     async goToDetail(itravelNum) {
