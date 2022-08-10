@@ -152,7 +152,7 @@ class TravelModel extends Model
         $sql = "SELECT * FROM t_travel A
         INNER JOIN t_area B
         ON A.area = B.iarea
-        INNER JOIN t_location C
+        LEFT JOIN t_location C
         ON A.location = C.ilocation
         WHERE itravel = :itravel";
         $stmt = $this->pdo->prepare($sql);
