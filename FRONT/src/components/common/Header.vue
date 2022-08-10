@@ -12,14 +12,14 @@
                     <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);" @click="showDivChat"></i>
                     <div v-if="divChatShow">
                         <div v-for="item in chatRooms" :key="item.itravel">
-                            <div style="color: black;" @click="goToChat(item.itravel)">
+                            <div style="color: var(--mainOrange);" @click="goToChat(item.itravel)">
                                 {{ item.title }} : {{ item.lastMsg }}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="notifi">
-                    <i class="fa-regular fa-bell fa-2x dropdown" @click="selRequest()" type="button"
+                    <i class="fa-regular fa-bell fa-2x dropdown" style="color: var(--maincolor);" @click="selRequest()" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false"></i>
                     <ul class="dropdown-menu">
                         <div>
@@ -130,7 +130,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 * {
     margin: 0;
 }
@@ -183,7 +183,7 @@ header {
     align-items: center;
     position: relative;
     right: 65px;
-    top: 3px;
+    bottom: 41px;
 }
 
 .chat {
@@ -194,7 +194,7 @@ header {
     align-items: center;
     position: relative;
     right: 125px;
-    bottom: 40px;
+    top: 4px;
 }
 
 .burger-wrap {
@@ -211,13 +211,13 @@ header {
     transition-timing-function: cubic-bezier(10, 2, 3, 1);
     transform: translateX(50rem);
     top: 0;
-    z-index: 0;
+    z-index: 10;
     transition: 0.5s;
     padding-top: 100px;
     border-left-color: var(--mainOrange);
 }
 
-li {
+#menu > ul > li { 
     color: #fff;
     font-size: 1.2rem;
     cursor: pointer;
