@@ -99,7 +99,9 @@ export default {
     },
     goMypage(iuserNum) {
       this.$store.state.feedIuser = iuserNum;
-      this.$router.push({ name: 'mypage' });
+      this.$router.push({ name: 'mypage', query: {
+        feedIuser: iuserNum
+      }});
       window.scrollTo(0, 0)
     },
     goToChat() {

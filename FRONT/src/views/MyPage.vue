@@ -133,12 +133,6 @@ export default {
     ProfileImgModal
   },
   methods: {
-    async getUserData() {
-      const res = await this.$get(`/user/selUser/${this.feedIuser}`, {});
-      console.log(res);
-      this.selUser = res.result;
-
-    },
     setDefaultImg() {
       document.querySelector('#profile-img').src = '/static/img/profile/common/defaultImg.webp';
     },
@@ -146,8 +140,9 @@ export default {
       this.modalShow = false;
     },
     showModal() {
-      this.modalShow = true;
-      console.log(this.modalShow);
+      if(this.feedIuser == this.loginIuser){
+        this.modalShow = true;
+      }
     },
     async getMyPage() { // mypage 받아오기
       console.log(this.$store.state.user);
@@ -177,6 +172,12 @@ export default {
       this.guestTravel = this.data.result.guestTravel;
       this.selUserFav = this.data.result.selUserFav;  // 인기도
       console.log(this.selUserFav[0]);
+    },
+    async getUserData() {
+      console.log(this.feedIuser);
+      const res = await this.$get(`/user/selUser/${this.feedIuser}`, {});
+      console.log(res);
+      this.selUser = res.result;
     },
     async goToDetailFromMyPage(itravelNum) { // 클릭시 여행게시물로 이동
       this.$store.state.itravel = itravelNum;
