@@ -9,8 +9,6 @@ import socketPlugin from "./plugins/socketPlugin";
 import '../static/css/common.css';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-// import selectPage from '../../static/js/selectPage.js';
-// import '@fortawesome/fontawesome-free/js/all.js';
 
 createApp(App)
 .mixin(mixins)
