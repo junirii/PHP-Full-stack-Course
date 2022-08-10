@@ -2,7 +2,7 @@
   <div class="location">
     <div class="container">
       <h1>Detail</h1>
-
+      <button v-if="this.loginIuser === data.hostUser.iuser" type="button" @click="del()">삭제</button>
       <!-- 디테일 섹션1 - 간단 정보(필터)-->
       <div class="section-container-filter">
         <div><img class="detail-main-img"
@@ -101,6 +101,7 @@ export default {
       this.loginIuser = this.$store.state.user.iuser;
       console.log('itravel ' + this.itravel);
       console.log('loginuser ' + this.loginIuser);
+      console.log('iuser ' + this.iuser);
       const res = await this.$get(`/travel/detail/${this.itravel}`, {}); // controllers / method / 가져온itravel
       const res2 = await this.$get(`/travel/travelState/${this.loginIuser}/${this.itravel}`, {});
       this.data = res.result;
@@ -154,6 +155,17 @@ export default {
         this.$swal.fire('취소할 수 없습니다.', '', 'error');
       }
     },
+    async del() {
+      const delTravel = await this.$delete(`/travel/del/${this.itravel}/${this.loginIuser}`, {});
+      console.log(delTravel);
+      if(delTravel.result === 1) {
+        this.$swal.fire('삭제완료.', '', 'success')
+        .then(async result => {
+          console.log(result);
+          this.$router.push({ name: 'list' });
+        })
+      }
+    }
   },
   created() {
     this.getDetail();

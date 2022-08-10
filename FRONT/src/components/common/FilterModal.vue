@@ -21,7 +21,8 @@
               </select>
               <hr>
               <h4>날짜선택</h4>
-              <Datepicker v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false" />
+              <Datepicker v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false"
+                :minDate="new Date()"/>
               <hr>
               <h4>인원 수</h4>
               <label for="two">2</label>
@@ -87,7 +88,7 @@ export default {
     const date = ref();
     onMounted(() => {
       const startDate = new Date();
-      const endDate = new Date(new Date().setDate(startDate.getDate()));
+      const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
       date.value = [startDate, endDate];
     })
     return {
@@ -190,6 +191,8 @@ export default {
         f_age: 0,
         s_date: '',
         e_date: '',
+        l_price: this.filter.l_price,
+        h_price: this.filter.h_price,
       };
     }
   }
@@ -252,7 +255,7 @@ export default {
 }
 
 .modal-body {
-  height: 500px;
+  height: 600px;
   overflow-y: auto;
 }
 </style>
