@@ -164,7 +164,6 @@ header {
 }
 
 .logo-box {
-
     display: flex;
     justify-content: space-between;
 }
@@ -197,7 +196,7 @@ header {
     top: 4px;
 }
 
-.burger-wrap {
+.burger-wrapper {
     cursor: pointer;
     padding: 6px;
 }
@@ -217,7 +216,7 @@ header {
     border-left-color: var(--mainOrange);
 }
 
-#menu > ul > li { 
+li { 
     color: #fff;
     font-size: 1.2rem;
     cursor: pointer;
@@ -241,7 +240,7 @@ header {
     cursor: pointer;
     width: 2rem;
     height: 2rem;
-    /* right: 1rem; */
+    right: 1rem;
     top: 1.5rem;
     display: flex;
     justify-content: space-between;

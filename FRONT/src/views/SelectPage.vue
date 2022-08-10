@@ -450,21 +450,6 @@ img {
   display: flex;
   justify-content: center;
 }
-.date-picker {
-  /* width: 5px;
-  margin: 0 auto; */
-  /* background-color: #fff;
-  border-radius: 5px;
-  font-family: 'LeferiPoint-WhiteA' !important;
-  border: 1px solid var(--maincolor);
-  outline: none;
-  transition: border-color .2s cubic-bezier(0.645, 0.045, 0.355, 1);
-  font-size: 1rem;
-  line-height: 1.5rem;
-  padding: 6px 12px;
-  color: var(--maincolor);
-  box-sizing: border-box; */
-}
 /* 날짜 css 끝 */
 
 /* 섹션별 간격 */
