@@ -22,10 +22,12 @@ export default {
     this.$socket.on('update', data => {
       const inputChat = document.querySelector('#inputChat');
       if((inputChat && data.room !== this.$store.state.itravel) || !inputChat){
+        console.log(this.$store.state.unreadCntAll);
         this.$store.state.unreadCntAll++;
+        console.log(this.$store.state.unreadCntAll);
         console.log('all: ' + this.$store.state.unreadCntAll);
         const spanUnreadCntAll = document.querySelector('#unreadCntAll');
-        console.log(spanUnreadCntAll);
+        spanUnreadCntAll.classList.remove('d-none');
         spanUnreadCntAll.innerText = this.$store.state.unreadCntAll;
 
         if(this.$store.state.unreadCnt[data.room]){

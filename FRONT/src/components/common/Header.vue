@@ -10,14 +10,14 @@
                 <!-- 임시 -->
                 <div class="chat">
                     <div>
-                        <span id="unreadCntAll" style="color: black;">{{unreadCntAll}}</span>
+                        <span id="unreadCntAll" style="color: red; font-weight: bold;" class="d-none">{{unreadCntAll}}</span>
                         <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);" @click="showDivChat"></i>
                     </div>
                     <div v-if="divChatShow" style="margin-top: 100px;">
                         <div v-for="item in chatRooms" :key="item.itravel">
                             <div style="color: black;" @click="goToChat(item.itravel)">
                                 {{ item.title }}<br>{{ item.lastMsg }} 
-                                <span v-if="this.$store.state.unreadCnt[item.itravel]">{{this.$store.state.unreadCnt[item.itravel]}}</span><hr>
+                                <span v-if="this.$store.state.unreadCnt[item.itravel]" style="color: red; font-weight: bold;">{{this.$store.state.unreadCnt[item.itravel]}}</span><hr>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                     </label>
                     <nav id="menu">
                         <ul>
-                            <li v-if="this.$store.state.isLogin" @click="changeFeedIuser">마이페이지</li>
+                            <li v-if="this.$store.state.isLogin" @click="goToMyPage">마이페이지</li>
                             <router-link :to="{ path: '/MyAccount' }">
                                 <li v-if="this.$store.state.isLogin">회원정보 수정</li>
                             </router-link>
@@ -82,9 +82,10 @@ export default {
             this.chatRooms = res.result;
             console.log(this.chatRooms);
         },
-        changeFeedIuser() {
-            this.$store.state.feedIuser = this.$store.state.user.iuser;
-            this.$router.push({ name: 'mypage' });
+        goToMyPage() {
+            const feedIuser = this.$store.state.user.iuser;
+            this.$store.state.feedIuser = feedIuser;
+            this.$router.push({ name: 'mypage', query: {feedIuser: feedIuser} });
         },
         async logout() {
             if (this.$store.state.isLogin === true) {

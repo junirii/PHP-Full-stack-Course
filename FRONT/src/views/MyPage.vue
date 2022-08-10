@@ -26,20 +26,21 @@
 
       <div v-if="feedIuser == loginIuser">
         <div class="state-title">신청 여행</div> <!-- 신청중, 신청수락 여행 슬라이드로 띄우기-->
-        <div :key="item.itravel" v-for="item in userTravelState" @click="goToDetailFromMyPage(item.itravel)">
-
-          <div v-if="item.isconfirm == 0">
+        <div>
+          <div>
             <div>신청중</div>
-            <div><img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
-                @click="goToDetail(item.itravel)" alt="이미지"></div>
-            <div>{{ item.title }}</div>
+            <div v-for="item in preTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
+              <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
+              <div>{{ item.title }}</div>
+            </div>
           </div>
 
-          <div v-if="item.isconfirm == 1">
-            <div>신청수락</div>
-            <div><img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
-                @click="goToDetail(item.itravel)" alt="이미지"></div>
-            <div>{{ item.title }}</div>
+          <div>
+            <div>신청완료</div>
+            <div v-for="item in ingTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
+              <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
+              <div>{{ item.title }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -49,8 +50,7 @@
         <div class="title">찜한 여행</div>
         <div class="ctnt" :key="item.itravel" v-for="item in myPageTravelFav"
           @click="goToDetailFromMyPage(item.itravel)">
-          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
-            @click="goToDetail(item.itravel)" alt="이미지">
+          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
           <span class="ctnt-title">{{ item.title }}</span>
         </div>
       </div>
@@ -59,8 +59,7 @@
       <div>
         <div class="title">호스팅한 여행</div>
         <div class="ctnt" :key="item.itravel" v-for="item in myPageHost" @click="goToDetailFromMyPage(item.itravel)">
-          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
-            @click="goToDetail(item.itravel)" alt="이미지">
+          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
           <span class="ctnt-title">{{ item.title }}</span>
         </div>
       </div>
@@ -68,11 +67,10 @@
 
       <div>
         <div class="title">참여한 여행</div>
-        <div class="ctnt" :key="item.itravel" v-for="item in userTravelState"
+        <div class="ctnt" :key="item.itravel" v-for="item in postTravel"
           @click="goToDetailFromMyPage(item.itravel)">
           <div v-if="item.isconfirm == 2">
-            <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
-              @click="goToDetail(item.itravel)" alt="이미지">
+            <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
             <span class="ctnt-title">{{ item.title }}</span>
           </div>
         </div>
@@ -112,6 +110,9 @@ export default {
       myPageTravelFav: [],
       myPageHost: [],
       myPageTravelState: [],
+      preTravel: [],
+      ingTravel: [],
+      postTravel: [],
       myPageCmt: [],
       selUser: {},
       guestTravel: [],
@@ -145,7 +146,7 @@ export default {
     },
     async getMyPage() { // mypage 받아오기
       console.log(this.$store.state.user);
-      this.feedIuser = this.$store.state.feedIuser;
+      this.feedIuser = this.$route.query.feedIuser;
       this.loginIuser = this.$store.state.user.iuser;
       console.log('feedIuser : ' + this.feedIuser);
       console.log('loginIuser : ' + this.loginIuser);
@@ -155,6 +156,19 @@ export default {
       this.myPageTravelFav = this.data.result.myPageTravelFav;
       this.myPageHost = this.data.result.myPageHost;
       this.myPageTravelState = this.data.result.myPageTravelState;
+      this.myPageTravelState.forEach(item => {
+        switch(item.isconfirm){
+          case 0:
+            this.preTravel.push(item);
+            break;
+          case 1:
+            this.ingTravel.push(item);
+            break;
+          case 2:
+            this.postTravel.push(item);
+            break;
+        }
+      });
       this.guestTravel = this.data.result.guestTravel;
       this.selUserFav = this.data.result.selUserFav;  // 인기도
       console.log(this.selUserFav[0]);

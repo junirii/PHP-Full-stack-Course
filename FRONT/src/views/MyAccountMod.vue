@@ -13,6 +13,8 @@
             <input type='password' v-model="pwCheck" id='btn2' style="display:none;" placeholder="새 비밀번호 확인">
           </span>
           <input type='button' value='취소' id='btn4' @click="clickBtn2" style="display:none;">
+          <div v-show="pw!=='' && pw===pwCheck">비밀번호가 일치합니다.</div>
+          <div v-show="pw!==pwCheck">비밀번호가 일치하지 않습니다.</div>
         </div>
         <div class="item">이름 : <input type="text" v-model="loginUser.nm"></div>
         <div class="item">닉네임 : <input type="text" v-model="loginUser.nick"></div>
@@ -30,7 +32,8 @@
 
 
       <div>
-        <button type="submit" @click="myAccountMod">수정</button>
+        <button type="button" @click="myAccountMod" 
+        v-bind:disabled="pw !== pwCheck || pwCheck === ''">수정</button>
         <!-- <router-link :to="{ path: '/MyAccount' }"><button>취소</button></router-link> -->
         <button type="button" @click="clickBtn3">취소</button>
       </div>
@@ -42,6 +45,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -54,27 +58,29 @@ export default {
   methods: {
     async getMyAccount() { // iuser
       // console.log(this.$store.state.user);
-      this.loginUser = this.$store.state.user;
+      this.loginUser = JSON.parse(JSON.stringify(this.$store.state.user));
     },
     async myAccountMod() {
       // 회원정보 수정 (마이페이지 댓글 참고)
-      const res = await this.$post('/user/myAccountMod', {
-        profile_img: this.loginUser.profile_img,
-        email: this.loginUser.email,
-        pw: this.pw,
-        pwCheck: this.pwCheck,
-        nm: this.loginUser.nm,
-        nick: this.loginUser.nick,
-        gender: this.loginUser.gender,
-        birth: this.loginUser.birth,
-        tel: this.loginUser.tel,
-        cmt: this.loginUser.cmt,
-        iuser: this.loginUser.iuser
-      });
-      console.log(res);
-      if (res.result === 1) {
-        this.$store.state.user = this.loginUser;
-        this.$router.push({ name: 'myaccount' });
+      if(this.pw && this.pwCheck){
+        const res = await this.$post('/user/myAccountMod', {
+          profile_img: this.loginUser.profile_img,
+          email: this.loginUser.email,
+          pw: this.pw,
+          pwCheck: this.pwCheck,
+          nm: this.loginUser.nm,
+          nick: this.loginUser.nick,
+          gender: this.loginUser.gender,
+          birth: this.loginUser.birth,
+          tel: this.loginUser.tel,
+          cmt: this.loginUser.cmt,
+          iuser: this.loginUser.iuser
+        });
+        console.log(res);
+        if (res.result === 1) {
+          this.$store.state.user = this.loginUser;
+          this.$router.push({ name: 'myaccount' });
+        }
       }
     },
     // 비밀번호 변경버튼
@@ -123,7 +129,7 @@ export default {
 
 .container {
   color: var(--maincolor);
-  width: 60vh;
+  width: 100vh;
 }
 
 .myaccount-profile {
