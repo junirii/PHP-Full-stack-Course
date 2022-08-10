@@ -1,7 +1,7 @@
 <template>
   <div class="location">
     <div class="container">
-      <div>{{ selUser.nick }}님의 게시판</div>
+      <div>{{ selUser.nick }}님의 페이지</div>
       <!-- 마이페이지 섹션1 - 프로필 -->
       <div class="mypage-profile">
         <div class="mypage-profile-img">
@@ -34,7 +34,7 @@
               <div>{{ item.title }}</div>
             </div>
           </div>
-
+          <hr>
           <div>
             <div>신청완료</div>
             <div v-for="item in ingTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
