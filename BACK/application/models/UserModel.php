@@ -24,7 +24,7 @@ class UserModel extends Model
     $stmt->bindValue(":profile_img", $param["profile_img"]);
     $stmt->bindValue(":cmt", $param["cmt"]);
     $stmt->execute();
-    return $stmt->rowCount();
+    return intval($this->pdo->lastInsertId());
   }
 
   public function selUser(&$param) // mypage 프로필 띄우기, myaccount 프로필 띄우기

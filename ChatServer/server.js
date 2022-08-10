@@ -69,6 +69,10 @@ io.on('connection', async (socket) => {
         // });
         // io.to(room).emit('users', userList);
 
+        socket.emit('enterRoom', {
+            unreadCntAll: data.unreadCntAll
+        });
+
         socket.on('msg', (msg) => {
             console.log(msg);
             socket.broadcast.to(room).emit('update', msg);

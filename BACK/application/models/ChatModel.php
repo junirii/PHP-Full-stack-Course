@@ -70,7 +70,7 @@ class ChatModel extends Model
       INNER JOIN t_travel B
       ON A.itravel = B.itravel
       WHERE A.iuser = :iuser) E
-      INNER JOIN (SELECT C.*, D.msg AS lastMsg FROM (SELECT itravel, MAX(seq) AS maxseq FROM t_chat_msg GROUP BY itravel) C
+      LEFT JOIN (SELECT C.*, D.msg AS lastMsg FROM (SELECT itravel, MAX(seq) AS maxseq FROM t_chat_msg GROUP BY itravel) C
       INNER JOIN t_chat_msg D
       ON C.maxseq = D.seq
       AND C.itravel = D.itravel) F

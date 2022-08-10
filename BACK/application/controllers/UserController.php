@@ -16,7 +16,23 @@ class UserController extends Controller
           return [_RESULT => 2];
         } else {
           $json["pw"] = password_hash($json["pw"], PASSWORD_BCRYPT);
-          return [_RESULT => $this->model->insUser($json)];
+          $image_parts = explode(";base64,", $json["profile_img"]);
+          $image_type_aux = explode("image/", $image_parts[0]);
+          $image_type = $image_type_aux[1];
+          $image_base64 = base64_decode($image_parts[1]);
+          $fileNm = uniqid() . "." . $image_type;
+          $json["profile_img"] = $fileNm;
+          if($iuser = $this->model->insUser($json)){
+            $dirPath = _IMG_PATH . "/profile/" . $iuser;
+            $filePath = $dirPath . "/" . $fileNm;
+            if(!is_dir($dirPath)) {
+              mkdir($dirPath, 0777, true);
+            }
+            $result = file_put_contents($filePath, $image_base64);
+            if($result){
+              return [_RESULT => 1];
+            }
+          };
         }
         return [_RESULT => 0];
     }
@@ -61,7 +77,6 @@ class UserController extends Controller
     $param["loginIuser"] = intval($urlPaths[3]);
     $guestTravel = $this->model->selGuestTravel($param);
     $selUserFav = $this->model->selUserFav($param);
-    $userTravelState = $this->model->userTravelState($param);
 
     $data = [
       "myPageTravelFav" => $myPageTravelFav,
@@ -69,7 +84,6 @@ class UserController extends Controller
       "myPageTravelState" => $myPageTravelState,
       "guestTravel" => $guestTravel,
       "selUserFav" => $selUserFav,
-      "userTravelState" => $userTravelState,
     ];
     return [_RESULT => $data];
     // return $this->model->myPage($param);

@@ -1,6 +1,7 @@
 <?php
 namespace application\controllers;
 use application\libs\application;
+use application\models\TravelModel;
 use Exception;
 
 class TravelController extends Controller{
@@ -126,7 +127,7 @@ class TravelController extends Controller{
                     "f_age" => $json["travel"]["f_age"],
                 ];
                 $itravel = $this->model->travelInsert($param); //DB에 글 추가
-                if($itravel){ //프로필 사진 백엔드에 저장
+                if($itravel){ //썸네일 사진 백엔드에 저장
                     $dirPath = _IMG_PATH . "/travel/" . $itravel . "/main";
                     $filePath = $dirPath . "/" . $fileNm;
                     if(!is_dir($dirPath)) {
@@ -218,12 +219,93 @@ class TravelController extends Controller{
         }
       }
  
-    public function selRequest()
+    public function selRequest() // 신청 수락 
     {
         $iuser = getIuser();
         $param = [
             "iuser" => $iuser
         ];
-        return [_RESULT => $this->model->selState($param)]; 
+        
+        $hwi = $this->model->hwi($param);
+        $selState = $this->model->selState($param);
+
+        $json = getJson();
+        $itravel = $json["params"]["itravel"];
+        $iuser = $json["params"]["iuser"];
+        $param = [
+            "itravel" => $itravel,
+            "iuser" => $iuser
+        ];
+        
+        if($json["params"]["isyes"]){
+        $updateState = $this->model->updateState($param);
+        }else{
+        $refusalState = $this->model->refusalState($param);
+        }
+
+        $data = [
+            "hwi" => $hwi,
+            "selState" => $selState,
+            "updateState" => $updateState,
+            "refusalState" => $refusalState
+        ];
+        return [_RESULT => $data];
+        // put update
+        // get sel
+        // del delte 
+        switch (getMethod()) {
+        case _GET:
+            $iuser = getIuser();
+            $param =[
+                "iuser" => $iuser
+            ];
+            return [_RESULT => $this->model->hwi($param)];
+
+        case _GET:
+            $iuser = getIuser();
+            $param = [
+                "iuser" => $iuser
+            ];
+            return [_RESULT => $this->model->selState($param)];
+        case _PUT:
+            $json = getJson();
+            $itravel = $json["params"]["itravel"];
+            $iuser = $json["params"]["iuser"];
+            $param = [
+                "itravel" => $itravel,
+                "iuser" => $iuser
+            ];
+            if($json["params"]["isyes"]){
+                return [_RESULT => $this->model->updateState($param)];
+            }else {
+                return [_RESULT => $this->model->refusalState($param)];
+            }
+        }
+    }
+
+    public function selHwi() {
+        switch (getMethod()) {
+            case _GET:
+                $iuser = getIuser();
+                $param =[
+                    "iuser" => $iuser
+                ];
+                return [_RESULT => $this->model->hwi($param)];
+        }
+    }
+
+    // del travel
+    public function del() {
+        $urlPaths = getUrlPaths();
+        $itravel = $urlPaths[2];
+        $iuser = $urlPaths[3];
+        $param = [
+            "itravel" => $itravel,
+            "iuser" => $iuser
+        ];
+        switch (getMethod()) {
+            case _DELETE:
+                return [_RESULT => $this->model->delTravel($param)];
+        }
     }
 }

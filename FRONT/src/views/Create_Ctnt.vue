@@ -107,12 +107,16 @@ export default {
         travel: this.$store.state.travel,
         ctnt: this.ctntArr
       });
+      console.log(`res: ${res}`);
       if(res.result){
         const makeChat = await this.$post(`/chat/insChatRoom`, {
           itravel: res.result,
           iuser: this.$store.state.user.iuser
         });
+        console.log(`makeChat: ${makeChat}`)
         if(makeChat.result){
+          this.$store.state.unreadCnt[res.result] = 0;
+          console.log(this.$store.state.unreadCnt);
           this.$swal.fire('글 작성 성공', '', 'success')
           .then(async result => {
               if(result.isConfirmed){

@@ -53,7 +53,7 @@
                 <label>생일<input v-model="joinUser.birth" type="date" required></label>
               </div>
               <div><input v-model="joinUser.tel" type="tel" placeholder="전화번호" required></div>
-              <div><label>프로필 이미지<input type="file"></label></div>
+              <div><label>프로필 이미지<input type="file" @change="toBase64($event.target.files)"></label></div>
               <div><input v-model="joinUser.cmt" type="text" placeholder="소개말"></div>
               <div>
                 <p>이미 회원이신가요?</p>
@@ -109,6 +109,10 @@ export default {
     }
   },
   methods: {
+    async toBase64(files){
+      const profileImg = await this.$base64(files[0]);
+      this.joinUser.profile_img = profileImg;
+    },
     showJoin(){
       this.login = false;
       this.join = true;

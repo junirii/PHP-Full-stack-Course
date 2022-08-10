@@ -1,7 +1,7 @@
 <template>
   <div class="location">
     <div class="container">
-      <div>{{ selUser.nick }}님의 게시판</div>
+      <div>{{ selUser.nick }}님의 페이지</div>
       <!-- 마이페이지 섹션1 - 프로필 -->
       <div class="mypage-profile">
         <div class="mypage-profile-img">
@@ -26,20 +26,21 @@
 
       <div v-if="feedIuser == loginIuser">
         <div class="state-title">신청 여행</div> <!-- 신청중, 신청수락 여행 슬라이드로 띄우기-->
-        <div :key="item.itravel" v-for="item in userTravelState" @click="goToDetailFromMyPage(item.itravel)">
-
-          <div v-if="item.isconfirm == 0">
+        <div>
+          <div>
             <div>신청중</div>
-            <div><img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
-                @click="goToDetail(item.itravel)" alt="이미지"></div>
-            <div>{{ item.title }}</div>
+            <div v-for="item in preTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
+              <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
+              <div>{{ item.title }}</div>
+            </div>
           </div>
-
-          <div v-if="item.isconfirm == 1">
-            <div>신청수락</div>
-            <div><img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
-                @click="goToDetail(item.itravel)" alt="이미지"></div>
-            <div>{{ item.title }}</div>
+          <hr>
+          <div>
+            <div>신청완료</div>
+            <div v-for="item in ingTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
+              <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
+              <div>{{ item.title }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -49,8 +50,7 @@
         <div class="title">찜한 여행</div>
         <div class="ctnt" :key="item.itravel" v-for="item in myPageTravelFav"
           @click="goToDetailFromMyPage(item.itravel)">
-          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
-            @click="goToDetail(item.itravel)" alt="이미지">
+          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
           <span class="ctnt-title">{{ item.title }}</span>
         </div>
       </div>
@@ -59,8 +59,7 @@
       <div>
         <div class="title">호스팅한 여행</div>
         <div class="ctnt" :key="item.itravel" v-for="item in myPageHost" @click="goToDetailFromMyPage(item.itravel)">
-          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
-            @click="goToDetail(item.itravel)" alt="이미지">
+          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
           <span class="ctnt-title">{{ item.title }}</span>
         </div>
       </div>
@@ -68,11 +67,10 @@
 
       <div>
         <div class="title">참여한 여행</div>
-        <div class="ctnt" :key="item.itravel" v-for="item in userTravelState"
+        <div class="ctnt" :key="item.itravel" v-for="item in postTravel"
           @click="goToDetailFromMyPage(item.itravel)">
           <div v-if="item.isconfirm == 2">
-            <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
-              @click="goToDetail(item.itravel)" alt="이미지">
+            <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
             <span class="ctnt-title">{{ item.title }}</span>
           </div>
         </div>
@@ -84,16 +82,21 @@
       <div>
         <div class="title"><i class="fa-solid fa-comment"></i>리뷰</div>
         <div :key="item.icmt" v-for="item in myPageCmt">
-          <span>{{ item.title }} {{ item.cmt }} {{ item.profile_img }} {{ item.nick }} {{ item.reg_dt }} </span>
+          <span class="section-list">
+            <span>
+            <img class="reviewr-profile-img" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
+              onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진"
+              @click="goMypage(data.hostUser.iuser)" id="profileImg">
+            </span>{{ item.profile_img }}{{ item.nick }}{{ item.cmt }}{{ item.reg_dt }}by{{ item.title }}</span>
         </div>
 
         <div>
-          <select v-model="selectedTravel">
-            <option class="selected-travel" value="" selected>참여한 여행(selected 안됨)</option>
+          <select class="section-select" v-model="selectedTravel">
+            <option value="" selected>참여한 여행(selected 안됨)</option>
             <option :value="item.itravel" :key="item.itravel" v-for="item in guestTravel">{{ item.title }}</option>
           </select>
-          <input v-model="cmt" type="textarea" @keyup="enter($event)">
-          <input type="submit" value="등록" @click="insCmt">
+          <input class="section-comment" v-model="cmt" type="textarea" @keyup="enter($event)">
+          <input class="section-submit" type="submit" value="등록" @click="insCmt">
         </div>
       </div>
     </div> <!-- container 닫기 -->
@@ -112,6 +115,9 @@ export default {
       myPageTravelFav: [],
       myPageHost: [],
       myPageTravelState: [],
+      preTravel: [],
+      ingTravel: [],
+      postTravel: [],
       myPageCmt: [],
       selUser: {},
       guestTravel: [],
@@ -127,12 +133,6 @@ export default {
     ProfileImgModal
   },
   methods: {
-    async getUserData() {
-      const res = await this.$get(`/user/selUser/${this.feedIuser}`, {});
-      console.log(res);
-      this.selUser = res.result;
-
-    },
     setDefaultImg() {
       document.querySelector('#profile-img').src = '/static/img/profile/common/defaultImg.webp';
     },
@@ -140,12 +140,13 @@ export default {
       this.modalShow = false;
     },
     showModal() {
-      this.modalShow = true;
-      console.log(this.modalShow);
+      if(this.feedIuser == this.loginIuser){
+        this.modalShow = true;
+      }
     },
     async getMyPage() { // mypage 받아오기
       console.log(this.$store.state.user);
-      this.feedIuser = this.$store.state.feedIuser;
+      this.feedIuser = this.$route.query.feedIuser;
       this.loginIuser = this.$store.state.user.iuser;
       console.log('feedIuser : ' + this.feedIuser);
       console.log('loginIuser : ' + this.loginIuser);
@@ -155,9 +156,28 @@ export default {
       this.myPageTravelFav = this.data.result.myPageTravelFav;
       this.myPageHost = this.data.result.myPageHost;
       this.myPageTravelState = this.data.result.myPageTravelState;
+      this.myPageTravelState.forEach(item => {
+        switch(item.isconfirm){
+          case 0:
+            this.preTravel.push(item);
+            break;
+          case 1:
+            this.ingTravel.push(item);
+            break;
+          case 2:
+            this.postTravel.push(item);
+            break;
+        }
+      });
       this.guestTravel = this.data.result.guestTravel;
       this.selUserFav = this.data.result.selUserFav;  // 인기도
       console.log(this.selUserFav[0]);
+    },
+    async getUserData() {
+      console.log(this.feedIuser);
+      const res = await this.$get(`/user/selUser/${this.feedIuser}`, {});
+      console.log(res);
+      this.selUser = res.result;
     },
     async goToDetailFromMyPage(itravelNum) { // 클릭시 여행게시물로 이동
       this.$store.state.itravel = itravelNum;
@@ -209,6 +229,7 @@ export default {
 }
 .container {
 color: var(--maincolor);
+
 }
 /* 마이페이지 섹션1 - 프로필 */
 .mypage-profile {
@@ -278,8 +299,34 @@ color: var(--maincolor);
 }
 
 /* 마이페이지 섹션3 - 리뷰 */
-.selected-travel {
-  width: 200px;
+.section-list{
+  color: var(--maincolor);
+}
+.reviewr-profile-img{
+  border-radius: 50%;
+}
+.section-select{
+  height: 3vh;
+  border: 1px solid var(--maincolor);
+  margin: 3px;
+
+}
+.section-comment{
+  width: 20vw;
+  height: 3vh;
+  border: 1px solid var(--maincolor);
+  border-radius: 0%;
+  margin: 3px;
+
+}
+.section-submit{
+  background-color: var(--maincolor);
+  color: #fff;
+  border: 1px solid var(--maincolor);
+  height: 3vh;
+  margin: 3px;
+
+
 }
 </style>
 

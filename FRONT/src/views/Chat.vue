@@ -1,5 +1,6 @@
 <template>
     <div> 
+        <input type="hidden" id="inputChat" value="0">
         <h1>Chat</h1>
         <div id="main">
             <div id="users">
@@ -47,44 +48,65 @@ export default {
         }
     },
     created() {
-        this.itravel = this.$store.state.itravel;
+        this.itravel = this.$route.query.itravel;
+        this.$store.state.itravel = this.itravel;
         this.selChat(this.itravel);
         this.socketId = this.$socket.id;
         this.myInfo.id = this.socketId;
-        this.myInfo.nick = this.$store.state.user.nick
+        this.myInfo.nick = this.$store.state.user.nick;
+        if(this.$store.state.unreadCnt[this.itravel]){
+            this.$store.state.unreadCntAll -= this.$store.state.unreadCnt[this.itravel];
+        }
+        this.$store.state.unreadCnt[this.itravel] = 0;
         this.$socket.emit('newUser', {
             id: this.myInfo.id,
             nick: this.myInfo.nick,
-            itravel: this.itravel
+            itravel: this.itravel,
+            unreadCntAll: this.$store.state.unreadCntAll
         });
         // this.$socket.on('users', userList => {
         //     this.userList = userList[this.itravel];
         //     console.log(this.userList);
         // });
         this.$socket.on('update', data => {
-            this.chatList.push(data);
+            const inputChat = document.querySelector('#inputChat');
+            if(inputChat && data.room === this.itravel){
+                this.chatList.push(data);
+                // const chat = document.querySelector('#chat');
+                // chat.scrollTop = chat.scrollHeight;
+            }
         });
-        
+
+
+    },
+    updated(){
+        const chat = document.querySelector('#chat');
+        chat.scrollTop = chat.scrollHeight;
     },
     methods: {
         async sendMsg() {
-            this.$socket.emit('msg', {
-                msg: this.input,
-                name: this.myInfo.nick
-            });
-            const data = {
-                msg: this.input,
-                name: this.myInfo.nick
-            };
-            this.chatList.push(data);
-            const res = await this.$post('/chat/insChatMsg', {
-                itravel: this.itravel,
-                iuser: this.$store.state.user.iuser,
-                msg: this.input
-            });
-            console.log(res);
-            if(res.result === 1){
-                this.input = '';
+            if(this.input){
+                this.$socket.emit('msg', {
+                    msg: this.input,
+                    name: this.myInfo.nick,
+                    room: this.itravel
+                });
+                const data = {
+                    msg: this.input,
+                    name: this.myInfo.nick
+                };
+                this.chatList.push(data);
+                const res = await this.$post('/chat/insChatMsg', {
+                    itravel: this.itravel,
+                    iuser: this.$store.state.user.iuser,
+                    msg: this.input
+                });
+                console.log(res);
+                if(res.result === 1){
+                    this.input = '';
+                }
+                const chat = document.querySelector('#chat');
+                chat.scrollTop = chat.scrollHeight;
             }
         },
         enter(e){
@@ -105,28 +127,28 @@ export default {
 </script>
 
 <style>
-    #main{
-        margin: auto;
-        margin-top: 100px;
-        border-radius: 20px;
-        border: blue 1px solid;
-        text-align: center;
-        width: 500px;
-        height: 500px;
-        position: relative;
-    }
-    #chat {
-        height: 90%;
-        width: 100%;
-        overflow-y: auto;
-        padding: 20px;
-    }
-    #other {
-        text-align: left;
-    }
-    #me {
-        text-align: right;
-    }
+#main{
+    margin: auto;
+    margin-top: 100px;
+    border-radius: 20px;
+    border: blue 1px solid;
+    text-align: center;
+    width: 500px;
+    height: 500px;
+    position: relative;
+}
+#chat {
+    height: 90%;
+    width: 100%;
+    overflow-y: auto;
+    padding: 20px;
+}
+#other {
+    text-align: left;
+}
+#me {
+    text-align: right;
+}
 hr {
     height: 2px;
     color: var(--maincolor);

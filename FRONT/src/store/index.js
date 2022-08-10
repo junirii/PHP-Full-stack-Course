@@ -11,7 +11,9 @@ export default createStore({
       filter: {},
       selectedArea: [],
       travel: {},
-      travelDay: 0
+      travelDay: 0,
+      unreadCnt: {},
+      unreadCntAll: 0
     }
   },
   mutations: {

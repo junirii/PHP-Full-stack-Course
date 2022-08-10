@@ -9,11 +9,15 @@
             <div class="icons">
                 <!-- 임시 -->
                 <div class="chat">
-                    <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);" @click="showDivChat"></i>
-                    <div v-if="divChatShow">
+                    <div>
+                        <span id="unreadCntAll" style="color: red; font-weight: bold;" class="d-none">{{unreadCntAll}}</span>
+                        <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);" @click="showDivChat"></i>
+                    </div>
+                    <div v-if="divChatShow" style="margin-top: 100px;">
                         <div v-for="item in chatRooms" :key="item.itravel">
                             <div style="color: var(--mainOrange);" @click="goToChat(item.itravel)">
-                                {{ item.title }} : {{ item.lastMsg }}
+                                {{ item.title }}<br>{{ item.lastMsg }} 
+                                <span v-if="this.$store.state.unreadCnt[item.itravel]" style="color: red; font-weight: bold;">{{this.$store.state.unreadCnt[item.itravel]}}</span><hr>
                             </div>
                         </div>
                     </div>
@@ -22,10 +26,17 @@
                     <i class="fa-regular fa-bell fa-2x dropdown" style="color: var(--maincolor);" @click="selRequest()" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false"></i>
                     <ul class="dropdown-menu">
-                        <div>
-                            <li class="dropdown-item">ㅇㅇ</li>
-                            <li class="dropdown-item">Another action</li>
-                            <li class="dropdown-item">Something else here</li>
+                        <div :key="item.iuser" v-for="item in selStateList" >
+                            <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">
+                                <div>신청이 왔습니다.</div> {{item.profile_img}} {{item.nick}} 님께서 {{item.title}}
+                                <button @click="request(item.itravel, item.iuser)">수락</button> <button @click="requestDel(item.itravel, item.iuser)">거절</button>
+                            </li>
+                            <li v-if="item.isconfirm == 3" class="dropdown-item" style="cursor: default;">
+                                <div>신청이 거절.</div> {{item.nick}} 님께서 {{item.title}}
+                            </li>
+                            <li v-if="item.isconfirm == 1" class="dropdown-item" style="cursor: default;">
+                                <div>신청이 수락.</div> {{item.nick}} 님께서 {{item.title}}
+                            </li>
                         </div>
                     </ul>
                 </div>
@@ -38,7 +49,7 @@
                     </label>
                     <nav id="menu">
                         <ul>
-                            <li v-if="this.$store.state.isLogin" @click="changeFeedIuser">마이페이지</li>
+                            <li v-if="this.$store.state.isLogin" @click="goToMyPage">마이페이지</li>
                             <router-link :to="{ path: '/MyAccount' }">
                                 <li v-if="this.$store.state.isLogin">회원정보 수정</li>
                             </router-link>
@@ -62,13 +73,14 @@ export default {
     data() {
         return {
             divChatShow: false,
-            chatRooms: []
+            chatRooms: [],
+            unreadCntAll: this.$store.state.unreadCntAll
         };
     },
     methods: {
         goToChat(itravel) {
-            this.$store.state.itravel = itravel;
-            this.$router.push({ name: 'chat' });
+            // this.$store.state.itravel = itravel;
+            this.$router.push({ name: 'chat', query: {itravel: itravel}});
             this.divChatShow = false;
         },
         async showDivChat() {
@@ -77,13 +89,10 @@ export default {
             this.chatRooms = res.result;
             console.log(this.chatRooms);
         },
-        changeFeedIuser() {
-        }
-    },
-    methods: {
-        changeFeedIuser() {
-            this.$store.state.feedIuser = this.$store.state.user.iuser;
-            this.$router.push({ name: 'mypage' });
+        goToMyPage() {
+            const feedIuser = this.$store.state.user.iuser;
+            this.$store.state.feedIuser = feedIuser;
+            this.$router.push({ name: 'mypage', query: {feedIuser: feedIuser} });
         },
         async logout() {
             if (this.$store.state.isLogin === true) {
@@ -109,6 +118,7 @@ export default {
         goToAllList() {
             this.$store.state.filter = {
                 selectedArea: [],
+                selectedLocation: null,
                 f_people: 0,
                 f_gender: 0,
                 f_age: 0,
@@ -121,7 +131,36 @@ export default {
             this.$router.push({ name: 'list' });
         },
         async selRequest() {
-
+            const res2 = await this.$get(`/travel/selRequest`, {});
+            console.log(res2);
+            this.selStateList = res2.result;
+            console.log(this.selStateList);
+        },
+        async hwi() {
+        const res3 = await this.$get(`/travel/selRequest`,{});
+        this.selStateList = this.res3;
+        console.log(selStateList);
+        },
+        async request(itravel, iuser) {
+            if (confirm("수락 하시겠습니까?") == true){
+            const res = await this.$put(`/travel/selRequest`, {
+                itravel: itravel,
+                iuser: iuser,
+                isyes: 1
+            });
+            console.log(res);
+            }
+        },
+        async requestDel(itravel, iuser) {
+            if (confirm("거절하시겠습니까?") == true){
+                const res4 = await this.$put(`/travel/selRequest`, {
+                itravel: itravel,
+                iuser: iuser,
+                isyes: 0
+            });
+            console.log(res4);
+            console.log('거절됨');
+            }
         }
     },
     created() {
