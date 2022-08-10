@@ -26,10 +26,17 @@
                     <i class="fa-regular fa-bell fa-2x dropdown" style="color: var(--maincolor);" @click="selRequest()" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false"></i>
                     <ul class="dropdown-menu">
-                        <div>
-                            <li class="dropdown-item">ㅇㅇ</li>
-                            <li class="dropdown-item">Another action</li>
-                            <li class="dropdown-item">Something else here</li>
+                        <div :key="item.iuser" v-for="item in selStateList" >
+                            <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">
+                                <div>신청이 왔습니다.</div> {{item.profile_img}} {{item.nick}} 님께서 {{item.title}}
+                                <button @click="request(item.itravel, item.iuser)">수락</button> <button @click="requestDel(item.itravel, item.iuser)">거절</button>
+                            </li>
+                            <li v-if="item.isconfirm == 3" class="dropdown-item" style="cursor: default;">
+                                <div>신청이 거절.</div> {{item.nick}} 님께서 {{item.title}}
+                            </li>
+                            <li v-if="item.isconfirm == 1" class="dropdown-item" style="cursor: default;">
+                                <div>신청이 수락.</div> {{item.nick}} 님께서 {{item.title}}
+                            </li>
                         </div>
                     </ul>
                 </div>
@@ -124,7 +131,36 @@ export default {
             this.$router.push({ name: 'list' });
         },
         async selRequest() {
-
+            const res2 = await this.$get(`/travel/selRequest`, {});
+            console.log(res2);
+            this.selStateList = res2.result;
+            console.log(this.selStateList);
+        },
+        async hwi() {
+        const res3 = await this.$get(`/travel/selRequest`,{});
+        this.selStateList = this.res3;
+        console.log(selStateList);
+        },
+        async request(itravel, iuser) {
+            if (confirm("수락 하시겠습니까?") == true){
+            const res = await this.$put(`/travel/selRequest`, {
+                itravel: itravel,
+                iuser: iuser,
+                isyes: 1
+            });
+            console.log(res);
+            }
+        },
+        async requestDel(itravel, iuser) {
+            if (confirm("거절하시겠습니까?") == true){
+                const res4 = await this.$put(`/travel/selRequest`, {
+                itravel: itravel,
+                iuser: iuser,
+                isyes: 0
+            });
+            console.log(res4);
+            console.log('거절됨');
+            }
         }
     },
     created() {
