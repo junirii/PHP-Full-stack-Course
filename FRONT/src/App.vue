@@ -1,7 +1,7 @@
 <template>
   <div id="wrap">
     <Header v-if="$route.name !== 'home'"></Header>
-    <div class="main"><router-view/></div>
+    <div class="main"><router-view :key="$route.fullPath" /></div>
     <Footer v-if="$route.name !== 'home'"></Footer>
   </div>
 </template>
@@ -15,6 +15,31 @@ export default {
   components: {
     Header,
     Footer
+  },
+  created() {
+    console.log('success');
+    console.log(this.$store.state.unreadCntAll);
+    this.$socket.on('update', data => {
+      const inputChat = document.querySelector('#inputChat');
+      if((inputChat && data.room !== this.$store.state.itravel) || !inputChat){
+        this.$store.state.unreadCntAll++;
+        console.log('all: ' + this.$store.state.unreadCntAll);
+        const spanUnreadCntAll = document.querySelector('#unreadCntAll');
+        console.log(spanUnreadCntAll);
+        spanUnreadCntAll.innerText = this.$store.state.unreadCntAll;
+
+        if(this.$store.state.unreadCnt[data.room]){
+          this.$store.state.unreadCnt[data.room]++;
+        }else{
+          this.$store.state.unreadCnt[data.room] = 1;
+        }
+        console.log(`${data.room} : ${this.$store.state.unreadCnt[data.room]}`);
+      }
+    });
+    this.$socket.on('enterRoom', data => {
+      const spanUnreadCntAll = document.querySelector('#unreadCntAll');
+      spanUnreadCntAll.innerText = data.unreadCntAll;
+    });
   }
 }
 </script>

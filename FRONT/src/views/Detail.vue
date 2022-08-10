@@ -94,7 +94,7 @@ export default {
       window.scrollTo(0, 0)
     },
     goToChat() {
-      this.$router.push({ name: 'chat' });
+      this.$router.push({ name: 'chat', query: {itravel: this.itravel}});
     },
     async getDetail() {
       this.itravel = this.$store.state.itravel; // itravel 가져옴

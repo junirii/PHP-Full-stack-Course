@@ -9,11 +9,15 @@
             <div class="icons">
                 <!-- 임시 -->
                 <div class="chat">
-                    <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);" @click="showDivChat"></i>
-                    <div v-if="divChatShow">
+                    <div>
+                        <span id="unreadCntAll" style="color: black;">{{unreadCntAll}}</span>
+                        <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);" @click="showDivChat"></i>
+                    </div>
+                    <div v-if="divChatShow" style="margin-top: 100px;">
                         <div v-for="item in chatRooms" :key="item.itravel">
                             <div style="color: black;" @click="goToChat(item.itravel)">
-                                {{ item.title }} : {{ item.lastMsg }}
+                                {{ item.title }}<br>{{ item.lastMsg }} 
+                                <span v-if="this.$store.state.unreadCnt[item.itravel]">{{this.$store.state.unreadCnt[item.itravel]}}</span><hr>
                             </div>
                         </div>
                     </div>
@@ -62,13 +66,14 @@ export default {
     data() {
         return {
             divChatShow: false,
-            chatRooms: []
+            chatRooms: [],
+            unreadCntAll: this.$store.state.unreadCntAll
         };
     },
     methods: {
         goToChat(itravel) {
-            this.$store.state.itravel = itravel;
-            this.$router.push({ name: 'chat' });
+            // this.$store.state.itravel = itravel;
+            this.$router.push({ name: 'chat', query: {itravel: itravel}});
             this.divChatShow = false;
         },
         async showDivChat() {
@@ -77,10 +82,6 @@ export default {
             this.chatRooms = res.result;
             console.log(this.chatRooms);
         },
-        changeFeedIuser() {
-        }
-    },
-    methods: {
         changeFeedIuser() {
             this.$store.state.feedIuser = this.$store.state.user.iuser;
             this.$router.push({ name: 'mypage' });
@@ -109,6 +110,7 @@ export default {
         goToAllList() {
             this.$store.state.filter = {
                 selectedArea: [],
+                selectedLocation: null,
                 f_people: 0,
                 f_gender: 0,
                 f_age: 0,

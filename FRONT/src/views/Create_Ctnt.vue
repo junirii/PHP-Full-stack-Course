@@ -113,6 +113,8 @@ export default {
           iuser: this.$store.state.user.iuser
         });
         if(makeChat.result){
+          this.$store.state.unreadCnt[res.result] = 0;
+          console.log(this.$store.state.unreadCnt);
           this.$swal.fire('글 작성 성공', '', 'success')
           .then(async result => {
               if(result.isConfirmed){
