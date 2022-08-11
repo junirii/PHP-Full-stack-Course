@@ -136,7 +136,6 @@ class UserModel extends Model
   {
     $profile_img = $param["profile_img"];
     $email = $param["email"];
-    $pw = $param["pw"];
     $nm = $param["nm"];
     $nick = $param["nick"];
     $gender = $param["gender"];
@@ -144,19 +143,22 @@ class UserModel extends Model
     $tel = $param["tel"];
     $cmt = $param["cmt"];
     $iuser = $param["iuser"];
-   $sql =
+    $sql =
     "UPDATE t_user
       SET profile_img = '${profile_img}',
           email = '${email}',
-          pw = '${pw}',
           nm = '${nm}',
           nick = '${nick}',
           gender = ${gender},
           birth = '${birth}',
           tel = '${tel}',
           cmt = '${cmt}'
-      WHERE iuser = ${iuser}
     ";
+    if(isset($param["pw"])){
+      $pw = $param["pw"];
+      $sql .= ", pw = '${pw}'";
+    }
+    $sql .= " WHERE iuser = ${iuser}";
   $stmt = $this->pdo->prepare($sql);
   $stmt->execute();
   return $stmt->rowCount();

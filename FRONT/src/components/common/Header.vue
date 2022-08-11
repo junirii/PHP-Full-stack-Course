@@ -128,7 +128,7 @@ export default {
                 e_date: '2032-08-06',
             };
             console.log(this.$store.state.filter);
-            this.$router.push({ name: 'list' });
+            this.$router.push({ name: 'list', query: {filter: 0} });
         },
         async selRequest() {
             const res2 = await this.$get(`/travel/selRequest`, {});

@@ -2,7 +2,8 @@
   <div class="location">
     <div class="container">
       <h1>Detail</h1>
-      <button v-if="this.loginIuser === data.hostUser.iuser" type="button" @click="del()">삭제</button>
+      <button v-if="loginIuser === data.hostUser.iuser" type="button" @click="mod()">수정</button>
+      <button v-if="loginIuser === data.hostUser.iuser" type="button" @click="del()">삭제</button>
       <!-- 디테일 섹션1 - 간단 정보(필터)-->
       <div class="section-container-filter">
         <div><img class="detail-main-img"
@@ -94,6 +95,11 @@ export default {
     }
   },
   methods: {
+    mod(){
+      this.$store.state.mod.travelData = this.data.travelData;
+      this.$store.state.mod.ctnt = this.data.ctnt;
+      this.$router.push({ name: 'create', params: {mod: 1}});
+    },
     top() {
       window.scrollTo(0, 0);
     },
@@ -110,12 +116,13 @@ export default {
     async getDetail() {
       this.itravel = this.$store.state.itravel; // store/index.js에서 itravel 가져옴
       this.loginIuser = this.$store.state.user.iuser;
-      console.log('itravel ' + this.itravel);
-      console.log('loginuser ' + this.loginIuser);
-      console.log('iuser ' + this.iuser);
       const res = await this.$get(`/travel/detail/${this.itravel}`, {}); // controllers / method / 가져온itravel
       const res2 = await this.$get(`/travel/travelState/${this.loginIuser}/${this.itravel}`, {});
       this.data = res.result;
+      console.log(this.data);
+      console.log('itravel ' + this.itravel);
+      console.log('loginuser ' + this.loginIuser);
+      console.log('hostiuser ' + this.data.hostUser.iuser);
       this.stres = res2.result.seltravelState.tts;
       this.isChat = res2.result.selIsJoin.isChat;
 

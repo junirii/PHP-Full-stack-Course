@@ -13,7 +13,11 @@ export default createStore({
       travel: {},
       travelDay: 0,
       unreadCnt: {},
-      unreadCntAll: 0
+      unreadCntAll: 0,
+      mod: {
+        travelData: {},
+        ctnt: []
+      }
     }
   },
   mutations: {

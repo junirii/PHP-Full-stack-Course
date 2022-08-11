@@ -5,16 +5,18 @@
       <h1>회원정보 수정</h1>
       <div class="myaccount-profile">
         <div class="item">이메일 : <input type="email" v-model="loginUser.email"></div>
-        <div class="item">비밀번호 : <input type='button' value='비밀번호 변경' id='btn3' @click="clickBtn1">
+        <div class="item">비밀번호 : <input type='button' v-if="!pwShow" value='비밀번호 변경' @click="showPw">
           <span>
-            <input type='password' v-model="pw" id='btn1' style="display:none;" placeholder="새 비밀번호">
+            <input type='password' v-if="pwShow" v-model="pw" placeholder="새 비밀번호">
           </span>
           <span>
-            <input type='password' v-model="pwCheck" id='btn2' style="display:none;" placeholder="새 비밀번호 확인">
+            <input type='password' v-if="pwShow" v-model="pwCheck" placeholder="새 비밀번호 확인">
           </span>
-          <input type='button' value='취소' id='btn4' @click="clickBtn2" style="display:none;">
-          <div v-show="pw!=='' && pw===pwCheck">비밀번호가 일치합니다.</div>
-          <div v-show="pw!==pwCheck">비밀번호가 일치하지 않습니다.</div>
+          <input type='button' v-if="pwShow" value='취소' @click="cancel">
+          <div v-if="pwShow">
+            <div v-show="pw!=='' && pw===pwCheck">비밀번호가 일치합니다.</div>
+            <div v-show="pw!==pwCheck">비밀번호가 일치하지 않습니다.</div>
+          </div>
         </div>
         <div class="item">이름 : <input type="text" v-model="loginUser.nm"></div>
         <div class="item">닉네임 : <input type="text" v-model="loginUser.nick"></div>
@@ -33,9 +35,9 @@
 
       <div>
         <button type="button" @click="myAccountMod" 
-        v-bind:disabled="pw !== pwCheck || pwCheck === ''">수정</button>
+        v-bind:disabled="pwShow && (pw !== pwCheck || pwCheck === '')">수정</button>
         <!-- <router-link :to="{ path: '/MyAccount' }"><button>취소</button></router-link> -->
-        <button type="button" @click="clickBtn3">취소</button>
+        <button type="button" @click="goToMyAccount">취소</button>
       </div>
 
       <br>
@@ -52,7 +54,8 @@ export default {
       data: [],
       loginUser: {},
       pw: '',
-      pwCheck: ''
+      pwCheck: '',
+      pwShow: false
     }
   },
   methods: {
@@ -63,57 +66,34 @@ export default {
     async myAccountMod() {
       // 회원정보 수정 (마이페이지 댓글 참고)
       if(this.pw && this.pwCheck){
-        const res = await this.$post('/user/myAccountMod', {
-          profile_img: this.loginUser.profile_img,
-          email: this.loginUser.email,
-          pw: this.pw,
-          pwCheck: this.pwCheck,
-          nm: this.loginUser.nm,
-          nick: this.loginUser.nick,
-          gender: this.loginUser.gender,
-          birth: this.loginUser.birth,
-          tel: this.loginUser.tel,
-          cmt: this.loginUser.cmt,
-          iuser: this.loginUser.iuser
-        });
+        this.loginUser.pw = this.pw;
+        this.loginUser.pwCheck = this.pwCheck;
+      };
+        const res = await this.$post('/user/myAccountMod', this.loginUser);
         console.log(res);
         if (res.result === 1) {
           this.$store.state.user = this.loginUser;
           this.$router.push({ name: 'myaccount' });
         }
-      }
-    },
-    // 비밀번호 변경버튼
-    clickBtn1() {
-      const btn1 = document.getElementById('btn1');
-      const btn2 = document.getElementById('btn2');
-      const btn3 = document.getElementById('btn3');
-      const btn4 = document.getElementById('btn4');
-      btn1.style.display = 'inline';
-      btn2.style.display = 'inline';
-      btn3.style.display = 'none';
-      btn4.style.display = 'inline';
+      },
+    showPw() {
+      this.pwShow = true;
     },
 
     // 비밀번호 취소버튼
-    clickBtn2() {
-      const btn1 = document.getElementById('btn1');
-      const btn2 = document.getElementById('btn2');
-      const btn3 = document.getElementById('btn3');
-      const btn4 = document.getElementById('btn4');
-      btn1.style.display = 'none';
-      btn2.style.display = 'none';
-      btn3.style.display = 'inline';
-      btn4.style.display = 'none';
+    cancel() {
+      this.pwShow = false;
+      this.pw = '';
+      this.pwCheck = '';
     },
 
     // 전체페이지 취소버튼 (myaccount페이지로 가도록, DB입력은 되지않으나, front에서 띄워짐ㅠㅠ)
-    clickBtn3() {
+    goToMyAccount() {
       this.$router.push({ name: 'myaccount' });
 
     }
+    // 비밀번호 변경버튼
   },
-
   created() {
     this.getMyAccount();
   }

@@ -46,15 +46,40 @@ export default {
     },
     getData() { 
       this.travelDay = this.$store.state.travelDay;
-      for(var i=0; i<this.travelDay; i++){
-        this.ctntArr.push([{
-          day: i + 1,
-          seq: 1,
-          ctnt: null,
-          img: null,
-        }]);
+      if(this.$route.params.mod){
+        for(var i=0; i<this.travelDay; i++){
+          this.ctntArr.push([]);
+        }
+        const modCtntArr = this.$store.state.mod.ctnt;
+        modCtntArr.forEach(item => {
+          const ctntObj = {
+            day: item.day,
+            seq: item.seq,
+            ctnt: item.ctnt,
+            img: item.img
+          };
+          this.ctntArr[parseInt(item.day)-1].push(ctntObj);
+        });
+        console.log(this.ctntArr);
+        this.ctntArr.forEach(item => {
+          for(var i=0; i<item.length-1; i++){
+            console.log(i);
+            // this.addCtnt(i+1);
+          }
+          // item.forEach(item2 =>{
+
+          // });
+        });
+      }else{
+        for(var i=0; i<this.travelDay; i++){
+          this.ctntArr.push([{
+            day: i + 1,
+            seq: 1,
+            ctnt: null,
+            img: null,
+          }]);
+        }
       }
-      console.log(this.$store.state.travel);
     },
     addCtnt(idx){
       for(var i=0; i<this.travelDay; i++){
@@ -96,38 +121,39 @@ export default {
       divDay.removeChild(divDay.lastChild);
       this.countArr[idx-1]--;
     },
-    async insTravel(){   
-      for(var i=0; i<this.ctntArr.length; i++){
-        for(var z=0; z<this.ctntArr[i].length; z++){
-          const txtArea = document.querySelector(`#txtAreaDay${i+1}_${z+1}`);
-          this.ctntArr[i][z].ctnt = txtArea.value;
-        }
-      }
-      const res = await this.$post('/travel/insTravelAndCtnt', {
-        travel: this.$store.state.travel,
-        ctnt: this.ctntArr
-      });
-      console.log(`res: ${res}`);
-      if(res.result){
-        const makeChat = await this.$post(`/chat/insChatRoom`, {
-          itravel: res.result,
-          iuser: this.$store.state.user.iuser
-        });
-        console.log(`makeChat: ${makeChat}`)
-        if(makeChat.result){
-          this.$store.state.unreadCnt[res.result] = 0;
-          console.log(this.$store.state.unreadCnt);
-          this.$swal.fire('글 작성 성공', '', 'success')
-          .then(async result => {
-              if(result.isConfirmed){
-                  this.$store.state.itravel = res.result;
-                  this.$router.push({name: 'detail'});
-              }
-          });
-        }
+    insTravel(){   
+      console.log(this.ctntArr);
+      // for(var i=0; i<this.ctntArr.length; i++){
+      //   for(var z=0; z<this.ctntArr[i].length; z++){
+      //     const txtArea = document.querySelector(`#txtAreaDay${i+1}_${z+1}`);
+      //     this.ctntArr[i][z].ctnt = txtArea.value;
+      //   }
+      // }
+      // const res = await this.$post('/travel/insTravelAndCtnt', {
+      //   travel: this.$store.state.travel,
+      //   ctnt: this.ctntArr
+      // });
+      // console.log(`res: ${res}`);
+      // if(res.result){
+      //   const makeChat = await this.$post(`/chat/insChatRoom`, {
+      //     itravel: res.result,
+      //     iuser: this.$store.state.user.iuser
+      //   });
+      //   console.log(`makeChat: ${makeChat}`)
+      //   if(makeChat.result){
+      //     this.$store.state.unreadCnt[res.result] = 0;
+      //     console.log(this.$store.state.unreadCnt);
+      //     this.$swal.fire('글 작성 성공', '', 'success')
+      //     .then(async result => {
+      //         if(result.isConfirmed){
+      //             this.$store.state.itravel = res.result;
+      //             this.$router.push({name: 'detail'});
+      //         }
+      //     });
+      //   }
       }
     }
   }
-}
+
 </script>
 

@@ -4,7 +4,6 @@
       <h1>회원정보</h1>
       <div class="myaccount-profile">
           <div class="item"><div class="item-txt">이메일 : {{ loginUser.email }} </div></div>
-          <div class="item"><div class="item-txt">비밀번호 : </div></div>
           <div class="item"><div class="item-txt">이름 : {{ loginUser.nm }} </div></div>
           <div class="item"><div class="item-txt">닉네임 : {{ loginUser.nick }} </div></div>
           <div class="item"><div class="item-txt">성별 : {{ genderTxt }} </div></div>

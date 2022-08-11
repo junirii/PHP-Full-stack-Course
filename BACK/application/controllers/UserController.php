@@ -133,11 +133,9 @@ class UserController extends Controller
     switch (getMethod()) {
       case _POST:
         $json = getJson();
-        $json["pw"] = password_hash($json["pw"], PASSWORD_BCRYPT);
         $param = [
           "profile_img" => $json["profile_img"],
           "email" => $json["email"],
-          "pw" => $json["pw"],
           "nm" => $json["nm"],
           "nick" => $json["nick"],
           "gender" => $json["gender"],
@@ -146,6 +144,10 @@ class UserController extends Controller
           "cmt" => $json["cmt"],
           "iuser" => $json["iuser"],
         ];
+        if(isset($json["pw"])){
+          $json["pw"] = password_hash($json["pw"], PASSWORD_BCRYPT);
+          $param["pw"] = $json["pw"];
+        }
         return [_RESULT => $this->model->MyAccountMod($param)];
     }
   }

@@ -84,8 +84,25 @@ export default {
         this.getAreaList();
         this.getLocationList();
         this.getAgeList();
+        this.setModPage();
     },
     methods: {
+        setModPage(){
+            if(this.$route.params.mod){
+                const travelData = this.$store.state.mod.travelData;
+                this.travel.iuser = travelData.iuser;
+                this.travel.title = travelData.title;
+                this.travel.f_gender = travelData.f_gender;
+                this.travel.f_price = travelData.f_price;
+                this.travel.f_people = travelData.f_people;
+                this.travel.f_age = travelData.f_age;
+                this.travel.area = travelData.area;
+                this.travel.location = travelData.location;
+                this.travel.s_date = travelData.s_date;
+                this.travel.e_date = travelData.e_date;
+                this.travel.main_img = travelData.main_img;
+            }
+        },
         goToCreateCtnt(){
             const s_date = new Date(this.travel.s_date);
             const e_date = new Date(this.travel.e_date);
@@ -93,7 +110,12 @@ export default {
 
             this.$store.state.travel = this.travel;
             this.$store.state.travelDay = gap / (1000*60*60*24) + 1;
-            this.$router.push({name: 'create_ctnt'});
+
+            if(this.$route.params.mod){
+                this.$router.push({name: 'create_ctnt', params: {mod: 1}});
+            }else{
+                this.$router.push({name: 'create_ctnt'});
+            }
         },
         currentDate() {
             document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);

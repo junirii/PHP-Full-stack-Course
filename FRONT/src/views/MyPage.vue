@@ -106,6 +106,7 @@
 </template>
 
 <script>
+import { isThisWeek } from 'date-fns';
 import ProfileImgModal from '/src/components/common/ProfileImgModal.vue';
 
 export default {
