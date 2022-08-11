@@ -24,7 +24,7 @@
           <div v-if="data.travelData.f_age == 6">연령 : 30대~40대</div>
           <div v-if="data.travelData.f_age == 7">연령 : 40대~50대</div>
           <div>인원 : 최대 {{ data.travelData.f_people }} 명</div>
-          <div>비용 : 1인 {{ data.travelData.f_price }} 원</div>
+          <div>비용 : 1인 {{ data.travelData.f_price = data.travelData.f_price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") }} 원</div>
         </div>
       </div>
       <br>
@@ -84,6 +84,7 @@
 
 <script>
 export default {
+
   data() {
     return {
       data: [],
@@ -283,8 +284,8 @@ export default {
 /* fixed1 - 신청하기*/
 .submit-btn {
   position: fixed;
-  bottom: 111px;
-  right: 220px;
+  bottom: 133px;
+  right: 250px;
   width: 80px;
   height: 80px;
 
@@ -304,8 +305,8 @@ export default {
 /* fixed2 - 찜하기*/
 .travel-fav-btn {
   position: fixed;
-  bottom: 222px;
-  right: 220px;
+  bottom: 244px;
+  right: 250px;
   width: 80px;
   height: 80px;
 
@@ -325,8 +326,8 @@ export default {
 /* fixed3 - Top*/
 .top-btn {
   position: fixed;
-  bottom: 333px;
-  right: 220px;
+  bottom: 355px;
+  right: 250px;
   width: 80px;
   height: 80px;
 
