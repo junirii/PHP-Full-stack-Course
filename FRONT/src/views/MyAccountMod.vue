@@ -62,6 +62,7 @@ export default {
     async getMyAccount() { // iuser
       // console.log(this.$store.state.user);
       this.loginUser = JSON.parse(JSON.stringify(this.$store.state.user));
+      console.log(this.loginUser);
     },
     async myAccountMod() {
       // 회원정보 수정 (마이페이지 댓글 참고)

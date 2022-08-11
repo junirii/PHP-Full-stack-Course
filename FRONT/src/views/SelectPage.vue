@@ -10,7 +10,9 @@
 
     <!-- 지역 상관 x 버튼 -->
     <div class="anywhere">
-      <button class="anywhere-btn" alt="whenever anywhere" @click="goToAllList">언제든지<br>어디든지</button>
+      <router-link :to="{ path: '/List' }">
+      <button class="anywhere-btn" alt="whenever anywhere" @click="moveToList()">조건에 맞는 글 : {{ this.list.length }}</button>
+      </router-link>
     </div>
 
     <!-- 지역 -->
@@ -23,22 +25,22 @@
       <div class="box d-flex">
         <div class="container-map">
           <div class="sec1">
-            <img class="center" src="../../mapImg/i.png" alt="수도권" @click="[selectArea($event),insAreaName($event)]">
-              <img class="gang" src="../../mapImg/Gang.png" alt="강원도" @click="[selectArea($event),insAreaName($event)]">
+            <img class="center" src="../../mapImg/i.png" alt="수도권" @click="[selectArea($event),insAreaName($event),changeFilter()]">
+              <img class="gang" src="../../mapImg/Gang.png" alt="강원도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
           </div>
           <div class="sec2">
             <div class="K">
-              <img class="K1" src="../../mapImg/k.png" alt="경상북도" @click="[selectArea($event),insAreaName($event)]">
-              <img class="I" src="../../mapImg/island.png" alt="경상북도" @click="[selectArea($event),insAreaName($event)]">
+              <img class="K1" src="../../mapImg/k.png" alt="경상북도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
+              <img class="I" src="../../mapImg/island.png" alt="경상북도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
             </div>
-            <img class="C1" src="../../mapImg/chung1.png" alt="충청북도" @click="[selectArea($event),insAreaName($event)]">
-            <img class="C2" src="../../mapImg/chung2.png" alt="충청남도" @click="[selectArea($event),insAreaName($event)]">
+            <img class="C1" src="../../mapImg/chung1.png" alt="충청북도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
+            <img class="C2" src="../../mapImg/chung2.png" alt="충청남도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
           </div>
           <div class="sec3">
-            <img class="K2" src="../../mapImg/k2.png" alt="경상남도" @click="[selectArea($event),insAreaName($event)]">
-            <img class="J1" src="../../mapImg/j1.png" alt="전라북도" @click="[selectArea($event),insAreaName($event)]">
-            <img class="J2" src="../../mapImg/j2.png" alt="전라남도" @click="[selectArea($event),insAreaName($event)]">
-            <img class="JJ" src="../../mapImg/jj.png" alt="제주도" @click="[selectArea($event),insAreaName($event)]">
+            <img class="K2" src="../../mapImg/k2.png" alt="경상남도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
+            <img class="J1" src="../../mapImg/j1.png" alt="전라북도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
+            <img class="J2" src="../../mapImg/j2.png" alt="전라남도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
+            <img class="JJ" src="../../mapImg/jj.png" alt="제주도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
           </div>
           <img class="map" src="../../mapImg/map_1.png" alt="map">
         </div>
@@ -55,52 +57,30 @@
       <h3>Step 2. 옵션 선택</h3>
       <h6>여행의 옵션을 선택하세요.</h6>
       <div class="filter-box">
-        <div class="choose-people">인원 :
-          <label for="two">2명</label>
-          <input v-model="filter.f_people" type="radio" id="two" name="people" value="2">
-          <label for="three">3명</label>
-          <input v-model="filter.f_people" type="radio" id="three" name="people" value="3">
-          <label for="four">4명</label>
-          <input v-model="filter.f_people" type="radio" id="four" name="people" value="4">
-          <label for="five">5명</label>
-          <input v-model="filter.f_people" type="radio" id="five" name="people" value="5">
-          <label for="six">6명</label>
-          <input v-model="filter.f_people" type="radio" id="six" name="people" value="6">
-          <label for="seven">7명</label>
-          <input v-model="filter.f_people" type="radio" id="seven" name="people" value="7">
-          <label for="eight">8명 이상</label>
-          <input v-model="filter.f_people" type="radio" id="eight" name="people" value="8">
+        <span>인원 :</span>
+        <div class="choose-people" :key="item.idx" v-for="item in peopleList">
+          <label :for="`people${item.people}`">{{ item.people }}</label>
+          <input @change="changeFilter" type="radio" v-model="filter.f_people" :id="`people${item.people}`" :value="item.idx" name="people">
         </div>
         <br>
 
-        <div class="choose-gender">성별 :
-          <label for="male">남성</label>
-          <input v-model="filter.f_gender" type="radio" id="male" name="gender" value="1">
-          <label for="female">여성</label>
-          <input v-model="filter.f_gender" type="radio" id="female" name="gender" value="2">
-          <label for="nolimit_gender">혼성</label>
-          <input v-model="filter.f_gender" type="radio" id="nolimit_gender" name="gender" value="3">
+        <span>성별 :</span>
+        <div class="choose-gender" :key="item.idx" v-for="item in genderList">
+          <label :for="`gender${item.gender}`">{{ item.gender }}</label>
+          <input @change="changeFilter" type="radio" v-model="filter.f_gender" :id="`gender${item.gender}`" :value="item.idx" name="gender">
         </div>
         <br>
 
-        <!-- 테이블 t_age 사용할 것 -->
-        <div class="choose-age">연령 :
-          <select class="age-box font bolder" v-model="filter.f_age">
-            <option value="0">제한없음</option>
-            <option value="1">20대</option>
-            <option value="2">30대</option>
-            <option value="3">40대</option>
-            <option value="4">50대</option>
-            <option value="5">20~30대</option>
-            <option value="6">30~40대</option>
-            <option value="7">40~50대</option>
-          </select>
+        <span>연령 :</span>
+        <div class="choose-age" :key="item.idx" v-for="item in ageList">
+          <label :for="`age${item.age}`">{{ item.age }}</label>
+          <input @change="changeFilter" type="radio" v-model="filter.f_age" :id="`age${item.age}`" :value="item.idx" name="age">
         </div>
         <br>
 
         <div class="choose-price">비용 : 
-          최소 <input v-model="filter.l_price" type="number" step="1000">원 ~ 최대 <input v-model="filter.h_price"
-            type="number" step="1000">원
+          최소 <input @change="changeFilter()" v-model="filter.l_price" type="number" step="10000">원 ~ 
+          최대 <input @change="changeFilter()" v-model="filter.h_price" type="number" step="10000">원
         </div>
       </div>
       <div>
@@ -117,6 +97,7 @@
       <h6>떠나고 싶은 날짜를 선택하세요.</h6>
       <div class="date-input">
         <Datepicker
+          @update:modelValue="handleDate"
           class="date-picker"
           inline autoApply
           locale="ko-KR"
@@ -147,6 +128,22 @@ export default {
 components: { Datepicker },
   setup() {
     const date = ref();
+    const handleDate = (modelData) => {
+      date.value = modelData;
+      const s_year = date.value[0].getFullYear();
+      const s_month =  ("0" + (date.value[0].getMonth() + 1)).slice(-2);
+      const s_day = ("0" + date.value[0].getDate()).slice(-2);
+      const sdate = `${s_year}-${s_month}-${s_day}`;
+      console.log(sdate);
+      // this.filter.s_date = `${s_year}-${s_month}-${s_day}`;
+
+      const e_year = date.value[1].getFullYear();
+      const e_month = ("0" + (date.value[1].getMonth() + 1)).slice(-2);
+      const e_day = ("0" + date.value[1].getDate()).slice(-2);
+      const edate = `${e_year}-${e_month}-${e_day}`;
+      console.log(edate);
+      // this.filter.e_date = `${e_year}-${e_month}-${e_day}`;
+    }
     onMounted(() => {
       const startDate = new Date() ;
       const endDate = new Date(new Date().setDate(startDate.getDate()) );
@@ -154,11 +151,16 @@ components: { Datepicker },
     })
     return{
       date,
+      handleDate,
     }
   },
   data() {
     return {
       areaList: [],
+      ageList: [],
+      genderList: [],
+      peopleList: [],
+      list: [],
       filter: {
         selectedArea: [],
         selectedLocation: null,
@@ -176,8 +178,18 @@ components: { Datepicker },
   created() {
     this.getAreaList();
     this.getPrice();
+    this.getAgeList();
+    this.getGenderList();
+    this.getPeopleList();
+    this.changeFilter();
   },
   methods: {
+    async changeFilter() {
+      this.$store.state.filter = this.filter;
+      console.log(this.$store.state.filter)
+      this.list = await this.$post('/travel/travelList', { filter: this.$store.state.filter });
+      console.log(this.list);
+    },
     async getPrice(){
       const res = await this.$get('/travel/getPrice');
       if(res.result){
@@ -188,6 +200,18 @@ components: { Datepicker },
     },
     async getAreaList() {
       this.areaList = await this.$get('/travel/areaList', {});
+    },
+    async getAgeList() {
+      this.ageList = await this.$get('/travel/ageList', {});
+      console.log(this.ageList);
+    },
+    async getGenderList() {
+      this.genderList = await this.$get('/travel/genderList', {});
+      console.log(this.genderList);
+    },
+    async getPeopleList() {
+      this.peopleList = await this.$get('/travel/peopleList', {});
+      console.log(this.peopleList);
     },
     selectArea(e){
       switch(e.target.alt){
@@ -253,7 +277,7 @@ components: { Datepicker },
       console.log(this.$store.state.filter);
 
       this.$router.push({name: 'list'});
-    }
+    },
   }
 };
 </script>
@@ -431,7 +455,7 @@ img {
 .filter-box {
   border: 1px solid var(--maincolor);
   width: 500px;
-  height: 300px;
+  height: 1000px;
   margin: 0 auto;
   text-align: left;
   padding: 20px;
@@ -464,7 +488,6 @@ img {
   justify-content: center;
   margin-top: 20px;
 }
-/* 날짜 css 끝 */
 
 /* 섹션별 간격 */
 #location, #filter, #date{

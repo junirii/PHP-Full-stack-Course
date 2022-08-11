@@ -34,6 +34,16 @@ class TravelController extends Controller{
         return $this->model->areaList();
     }
 
+    // gender List
+    public function genderList() {
+        return $this->model->genderList();
+    }
+
+    // people List
+    public function peopleList() {
+        return $this->model->peopleList();
+    }
+
     // location list
     public function locationList() {
         $urlPaths = getUrlPaths();

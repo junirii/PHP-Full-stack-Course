@@ -106,8 +106,9 @@ class TravelModel extends Model
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    // people list
-    public function peopleList() {
+    // people List
+    public function peopleList()
+    {
         $sql = "SELECT * FROM t_people";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
