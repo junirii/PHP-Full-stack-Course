@@ -24,7 +24,7 @@ export default {
 <style scoped>
 footer {
     background-color: #fff;
-    z-index: 0;
+    z-index: -1;
     position: absolute;
     bottom: 0;
     left: 80px;

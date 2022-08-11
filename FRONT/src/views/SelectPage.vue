@@ -43,7 +43,9 @@
           <img class="map" src="../../mapImg/map_1.png" alt="map">
         </div>
       </div>
-      <a href="#filter"><button class="">다음</button></a>
+      <a href="#filter">
+        <button class="btn next-btn" type="button">다음</button>
+      </a>
     </div>
 
     <hr>
@@ -81,10 +83,9 @@
         </div>
         <br>
 
-        <!-- select option으로 바꾸기 나이제한없음, 20, 30, 40, 50, 20~30, 30~40, 40~50대(value값: 0~8)-->
         <!-- 테이블 t_age 사용할 것 -->
         <div class="choose-age">연령 :
-          <select class="age-box" v-model="filter.f_age">
+          <select class="age-box font bolder" v-model="filter.f_age">
             <option value="0">제한없음</option>
             <option value="1">20대</option>
             <option value="2">30대</option>
@@ -104,7 +105,7 @@
       </div>
       <div>
         <a href="#date">
-          <button class="btn" type="button">↓</button>
+          <button class="btn next-btn" type="button">다음</button>
         </a>
       </div>
     </div>
@@ -129,7 +130,7 @@
 
       <div class="move-to-list-btn">
         <router-link :to="{ path: '/List' }">
-          <button class="btn" type="button" @click="moveToList()">여행 찾기</button>
+          <button class="btn next-btn" type="button" @click="moveToList()">여행 찾기</button>
         </router-link>
       </div>
     </div>
@@ -319,6 +320,7 @@ hr {
   position: fixed;
   bottom: 175px;
   right: 220px;
+  transition: all 0.2s;
 
   border-radius: 50%;
   width: 100px;
@@ -420,6 +422,9 @@ img {
   transform: translateX(6px);
   transition: 0.3s;
 }
+.next-btn {
+  margin-top: 50px;
+}
 /* 지도 css 끝*/
 
 /* 옵션 */
@@ -439,16 +444,25 @@ img {
   padding: 0 5px;
 }
 .age-box {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  /* background: url('이미지 경로') no-repeat 95% 50%; */
   border: none;
-  border-bottom: 1px solid var(--maincolor);
-  width: 20px;
-  height: 10px;
+  border-bottom: 2px solid var(--maincolor);
+  width: 80px;
+  height: 25px;
+  padding-left: 10px;
+  color: var(--maincolor);
 }
+.age-box::-ms-expand { display: none; }
 /* 날짜 */
 .date-input {
   margin: 0 auto;
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }
 /* 날짜 css 끝 */
 

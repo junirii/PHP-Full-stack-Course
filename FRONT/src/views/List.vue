@@ -1,40 +1,48 @@
 <template>
-<body>
-  <main class="list mt-3" >
-    <div class="container">   
-      <button type="button" @click="showFilterModal">필터</button>
-      <FilterModal :show="modalShow" @close="hiddenModal" v-on:update="travelList()"></FilterModal>
-      <div class="row" slot="body">
-        <div class="col-xl-3 col-lg-4 col-md-6" style="padding: 25px 25px 25px;"
-            :key="item.itravel" v-for="item in list">
+
+  <body>
+    <main class="list mt-3">
+      <div class="filter-btn font bolder"  @click="showFilterModal">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        필터
+      </div>
+      <div class="container">
+        <!-- <button class="btn" type="button" @click="showFilterModal">필터</button> -->
+        <FilterModal :show="modalShow" @close="hiddenModal" v-on:update="travelList()"></FilterModal>
+        <div class="row" slot="body">
+          <div class="col-xl-3 col-lg-4 col-md-6" style="padding: 25px 25px 25px;" :key="item.itravel"
+            v-for="item in list">
             <div class="card" style="width: 17rem; height: 27rem;">
               <div class="hearticon">
                 <!-- <font-awesome-icon icon="fa-solid fa-heart fa-2x abcd" v-if="heartColor(item.itravel)" style="color: red;" @click="good($event, item.itravel)"/> -->
-                <i class="fa-solid fa-heart fa-2x abcd" v-if="heartColor(item.itravel)" style="color: red;" @click="good($event, item.itravel)"></i>
-                <i class="fa-regular fa-heart fa-2x abcd" v-if="!heartColor(item.itravel)" @click="good($event, item.itravel)"></i>
+                <i class="fa-solid fa-heart fa-2x abcd" v-if="heartColor(item.itravel)" style="color: red;"
+                  @click="good($event, item.itravel)"></i>
+                <i class="fa-regular fa-heart fa-2x abcd" v-if="!heartColor(item.itravel)"
+                  @click="good($event, item.itravel)"></i>
                 <!-- <div class="card-img-top" @click="goToDetail(item.itravel)">{{item.main_img}}</div> -->
-                <img :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
-                @click="goToDetail(item.itravel)"
-                  class="card-img-top" style="width: 17rem; height: 16rem;"
-                  alt="이미지">
               </div>
-            <div class="card-body">
-              <h5 class="card-title" @click="goToDetail(item.itravel)">{{ item.title }}</h5>
-              <p class="card-text">
-                <span class="badge name-tag text-white me-1 pointer" @click="goToMyPage(item.iuser)">작성자:{{ item.nick }}</span>
-                <span class="badge name-tag text-white me-1">
-                  지역: {{ item.area_nm }}<span v-if="item.location !== null">/{{ item.location_nm }}</span>
-                </span>
-                <!-- <span class="badge bg-dark text-white me-1">location:{{ item.location }}</span> -->
-              </p>
-              <small class="text-dark">{{ item.s_date }} ~ {{ item.e_date }}</small>
+              <img :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
+                   @click="goToDetail(item.itravel)"
+                   class="thumbnail card-img-top"
+                   style="width: 17rem; height: 16rem;"
+                   alt="여행 썸네일">
+              <div class="card-body">
+                <h5 class="card-title" @click="goToDetail(item.itravel)">{{ item.title }}</h5>
+                <p class="card-text">
+                  <span class="badge name-tag me-1 pointer" @click="goToMyPage(item.iuser)">작성자:{{ item.nick }}</span>
+                  <span class="badge name-tag me-1">
+                    지역: {{ item.area_nm }}<span v-if="item.location !== null">/{{ item.location_nm }}</span>
+                  </span>
+                  <!-- <span class="badge bg-dark text-white me-1">location:{{ item.location }}</span> -->
+                </p>
+                <small class="text-dark">{{ item.s_date }} ~ {{ item.e_date }}</small>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
-</body>
+    </main>
+  </body>
 </template>
 
 <script>
@@ -138,13 +146,38 @@ export default {
   padding: 150px;
   font-family: 'LeferiPoint-WhiteA';
   font-weight: bold;
-  
+}
+.filter-btn {
+  text-decoration: none;
+  border: 2px solid var(--mainOrange);
+  background-color: #fff;
+  border-radius: 20px;
+  color: var(--mainOrange);
+  padding: 7px;
+  line-height: 5px;
+  transition: all 0.2s;
+  width: 78px;
+  float: right;
+  position: relative;
+  right: 173px;
+  bottom: 30px;
+  cursor: pointer;
+}
+.filter-btn:hover {
+  color: #fff;
+  background-color: var(--mainOrange);
 }
 .hearticon {
   position: relative;
 }
+.thumbnail:hover {
+  
+  /* transition: transform 1s; */
+  filter: brightness(70%);
+}
 .name-tag {
-  background-color: var(--maincolor);
+  background-color: #fff;
+  color: var(--maincolor);
 }
 .abcd{
   position : absolute;

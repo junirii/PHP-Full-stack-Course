@@ -12,33 +12,37 @@
                     <div>
                         <span id="unreadCntAll" style="color: red; font-weight: bold;" class="d-none">{{unreadCntAll}}</span>
                         <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);" @click="showDivChat"></i>
-                    </div>
-                    <div v-if="divChatShow" style="margin-top: 100px;">
-                        <div v-for="item in chatRooms" :key="item.itravel">
-                            <div style="color: var(--mainOrange);" @click="goToChat(item.itravel)">
-                                {{ item.title }}<br>{{ item.lastMsg }} 
-                                <span v-if="this.$store.state.unreadCnt[item.itravel]" style="color: red; font-weight: bold;">{{this.$store.state.unreadCnt[item.itravel]}}</span><hr>
+                        <div v-if="divChatShow" style="margin-top: 100px;">
+                            <div v-for="item in chatRooms" :key="item.itravel">
+                                <div style="color: var(--mainOrange);" @click="goToChat(item.itravel)">
+                                    {{ item.title }}<br>{{ item.lastMsg }} 
+                                    <span v-if="this.$store.state.unreadCnt[item.itravel]" style="color: red; font-weight: bold;">{{this.$store.state.unreadCnt[item.itravel]}}</span><hr>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="notifi">
-                    <i class="fa-regular fa-bell fa-2x dropdown" style="color: var(--maincolor);" @click="selRequest()" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="false"></i>
-                    <ul class="dropdown-menu">
-                        <div :key="item.iuser" v-for="item in selStateList" >
-                            <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">
-                                <div>신청이 왔습니다.</div> {{item.profile_img}} {{item.nick}} 님께서 {{item.title}}
-                                <button @click="request(item.itravel, item.iuser)">수락</button> <button @click="requestDel(item.itravel, item.iuser)">거절</button>
-                            </li>
-                            <li v-if="item.isconfirm == 3" class="dropdown-item" style="cursor: default;">
-                                <div>신청이 거절.</div> {{item.nick}} 님께서 {{item.title}}
-                            </li>
-                            <li v-if="item.isconfirm == 1" class="dropdown-item" style="cursor: default;">
-                                <div>신청이 수락.</div> {{item.nick}} 님께서 {{item.title}}
-                            </li>
+                    <div>
+                        <i class="fa-regular fa-bell fa-2x dropdown" style="color: var(--maincolor);" @click="selRequest()" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"></i>
+                        <div>
+                            <ul class="dropdown-menu">
+                                <div :key="item.iuser" v-for="item in selStateList" >
+                                    <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">
+                                        <div>신청이 왔습니다.</div> {{item.profile_img}} {{item.nick}} 님께서 {{item.title}}
+                                        <button @click="request(item.itravel, item.iuser)">수락</button> <button @click="requestDel(item.itravel, item.iuser)">거절</button>
+                                    </li>
+                                    <li v-if="item.isconfirm == 3" class="dropdown-item" style="cursor: default;">
+                                        <div>신청이 거절.</div> {{item.nick}} 님께서 {{item.title}}
+                                    </li>
+                                    <li v-if="item.isconfirm == 1" class="dropdown-item" style="cursor: default;">
+                                        <div>신청이 수락.</div> {{item.nick}} 님께서 {{item.title}}
+                                    </li>
+                                </div>
+                            </ul>
                         </div>
-                    </ul>
+                    </div>
                 </div>
                 <div class="burger-wrapper">
                     <input type="checkbox" id="sideMenu">
@@ -61,6 +65,7 @@
                             <li v-if="this.$store.state.isLogin" @click="logout">로그아웃</li>
                             <li v-if="!this.$store.state.isLogin" @click="logout">로그인</li>
                         </ul>
+                        <div class="overlay"></div>
                     </nav>
                 </div>
             </div>
@@ -201,7 +206,11 @@ header {
     display: flex;
     justify-content: space-between;
 }
-
+/* .icons {
+    display: flex;
+    justify-content: space-between;
+    width: 150px;
+} */
 .logo-box {
     display: flex;
     justify-content: space-between;
@@ -212,7 +221,6 @@ header {
     color: var(--maincolor);
     font-weight: bolder;
 }
-
 .notifi {
     padding: 6px;
     display: flex;
@@ -223,7 +231,6 @@ header {
     right: 65px;
     bottom: 41px;
 }
-
 .chat {
     padding: 6px;
     display: flex;
@@ -234,12 +241,10 @@ header {
     right: 125px;
     top: 4px;
 }
-
 .burger-wrapper {
     cursor: pointer;
     padding: 6px;
 }
-
 #menu {
     background: var(--mainOrange);
     width: 15rem;
@@ -254,7 +259,6 @@ header {
     padding-top: 100px;
     border-left-color: var(--mainOrange);
 }
-
 li { 
     color: #fff;
     font-size: 1.2rem;
@@ -265,15 +269,12 @@ li {
     padding: 8px;
     text-decoration-line: none;
 }
-
 #sideMenu {
     display: none;
 }
-
 #sideMenu:checked~#menu {
     transform: translateX(0rem);
 }
-
 #burger {
     position: absolute;
     cursor: pointer;
@@ -285,26 +286,21 @@ li {
     justify-content: space-between;
     flex-direction: column;
 }
-
 #burger>div {
     height: 3px;
     background-color: var(--maincolor);
     transition: 0.5s;
     z-index: 999;
 }
-
 #sideMenu:checked~#burger>div {
     background-color: #fff;
 }
-
 #sideMenu:checked~#burger>div:nth-child(1) {
     transform: translateY(15px) rotate(45deg);
 }
-
 #sideMenu:checked~#burger>div:nth-child(2) {
     opacity: 0;
 }
-
 #sideMenu:checked~#burger>div:nth-child(3) {
     transform: translateY(-15px) rotate(-45deg);
 }
