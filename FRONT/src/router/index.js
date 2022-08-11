@@ -1,8 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
-import Map from '../views/Map.vue';
-import Calender from '../views/Calender.vue';
-import Option from '../views/Option.vue';
 import List from '../views/List.vue';
 import Detail from '../views/Detail.vue';
 import Create from '../views/Create.vue';
@@ -34,24 +31,6 @@ const routes = [
     path: '/selectpage',
     name: 'selectpage',
     component: SelectPage,
-    beforeEnter: requireAuth()
-  },
-  {
-    path: '/map',
-    name: 'map',
-    component: Map,
-    beforeEnter: requireAuth()
-  },
-  {
-    path: '/calender',
-    name: 'calender',
-    component: Calender,
-    beforeEnter: requireAuth()
-  },
-  {
-    path: '/option',
-    name: 'option',
-    component: Option,
     beforeEnter: requireAuth()
   },
   {

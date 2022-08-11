@@ -1,7 +1,7 @@
 <template>
   <div class="location">
     <div class="container">
-      <div>{{ selUser.nick }}님의 페이지</div>
+      <div class="my-page-title">{{ selUser.nick }}님의 페이지</div>
       <!-- 마이페이지 섹션1 - 프로필 -->
       <div class="mypage-profile">
         <div class="mypage-profile-img">
@@ -191,7 +191,7 @@ export default {
     },
     async goToMyPageFromReview(iuserNum) { // 클릭시 여행게시물로 이동
       this.$store.state.iuser = iuserNum;
-      this.$router.push({ name: 'mypage', query: {feedIuser: iuserNum }});
+      this.$router.push({ name: 'mypage', query: { feedIuser: iuserNum } });
     },
     async insCmt() { // 댓글삽입기능
       const res = await this.$post('/user/insCmt', {
@@ -243,6 +243,12 @@ export default {
 
 }
 
+.my-page-title {
+  font-size: 1.5rem;
+  color: var(--mainDark);
+
+}
+
 /* 마이페이지 섹션1 - 프로필 */
 .mypage-profile {
   display: flex;
@@ -257,6 +263,11 @@ export default {
 }
 
 /* 마이페이지 섹션2 - 신청 여행(신청중, 신청수락), 찜한 여행, 호스팅한 여행 , 참여한 여행 */
+.my-page-img,
+.ctnt-title {
+  cursor: pointer;
+}
+
 .state-title {
   background-color: var(--maincolor);
   color: #fff;
@@ -323,7 +334,7 @@ export default {
 }
 
 .section-list-cmt {
-  width: 40vw;
+  width: 39vw;
 
 }
 

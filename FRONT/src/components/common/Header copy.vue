@@ -58,7 +58,7 @@
                 </label>
                 <nav id="menu">
                     <ul>
-                        <li v-if="this.$store.state.isLogin" @click="goToMyPage(); sidebarNone()">마이페이지</li>
+                        <li v-if="this.$store.state.isLogin" @click="goToMyPage">마이페이지</li>
                         <router-link :to="{ path: '/MyAccount' }">
                             <li v-if="this.$store.state.isLogin">회원정보 수정</li>
                         </router-link>
@@ -90,10 +90,8 @@ export default {
         };
     },
     methods: {
-        async sidebarNone() {
-            console.log('hello');
-            // const sideMenu = document.querySelector('#sideMenu');
-            // sideMenu.style.display = 'none';
+        test() {
+            console.log('test!!');
         },
         goToChat(itravel) {
             // this.$store.state.itravel = itravel;
