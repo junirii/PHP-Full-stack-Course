@@ -24,15 +24,15 @@ export default {
 <style scoped>
 footer {
     background-color: #fff;
-    z-index: 0;
+    z-index: -1;
     position: absolute;
     bottom: 0;
-    left: 80px;
     right: 0;
     width: 90%;
     border-top: 2px solid rgb(255, 136, 0);
     color: var(--maincolor);
     padding: 1rem;
+    height: 110px;
 }
 
 .container {

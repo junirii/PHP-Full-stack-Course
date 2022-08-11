@@ -67,8 +67,7 @@
 
       <div>
         <div class="title">참여한 여행</div>
-        <div class="ctnt" :key="item.itravel" v-for="item in postTravel"
-          @click="goToDetailFromMyPage(item.itravel)">
+        <div class="ctnt" :key="item.itravel" v-for="item in postTravel" @click="goToDetailFromMyPage(item.itravel)">
           <div v-if="item.isconfirm == 2">
             <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
             <span class="ctnt-title">{{ item.title }}</span>
@@ -82,12 +81,17 @@
       <div>
         <div class="title"><i class="fa-solid fa-comment"></i>리뷰</div>
         <div :key="item.icmt" v-for="item in myPageCmt">
-          <span class="section-list">
+          <div class="section-list">
             <span>
-            <img class="reviewr-profile-img" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
-              onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진"
-              @click="goMypage(data.hostUser.iuser)" id="profileImg">
-            </span>{{ item.profile_img }}{{ item.nick }}{{ item.cmt }}{{ item.reg_dt }}by{{ item.title }}</span>
+              <img class="reviewer-profile-img" :src="`/static/img/profile/${item.iuser}/${item.profile_img}`"
+                onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진"
+                @click="goToMyPageFromReview(item.iuser)">
+            </span>
+            <span class="section-list-nick" @click="goToMyPageFromReview(item.iuser)">{{ item.nick }}</span>
+            <span class="section-list-cmt">{{ item.cmt }}</span>
+            <span class="section-list-reg-dt">{{ item.reg_dt }}</span>
+            <span class="section-list-title">참여여행: [{{ item.title }}]</span>
+          </div>
         </div>
 
         <div>
@@ -140,7 +144,7 @@ export default {
       this.modalShow = false;
     },
     showModal() {
-      if(this.feedIuser == this.loginIuser){
+      if (this.feedIuser == this.loginIuser) {
         this.modalShow = true;
       }
     },
@@ -157,7 +161,7 @@ export default {
       this.myPageHost = this.data.result.myPageHost;
       this.myPageTravelState = this.data.result.myPageTravelState;
       this.myPageTravelState.forEach(item => {
-        switch(item.isconfirm){
+        switch (item.isconfirm) {
           case 0:
             this.preTravel.push(item);
             break;
@@ -182,6 +186,10 @@ export default {
     async goToDetailFromMyPage(itravelNum) { // 클릭시 여행게시물로 이동
       this.$store.state.itravel = itravelNum;
       this.$router.push({ name: 'detail' });
+    },
+    async goToMyPageFromReview(iuserNum) { // 클릭시 여행게시물로 이동
+      this.$store.state.iuser = iuserNum;
+      this.$router.push({ name: 'mypage', query: {feedIuser: iuserNum }});
     },
     async insCmt() { // 댓글삽입기능
       const res = await this.$post('/user/insCmt', {
@@ -227,10 +235,12 @@ export default {
   margin: 0 auto;
   padding: 150px;
 }
+
 .container {
-color: var(--maincolor);
+  color: var(--maincolor);
 
 }
+
 /* 마이페이지 섹션1 - 프로필 */
 .mypage-profile {
   display: flex;
@@ -299,19 +309,41 @@ color: var(--maincolor);
 }
 
 /* 마이페이지 섹션3 - 리뷰 */
-.section-list{
+.section-list {
   color: var(--maincolor);
+  display: flex;
+  align-items: center;
+  height: 5vh;
 }
-.reviewr-profile-img{
+
+.section-list-nick {
+  width: 5vw;
+}
+
+.section-list-cmt {
+  width: 40vw;
+
+}
+
+.section-list-reg-dt {
+  width: 10vw;
+}
+
+.reviewer-profile-img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
   border-radius: 50%;
 }
-.section-select{
+
+.section-select {
   height: 3vh;
   border: 1px solid var(--maincolor);
   margin: 3px;
 
 }
-.section-comment{
+
+.section-comment {
   width: 20vw;
   height: 3vh;
   border: 1px solid var(--maincolor);
@@ -319,7 +351,8 @@ color: var(--maincolor);
   margin: 3px;
 
 }
-.section-submit{
+
+.section-submit {
   background-color: var(--maincolor);
   color: #fff;
   border: 1px solid var(--maincolor);
