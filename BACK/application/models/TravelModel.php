@@ -152,7 +152,7 @@ class TravelModel extends Model
         $sql = "SELECT * FROM t_travel A
         INNER JOIN t_area B
         ON A.area = B.iarea
-        INNER JOIN t_location C
+        LEFT JOIN t_location C
         ON A.location = C.ilocation
         WHERE itravel = :itravel";
         $stmt = $this->pdo->prepare($sql);
@@ -354,5 +354,20 @@ class TravelModel extends Model
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function delTravel(&$param) {
+        $sql = 
+        " DELETE A.*, B.* FROM t_travel A
+          LEFT JOIN t_travel_ctnt B
+          ON A.itravel = B.itravel
+          WHERE A.itravel = :itravel
+          AND A.iuser = :iuser;
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->execute();
+        return $stmt->rowCount();
     }
 }

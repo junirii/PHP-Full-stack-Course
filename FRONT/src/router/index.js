@@ -23,6 +23,7 @@ const requireAuth = () => (to, from, next) => {
   next();
 }
 
+
 const routes = [
   {
     path: '/',

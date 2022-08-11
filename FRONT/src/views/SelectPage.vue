@@ -10,13 +10,13 @@
 
     <!-- 지역 상관 x 버튼 -->
     <div class="anywhere">
-      <button class="anywhere-btn" alt="어디든지" @click="goToAllList">가보자고</button>
+      <button class="anywhere-btn" alt="whenever anywhere" @click="goToAllList">언제든지<br>어디든지</button>
     </div>
 
     <!-- 지역 -->
     <div id="location">
       <div>
-        <h3>여행지 선택</h3>
+        <h3>Step 1. 여행지 선택</h3>
         <h6>떠나고 싶은 여행지를 선택하세요.</h6>
         <h4 class="area-name"> {{ areaName }} </h4>
       </div>
@@ -43,14 +43,14 @@
           <img class="map" src="../../mapImg/map_1.png" alt="map">
         </div>
       </div>
-      <a href="#filter">밑으로 </a>
+      <a href="#filter"><button class="">다음</button></a>
     </div>
 
     <hr>
 
     <!-- 옵션 -->
     <div id="filter">
-      <h3>옵션 선택</h3>
+      <h3>Step 2. 옵션 선택</h3>
       <h6>여행의 옵션을 선택하세요.</h6>
       <div class="filter-box">
         <div class="choose-people">인원 :
@@ -112,10 +112,19 @@
     <hr>
 
     <div id="date">
-      <h3>날짜 선택</h3>
+      <h3>Step 3. 날짜 선택</h3>
       <h6>떠나고 싶은 날짜를 선택하세요.</h6>
       <div class="date-input">
-        <Datepicker class="date-pick" v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false" />
+        <Datepicker
+          class="date-picker"
+          inline autoApply
+          locale="ko-KR"
+          v-model="date"
+          range multiCalendars
+          :multiStatic="false"
+          :enableTimePicker="false"
+          :minDate="new Date()"
+        />
       </div>
 
       <div class="move-to-list-btn">
@@ -256,10 +265,17 @@ components: { Datepicker },
   padding: 150px;
   color: var(--maincolor);
 }
-h3 { font-weight: bolder; }
+h3 {
+  font-weight: bolder;
+  text-decoration: underline;
+  text-underline-offset : 10px;
+}
 h4, h6 { 
   font-weight: bolder;
   padding: 15px;
+}
+h6 {
+  padding-bottom: 0;
 }
 h4 {
   color: var(--mainOrange);
@@ -279,8 +295,8 @@ hr {
   display: grid;
   position: fixed;
   top: 440px;
-  left: 69px;
-  width: 100px;
+  left: 122px;
+  width: 80px;
   height: 140px;
   z-index: 10;
 }
@@ -289,23 +305,15 @@ hr {
   justify-content: center;
   align-items: center;
   flex: 1;
-  color: var(--mainDark);
+  color: var(--mainOrange);
   letter-spacing: 0.1rem;
-  transition: all 0.5s ease;
+  /* transition: all 0.5s ease; */
   font-size: 1rem;
   font-weight: bold;
 }
 .state-tab:hover {
-  color: var(--maincolor);
-}
-
-.state-slider { /* 보류 */
-  position: fixed;
-  top: 460px;
-  width: 6px;
-  height: 0;
-  background: #66B1F1;
-  transition: left 0.3s ease;
+  border: none;
+  border-left: 2px solid var(--mainDarkOrange);
 }
 .anywhere-btn {
   position: fixed;
@@ -315,17 +323,22 @@ hr {
   border-radius: 50%;
   width: 100px;
   height: 100px;
-  border: 0px;
+  border: 2px solid var(--maincolor);
+  background-color: #fff;
+
+  color: var(--maincolor);
+  font-weight: bolder;
+  text-align: center;
+}
+.anywhere-btn:hover {
+  color: #fff;
   background-color: var(--maincolor);
-  color: white;
-  font-weight: bolder; 
 }
 .anywhere-btn:active {
     transform: translateY(4px);
-    box-shadow: 0 4px 0 #2d7ac2;
 }
 .box { /* 지도 전체 틀 */
-  margin-top: 100px;
+  margin-top: 40px;
   justify-content: center;
 }
 img {
@@ -437,8 +450,20 @@ img {
   display: flex;
   justify-content: center;
 }
-.date-pick {
-  width: 50%;
+.date-picker {
+  /* width: 5px;
+  margin: 0 auto; */
+  /* background-color: #fff;
+  border-radius: 5px;
+  font-family: 'LeferiPoint-WhiteA' !important;
+  border: 1px solid var(--maincolor);
+  outline: none;
+  transition: border-color .2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  padding: 6px 12px;
+  color: var(--maincolor);
+  box-sizing: border-box; */
 }
 /* 날짜 css 끝 */
 
