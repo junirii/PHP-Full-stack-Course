@@ -97,6 +97,24 @@ class TravelModel extends Model
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    // gender List
+    public function genderList()
+    {
+        $sql = "SELECT * FROM t_gender";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    // people List
+    public function peopleList()
+    {
+        $sql = "SELECT * FROM t_people";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
     //travel 추가
     public function travelInsert(&$param)
     {

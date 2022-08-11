@@ -5,6 +5,7 @@
                 <router-link :to="{ path: '/' }">
                     <h2 class="logo">여행어쩌구</h2>
                 </router-link>
+                <div style="color: black;">{{ this.$store.state.user.nick }}님 ㅎㅇㅎㅇ</div>
             </div>
             <div class="icons">
                 <!-- 임시 -->
@@ -74,7 +75,7 @@ export default {
         return {
             divChatShow: false,
             chatRooms: [],
-            unreadCntAll: this.$store.state.unreadCntAll
+            unreadCntAll: this.$store.state.unreadCntAll,
         };
     },
     methods: {

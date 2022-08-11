@@ -90,7 +90,8 @@
             </span>{{ item.profile_img }}{{ item.nick }}{{ item.cmt }}{{ item.reg_dt }}by{{ item.title }}</span>
         </div>
 
-        <div>
+        <div v-if="this.myPageCmt.length < 1">등록된 리뷰가 없습니다.</div>
+        <div v-if="this.loginIuser !== selUser.iuser">
           <select class="section-select" v-model="selectedTravel">
             <option value="" selected>참여한 여행(selected 안됨)</option>
             <option :value="item.itravel" :key="item.itravel" v-for="item in guestTravel">{{ item.title }}</option>

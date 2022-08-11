@@ -33,7 +33,7 @@
 
       <div>
         <button type="button" @click="myAccountMod" 
-        v-bind:disabled="pw !== pwCheck || pwCheck === ''">수정</button>
+        >수정</button>
         <!-- <router-link :to="{ path: '/MyAccount' }"><button>취소</button></router-link> -->
         <button type="button" @click="clickBtn3">취소</button>
       </div>
@@ -59,10 +59,11 @@ export default {
     async getMyAccount() { // iuser
       // console.log(this.$store.state.user);
       this.loginUser = JSON.parse(JSON.stringify(this.$store.state.user));
+      console.log(this.loginUser);
     },
     async myAccountMod() {
       // 회원정보 수정 (마이페이지 댓글 참고)
-      if(this.pw && this.pwCheck){
+      if(this.loginUser.nick === loginUser.nick) {
         const res = await this.$post('/user/myAccountMod', {
           profile_img: this.loginUser.profile_img,
           email: this.loginUser.email,
