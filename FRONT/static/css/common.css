@@ -10,16 +10,20 @@
 .btn { 
     display: inline-block;
     text-decoration: none;
-    background: #2d7ac2;
+    background: #fff;
     padding: 8px 30px;
-    border-radius: 7px;
-    font-weight: bold;
-    color: #fff;
+    border: 2px solid #2d7ac2;
+    border-radius: 12px;
+    font-weight: bolder;
+    color: #2d7ac2;
     box-shadow: 0 8px 0 #285d92;
     transition: all 0.2s;
     text-align: center;
 }
-
+.btn:hover {
+    background-color: #2d7ac2;
+    color: #fff;
+}
 .btn:active {
     transform: translateY(4px);
     box-shadow: 0 4px 0 #2d7ac2;
@@ -36,4 +40,12 @@ a { text-decoration: none; }
 
 .bolder {
     font-weight: bolder;
+}
+
+.p-15 {
+    padding: 15px;
+}
+
+.font {
+    font-family: 'LeferiPoint-WhiteA';
 }
