@@ -1,18 +1,18 @@
 <template>
   <div class="create-ctnt-box">
     <h1>상세일정</h1>
-    <div v-for="idx in travelDay" :id="`day${idx}`">Day {{ idx }}
+    <div v-for="idx in travelDay">Day {{ idx }}
       <div class="create-ctnt-container" id="ctntBox1">
-        <div>
-          <label class="plus" :for="`ctntImgDay${idx}_1`"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150"
-              height="150" style="cursor:pointer"></label>
-          <input type="file" class="d-none" :id="`ctntImgDay${idx}_1`"
-            @change="addCtntImg($event, idx, 1), setThumbnail($event)">
-          <div id="image_container"></div>
-        </div>
-        <div>
-          <textarea class="create-ctnt" name="" :id="`txtAreaDay${idx}_1`" cols="20" rows="4"
-            v-model="ctntArr[idx - 1][0].ctnt"></textarea>
+        <div :id="`day${idx}`">
+          <div>
+            <label class="plus" :for="`ctntImgDay${idx}_1`"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150"
+                height="150" style="cursor:pointer"></label>
+            <input type="file" class="d-none" :id="`ctntImgDay${idx}_1`"
+              @change="addCtntImg($event, idx, 1), setThumbnail($event)">
+            <div id="image_container"></div>
+            <textarea class="create-ctnt" name="" :id="`txtAreaDay${idx}_1`" cols="20" rows="4"
+              v-model="ctntArr[idx - 1][0].ctnt"></textarea>
+          </div>
         </div>
       </div>
       <div>

@@ -45,7 +45,6 @@
         </div>
       </div>
       <hr>
-      <button type="button" @click="goToChat" v-if="isChat">채팅</button>
       <!-- 디테일 섹션3 - 상세 정보-->
       <div class="title-schedule">여행 일정</div>
       <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -92,7 +91,6 @@ export default {
       loginIuser: null,
       stres: null,
       isJoin: '',
-      isChat: null,
     }
 
   },
@@ -112,9 +110,6 @@ export default {
       }});
       window.scrollTo(0, 0)
     },
-    goToChat() {
-      this.$router.push({ name: 'chat', query: {itravel: this.itravel}});
-    },
     async getDetail() {
       this.itravel = this.$store.state.itravel; // store/index.js에서 itravel 가져옴
       this.loginIuser = this.$store.state.user.iuser;
@@ -125,8 +120,7 @@ export default {
       console.log('itravel ' + this.itravel);
       console.log('loginuser ' + this.loginIuser);
       console.log('hostiuser ' + this.data.hostUser.iuser);
-      this.stres = res2.result.seltravelState.tts;
-      // this.isChat = res2.result.selIsJoin.isChat;
+      this.stres = res2.result.tts;
 
       if (res2.result.tts) {
         this.isjoin = true;

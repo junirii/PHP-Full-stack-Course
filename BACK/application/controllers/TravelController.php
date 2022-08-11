@@ -215,13 +215,7 @@ class TravelController extends Controller{
         ];
         switch (getMethod()) {
             case _GET:
-                $seltravelState = $this->model->seltravelState($param);
-                $selIsJoin = $this->model->selIsJoin($param);
-                $data = [
-                    "seltravelState" => $seltravelState,
-                    "selIsJoin" => $selIsJoin
-                ];
-                return [_RESULT => $data];
+                return [_RESULT => $this->model->seltravelState($param)];
             case _POST:
                 return [_RESULT => $this->model->IntravelState($param)];
             case _DELETE:
@@ -260,10 +254,14 @@ class TravelController extends Controller{
                 "itravel" => $itravel,
                 "iuser" => $iuser
             ];
-            if($json["params"]["isyes"]){
-                return [_RESULT => $this->model->updateState($param)];
-            }else {
-                return [_RESULT => $this->model->refusalState($param)];
+            if(isset($json["params"]["isyes"])){
+                if($json["params"]["isyes"]){
+                    return [_RESULT => $this->model->updateState($param)];
+                }else {
+                    return [_RESULT => $this->model->refusalState($param)];
+                }
+            }else{
+                return [_RESULT => $this->model->requestOk($param)];
             }
         }
     }
@@ -306,5 +304,14 @@ class TravelController extends Controller{
             case _DELETE:
                 return [_RESULT => $this->model->delTravel($param)];
         }
+    }
+
+    public function getTravelData(){
+        $urlPaths = getUrlPaths();
+        $itravel = $urlPaths[2];
+        $param = [
+            "itravel" => $itravel
+        ];
+        return [_RESULT => $this->model->selTravelData($param)];
     }
 }

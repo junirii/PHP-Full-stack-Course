@@ -332,16 +332,18 @@ class TravelModel extends Model
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function selIsJoin(&$param){
+    public function requestOk(&$param){
         $sql = 
-        " SELECT count(*) as isChat FROM t_travel_state
+        " UPDATE t_travel_state 
+          SET isnew = 0
           WHERE iuser = :iuser
-          AND itravel = :itravel
-          AND isconfirm = 1
+          AND itravel = :itravel;
         ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->rowCount();
     }
     
     public function getPrice(){
@@ -367,5 +369,16 @@ class TravelModel extends Model
         $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->execute();
         return $stmt->rowCount();
+    }
+
+    public function selTravelData(&$param){
+        $sql =
+        " SELECT * FROM t_travel
+          WHERE itravel = :itravel
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 }

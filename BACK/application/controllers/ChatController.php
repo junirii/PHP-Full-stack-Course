@@ -57,4 +57,6 @@ class ChatController extends Controller{
         return [_RESULT => $this->model->selChatRooms($param)];
     }
   }
+
+  
 }

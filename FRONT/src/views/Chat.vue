@@ -1,7 +1,8 @@
 <template>
     <div> 
+        <div class="create-box"></div>
         <input type="hidden" id="inputChat" value="0">
-        <h1>Chat</h1>
+        <h2>{{ travelTitle }}</h2>
         <div id="main">
             <div id="users">
                 {{myInfo.nick}} (나)
@@ -44,7 +45,8 @@ export default {
             chatList: [],
             // userList: [],
             itravel: null,
-            chatUser: []
+            chatUser: [],
+            travelTitle: null
         }
     },
     created() {
@@ -76,7 +78,7 @@ export default {
                 // chat.scrollTop = chat.scrollHeight;
             }
         });
-
+        this.getTravelData();
 
     },
     updated(){
@@ -122,6 +124,14 @@ export default {
             console.log(this.chatList);
             console.log(this.chatUser);
         },
+        async getTravelData(){
+            const itravel = this.itravel;
+            const res = await this.$get(`/travel/getTravelData/${itravel}`);
+            if(res.result){
+                this.travelTitle = res.result.title;
+                console.log(this.travelTitle);
+            }
+        }
     }
 }
 </script>
@@ -154,5 +164,13 @@ hr {
     color: var(--maincolor);
     width: 70%;
     margin: 0 auto;
+}
+.create-box {
+    z-index: auto;
+    margin: 0 auto;
+    padding: 50px !important;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
 }
 </style>
