@@ -225,7 +225,7 @@ class TravelModel extends Model
     }
 
     // 신청하기
-    public function seltravelState($param){
+    public function seltravelState($param){ // mypage 신청하기/취소하기
         $sql = "SELECT count(*) as tts FROM t_travel_state 
         WHERE iuser = :iuser
         AND itravel = :itravel";
@@ -236,11 +236,11 @@ class TravelModel extends Model
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function IntravelState(&$param) { // 신청 
+    public function IntravelState(&$param) { // mypage 신청하기
         $sql="INSERT INTO t_travel_state
-        (iuser,itravel,isconfirm)
+        (iuser,itravel,isconfirm,isnew)
         VALUES
-        (:iuser,:itravel, 0)
+        (:iuser,:itravel, 0, 1)
         ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":iuser", $param["iuser"]);
@@ -249,7 +249,7 @@ class TravelModel extends Model
         return $stmt->rowCount();
     }
 
-    public function DeletetravelState($param) { // 신청 취소
+    public function DeletetravelState($param) { // mypage 신청 취소
         $sql="DELETE FROM t_travel_state
         WHERE iuser = :iuser
         AND itravel = :itravel";
@@ -261,12 +261,11 @@ class TravelModel extends Model
         return $stmt->rowCount();
     }
 
-    public function updateState(&$param) { // 신청 수락
+    public function updateState(&$param) { // 신청 수락(알림)
         $sql="UPDATE t_travel_state 
-        SET isconfirm = 1
+        SET isconfirm = 1, isnew = 1
         WHERE iuser = :iuser
         AND itravel = :itravel";
-
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->bindValue(":itravel", $param["itravel"]);
@@ -274,11 +273,10 @@ class TravelModel extends Model
         return $stmt->rowCount();
     }
 
-    public function refusalState(&$param) { // 신청 거절
+    public function refusalState(&$param) { // 신청 거절(알림)
         $sql="UPDATE t_travel_state 
         SET 
-        isconfirm = 3,
-        isnew =1
+        isconfirm = 3, isnew =1
         WHERE iuser = :iuser
         AND itravel = :itravel";
 
@@ -289,32 +287,29 @@ class TravelModel extends Model
         return $stmt->rowCount();
     }
 
-    public function selState(&$param) { // 헤더 알림
-        $sql="SELECT A.*, B.*, C.iuser AS loginIuser,C.title 
+    public function selState(&$param) { // 신청 알림 (전체 알림)
+        $iuser = $param["iuser"];
+        $sql="SELECT A.isconfirm, A.isnew ,B.nick, C.iuser AS loginIuser, C.title, A.mod_dt ,A.iuser,A.itravel
         FROM t_travel_state A
         INNER JOIN t_user B
         ON A.iuser = B.iuser
         INNER JOIN t_travel C
         ON A.itravel = C.itravel
         WHERE A.isconfirm = 0
-        AND C.iuser = :iuser";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":iuser", $param["iuser"]);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    public function hwi(&$param) {
-        $sql="SELECT A.*, B.*, C.iuser AS loginIuser,C.title 
+        AND A.isnew = 1
+        AND C.iuser = ${iuser}
+        UNION
+       (SELECT A.isconfirm, A.isnew ,B.nick,A.iuser AS loginIuser, C.title, A.mod_dt ,A.iuser,A.itravel
         FROM t_travel_state A
         INNER JOIN t_user B
         ON A.iuser = B.iuser
         INNER JOIN t_travel C
         ON A.itravel = C.itravel
         WHERE A.isnew = 1
-        AND C.iuser = :iuser";
+        AND A.iuser = ${iuser})
+        ORDER BY mod_dt DESC";
+
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }

@@ -219,47 +219,21 @@ class TravelController extends Controller{
         }
       }
  
-    public function selRequest() // 신청 수락 
+    public function selRequest() // 신청 ??
     {
-        $iuser = getIuser();
-        $param = [
-            "iuser" => $iuser
-        ];
-        
-        $hwi = $this->model->hwi($param);
-        $selState = $this->model->selState($param);
-
-        $json = getJson();
-        $itravel = $json["params"]["itravel"];
-        $iuser = $json["params"]["iuser"];
-        $param = [
-            "itravel" => $itravel,
-            "iuser" => $iuser
-        ];
-        
-        if($json["params"]["isyes"]){
-        $updateState = $this->model->updateState($param);
-        }else{
-        $refusalState = $this->model->refusalState($param);
-        }
-
-        $data = [
-            "hwi" => $hwi,
-            "selState" => $selState,
-            "updateState" => $updateState,
-            "refusalState" => $refusalState
-        ];
-        return [_RESULT => $data];
         // put update
         // get sel
         // del delte 
         switch (getMethod()) {
-        case _GET:
-            $iuser = getIuser();
-            $param =[
+        case _DELETE:
+            $urlPaths = getUrlPaths();
+            $itravel = $urlPaths[2];
+            $iuser = $urlPaths[3];
+            $param = [
+                "itravel" => $itravel,
                 "iuser" => $iuser
             ];
-            return [_RESULT => $this->model->hwi($param)];
+            return [_RESULT => $this->model->DeletetravelState($param)];
 
         case _GET:
             $iuser = getIuser();
@@ -267,6 +241,7 @@ class TravelController extends Controller{
                 "iuser" => $iuser
             ];
             return [_RESULT => $this->model->selState($param)];
+
         case _PUT:
             $json = getJson();
             $itravel = $json["params"]["itravel"];
@@ -283,17 +258,31 @@ class TravelController extends Controller{
         }
     }
 
-    public function selHwi() {
+    public function selYesNo() {
         switch (getMethod()) {
-            case _GET:
-                $iuser = getIuser();
-                $param =[
-                    "iuser" => $iuser
-                ];
-                return [_RESULT => $this->model->hwi($param)];
+        case _DELETE:
+        $urlPaths = getUrlPaths();
+        $itravel = $urlPaths[2];
+        $iuser = $urlPaths[3];
+        $param = [
+            "itravel" => $itravel,
+            "iuser" => $iuser
+        ];
+        return [_RESULT => $this->model->DeletetravelState($param)];
+
+        case _PUT:
+            $json = getJson();
+            $itravel = $json["params"]["itravel"];
+            $iuser = $json["params"]["iuser"];
+            $param = [
+                "itravel" => $itravel,
+                "iuser" => $iuser
+            ];
+            if($json["params"]["isyes"]){
+                return [_RESULT => $this->model->test($param)];
+            }
         }
     }
-
     // del travel
     public function del() {
         $urlPaths = getUrlPaths();

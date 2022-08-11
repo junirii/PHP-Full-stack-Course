@@ -92,7 +92,7 @@ export default {
       loginIuser: null,
       stres: null,
       isJoin: '',
-      isChat: null
+      isChat: null,
     }
   },
   methods: {
@@ -125,7 +125,7 @@ export default {
       console.log('loginuser ' + this.loginIuser);
       console.log('hostiuser ' + this.data.hostUser.iuser);
       this.stres = res2.result.seltravelState.tts;
-      this.isChat = res2.result.selIsJoin.isChat;
+      // this.isChat = res2.result.selIsJoin.isChat;
 
       if (res2.result.tts) {
         this.isjoin = true;
@@ -149,7 +149,7 @@ export default {
       }
     },
     async instate() {                  // 컨트롤러이름 // 함수 메소드 // 필요한 값
-      const instate = await this.$post(`/user/travelState/${this.loginIuser}/${this.itravel}`, {});
+      const instate = await this.$post(`/travel/travelState/${this.loginIuser}/${this.itravel}`, {});
       if (instate.result === 1) {
         this.$swal.fire('신청 되었습니다.', '', 'success')
           .then(async result => {
@@ -162,7 +162,7 @@ export default {
       }
     },
     async deletestate() {
-      const deletestate = await this.$delete(`/user/travelState/${this.loginIuser}/${this.itravel}`, {});
+      const deletestate = await this.$delete(`/travel/travelState/${this.itravel}/${this.iuser}`, {});
       if (deletestate.result === 1) {
         this.$swal.fire('신청 취소되었습니다.', '', 'success')
           .then(async result => {
