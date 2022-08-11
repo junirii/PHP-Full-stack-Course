@@ -220,46 +220,10 @@ class TravelController extends Controller{
  
     public function selRequest() // 신청 수락 
     {
-        $iuser = getIuser();
-        $param = [
-            "iuser" => $iuser
-        ];
-        
-        $hwi = $this->model->hwi($param);
-        $selState = $this->model->selState($param);
-
-        $json = getJson();
-        $itravel = $json["params"]["itravel"];
-        $iuser = $json["params"]["iuser"];
-        $param = [
-            "itravel" => $itravel,
-            "iuser" => $iuser
-        ];
-        
-        if($json["params"]["isyes"]){
-        $updateState = $this->model->updateState($param);
-        }else{
-        $refusalState = $this->model->refusalState($param);
-        }
-
-        $data = [
-            "hwi" => $hwi,
-            "selState" => $selState,
-            "updateState" => $updateState,
-            "refusalState" => $refusalState
-        ];
-        return [_RESULT => $data];
         // put update
         // get sel
         // del delte 
         switch (getMethod()) {
-        case _GET:
-            $iuser = getIuser();
-            $param =[
-                "iuser" => $iuser
-            ];
-            return [_RESULT => $this->model->hwi($param)];
-
         case _GET:
             $iuser = getIuser();
             $param = [
@@ -282,14 +246,14 @@ class TravelController extends Controller{
         }
     }
 
-    public function selHwi() {
+    public function selRefusalTell() {
         switch (getMethod()) {
             case _GET:
                 $iuser = getIuser();
                 $param =[
                     "iuser" => $iuser
                 ];
-                return [_RESULT => $this->model->hwi($param)];
+                return [_RESULT => $this->model->refusalTell($param)];
         }
     }
 }

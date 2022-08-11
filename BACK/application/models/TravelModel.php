@@ -304,7 +304,7 @@ class TravelModel extends Model
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function hwi(&$param) {
+    public function refusalTell(&$param) { // 거절 알림
         $sql="SELECT A.*, B.*, C.iuser AS loginIuser,C.title 
         FROM t_travel_state A
         INNER JOIN t_user B
@@ -312,7 +312,22 @@ class TravelModel extends Model
         INNER JOIN t_travel C
         ON A.itravel = C.itravel
         WHERE A.isnew = 1
-        AND C.iuser = :iuser";
+        AND A.iuser = :iuser";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function agreeTell(&$param) { // 수락 알림
+        $sql="SELECT A.*, B.*, C.iuser AS loginIuser,C.title 
+        FROM t_travel_state A
+        INNER JOIN t_user B
+        ON A.iuser = B.iuser
+        INNER JOIN t_travel C
+        ON A.itravel = C.itravel
+        WHERE A.isconfirm = 1 
+        AND A.iuser = :iuser";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->execute();
