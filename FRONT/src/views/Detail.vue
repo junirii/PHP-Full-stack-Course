@@ -94,6 +94,7 @@ export default {
       isJoin: '',
       isChat: null,
     }
+
   },
   methods: {
     mod(){
