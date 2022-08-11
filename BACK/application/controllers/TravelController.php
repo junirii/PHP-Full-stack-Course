@@ -219,18 +219,29 @@ class TravelController extends Controller{
         }
       }
  
-    public function selRequest() // 신청 수락 
+    public function selRequest() // 신청 ??
     {
         // put update
         // get sel
         // del delte 
         switch (getMethod()) {
+        case _DELETE:
+            $urlPaths = getUrlPaths();
+            $itravel = $urlPaths[2];
+            $iuser = $urlPaths[3];
+            $param = [
+                "itravel" => $itravel,
+                "iuser" => $iuser
+            ];
+            return [_RESULT => $this->model->DeletetravelState($param)];
+
         case _GET:
             $iuser = getIuser();
             $param = [
                 "iuser" => $iuser
             ];
             return [_RESULT => $this->model->selState($param)];
+
         case _PUT:
             $json = getJson();
             $itravel = $json["params"]["itravel"];
@@ -247,17 +258,31 @@ class TravelController extends Controller{
         }
     }
 
-    public function selRefusalTell() {
+    public function selYesNo() {
         switch (getMethod()) {
-            case _GET:
-                $iuser = getIuser();
-                $param =[
-                    "iuser" => $iuser
-                ];
-                return [_RESULT => $this->model->refusalTell($param)];
+        case _DELETE:
+        $urlPaths = getUrlPaths();
+        $itravel = $urlPaths[2];
+        $iuser = $urlPaths[3];
+        $param = [
+            "itravel" => $itravel,
+            "iuser" => $iuser
+        ];
+        return [_RESULT => $this->model->DeletetravelState($param)];
+
+        case _PUT:
+            $json = getJson();
+            $itravel = $json["params"]["itravel"];
+            $iuser = $json["params"]["iuser"];
+            $param = [
+                "itravel" => $itravel,
+                "iuser" => $iuser
+            ];
+            if($json["params"]["isyes"]){
+                return [_RESULT => $this->model->test($param)];
+            }
         }
     }
-
     // del travel
     public function del() {
         $urlPaths = getUrlPaths();

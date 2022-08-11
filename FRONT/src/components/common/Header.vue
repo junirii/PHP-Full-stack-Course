@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="notifi">
-                    <i class="fa-regular fa-bell fa-2x dropdown" style="color: var(--maincolor);" @click="selRequest()" type="button"
+                    <i class="fa-regular fa-bell fa-2x dropdown" style="color: var(--maincolor);" @click="selRequest();" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false"></i>
                     <ul class="dropdown-menu">
                         <div :key="item.iuser" v-for="item in selStateList">
@@ -31,17 +31,11 @@
                                 <div>신청이 왔습니다.</div> {{item.profile_img}} {{item.nick}} 님께서 {{item.title}}
                                 <button @click="request(item.itravel, item.iuser)">수락</button> <button @click="requestDel(item.itravel, item.iuser)">거절</button>
                             </li>
-                        </div>
-                        <div :key="item.iuser" v-for="item in selHwi">
                             <li v-if="item.isconfirm == 3" class="dropdown-item" style="cursor: default;">
-                                <div>신청이 거절.</div> {{item.nick}} 님께서 {{item.title}}
-                                <!-- <button @click="request(item.itravel, item.iuser)">수락</button> <button @click="requestDel(item.itravel, item.iuser)">거절</button> -->
+                                <div> {{item.nick}}님 신청이 거절되었습니다.</div>  {{item.title}} <button @click="requestNo(item.itravel, item.iuser)">확인</button>
                             </li>
-                        </div>
-                        <div :key="item.iuser" v-for="item in selHwi">
                             <li v-if="item.isconfirm == 1" class="dropdown-item" style="cursor: default;">
-                                <div>신청이 수락.</div> {{item.nick}} 님께서 {{item.title}}
-                                <!-- <button @click="request(item.itravel, item.iuser)">수락</button> <button @click="requestDel(item.itravel, item.iuser)">거절</button> -->
+                                <div> {{item.nick}}님 신청이 수락되었습니다.</div> {{item.title}} <button @click="requestYes()">확인</button>
                             </li>
                         </div>
                     </ul>
@@ -81,11 +75,15 @@ export default {
             divChatShow: false,
             chatRooms: [],
             selStateList: [],
-            selHwi: [],
+            refusalMsg: [],
+            agreeMag: [],
             unreadCntAll: this.$store.state.unreadCntAll
         };
     },
     methods: {
+        test(){
+            console.log('test!!');
+        },
         goToChat(itravel) {
             // this.$store.state.itravel = itravel;
             this.$router.push({ name: 'chat', query: {itravel: itravel}});
@@ -139,13 +137,9 @@ export default {
             this.$router.push({ name: 'list' });
         },
         async selRequest() {
-            const res2 = await this.$get(`/travel/selRequest`, {});
+            const res2 = await this.$get(`/travel/selRequest/${this.iuser}`, {});
             this.selStateList = res2.result;
-        },
-        async selRefusalTell() {
-        const res3 = await this.$get(`/travel/selRefusalTell`,{});
-        this.selHwi = res3.result;
-        console.log(res3);
+            console.log(res2);
         },
         async request(itravel, iuser) {
             if (confirm("수락 하시겠습니까?") == true){
@@ -164,9 +158,16 @@ export default {
                 iuser: iuser,
                 isyes: 0
             });
-            console.log(res);
+            console.log(res.result);
             console.log('거절됨');
             }
+        },
+        async requestYes() {
+
+        },
+        async requestNo(itravel, iuser) {
+            const res = await this.$delete(`/travel/selYesNo/${itravel}/${iuser}`);
+            console.log(res);
         }
     },
     created() {
