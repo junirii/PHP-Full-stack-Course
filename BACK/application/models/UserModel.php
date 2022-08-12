@@ -171,7 +171,7 @@ class UserModel extends Model
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":liked_iuser", $param["iuser"]);
     $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_OBJ);
+    return $stmt->fetch(PDO::FETCH_OBJ);
   }
 
   public function userFavgood(&$param) {

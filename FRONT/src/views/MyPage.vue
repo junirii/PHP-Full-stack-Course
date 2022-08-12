@@ -13,7 +13,7 @@
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
           <div>DM<i class="fa-regular fa-paper-plane"></i></div>
-          <div>인기도 : {{ favCount }}<i class="fa-solid fa-heart userFav" @click="usergood()"></i></div>
+          <div>인기도 : {{ selUserFav.favCount }}<i class="fa-solid fa-heart userFav" @click="usergood()"></i></div>
           <div v-if="feedIuser == loginIuser">
             <router-link :to="{ path: '/MyAccount' }">
               <div><i class="fa-solid fa-pencil fa"></i>프로필수정</div>
@@ -131,7 +131,7 @@ export default {
       feedIuser: 0,
       loginIuser: 0,
       cmt: '',
-      favCount: 0, //수정 필요
+      selUserFav: [],
       modalShow: false,
     }
   },
@@ -162,6 +162,7 @@ export default {
       this.myPageTravelFav = this.data.result.myPageTravelFav;
       this.myPageHost = this.data.result.myPageHost;
       this.myPageTravelState = this.data.result.myPageTravelState;
+      this.selUserFav = this.data.result.selUserFav;
       this.myPageTravelState.forEach(item => {
         switch (item.isconfirm) {
           case 0:
