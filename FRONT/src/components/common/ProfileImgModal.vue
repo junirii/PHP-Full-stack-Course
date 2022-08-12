@@ -12,7 +12,7 @@
                 <span id="btnInsProfilePic" class="text-primary fw-bold pointer">사진 업로드</span>
                 <input class="d-none" type="file" accept="image/*" name="imgs" id="inputImg" @change="uploadImg($event.target.files)">
               </div><hr>
-              <div class="text-center text-danger fw-bold pointer" @click="delProfileImg">
+              <div class="text-center text-danger fw-bold pointer" @click="delProfileImg()">
                 <span id="btnDelCurrentProfilePic">현재 사진 삭제</span>
               </div><hr>
               <div class="text-center pointer" id="btnProfileImgModalClose" @click="$emit('close');">취소</div>
@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     async delProfileImg(){
-      const res = await this.$delete(`/user/profileImg`, {});
+      const res = await this.$delete(`/user/profileImg`, {}); // 컨트롤러 이름 / 함수
       if(res.result === 1){
         this.$emit('close');
         this.$emit('defaultImg');
@@ -62,3 +62,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+#btnInsProfilePic, #btnDelCurrentProfilePic, #btnProfileImgModalClose {
+  cursor: pointer;
+}
+
+</style>
