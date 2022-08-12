@@ -305,7 +305,12 @@ class TravelController extends Controller{
         ];
         switch (getMethod()) {
             case _DELETE:
-                return [_RESULT => $this->model->delTravel($param)];
+                $result = $this->model->delTravel($param);
+                if($result) {
+                    $dir = _IMG_PATH . "/travel/" . $itravel . "/";
+                    LIB_removeAllData($dir);
+                    return [_RESULT => 1];
+                }
         }
     }
 
