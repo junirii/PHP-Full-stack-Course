@@ -93,7 +93,7 @@ export default {
             const res = await this.$post('/chat/insChatMsg', {
                 itravel: this.itravel,
                 iuser: 0,
-                msg: `${this.myInfo.nick}님이 입장하셨습니다`
+                msg: `${this.myInfo.nick}님이 입장하셨습니다.`
             });
             console.log(res);
         },

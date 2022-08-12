@@ -58,5 +58,17 @@ class ChatController extends Controller{
     }
   }
 
-  
+  public function exitChatRoom(){
+    switch (getMethod()) {
+      case _DELETE:
+        $urlPaths = getUrlPaths();
+        $itravel = $urlPaths[2];
+        $loginIuser = $urlPaths[3];
+        $param = [
+          "itravel" => $itravel,
+          "loginIuser" => $loginIuser
+        ];
+        return [_RESULT => $this->model->exitChatRoom($param)];
+    }
+  }
 }

@@ -11,8 +11,8 @@
                 <!-- 임시 -->
                 <div class="chat">
                     <div>
-                        <span id="unreadCntAll" style="color: red; font-weight: bold;"
-                            class="d-none">{{ unreadCntAll }}</span>
+                        <span id="unreadCntAll" style="color: red; font-weight: bold;" class="d-none">{{ unreadCntAll
+                        }}</span>
                         <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);"
                             @click="showDivChat"></i>
                         <div v-if="divChatShow" style="margin-top: 100px;">
@@ -20,7 +20,9 @@
                                 <div style="color: var(--mainOrange);" @click="goToChat(item.itravel)">
                                     {{ item.title }}<br>{{ item.lastMsg }}
                                     <span v-if="this.$store.state.unreadCnt[item.itravel]"
-                                        style="color: red; font-weight: bold;">{{ this.$store.state.unreadCnt[item.itravel] }}</span>
+                                        style="color: red; font-weight: bold;">{{
+                                                this.$store.state.unreadCnt[item.itravel]
+                                        }}</span>
                                     <hr>
                                 </div>
                             </div>
@@ -28,7 +30,7 @@
                     </div>
                 </div>
                 <div class="notifi">
-                    <span id="unreadAlarm" style="color: red; font-weight: bold;">{{unreadAlarm}}</span>
+                    <span id="unreadAlarm" style="color: red; font-weight: bold;">{{ unreadAlarm }}</span>
                     <i class="fa-regular fa-bell fa-2x dropdown" style="color: var(--maincolor);" @click="selRequest();"
                         type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
                     <ul class="dropdown-menu">
@@ -180,17 +182,20 @@ export default {
                 itravel: itravel,
                 iuser: iuser,
             });
-            if(res.result == 1){
+            if (res.result == 1) {
                 e.target.parentNode.remove();
-                const res = await this.$post(`/chat/insChatRoom`, {
+                const resChatRoom = await this.$post(`/chat/insChatRoom`, {
                     itravel: itravel,
                     iuser: iuser
                 });
-                if(res.result == 1){
-                    this.$router.push({name: 'chat', query: {
-                        itravel: itravel,
-                        isnew: 1
-                    }});
+
+                if (resChatRoom.result == 1) {
+                    this.$router.push({
+                        name: 'chat', query: {
+                            itravel: itravel,
+                            isnew: 1
+                        }
+                    });
                 }
             }
         },

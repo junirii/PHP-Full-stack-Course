@@ -265,7 +265,7 @@ class TravelModel extends Model
     // 신청하기
     public function seltravelState($param)
     { // mypage 신청하기/취소하기
-        $sql = "SELECT count(*) as tts FROM t_travel_state 
+        $sql = "SELECT * FROM t_travel_state 
         WHERE iuser = :iuser
         AND itravel = :itravel";
         $stmt = $this->pdo->prepare($sql);
