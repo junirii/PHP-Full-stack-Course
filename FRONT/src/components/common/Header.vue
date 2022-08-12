@@ -187,7 +187,8 @@ export default {
                 });
                 if(res.result == 1){
                     this.$router.push({name: 'chat', query: {
-                        itravel: itravel
+                        itravel: itravel,
+                        isnew: 1
                     }});
                 }
             }

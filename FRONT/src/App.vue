@@ -40,7 +40,12 @@ export default {
     });
     this.$socket.on('enterRoom', data => {
       const spanUnreadCntAll = document.querySelector('#unreadCntAll');
-      spanUnreadCntAll.innerText = data.unreadCntAll;
+      if(data.unreadCntAll > 0){
+        spanUnreadCntAll.innerText = data.unreadCntAll;
+      }else{
+        spanUnreadCntAll.classList.add('d-none');
+      }
+      console.log(data.unreadCntAll);
     });
   }
 }

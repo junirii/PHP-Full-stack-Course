@@ -52,10 +52,13 @@ export default {
     created() {
         this.itravel = this.$route.query.itravel;
         this.$store.state.itravel = this.itravel;
-        this.selChat(this.itravel);
         this.socketId = this.$socket.id;
         this.myInfo.id = this.socketId;
         this.myInfo.nick = this.$store.state.user.nick;
+        if(this.$route.query.isnew){
+            this.enterMsg();
+        }
+        this.selChat(this.itravel);
         if(this.$store.state.unreadCnt[this.itravel]){
             this.$store.state.unreadCntAll -= this.$store.state.unreadCnt[this.itravel];
         }
@@ -86,6 +89,14 @@ export default {
         chat.scrollTop = chat.scrollHeight;
     },
     methods: {
+        async enterMsg(){
+            const res = await this.$post('/chat/insChatMsg', {
+                itravel: this.itravel,
+                iuser: 0,
+                msg: `${this.myInfo.nick}님이 입장하셨습니다`
+            });
+            console.log(res);
+        },
         async sendMsg() {
             if(this.input){
                 this.$socket.emit('msg', {

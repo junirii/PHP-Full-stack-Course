@@ -61,7 +61,7 @@ io.on('connection', async (socket) => {
         //     }];
         // }
         // console.log(userList);
-        console.log(`${socket.name}님이 입장하셨습니다.`);
+        console.log(`${socket.name}님이 ${room}번방에 입장하셨습니다.`);
         // io.to(room).emit('update', {
         //     type: 'connect',
         //     name: 'SERVER',
