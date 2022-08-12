@@ -147,7 +147,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #main{
     margin: auto;
     margin-top: 100px;
