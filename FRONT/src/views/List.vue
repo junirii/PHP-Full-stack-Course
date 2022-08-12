@@ -193,4 +193,9 @@ export default {
   font-weight: bold;
 }
 
+i {
+    z-index: 999;
+    color: #fff;
+}
+
 </style>

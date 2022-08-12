@@ -27,38 +27,38 @@ class TravelModel extends Model
             ON A.area = C.iarea
             LEFT JOIN t_location D
             ON A.location = D.ilocation";
-        if($l_price <= $h_price){ //비용
+        if ($l_price <= $h_price) { //비용
             $sql .= " WHERE A.f_price >= {$l_price} AND A.f_price <= {$h_price}";
         }
-        if($f_age > 0){ //나이
+        if ($f_age > 0) { //나이
             $sql .= " AND A.f_age = {$f_age}";
         }
-        if($f_gender > 0){ //성별
+        if ($f_gender > 0) { //성별
             $sql .= " AND A.f_gender = {$f_gender}";
         }
-        if($f_people >= 2 && $f_people < 8){ //인원
+        if ($f_people >= 2 && $f_people < 8) { //인원
             $sql .= " AND A.f_people = {$f_people}";
-        }else if($f_people === 8){
+        } else if ($f_people === 8) {
             $sql .= " AND A.f_people >= 8";
         }
-        if($s_date < $e_date){ //기간
+        if ($s_date < $e_date) { //기간
             $sql .= " AND A.s_date >= '{$s_date}' AND A.e_date <= '{$e_date}'";
         }
-        if(count($arr_area) > 0){ //지역
-            if(count($arr_area) === 1) {
+        if (count($arr_area) > 0) { //지역
+            if (count($arr_area) === 1) {
                 $sql .= " AND A.area = {$arr_area[0]}";
-            }else{
-                for ($i=0; $i < count($arr_area); $i++) { 
-                    if($i === 0){
+            } else {
+                for ($i = 0; $i < count($arr_area); $i++) {
+                    if ($i === 0) {
                         $sql .= " AND (A.area = {$arr_area[$i]}";
-                    }else{
+                    } else {
                         $sql .= " OR A.area = {$arr_area[$i]}";
                     }
                 }
                 $sql .= ")";
             }
         }
-        if($location > 0) {
+        if ($location > 0) {
             $sql .= " AND A.location = $location";
         }
         $sql .= " ORDER BY A.reg_dt DESC"; // 리스트 띄우는 순서 : 등록일수 역순
@@ -90,7 +90,8 @@ class TravelModel extends Model
     }
 
     // gender list
-    public function genderList() {
+    public function genderList()
+    {
         $sql = "SELECT * FROM t_gender";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
@@ -129,7 +130,7 @@ class TravelModel extends Model
                   , f_price = :f_price
                   , f_gender = :f_gender
                   , f_age = :f_age";
-        if(isset($param["location"])) {
+        if (isset($param["location"])) {
             $location = $param["location"];
             $sql .= ", location = ${location}";
         }
@@ -148,7 +149,8 @@ class TravelModel extends Model
         return intval($this->pdo->lastInsertId());
     }
     //ctnt 추가
-    public function insCtnt(&$param){
+    public function insCtnt(&$param)
+    {
         $sql = "INSERT INTO t_travel_ctnt
                 SET itravel = :itravel
                   , day = :day
@@ -166,7 +168,8 @@ class TravelModel extends Model
     }
 
     // 디테일
-    public function selTravelByItravel(&$param){
+    public function selTravelByItravel(&$param)
+    {
         $sql = "SELECT * FROM t_travel A
         INNER JOIN t_area B
         ON A.area = B.iarea
@@ -179,7 +182,8 @@ class TravelModel extends Model
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function selUserByItravel(&$param){
+    public function selUserByItravel(&$param)
+    {
         $sql = "SELECT * FROM t_user
         WHERE iuser = 
         (SELECT iuser FROM t_travel
@@ -190,7 +194,8 @@ class TravelModel extends Model
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function selDayByItravel(&$param){
+    public function selDayByItravel(&$param)
+    {
         $sql = "SELECT day FROM t_travel_ctnt
         WHERE itravel = :itravel
         GROUP BY DAY";
@@ -200,7 +205,8 @@ class TravelModel extends Model
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function selCtntByItravel(&$param){
+    public function selCtntByItravel(&$param)
+    {
         $sql = "SELECT * FROM t_travel_ctnt
         WHERE itravel = :itravel
         ORDER BY DAY";
@@ -211,8 +217,20 @@ class TravelModel extends Model
     }
 
 
+    public function selJoinByItravel(&$param)
+    {
+        $sql = "SELECT COUNT(*)
+                FROM t_travel_state
+                WHERE isconfirm = :isconfirm AND itravel = :itravel";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":isconfirm", $param["isconfirm"]);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
     // 좋아요 한 게시물
-    public function selTravelFav(&$param){
+    public function selTravelFav(&$param)
+    {
         $sql = "SELECT * FROM t_travel_fav WHERE iuser = :iuser";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":iuser", $param["iuser"]);
@@ -220,8 +238,9 @@ class TravelModel extends Model
         return $stmt->fetchAll(PDO::FETCH_OBJ); // 여러 값 fetchAll (SELECT)
     }
     // 좋아요
-    public function TravelUserFav(&$param) {
-        $sql="INSERT INTO t_travel_fav
+    public function TravelUserFav(&$param)
+    {
+        $sql = "INSERT INTO t_travel_fav
         (itravel,iuser)
         VALUES
         (:itravel,:iuser)";
@@ -232,8 +251,9 @@ class TravelModel extends Model
         return $stmt->rowCount(); // 값이 한개 추가될때 
     }
     // 좋아요 취소 
-    public function travelDeleteFav(&$param) {
-        $sql="DELETE FROM t_travel_fav 
+    public function travelDeleteFav(&$param)
+    {
+        $sql = "DELETE FROM t_travel_fav 
         WHERE itravel=:itravel AND iuser=:iuser";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":itravel", $param["itravel"]);
@@ -243,7 +263,8 @@ class TravelModel extends Model
     }
 
     // 신청하기
-    public function seltravelState($param){ // mypage 신청하기/취소하기
+    public function seltravelState($param)
+    { // mypage 신청하기/취소하기
         $sql = "SELECT count(*) as tts FROM t_travel_state 
         WHERE iuser = :iuser
         AND itravel = :itravel";
@@ -254,8 +275,9 @@ class TravelModel extends Model
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function IntravelState(&$param) { // mypage 신청하기
-        $sql="INSERT INTO t_travel_state
+    public function IntravelState(&$param)
+    { // mypage 신청하기
+        $sql = "INSERT INTO t_travel_state
         (iuser,itravel,isconfirm,isnew)
         VALUES
         (:iuser,:itravel, 0, 1)
@@ -267,8 +289,9 @@ class TravelModel extends Model
         return $stmt->rowCount();
     }
 
-    public function DeletetravelState($param) { // mypage 신청 취소
-        $sql="DELETE FROM t_travel_state
+    public function DeletetravelState($param)
+    { // mypage 신청 취소
+        $sql = "DELETE FROM t_travel_state
         WHERE iuser = :iuser
         AND itravel = :itravel";
 
@@ -279,8 +302,9 @@ class TravelModel extends Model
         return $stmt->rowCount();
     }
 
-    public function updateState(&$param) { // 신청 수락(알림)
-        $sql="UPDATE t_travel_state 
+    public function updateState(&$param)
+    { // 신청 수락(알림)
+        $sql = "UPDATE t_travel_state 
         SET isconfirm = 1, isnew = 1
         WHERE iuser = :iuser
         AND itravel = :itravel";
@@ -291,8 +315,9 @@ class TravelModel extends Model
         return $stmt->rowCount();
     }
 
-    public function refusalState(&$param) { // 신청 거절(알림)
-        $sql="UPDATE t_travel_state 
+    public function refusalState(&$param)
+    { // 신청 거절(알림)
+        $sql = "UPDATE t_travel_state 
         SET 
         isconfirm = 3, isnew =1
         WHERE iuser = :iuser
@@ -305,9 +330,10 @@ class TravelModel extends Model
         return $stmt->rowCount();
     }
 
-    public function selState(&$param) { // 신청 알림 (전체 알림)
+    public function selState(&$param)
+    { // 신청 알림 (전체 알림)
         $iuser = $param["iuser"];
-        $sql="SELECT A.isconfirm, A.isnew ,B.nick, C.iuser AS loginIuser, C.title, A.mod_dt ,A.iuser,A.itravel
+        $sql = "SELECT A.isconfirm, A.isnew ,B.nick, C.iuser AS loginIuser, C.title, A.mod_dt ,A.iuser,A.itravel
         FROM t_travel_state A
         INNER JOIN t_user B
         ON A.iuser = B.iuser
@@ -332,9 +358,10 @@ class TravelModel extends Model
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function selIsJoin(&$param){
-        $sql = 
-        " SELECT count(*) as isChat FROM t_travel_state
+    public function selIsJoin(&$param)
+    {
+        $sql =
+            " SELECT count(*) as isChat FROM t_travel_state
           WHERE iuser = :iuser
           AND itravel = :itravel
           AND isconfirm = 1
@@ -343,10 +370,11 @@ class TravelModel extends Model
         $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->bindValue(":itravel", $param["itravel"]);
     }
-    
-    public function getPrice(){
-        $sql = 
-        " SELECT max(f_price) as max, min(f_price) as min
+
+    public function getPrice()
+    {
+        $sql =
+            " SELECT max(f_price) as max, min(f_price) as min
           FROM t_travel
         ";
         $stmt = $this->pdo->prepare($sql);
@@ -354,9 +382,10 @@ class TravelModel extends Model
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function delTravel(&$param) {
-        $sql = 
-        " DELETE A.*, B.* FROM t_travel A
+    public function delTravel(&$param)
+    {
+        $sql =
+            " DELETE A.*, B.* FROM t_travel A
           LEFT JOIN t_travel_ctnt B
           ON A.itravel = B.itravel
           WHERE A.itravel = :itravel

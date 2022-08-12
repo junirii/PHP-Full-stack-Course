@@ -62,7 +62,6 @@
                         <router-link :to="{ path: '/MyAccount' }" @click="sidebarNone">
                             <li v-if="this.$store.state.isLogin">회원정보 수정</li>
                         </router-link>
-                        <li v-if="this.$store.state.isLogin">DM</li>
                         <router-link :to="{ path: '/Create' }" @click="sidebarNone">
                             <li v-if="this.$store.state.isLogin">여행 호스팅 하기</li>
                         </router-link>
