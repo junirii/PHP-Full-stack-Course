@@ -1,4 +1,79 @@
 <template>
+  <!-- <div class="header-box">
+      <div class="logo-box">
+          <router-link :to="{ path: '/' }">
+              <h2 class="logo">여행어쩌구</h2>
+          </router-link>
+          <div style="color: black;">{{ this.$store.state.user.nick }}님 ㅎㅇㅎㅇ</div>
+      </div>
+      <div class="icons">
+          
+          <div class="chat">
+              <div>
+                  <span id="unreadCntAll" style="color: red; font-weight: bold;"
+                      class="d-none">{{ unreadCntAll }}</span>
+                  <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);"
+                      @click="showDivChat"></i>
+                  <div v-if="divChatShow" style="margin-top: 100px;">
+                      <div v-for="item in chatRooms" :key="item.itravel">
+                          <div style="color: var(--mainOrange);" @click="goToChat(item.itravel)">
+                              {{ item.title }}<br>{{ item.lastMsg }}
+                              <span v-if="this.$store.state.unreadCnt[item.itravel]"
+                                  style="color: red; font-weight: bold;">{{ this.$store.state.unreadCnt[item.itravel] }}</span>
+                              <hr>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="notifi">
+              <i class="fa-regular fa-bell fa-2x dropdown" style="color: var(--maincolor);" @click="selRequest();"
+                  type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+              <ul class="dropdown-menu">
+                  <div :key="item.iuser" v-for="item in selStateList">
+                      <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">
+                          <div>신청이 왔습니다.</div> {{ item.profile_img }} {{ item.nick }} 님께서 {{ item.title }}
+                          <button @click="request(item.itravel, item.iuser)">수락</button> <button
+                              @click="requestDel(item.itravel, item.iuser)">거절</button>
+                      </li>
+                      <li v-if="item.isconfirm == 3" class="dropdown-item" style="cursor: default;">
+                          <div> {{ item.nick }}님 신청이 거절되었습니다.</div> {{ item.title }} <button
+                              @click="requestNo(item.itravel, item.iuser)">확인</button>
+                      </li>
+                      <li v-if="item.isconfirm == 1" class="dropdown-item" style="cursor: default;">
+                          <div> {{ item.nick }}님 신청이 수락되었습니다.</div> {{ item.title }} <button
+                              @click="requestYes()">확인</button>
+                      </li>
+                  </div>
+              </ul>
+          </div>
+      </div>
+      <div class="burger-wrapper">
+          <input type="checkbox" id="sideMenu">
+          <label id="burger" for="sideMenu">
+              <div></div>
+              <div></div>
+              <div></div>
+          </label>
+          <nav id="menu">
+              <ul>
+                  <li v-if="this.$store.state.isLogin" @click="goToMyPage">마이페이지</li>
+                  <router-link :to="{ path: '/MyAccount' }">
+                      <li v-if="this.$store.state.isLogin">회원정보 수정</li>
+                  </router-link>
+                  <li v-if="this.$store.state.isLogin">DM</li>
+                  <router-link :to="{ path: '/Create' }">
+                      <li v-if="this.$store.state.isLogin">여행 호스팅 하기</li>
+                  </router-link>
+                  <li v-if="this.$store.state.isLogin" @click="goToAllList">전체 리스트</li>
+                  <li v-if="this.$store.state.isLogin" @click="logout">로그아웃</li>
+                  <li v-if="!this.$store.state.isLogin" @click="logout">로그인</li>
+              </ul>
+              <div class="overlay"></div>
+          </nav>
+      </div>
+  </div> -->
+
   <body>
     <!-- <div class="background">
       <p>가보자고</p>
@@ -24,6 +99,12 @@ export default {
   data(){
     return {
       modalShow: false,
+      divChatShow: false,
+      chatRooms: [],
+      selStateList: [],
+      refusalMsg: [],
+      agreeMag: [],
+      unreadCntAll: this.$store.state.unreadCntAll
     };
   },
   components: {
