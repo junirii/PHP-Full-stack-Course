@@ -72,12 +72,12 @@ export default {
         return {
             travel: {
                 iuser: this.$store.state.user.iuser,
-                title: '1',
-                f_gender: 1,
-                f_price: 1,
-                f_people: 1,
-                f_age: 1,
-                area: 1,
+                title: '',
+                f_gender: 0,
+                f_price: 0,
+                f_people: 0,
+                f_age: 0,
+                area: 0,
                 location: null,
                 s_date: new Date().toISOString().substring(0, 10),
                 e_date: '',
