@@ -105,10 +105,11 @@ export default {
         setModPage(){
             if(this.$route.params.mod){
                 const travelData = this.$store.state.mod.travelData;
+                console.log(travelData);
                 this.travel.iuser = travelData.iuser;
                 this.travel.title = travelData.title;
                 this.travel.f_gender = travelData.f_gender;
-                this.travel.f_price = travelData.f_price;
+                this.travel.f_price = Number(travelData.f_price);
                 this.travel.f_people = travelData.f_people;
                 this.travel.f_age = travelData.f_age;
                 this.travel.area = travelData.area;

@@ -24,7 +24,7 @@
           <div v-if="data.travelData.f_age == 6">연령 : 30대~40대</div>
           <div v-if="data.travelData.f_age == 7">연령 : 40대~50대</div>
           <div>인원 : {{}} / {{ data.travelData.f_people }} 명</div>
-          <div>비용 : 1인 {{ data.travelData.f_price = data.travelData.f_price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") }} 원</div>
+          <div>비용 : 1인 {{ data.travelData.f_price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") }} 원</div>
         </div>
       </div>
       <br>

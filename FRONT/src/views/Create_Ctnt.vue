@@ -92,6 +92,7 @@ export default {
 
           // });
         });
+        console.log(this.ctntArr);
       }else{
         for(var i=0; i<this.travelDay; i++){
           this.ctntArr.push([{
