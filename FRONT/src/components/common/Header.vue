@@ -1,77 +1,161 @@
 <template>
     <header>
-        <div class="header-box">
-            <div class="logo-box">
-                <router-link :to="{ path: '/' }">
-                    <h2 class="logo">여행어쩌구</h2>
-                </router-link>
-                <div style="color: black;">{{ this.$store.state.user.nick }}님 ㅎㅇㅎㅇ</div>
-            </div>
-            <div class="icons">
-                <!-- 임시 -->
-                <div class="chat">
-                    <div>
-                        <span id="unreadCntAll" style="color: red; font-weight: bold;"
-                            class="d-none">{{ unreadCntAll }}</span>
-                        <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);"
-                            @click="showDivChat"></i>
+        <!-- 메인페이지용 헤더 -->
+        <div class="header1" v-if="$route.name == 'home'">
+            <div class="header-box">
+                <div class="logo-box">
+                    <router-link :to="{ name: 'home' }">
+                        <h2 class="logo1">여행어쩌구</h2>
+                    </router-link>
+                </div>
+                <div class="icons">
+                    <div class="user-name1" v-if="this.$store.state.isLogin">{{ this.$store.state.user.nick }}님 ㅎㅇㅎㅇ</div>
+                    <i class="fa-regular fa-message fa-2x" style="color: #fff;" @click="showDivChat"
+                    type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
+                    <div class="chat" v-if="this.$store.state.isLogin">
+                        <span id="unreadCntAll" style="color: red; font-weight: bolder;" class="d-none">{{ unreadCntAll }}</span>
                         <div v-if="divChatShow" style="margin-top: 100px;">
                             <div v-for="item in chatRooms" :key="item.itravel">
                                 <div style="color: var(--mainOrange);" @click="goToChat(item.itravel)">
                                     {{ item.title }}<br>{{ item.lastMsg }}
-                                    <span v-if="this.$store.state.unreadCnt[item.itravel]"
-                                        style="color: red; font-weight: bold;">{{ this.$store.state.unreadCnt[item.itravel] }}</span>
+                                    <span v-if="this.$store.state.unreadCnt[item.itravel]" style="color: red; font-weight: bold;">{{
+                                    this.$store.state.unreadCnt[item.itravel] }}</span>
                                     <hr>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="notifi">
-                    <span id="unreadAlarm" style="color: red; font-weight: bold;">{{unreadAlarm}}</span>
-                    <i class="fa-regular fa-bell fa-2x dropdown" style="color: var(--maincolor);" @click="selRequest();"
+
+                    <div class="notifi" v-if="this.$store.state.isLogin">
+                        <i class="fa-regular fa-bell fa-2x dropdown" style="color: #fff;" @click="selRequest();"
                         type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
-                    <ul class="dropdown-menu">
-                        <div :key="item.iuser" v-for="item in selStateList">
-                            <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">
-                                <div>신청이 왔습니다.</div> {{ item.profile_img }} {{ item.nick }} 님께서 {{ item.title }}
-                                <button @click="request(item.itravel, item.iuser)">수락</button>
-                                <button @click="requestDel(item.itravel, item.iuser)">거절</button>
-                            </li>
-                            <li v-if="item.isconfirm == 3" class="dropdown-item" style="cursor: default;">
-                                <div> {{ item.nick }}님 신청이 거절되었습니다.</div> {{ item.title }}
-                                <button @click="requestNo(item.itravel, item.iuser)">확인</button>
-                            </li>
-                            <li v-if="item.isconfirm == 1" class="dropdown-item" style="cursor: default;">
-                                <div> {{ item.nick }}님 신청이 수락되었습니다.</div> {{ item.title }}
-                                <button @click="requestYes(item.itravel, item.iuser, $event)">확인</button>
-                            </li>
-                        </div>
-                    </ul>
+                        <span id="unreadAlarm" style="color: red; font-weight: bold;">{{ unreadAlarm }}</span>
+                        <ul class="dropdown-menu">
+                            <div :key="item.iuser" v-for="item in selStateList">
+                                <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">
+                                    <div>신청이 왔습니다.</div> {{ item.profile_img }} {{ item.nick }} 님께서 {{ item.title }}
+                                    <button @click="request(item.itravel, item.iuser)">수락</button>
+                                    <button @click="requestDel(item.itravel, item.iuser)">거절</button>
+                                </li>
+                                <li v-if="item.isconfirm == 3" class="dropdown-item" style="cursor: default;">
+                                    <div> {{ item.nick }}님 신청이 거절되었습니다.</div> {{ item.title }}
+                                    <button @click="requestNo(item.itravel, item.iuser)">확인</button>
+                                </li>
+                                <li v-if="item.isconfirm == 1" class="dropdown-item" style="cursor: default;">
+                                    <div> {{ item.nick }}님 신청이 수락되었습니다.</div> {{ item.title }}
+                                    <button @click="requestYes(item.itravel, item.iuser, $event)">확인</button>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="burger-icon">
+                    <div class="burger-wrapper">
+                        <input type="checkbox" id="sideMenu">
+                        <label id="burger1" for="sideMenu">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </label>
+                        <nav id="menu">
+                            <ul>
+                            <li v-if="this.$store.state.isLogin" @click="goToMyPage">마이페이지</li>
+                            <router-link :to="{ path: '/MyAccount' }">
+                                <li v-if="this.$store.state.isLogin">회원정보 수정</li>
+                            </router-link>
+                            <li v-if="this.$store.state.isLogin">DM</li>
+                            <router-link :to="{ path: '/Create' }">
+                                <li v-if="this.$store.state.isLogin">여행 호스팅 하기</li>
+                            </router-link>
+                            <li v-if="this.$store.state.isLogin" @click="goToAllList">전체 리스트</li>
+                            <li v-if="this.$store.state.isLogin" @click="logout">로그아웃</li>
+                            <li v-if="!this.$store.state.isLogin" @click="logout">로그인</li>
+                            </ul>
+                            <div class="overlay"></div>
+                        </nav>
+                    </div>
                 </div>
             </div>
-            <div class="burger-wrapper">
-                <input class="sidebar" type="checkbox" id="sideMenu">
-                <label id="burger" for="sideMenu">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </label>
-                <nav id="menu">
-                    <ul>
-                        <li v-if="this.$store.state.isLogin" @click="goToMyPage(); sidebarNone()">마이페이지</li>
-                        <router-link :to="{ path: '/MyAccount' }" @click="sidebarNone">
-                            <li v-if="this.$store.state.isLogin">회원정보 수정</li>
-                        </router-link>
-                        <router-link :to="{ path: '/Create' }" @click="sidebarNone">
-                            <li v-if="this.$store.state.isLogin">여행 호스팅 하기</li>
-                        </router-link>
-                        <li v-if="this.$store.state.isLogin" @click="goToAllList(); sidebarNone()">전체 리스트</li>
-                        <li v-if="this.$store.state.isLogin" @click="logout">로그아웃</li>
-                        <li v-if="!this.$store.state.isLogin" @click="logout">로그인</li>
-                    </ul>
-                    <div class="overlay"></div>
-                </nav>
+        </div>
+
+        <!-- 메인페이지 아니면 -->
+        <div class="header2" v-if="$route.name !== 'home'">
+            <div class="header-box">
+                <div class="logo-box">
+                    <router-link :to="{ name: 'home' }">
+                        <h2 class="logo2">여행어쩌구</h2>
+                    </router-link>
+                    <div style="color: black;">{{ this.$store.state.user.nick }}님 ㅎㅇㅎㅇ</div>
+                </div>
+                <div class="icons">
+                    <!-- 임시 -->
+                    <div class="chat">
+                        <div>
+                            <span id="unreadCntAll" style="color: red; font-weight: bold;"
+                                class="d-none">{{ unreadCntAll }}</span>
+                            <i class="fa-regular fa-message fa-2x" style="color: var(--maincolor);"
+                                @click="showDivChat"></i>
+                            <div v-if="divChatShow" style="margin-top: 100px;">
+                                <div v-for="item in chatRooms" :key="item.itravel">
+                                    <div style="color: var(--mainOrange);" @click="goToChat(item.itravel)">
+                                        {{ item.title }}<br>{{ item.lastMsg }}
+                                        <span v-if="this.$store.state.unreadCnt[item.itravel]"
+                                            style="color: red; font-weight: bold;">{{ this.$store.state.unreadCnt[item.itravel] }}</span>
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notifi">
+                        <span id="unreadAlarm" style="color: red; font-weight: bold;">{{unreadAlarm}}</span>
+                        <i class="fa-regular fa-bell fa-2x dropdown" style="color: var(--maincolor);" @click="selRequest();"
+                            type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
+                        <ul class="dropdown-menu">
+                            <div :key="item.iuser" v-for="item in selStateList">
+                                <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">
+                                    <div>신청이 왔습니다.</div> {{ item.profile_img }} {{ item.nick }} 님께서 {{ item.title }}
+                                    <button @click="request(item.itravel, item.iuser)">수락</button>
+                                    <button @click="requestDel(item.itravel, item.iuser)">거절</button>
+                                </li>
+                                <li v-if="item.isconfirm == 3" class="dropdown-item" style="cursor: default;">
+                                    <div> {{ item.nick }}님 신청이 거절되었습니다.</div> {{ item.title }}
+                                    <button @click="requestNo(item.itravel, item.iuser)">확인</button>
+                                </li>
+                                <li v-if="item.isconfirm == 1" class="dropdown-item" style="cursor: default;">
+                                    <div> {{ item.nick }}님 신청이 수락되었습니다.</div> {{ item.title }}
+                                    <button @click="requestYes(item.itravel, item.iuser, $event)">확인</button>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+
+                    <div class="burger-wrapper">
+                        <input class="sidebar" type="checkbox" id="sideMenu">
+                        <label id="burger2" for="sideMenu">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </label>
+                        <nav id="menu">
+                            <ul>
+                                <li v-if="this.$store.state.isLogin" @click="goToMyPage(); sidebarNone()">마이페이지</li>
+                                <router-link :to="{ path: '/MyAccount' }" @click="sidebarNone">
+                                    <li v-if="this.$store.state.isLogin">회원정보 수정</li>
+                                </router-link>
+                                <router-link :to="{ path: '/Create' }" @click="sidebarNone">
+                                    <li v-if="this.$store.state.isLogin">여행 호스팅 하기</li>
+                                </router-link>
+                                <li v-if="this.$store.state.isLogin" @click="goToAllList(); sidebarNone()">전체 리스트</li>
+                                <li v-if="this.$store.state.isLogin" @click="logout">로그아웃</li>
+                                <li v-if="!this.$store.state.isLogin" @click="logout">로그인</li>
+                            </ul>
+                            <div class="overlay"></div>
+                        </nav>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -215,7 +299,7 @@ html {
     font-family: 'LeferiPoint-WhiteA';
 }
 
-header {
+.header1 { 
     z-index: 1;
     width: 90%;
     position: fixed;
@@ -224,7 +308,21 @@ header {
     right: 0;
 
     padding: 1rem;
-    color: white;
+    font-weight: bold;
+    align-items: center;
+
+    border-bottom: 2px solid var(--mainOrange);
+    height: 5rem;
+}
+.header2 {
+    z-index: 2;
+    width: 90%;
+    position: fixed;
+    top: 0;
+    left: 80px;
+    right: 0;
+
+    padding: 1rem;
     font-weight: bold;
     align-items: center;
     background-color: #fff;
@@ -232,56 +330,56 @@ header {
     border-bottom: 2px solid var(--mainOrange);
     height: 5rem;
 }
-
 .header-box {
     display: flex;
     justify-content: space-between;
 }
-
-/* .icons {
-    display: flex;
-    justify-content: space-between;
-    width: 150px;
-} */
 .logo-box {
+    width: 40%;
     display: flex;
     justify-content: space-between;
 }
+.logo1 {
+    padding: 12px;
+    color: #fff;
+    font-weight: bolder;
+}
+.user-name1 { 
+    font-size: 1.5rem;
+    color: #fff;
 
-.logo {
+}
+.logo2 {
     padding: 12px;
     color: var(--maincolor);
     font-weight: bolder;
 }
-
-.notifi {
-    padding: 6px;
+/* .user-name {
+    
+} */
+.icons {
     display: flex;
+    justify-content: space-between;
+    /* width: 150px; */
+    color: #fff
+}
+/* .notifi {
+    padding: 6px;
     cursor: pointer;
     justify-content: center;
     align-items: center;
-    position: relative;
-    right: 65px;
-    bottom: 41px;
 }
-
 .chat {
     padding: 6px;
-    display: flex;
     cursor: pointer;
     justify-content: center;
     align-items: center;
-    position: relative;
-    right: 125px;
-    top: 4px;
-}
-
+} */
 /*사이드 바*/
 .burger-wrapper {
     cursor: pointer;
     padding: 6px;
 }
-
 #menu {
     background: var(--mainOrange);
     width: 15rem;
@@ -296,7 +394,6 @@ header {
     padding-top: 100px;
     border-left-color: var(--mainOrange);
 }
-
 li {
     color: #fff;
     font-size: 1.2rem;
@@ -307,16 +404,13 @@ li {
     padding: 8px;
     text-decoration-line: none;
 }
-
 #sideMenu {
     display: none;
 }
-
 #sideMenu:checked~#menu {
     transform: translateX(0rem);
 }
-
-#burger {
+#burger1, #burger2 {
     position: absolute;
     cursor: pointer;
     width: 2rem;
@@ -327,27 +421,41 @@ li {
     justify-content: space-between;
     flex-direction: column;
 }
-
-#burger>div {
+#burger1>div {
+    height: 3px;
+    background-color: #fff;
+    transition: 0.5s;
+    z-index: 999;
+}
+#burger2>div {
     height: 3px;
     background-color: var(--maincolor);
     transition: 0.5s;
     z-index: 999;
 }
-
-#sideMenu:checked~#burger>div {
+#sideMenu:checked~#burger1>div {
     background-color: #fff;
 }
-
-#sideMenu:checked~#burger>div:nth-child(1) {
+#sideMenu:checked~#burger1>div:nth-child(1) {
     transform: translateY(15px) rotate(45deg);
 }
-
-#sideMenu:checked~#burger>div:nth-child(2) {
+#sideMenu:checked~#burger1>div:nth-child(2) {
     opacity: 0;
 }
+#sideMenu:checked~#burger1>div:nth-child(3) {
+    transform: translateY(-15px) rotate(-45deg);
+}
 
-#sideMenu:checked~#burger>div:nth-child(3) {
+#sideMenu:checked~#burger2>div {
+    background-color: #fff;
+}
+#sideMenu:checked~#burger2>div:nth-child(1) {
+    transform: translateY(15px) rotate(45deg);
+}
+#sideMenu:checked~#burger2>div:nth-child(2) {
+    opacity: 0;
+}
+#sideMenu:checked~#burger2>div:nth-child(3) {
     transform: translateY(-15px) rotate(-45deg);
 }
 </style>
