@@ -203,7 +203,7 @@ class TravelModel extends Model
     public function selCtntByItravel(&$param){
         $sql = "SELECT * FROM t_travel_ctnt
         WHERE itravel = :itravel
-        ORDER BY DAY";
+        ORDER BY DAY ASC, seq";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":itravel", $param["itravel"]);
         $stmt->execute();

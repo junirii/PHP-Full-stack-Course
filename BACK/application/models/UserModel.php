@@ -165,7 +165,7 @@ class UserModel extends Model
   }
 
   // ----------------- MyPage Fav ---------------
-  public function selUserFav(&$param){
+  public function selUserFav(&$param){ // 인기도 수
     $sql = "SELECT count(liked_iuser) AS favCount
     FROM t_user_fav WHERE liked_iuser = :liked_iuser";
     $stmt = $this->pdo->prepare($sql);

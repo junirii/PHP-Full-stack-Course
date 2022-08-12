@@ -4,14 +4,14 @@
             <div class="thumb">
                 <div>썸네일 사진</div>
                 <div v-if="files.length === 0">
-                    <label for="file"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150"
-                            height="150" style="cursor:pointer"></label>
+                    <label for="file"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="250"
+                            height="250" style="cursor:pointer" class="plus" id="image" @change="test($event)"></label>
                     <input class="d-none" type="file" accept="img/png,img/jpeg" id="file" ref="files"
-                        @change="addMainImg($event.target.files)">
+                        @change="addMainImg($event.target.files), test($event)">
                 </div>
                 <div v-for="(file, index) in files" :key="index">
                     <div @click="imgDeleteButton" :name="file.number">x</div>
-                    <img :src="file.preview" width="200" height="200" />
+                    <img :src="file.preview" width="200" height="200"/>
                 </div>
             </div>
             <div class="travel-create">
@@ -59,10 +59,10 @@
                     <input class="date-input" type="date" v-model="travel.s_date"> ~ <input class="date-input" type="date" v-model="travel.e_date" @change="test">
                 </div>
             </div>
+        </div>
             <div class="btn-section">
             <button class="btn next-btn2" type="button" @click="goToCreateCtnt">다음</button>
             </div>
-        </div>
     </div>
 </template>
 
@@ -72,12 +72,12 @@ export default {
         return {
             travel: {
                 iuser: this.$store.state.user.iuser,
-                title: '',
-                f_gender: 0,
-                f_price: 0,
-                f_people: 0,
-                f_age: 0,
-                area: 0,
+                title: '1',
+                f_gender: 1,
+                f_price: 1,
+                f_people: 1,
+                f_age: 1,
+                area: 1,
                 location: null,
                 s_date: new Date().toISOString().substring(0, 10),
                 e_date: '',
@@ -231,6 +231,16 @@ export default {
         newCal() {
 
         },
+        test(event) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+        document.getElementById("image").src = e.target.result;
+        var img = document.createElement("img");
+        img.setAttribute("src", event.target.result);
+      }
+        reader.readAsDataURL(event.target.files[0]);
+        },
     }
 }
 
@@ -311,6 +321,8 @@ select:focus {
 }
 .next-btn2 {
     display: flex;
+    justify-items: center;
+    align-items: center;
     width: 30px !important;
 }
 </style>
