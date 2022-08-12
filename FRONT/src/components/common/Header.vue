@@ -46,7 +46,7 @@
                             </li>
                             <li v-if="item.isconfirm == 1" class="dropdown-item" style="cursor: default;">
                                 <div> {{ item.nick }}님 신청이 수락되었습니다.</div> {{ item.title }}
-                                <button @click="requestYes(item.itravel, item.iuser, $event)">확인</button>
+                                <button @click="requestYes(item.itravel, item.iuser, $event)">채팅방 이동</button>
                             </li>
                         </div>
                     </ul>

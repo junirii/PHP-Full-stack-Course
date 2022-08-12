@@ -11,8 +11,8 @@
     <!-- 지역 상관 x 버튼 -->
     <div class="anywhere">
       <router-link :to="{ path: '/List' }">
-        <button class="anywhere-btn" alt="whenever anywhere" @click="moveToList()">조건에 맞는 글 : {{ this.list.length
-          }}</button>
+        <button class="anywhere-btn" alt="whenever anywhere" @click="moveToList()">
+        {{this.list.length}}개 여행 보기</button>
       </router-link>
     </div>
 
@@ -105,8 +105,8 @@
         <div class="price-box">
           <span class="filter-name">비용</span>
           <div class="choose-price">
-            최소 <input @change="changeFilter()" v-model="filter.l_price" type="number" step="10000"> 원 ~
-            최대 <input @change="changeFilter()" v-model="filter.h_price" type="number" step="10000"> 원
+            최소 <input @change="changeFilter" v-model="filter.l_price" type="number" step="10000"> 원 ~
+            최대 <input @change="changeFilter" v-model="filter.h_price" type="number" step="10000"> 원
           </div>
         </div>
       </div>
@@ -124,13 +124,13 @@
       <h3>Step 3. 날짜 선택</h3>
       <h6>떠나고 싶은 날짜를 선택하세요.</h6>
       <div class="date-input">
-        <Datepicker @update:modelValue="handleDate" class="date-picker" inline autoApply locale="ko-KR" v-model="date"
+        <Datepicker id="datePicker" @update:modelValue="handleDate" class="date-picker" inline autoApply locale="ko-KR" v-model="date"
           range multiCalendars :multiStatic="false" :enableTimePicker="false" :minDate="new Date()" />
       </div>
-
+      <button @click="test">test</button>
       <div class="move-to-list-btn">
         <router-link :to="{ path: '/List' }">
-          <button class="btn next-btn" type="button" @click="moveToList()">여행 찾기</button>
+          <button class="btn next-btn" type="button" @click="moveToList">여행 찾기</button>
         </router-link>
       </div>
     </div>
@@ -153,15 +153,16 @@ components: { Datepicker },
       const s_month =  ("0" + (date.value[0].getMonth() + 1)).slice(-2);
       const s_day = ("0" + date.value[0].getDate()).slice(-2);
       const sdate = `${s_year}-${s_month}-${s_day}`;
-      console.log(sdate);
       // this.filter.s_date = `${s_year}-${s_month}-${s_day}`;
 
       const e_year = date.value[1].getFullYear();
       const e_month = ("0" + (date.value[1].getMonth() + 1)).slice(-2);
       const e_day = ("0" + date.value[1].getDate()).slice(-2);
       const edate = `${e_year}-${e_month}-${e_day}`;
-      console.log(edate);
       // this.filter.e_date = `${e_year}-${e_month}-${e_day}`;
+      globalThis.this.filter.s_date= sdate;
+      globalThis.this.filter.e_date= edate;
+      globalThis.this.changeFilter();
     }
     onMounted(() => {
       const startDate = new Date() ;
@@ -195,6 +196,7 @@ components: { Datepicker },
     };
   },
   created() {
+    globalThis.this = this;
     this.getAreaList();
     this.getPrice();
     this.getAgeList();
@@ -203,9 +205,29 @@ components: { Datepicker },
     this.changeFilter();
   },
   methods: {
+    dateIntoFilter(){
+      const s_year = this.date[0].getFullYear();
+      const s_month =  ("0" + (this.date[0].getMonth() + 1)).slice(-2);
+      const s_day = ("0" + this.date[0].getDate()).slice(-2);
+      this.filter.s_date = `${s_year}-${s_month}-${s_day}`;
+
+      const e_year = this.date[1].getFullYear();
+      const e_month = ("0" + (this.date[1].getMonth() + 1)).slice(-2);
+      const e_day = ("0" + this.date[1].getDate()).slice(-2);
+      this.filter.e_date = `${e_year}-${e_month}-${e_day}`;
+
+      this.$store.state.filter = this.filter;
+      console.log(this.$store.state.filter);
+      // this.changeFilter();
+    },
+    test(){
+      console.log(this.date);
+      console.log(this.handleDate);
+      const datePicker = document.querySelector('#datePicker');
+      console.log(datePicker);
+    },
     async changeFilter() {
       this.$store.state.filter = this.filter;
-      console.log(this.$store.state.filter)
       this.list = await this.$post('/travel/travelList', { filter: this.$store.state.filter });
       console.log(this.list);
     },
