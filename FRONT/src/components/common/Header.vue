@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="burger-wrapper">
-                <input type="checkbox" id="sideMenu">
+                <input class="sidebar" type="checkbox" id="sideMenu">
                 <label id="burger" for="sideMenu">
                     <div></div>
                     <div></div>
@@ -59,14 +59,14 @@
                 <nav id="menu">
                     <ul>
                         <li v-if="this.$store.state.isLogin" @click="goToMyPage(); sidebarNone()">마이페이지</li>
-                        <router-link :to="{ path: '/MyAccount' }">
+                        <router-link :to="{ path: '/MyAccount' }" @click="sidebarNone">
                             <li v-if="this.$store.state.isLogin">회원정보 수정</li>
                         </router-link>
                         <li v-if="this.$store.state.isLogin">DM</li>
-                        <router-link :to="{ path: '/Create' }">
+                        <router-link :to="{ path: '/Create' }" @click="sidebarNone">
                             <li v-if="this.$store.state.isLogin">여행 호스팅 하기</li>
                         </router-link>
-                        <li v-if="this.$store.state.isLogin" @click="goToAllList">전체 리스트</li>
+                        <li v-if="this.$store.state.isLogin" @click="goToAllList(); sidebarNone()">전체 리스트</li>
                         <li v-if="this.$store.state.isLogin" @click="logout">로그아웃</li>
                         <li v-if="!this.$store.state.isLogin" @click="logout">로그인</li>
                     </ul>
@@ -90,10 +90,10 @@ export default {
         };
     },
     methods: {
-        async sidebarNone() {
-            console.log('hello');
-            // const sideMenu = document.querySelector('#sideMenu');
-            // sideMenu.style.display = 'none';
+        sidebarNone() {
+            console.log('test!!');
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.checked = false;
         },
         goToChat(itravel) {
             // this.$store.state.itravel = itravel;
