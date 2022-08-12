@@ -68,14 +68,14 @@ class TravelController extends Controller{
         $travelData = $this->model->selTravelByItravel($param);
         $day = $this->model->selDayByItravel($param);
         $ctnt = $this->model->selCtntByItravel($param);
-        // $join = $this->model->selJoinByItravel($param);
+        $joinPeople = $this->model->selJoinByItravel($param);
         
         $data = [
             "hostUser" => $hostUser,
             "day" => $day,
             "ctnt" => $ctnt,
             "travelData" => $travelData,
-            // "join" => $join
+            "joinPeople" => $joinPeople
         ];
         return [_RESULT => $data];
     }

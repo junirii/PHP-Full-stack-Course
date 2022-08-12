@@ -217,17 +217,17 @@ class TravelModel extends Model
     }
 
 
-    // public function selJoinByItravel(&$param)
-    // {
-    //     $sql = "SELECT COUNT(*)
-    //             FROM t_travel_state
-    //             WHERE isconfirm = :isconfirm AND itravel = :itravel";
-    //     $stmt = $this->pdo->prepare($sql);
-    //     $stmt->bindValue(":isconfirm", $param["isconfirm"]);
-    //     $stmt->bindValue(":itravel", $param["itravel"]);
-    //     $stmt->execute();
-    //     return $stmt->fetchAll(PDO::FETCH_OBJ);
-    // }
+    public function selJoinByItravel(&$param)
+    {
+        $sql = "SELECT COUNT(*) AS numberOfPeople
+                FROM t_travel_state
+                WHERE isconfirm = 1 AND itravel = :itravel";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
     // 좋아요 한 게시물
     public function selTravelFav(&$param)
     {

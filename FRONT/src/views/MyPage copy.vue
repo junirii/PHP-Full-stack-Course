@@ -172,6 +172,7 @@ export default {
       this.data = await this.$get(`/user/myPage/${this.feedIuser}/${this.loginIuser}`, {}); // controllers / method
       console.log(this.data);
       this.myPageTravelFav = this.data.result.myPageTravelFav;
+      console(myPageTravelFav);
       this.myPageHost = this.data.result.myPageHost;
       this.myPageTravelState = this.data.result.myPageTravelState;
       this.myPageTravelState.forEach(item => {
@@ -229,6 +230,9 @@ export default {
       if (e.key === 'Enter') {
         this.insCmt();
       }
+    },
+    async usergood() {
+      alert('dd');
     },
   },
   created() {
