@@ -12,7 +12,6 @@
         <div class="mypage-profile-txt">
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
-          <div>DM<i class="fa-regular fa-paper-plane"></i></div>
           <div>평점 : {{ selUser.grade }}점</div>
           <div v-if="feedIuser == loginIuser">
             <router-link :to="{ path: '/MyAccount' }">
@@ -90,11 +89,11 @@
             <span class="section-list-nick" @click="goToMyPageFromReview(item.iuser)">{{ item.nick }}</span>
             <span class="section-list-cmt">{{ item.cmt }}</span>
             <span class="section-list-reg-dt">{{ item.reg_dt }}</span>
-            <span v-if="item.grade == 1" class="section-list-grade"> ★(1) 점</span>
-            <span v-if="item.grade == 2" class="section-list-grade"> ★★(2) 점</span>
-            <span v-if="item.grade == 3" class="section-list-grade"> ★★★(3) 점</span>
-            <span v-if="item.grade == 4" class="section-list-grade"> ★★★★(4) 점</span>
-            <span v-if="item.grade == 5" class="section-list-grade"> ★★★★★(5) 점</span>
+            <span v-if="item.grade == 1" class="section-list-grade"> ★(1)</span>
+            <span v-if="item.grade == 2" class="section-list-grade"> ★★(2)</span>
+            <span v-if="item.grade == 3" class="section-list-grade"> ★★★(3)</span>
+            <span v-if="item.grade == 4" class="section-list-grade"> ★★★★(4)</span>
+            <span v-if="item.grade == 5" class="section-list-grade"> ★★★★★(5)</span>
             <span class="section-list-title">참여여행: [{{ item.title }}]</span>
 
           </div>
