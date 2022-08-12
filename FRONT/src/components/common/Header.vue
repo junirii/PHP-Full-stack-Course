@@ -29,7 +29,7 @@
                 </div>
                 <div class="notifi">
                     <i class="fa-regular fa-bell fa-2x dropdown" style="color: var(--maincolor);" @click="selRequest();"
-                        type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                        type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
                     <ul class="dropdown-menu">
                         <div :key="item.iuser" v-for="item in selStateList">
                             <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">

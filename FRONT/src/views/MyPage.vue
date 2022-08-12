@@ -131,7 +131,7 @@ export default {
       feedIuser: 0,
       loginIuser: 0,
       cmt: '',
-      favCount: null, //수정 필요
+      favCount: 0, //수정 필요
       modalShow: false,
     }
   },

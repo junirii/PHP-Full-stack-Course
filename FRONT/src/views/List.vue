@@ -7,19 +7,16 @@
         필터
       </div>
       <div class="container">
-        <!-- <button class="btn" type="button" @click="showFilterModal">필터</button> -->
         <FilterModal :show="modalShow" @close="hiddenModal" v-on:update="travelList()"></FilterModal>
         <div class="row" slot="body">
           <div class="col-xl-3 col-lg-4 col-md-6" style="padding: 25px 25px 25px;" :key="item.itravel"
             v-for="item in list">
             <div class="card" style="width: 17rem; height: 27rem;">
               <div class="hearticon">
-                <!-- <font-awesome-icon icon="fa-solid fa-heart fa-2x abcd" v-if="heartColor(item.itravel)" style="color: red;" @click="good($event, item.itravel)"/> -->
                 <i class="fa-solid fa-heart fa-2x abcd" v-if="heartColor(item.itravel)" style="color: red;"
                   @click="good($event, item.itravel)"></i>
                 <i class="fa-regular fa-heart fa-2x abcd" v-if="!heartColor(item.itravel)"
                   @click="good($event, item.itravel)"></i>
-                <!-- <div class="card-img-top" @click="goToDetail(item.itravel)">{{item.main_img}}</div> -->
               </div>
               <img :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
                    @click="goToDetail(item.itravel)"
