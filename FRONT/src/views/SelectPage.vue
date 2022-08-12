@@ -11,7 +11,8 @@
     <!-- 지역 상관 x 버튼 -->
     <div class="anywhere">
       <router-link :to="{ path: '/List' }">
-      <button class="anywhere-btn" alt="whenever anywhere" @click="moveToList()">조건에 맞는 글 : {{ this.list.length }}</button>
+        <button class="anywhere-btn" alt="whenever anywhere" @click="moveToList()">조건에 맞는 글 : {{ this.list.length
+          }}</button>
       </router-link>
     </div>
 
@@ -25,22 +26,32 @@
       <div class="box d-flex">
         <div class="container-map">
           <div class="sec1">
-            <img class="center" src="../../mapImg/i.png" alt="수도권" @click="[selectArea($event),insAreaName($event),changeFilter()]">
-              <img class="gang" src="../../mapImg/Gang.png" alt="강원도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
+            <img class="center" src="../../mapImg/i.png" alt="수도권"
+              @click="[selectArea($event),insAreaName($event),changeFilter()]">
+            <img class="gang" src="../../mapImg/Gang.png" alt="강원도"
+              @click="[selectArea($event),insAreaName($event),changeFilter()]">
           </div>
           <div class="sec2">
             <div class="K">
-              <img class="K1" src="../../mapImg/k.png" alt="경상북도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
-              <img class="I" src="../../mapImg/island.png" alt="경상북도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
+              <img class="K1" src="../../mapImg/k.png" alt="경상북도"
+                @click="[selectArea($event),insAreaName($event),changeFilter()]">
+              <img class="I" src="../../mapImg/island.png" alt="경상북도"
+                @click="[selectArea($event),insAreaName($event),changeFilter()]">
             </div>
-            <img class="C1" src="../../mapImg/chung1.png" alt="충청북도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
-            <img class="C2" src="../../mapImg/chung2.png" alt="충청남도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
+            <img class="C1" src="../../mapImg/chung1.png" alt="충청북도"
+              @click="[selectArea($event),insAreaName($event),changeFilter()]">
+            <img class="C2" src="../../mapImg/chung2.png" alt="충청남도"
+              @click="[selectArea($event),insAreaName($event),changeFilter()]">
           </div>
           <div class="sec3">
-            <img class="K2" src="../../mapImg/k2.png" alt="경상남도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
-            <img class="J1" src="../../mapImg/j1.png" alt="전라북도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
-            <img class="J2" src="../../mapImg/j2.png" alt="전라남도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
-            <img class="JJ" src="../../mapImg/jj.png" alt="제주도" @click="[selectArea($event),insAreaName($event),changeFilter()]">
+            <img class="K2" src="../../mapImg/k2.png" alt="경상남도"
+              @click="[selectArea($event),insAreaName($event),changeFilter()]">
+            <img class="J1" src="../../mapImg/j1.png" alt="전라북도"
+              @click="[selectArea($event),insAreaName($event),changeFilter()]">
+            <img class="J2" src="../../mapImg/j2.png" alt="전라남도"
+              @click="[selectArea($event),insAreaName($event),changeFilter()]">
+            <img class="JJ" src="../../mapImg/jj.png" alt="제주도"
+              @click="[selectArea($event),insAreaName($event),changeFilter()]">
           </div>
           <img class="map" src="../../mapImg/map_1.png" alt="map">
         </div>
@@ -57,32 +68,49 @@
       <h3>Step 2. 옵션 선택</h3>
       <h6>여행의 옵션을 선택하세요.</h6>
       <div class="filter-box">
-        <span>인원 :</span>
-        <div class="choose-people" :key="item.idx" v-for="item in peopleList">
-          <label :for="`people${item.people}`">{{ item.people }}</label>
-          <input @change="changeFilter" type="radio" v-model="filter.f_people" :id="`people${item.people}`" :value="item.idx" name="people">
+        <div class="people-box">
+          <span class="filter-name">인원</span>
+          <div class="choose-people">
+            <div :key="item.idx" v-for="item in peopleList">
+              <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_people"
+                     :id="`people${item.people}`" :value="item.idx" name="people">
+              <label :for="`people${item.people}`">{{ item.people }}</label>
+            </div>
+          </div>
         </div>
-        <br>
+        
 
-        <span>성별 :</span>
-        <div class="choose-gender" :key="item.idx" v-for="item in genderList">
-          <label :for="`gender${item.gender}`">{{ item.gender }}</label>
-          <input @change="changeFilter" type="radio" v-model="filter.f_gender" :id="`gender${item.gender}`" :value="item.idx" name="gender">
+        <div class="gender-box">
+          <span class="filter-name">성별</span>
+          <div class="choose-gender">
+            <div :key="item.idx" v-for="item in genderList">
+              <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_gender"
+                     :id="`gender${item.gender}`" :value="item.idx" name="gender">
+              <label :for="`gender${item.gender}`">{{ item.gender }}</label>
+            </div>
+          </div>
         </div>
-        <br>
 
-        <span>연령 :</span>
-        <div class="choose-age" :key="item.idx" v-for="item in ageList">
-          <label :for="`age${item.age}`">{{ item.age }}</label>
-          <input @change="changeFilter" type="radio" v-model="filter.f_age" :id="`age${item.age}`" :value="item.idx" name="age">
+        <div class="age-box">
+          <span class="filter-name">연령</span>
+          <div class="choose-age">
+            <div :key="item.idx" v-for="item in ageList">
+              <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_age" :id="`age${item.age}`"
+                :value="item.idx" name="age">
+              <label :for="`age${item.age}`">{{ item.age }}</label>
+            </div>
+          </div> 
         </div>
-        <br>
 
-        <div class="choose-price">비용 : 
-          최소 <input @change="changeFilter()" v-model="filter.l_price" type="number" step="10000">원 ~ 
-          최대 <input @change="changeFilter()" v-model="filter.h_price" type="number" step="10000">원
+        <div class="price-box">
+          <span class="filter-name">비용</span>
+          <div class="choose-price">
+            최소 <input @change="changeFilter()" v-model="filter.l_price" type="number" step="10000"> 원 ~
+            최대 <input @change="changeFilter()" v-model="filter.h_price" type="number" step="10000"> 원
+          </div>
         </div>
       </div>
+
       <div>
         <a href="#date">
           <button class="btn next-btn" type="button">다음</button>
@@ -96,17 +124,8 @@
       <h3>Step 3. 날짜 선택</h3>
       <h6>떠나고 싶은 날짜를 선택하세요.</h6>
       <div class="date-input">
-        <Datepicker
-          @update:modelValue="handleDate"
-          class="date-picker"
-          inline autoApply
-          locale="ko-KR"
-          v-model="date"
-          range multiCalendars
-          :multiStatic="false"
-          :enableTimePicker="false"
-          :minDate="new Date()"
-        />
+        <Datepicker @update:modelValue="handleDate" class="date-picker" inline autoApply locale="ko-KR" v-model="date"
+          range multiCalendars :multiStatic="false" :enableTimePicker="false" :minDate="new Date()" />
       </div>
 
       <div class="move-to-list-btn">
@@ -454,33 +473,47 @@ img {
 /* 옵션 */
 .filter-box {
   border: 1px solid var(--maincolor);
-  width: 500px;
-  height: 1000px;
+  width: 70%;
+  height: 500px;
   margin: 0 auto;
   text-align: left;
-  padding: 20px;
 }
-.choose-people, .choose-gender, .choose-age, .choose-price {
-  padding-top: 10px;
-  padding-left: 20px;
+.filter-name {
+  margin-bottom: 7px;
+  margin-left: 14px;
 }
-.choose-people label {
-  padding: 0 5px;
+.people-box, .gender-box, .age-box, .price-box {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 29px;
 }
-.age-box {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+.choose-people, .choose-gender, .choose-age {
+  /* padding-top: 10px;
+  padding-left: 20px; */
+  display: flex;
+  flex-direction: row;
+}
+ .choose-price {
+  margin-left: 14px;
+  color: var(--mainOrange);
+ }
+.radio-btn {
+  opacity: 0;
+}
+label {
+  text-align: center;
+  padding: 5px 10px;
+  color: var(--mainOrange);
+  border: 2px solid var(--mainOrange);
+  border-radius: 18px;
+  height: 34px;
+}
 
-  /* background: url('이미지 경로') no-repeat 95% 50%; */
-  border: none;
-  border-bottom: 2px solid var(--maincolor);
-  width: 80px;
-  height: 25px;
-  padding-left: 10px;
-  color: var(--maincolor);
+input[type=radio]:checked + label {
+  background-color: var(--mainOrange);
+  color: #fff;
 }
-.age-box::-ms-expand { display: none; }
+
 /* 날짜 */
 .date-input {
   margin: 0 auto;
@@ -491,7 +524,7 @@ img {
 
 /* 섹션별 간격 */
 #location, #filter, #date{
-  padding: 100px;
+  padding: 100px 0;
 }
 #date {
   padding-bottom: 10rem;

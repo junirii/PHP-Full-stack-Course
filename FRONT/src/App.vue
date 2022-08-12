@@ -1,6 +1,6 @@
 <template>
   <div id="wrap">
-    <Header v-if="$route.name !== 'home'"></Header>
+    <Header></Header>
     <div class="main"><router-view :key="$route.fullPath" /></div>
     <Footer v-if="$route.name !== 'home'"></Footer>
   </div>
