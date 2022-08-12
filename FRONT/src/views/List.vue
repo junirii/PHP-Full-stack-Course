@@ -1,5 +1,4 @@
 <template>
-
   <body>
     <main class="list mt-3">
       <div class="filter-btn font bolder"  @click="showFilterModal">
@@ -13,9 +12,9 @@
             v-for="item in list">
             <div class="card" style="width: 17rem; height: 27rem;">
               <div class="hearticon">
-                <i class="fa-solid fa-heart fa-2x abcd" v-if="heartColor(item.itravel)" style="color: red;"
+                <i class="fa-solid fa-heart fa-2x like-btn" v-if="heartColor(item.itravel)" style="color: red;"
                   @click="good($event, item.itravel)"></i>
-                <i class="fa-regular fa-heart fa-2x abcd" v-if="!heartColor(item.itravel)"
+                <i class="fa-regular fa-heart fa-2x like-btn" v-if="!heartColor(item.itravel)"
                   @click="good($event, item.itravel)"></i>
               </div>
               <img :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
@@ -24,13 +23,12 @@
                    style="width: 17rem; height: 16rem;"
                    alt="여행 썸네일">
               <div class="card-body">
-                <h5 class="card-title" @click="goToDetail(item.itravel)">{{ item.title }}</h5>
-                <p class="card-text">
+                <h5 class="card-title bold" @click="goToDetail(item.itravel)">{{ item.title }}</h5>
+                <p class="card-text bold">
                   <span class="badge name-tag me-1 pointer" @click="goToMyPage(item.iuser)">작성자:{{ item.nick }}</span>
                   <span class="badge name-tag me-1">
                     지역: {{ item.area_nm }}<span v-if="item.location !== null">/{{ item.location_nm }}</span>
                   </span>
-                  <!-- <span class="badge bg-dark text-white me-1">location:{{ item.location }}</span> -->
                 </p>
                 <small class="text-dark">{{ item.s_date }} ~ {{ item.e_date }}</small>
               </div>
@@ -149,7 +147,7 @@ export default {
   border: 2px solid var(--mainOrange);
   background-color: #fff;
   border-radius: 20px;
-  color: var(--mainOrange);
+  color: var(--mainOrange) !important;
   padding: 7px;
   line-height: 5px;
   transition: all 0.2s;
@@ -161,14 +159,13 @@ export default {
   cursor: pointer;
 }
 .filter-btn:hover {
-  color: #fff;
+  color: #fff !important;
   background-color: var(--mainOrange);
 }
 .hearticon {
   position: relative;
 }
 .thumbnail:hover {
-  
   /* transition: transform 1s; */
   filter: brightness(70%);
 }
@@ -176,11 +173,13 @@ export default {
   background-color: #fff;
   color: var(--maincolor);
 }
-.abcd{
+.like-btn{
   position : absolute;
   right: 4px;
   top: 4px; 
   cursor: pointer;
+  z-index: 1;
+  color: #fff;
  }
 .pointer {
   cursor: pointer;
@@ -189,10 +188,4 @@ export default {
   font-family: 'LeferiPoint-WhiteA';
   font-weight: bold;
 }
-
-i {
-    z-index: 999;
-    color: #fff;
-}
-
 </style>

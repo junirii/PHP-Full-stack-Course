@@ -38,14 +38,7 @@ a { text-decoration: none; }
     --mainDarkOrange : #cc6d00;
 }
 
-.bolder {
-    font-weight: bolder;
-}
-
-.p-15 {
-    padding: 15px;
-}
-
-.font {
-    font-family: 'LeferiPoint-WhiteA';
-}
+.bold { font-weight: bold; }
+.bolder { font-weight: bolder; }
+.p-15 { padding: 15px; }
+.font { font-family: 'LeferiPoint-WhiteA'; }
