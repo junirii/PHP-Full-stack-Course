@@ -152,39 +152,43 @@ export default {
       divDay.removeChild(divDay.lastChild);
       this.countArr[idx - 1]--;
     },
-    insTravel(){   
-      console.log(this.ctntArr);
-      // for(var i=0; i<this.ctntArr.length; i++){
-      //   for(var z=0; z<this.ctntArr[i].length; z++){
-      //     const txtArea = document.querySelector(`#txtAreaDay${i+1}_${z+1}`);
-      //     this.ctntArr[i][z].ctnt = txtArea.value;
-      //   }
-      // }
-      // const res = await this.$post('/travel/insTravelAndCtnt', {
-      //   travel: this.$store.state.travel,
-      //   ctnt: this.ctntArr
-      // });
-      // console.log(`res: ${res}`);
-      // if(res.result){
-      //   const makeChat = await this.$post(`/chat/insChatRoom`, {
-      //     itravel: res.result,
-      //     iuser: this.$store.state.user.iuser
-      //   });
-      //   console.log(`makeChat: ${makeChat}`)
-      //   if(makeChat.result){
-      //     this.$store.state.unreadCnt[res.result] = 0;
-      //     console.log(this.$store.state.unreadCnt);
-      //     this.$swal.fire('글 작성 성공', '', 'success')
-      //     .then(async result => {
-      //         if(result.isConfirmed){
-      //             this.$store.state.itravel = res.result;
-      //             this.$router.push({name: 'detail'});
-      //         }
-      //     });
-      //   }
+    async insTravel(){   
+      for(var i=0; i<this.ctntArr.length; i++){
+        for(var z=0; z<this.ctntArr[i].length; z++){
+          const txtArea = document.querySelector(`#txtAreaDay${i+1}_${z+1}`);
+          this.ctntArr[i][z].ctnt = txtArea.value;
+        }
+      }
+      const res = await this.$post('/travel/insTravelAndCtnt', {
+        travel: this.$store.state.travel,
+        ctnt: this.ctntArr
+      });
+      console.log(`res: ${res}`);
+      if(res.result){
+        const makeChat = await this.$post(`/chat/insChatRoom`, {
+          itravel: res.result,
+          iuser: this.$store.state.user.iuser
+        });
+        //채팅방 생성 메시지 진행중
+        if(makeChat.result){
+          
+        }
+        console.log(`makeChat: ${makeChat}`)
+        if(makeChat.result){
+          this.$store.state.unreadCnt[res.result] = 0;
+          console.log(this.$store.state.unreadCnt);
+          this.$swal.fire('글 작성 성공', '', 'success')
+          .then(async result => {
+              if(result.isConfirmed){
+                  this.$store.state.itravel = res.result;
+                  this.$router.push({name: 'detail'});
+              }
+          });
+        }
       }
     }
   }
+}
 
 </script>
 
