@@ -35,7 +35,7 @@
                         type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
                     <ul class="dropdown-menu">
                         <div :key="item.iuser" v-for="item in selStateList">
-                            <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">
+                            <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default; color:black">
                                 <div>신청이 왔습니다.</div> {{ item.profile_img }} {{ item.nick }} 님께서 {{ item.title }}
                                 <button @click="request(item.itravel, item.iuser)">수락</button>
                                 <button @click="requestDel(item.itravel, item.iuser)">거절</button>

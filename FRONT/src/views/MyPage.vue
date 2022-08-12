@@ -143,7 +143,7 @@ export default {
       feedIuser: 0,
       loginIuser: 0,
       cmt: '',
-      favCount: 0, //수정 필요
+      selUserFav: [],
       modalShow: false,
     }
   },
@@ -174,6 +174,7 @@ export default {
       this.myPageTravelFav = this.data.result.myPageTravelFav;
       this.myPageHost = this.data.result.myPageHost;
       this.myPageTravelState = this.data.result.myPageTravelState;
+      this.selUserFav = this.data.result.selUserFav;
       this.myPageTravelState.forEach(item => {
         switch (item.isconfirm) {
           case 0:

@@ -5,9 +5,9 @@
                 <div>썸네일 사진</div>
                 <div v-if="files.length === 0">
                     <label for="file"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="250"
-                            height="250" style="cursor:pointer" class="plus" id="image" @change="test($event)"></label>
+                            height="250" style="cursor:pointer" class="plus" id="image" @change="previewImg($event)"></label>
                     <input class="d-none" type="file" accept="img/png,img/jpeg" id="file" ref="files"
-                        @change="addMainImg($event.target.files), test($event)">
+                        @change="addMainImg($event.target.files), previewImg($event)">
                 </div>
                 <div v-for="(file, index) in files" :key="index">
                     <div @click="imgDeleteButton" :name="file.number">x</div>
@@ -36,7 +36,7 @@
                     <span class="section-title">성별</span>
                     <select class="bolder" v-model="travel.f_gender">
                         <option class="bolder" value="" selected>선택</option>
-                        <option :key="item.idx" :value="item.idx" v-for="item in genderList">{{ item.nm }}</option>
+                        <option :key="item.idx" :value="item.idx" v-for="item in genderList">{{ item.gender }}</option>
                     </select>
                 </div>
                 <div>
@@ -232,7 +232,7 @@ export default {
         newCal() {
 
         },
-        test(event) {
+        previewImg(event) { // 이미지 미리보기
         var reader = new FileReader();
 
         reader.onload = function (e) {
