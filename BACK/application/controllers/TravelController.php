@@ -68,14 +68,14 @@ class TravelController extends Controller{
         $travelData = $this->model->selTravelByItravel($param);
         $day = $this->model->selDayByItravel($param);
         $ctnt = $this->model->selCtntByItravel($param);
-        // $join = $this->model->selJoinByItravel($param);
+        $joinPeople = $this->model->selJoinByItravel($param);
         
         $data = [
             "hostUser" => $hostUser,
             "day" => $day,
             "ctnt" => $ctnt,
             "travelData" => $travelData,
-            // "join" => $join
+            "joinPeople" => $joinPeople
         ];
         return [_RESULT => $data];
     }
@@ -305,7 +305,12 @@ class TravelController extends Controller{
         ];
         switch (getMethod()) {
             case _DELETE:
-                return [_RESULT => $this->model->delTravel($param)];
+                $result = $this->model->delTravel($param);
+                if($result) {
+                    $dir = _IMG_PATH . "/travel/" . $itravel . "/";
+                    LIB_removeAllData($dir);
+                    return [_RESULT => 1];
+                }
         }
     }
 

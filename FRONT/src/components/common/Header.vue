@@ -291,17 +291,20 @@ export default {
                 itravel: itravel,
                 iuser: iuser,
             });
-            if(res.result == 1){
+            if (res.result == 1) {
                 e.target.parentNode.remove();
-                const res = await this.$post(`/chat/insChatRoom`, {
+                const resChatRoom = await this.$post(`/chat/insChatRoom`, {
                     itravel: itravel,
                     iuser: iuser
                 });
-                if(res.result == 1){
-                    this.$router.push({name: 'chat', query: {
-                        itravel: itravel,
-                        isnew: 1
-                    }});
+
+                if (resChatRoom.result == 1) {
+                    this.$router.push({
+                        name: 'chat', query: {
+                            itravel: itravel,
+                            isnew: 1
+                        }
+                    });
                 }
             }
         },

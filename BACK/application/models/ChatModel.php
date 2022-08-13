@@ -45,7 +45,7 @@ class ChatModel extends Model
       ORDER BY seq
     ";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindValue(1, $param["itravel"]);
+    $stmt->bindValue(":itravel", $param["itravel"]);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
@@ -58,7 +58,7 @@ class ChatModel extends Model
       WHERE itravel = :itravel
     ";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindValue(1, $param["itravel"]);
+    $stmt->bindValue(":itravel", $param["itravel"]);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
@@ -80,5 +80,18 @@ class ChatModel extends Model
     $stmt->bindValue(":iuser", $param["iuser"]);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+
+  public function exitChatRoom(&$param){
+    $sql = 
+    " DELETE FROM t_chat_room
+      WHERE itravel = :itravel
+      AND iuser = :loginIuser
+    ";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":itravel", $param["itravel"]);
+    $stmt->bindValue(":loginIuser", $param["loginIuser"]);
+    $stmt->execute();
+    return $stmt->rowCount();
   }
 }

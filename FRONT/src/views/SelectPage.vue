@@ -2,17 +2,20 @@
   <div class="total">
     <!-- 상태바 -->
     <div class="state-tab-container">
-      <a href="#location" class="state-tab">지역</a>
-      <a href="#filter" class="state-tab">옵션</a>
-      <a href="#date" class="state-tab">날짜</a>
+      <!-- <a href="#location" class="state-tab">지역</a> -->
+      <div class="state-tab" @click="scrollToLocation">지역</div>
+      <div class="state-tab" @click="scrollToFilter">옵션</div>
+      <div class="state-tab" @click="scrollToDate">날짜</div>
+      <!-- <a href="#filter" class="state-tab">옵션</a>
+      <a href="#date" class="state-tab">날짜</a> -->
       <span class="state-slider"></span>
     </div>
 
     <!-- 지역 상관 x 버튼 -->
     <div class="anywhere">
       <router-link :to="{ path: '/List' }">
-        <button class="anywhere-btn" alt="whenever anywhere" @click="moveToList()">조건에 맞는 글 : {{ this.list.length
-          }}</button>
+        <button class="anywhere-btn" alt="whenever anywhere" @click="moveToList()">
+        {{this.list.length}}개 여행 보기</button>
       </router-link>
     </div>
 
@@ -56,9 +59,9 @@
           <img class="map" src="../../mapImg/map_1.png" alt="map">
         </div>
       </div>
-      <a href="#filter">
+      <!-- <a href="#filter">
         <button class="btn next-btn" type="button">다음</button>
-      </a>
+      </a> -->
     </div>
 
     <hr>
@@ -105,17 +108,17 @@
         <div class="price-box">
           <span class="filter-name">비용</span>
           <div class="choose-price">
-            최소 <input @change="changeFilter()" v-model="filter.l_price" type="number" step="10000"> 원 ~
-            최대 <input @change="changeFilter()" v-model="filter.h_price" type="number" step="10000"> 원
+            최소 <input @change="changeFilter" v-model="filter.l_price" type="number" step="10000"> 원 ~
+            최대 <input @change="changeFilter" v-model="filter.h_price" type="number" step="10000"> 원
           </div>
         </div>
       </div>
 
-      <div>
+      <!-- <div>
         <a href="#date">
           <button class="btn next-btn" type="button">다음</button>
         </a>
-      </div>
+      </div> -->
     </div>
 
     <hr>
@@ -127,10 +130,10 @@
         <Datepicker @update:modelValue="handleDate" class="date-picker" inline autoApply locale="ko-KR" v-model="date"
           range multiCalendars :multiStatic="false" :enableTimePicker="false" :minDate="new Date()" />
       </div>
-
+      <button @click="test">test</button>
       <div class="move-to-list-btn">
         <router-link :to="{ path: '/List' }">
-          <button class="btn next-btn" type="button" @click="moveToList()">여행 찾기</button>
+          <button class="btn next-btn" type="button" @click="moveToList">여행 찾기</button>
         </router-link>
       </div>
     </div>
@@ -142,7 +145,7 @@
 import { ref, onMounted } from 'vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-    
+
 export default {
 components: { Datepicker },
   setup() {
@@ -153,15 +156,14 @@ components: { Datepicker },
       const s_month =  ("0" + (date.value[0].getMonth() + 1)).slice(-2);
       const s_day = ("0" + date.value[0].getDate()).slice(-2);
       const sdate = `${s_year}-${s_month}-${s_day}`;
-      console.log(sdate);
-      // this.filter.s_date = `${s_year}-${s_month}-${s_day}`;
 
       const e_year = date.value[1].getFullYear();
       const e_month = ("0" + (date.value[1].getMonth() + 1)).slice(-2);
       const e_day = ("0" + date.value[1].getDate()).slice(-2);
       const edate = `${e_year}-${e_month}-${e_day}`;
-      console.log(edate);
-      // this.filter.e_date = `${e_year}-${e_month}-${e_day}`;
+      globalThis.this.filter.s_date= sdate;
+      globalThis.this.filter.e_date= edate;
+      globalThis.this.changeFilter();
     }
     onMounted(() => {
       const startDate = new Date() ;
@@ -172,6 +174,9 @@ components: { Datepicker },
       date,
       handleDate,
     }
+  },
+  mounted() {
+
   },
   data() {
     return {
@@ -195,6 +200,7 @@ components: { Datepicker },
     };
   },
   created() {
+    globalThis.this = this;
     this.getAreaList();
     this.getPrice();
     this.getAgeList();
@@ -203,9 +209,29 @@ components: { Datepicker },
     this.changeFilter();
   },
   methods: {
+    dateIntoFilter(){
+      const s_year = this.date[0].getFullYear();
+      const s_month =  ("0" + (this.date[0].getMonth() + 1)).slice(-2);
+      const s_day = ("0" + this.date[0].getDate()).slice(-2);
+      this.filter.s_date = `${s_year}-${s_month}-${s_day}`;
+
+      const e_year = this.date[1].getFullYear();
+      const e_month = ("0" + (this.date[1].getMonth() + 1)).slice(-2);
+      const e_day = ("0" + this.date[1].getDate()).slice(-2);
+      this.filter.e_date = `${e_year}-${e_month}-${e_day}`;
+
+      this.$store.state.filter = this.filter;
+      console.log(this.$store.state.filter);
+      // this.changeFilter();
+    },
+    test(){
+      console.log(this.date);
+      console.log(this.handleDate);
+      const datePicker = document.querySelector('#datePicker');
+      console.log(datePicker);
+    },
     async changeFilter() {
       this.$store.state.filter = this.filter;
-      console.log(this.$store.state.filter)
       this.list = await this.$post('/travel/travelList', { filter: this.$store.state.filter });
       console.log(this.list);
     },
@@ -297,6 +323,18 @@ components: { Datepicker },
 
       this.$router.push({name: 'list'});
     },
+    scrollToLocation() {
+      const location = document.querySelector("#location").offsetTop;
+      window.scrollTo({ left: 0, top: location, behavior: "smooth" });
+    },
+    scrollToFilter() {
+      const filter = document.querySelector("#filter").offsetTop;
+      window.scrollTo({ left: 0, top: filter, behavior: "smooth" });
+    },
+    scrollToDate() {
+      const date = document.querySelector("#date").offsetTop;
+      window.scrollTo({ left: 0, top: date, behavior: "smooth" });
+    }
   }
 };
 </script>
@@ -306,7 +344,7 @@ components: { Datepicker },
 .total { /* 페이지 전체 */
   z-index: auto;
   margin: 0 auto;
-  padding: 150px;
+  padding: 30px;
   color: var(--maincolor);
 }
 h3 {

@@ -23,7 +23,7 @@
           <div v-if="data.travelData.f_age == 5">연령 : 20대~30대</div>
           <div v-if="data.travelData.f_age == 6">연령 : 30대~40대</div>
           <div v-if="data.travelData.f_age == 7">연령 : 40대~50대</div>
-          <div>인원 : {{}} / {{ data.travelData.f_people }} 명</div>
+          <div>인원 : {{ data.joinPeople.numberOfPeople+1 }} / {{ data.travelData.f_people }} 명</div>
           <div>비용 : 1인 {{ data.travelData.f_price = data.travelData.f_price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") }} 원</div>
         </div>
       </div>
@@ -69,10 +69,13 @@
 
       <div><input class="travel-fav-btn" type="button" value="찜하기" @click="insTravelFav"></div>
       <div>
-        <div v-if="stres > 0">
+        <div v-if="isJoin && isconfirm === 0">
           <input class="submit-btn" type="submit" value="취소하기" @click="deletestate()">
         </div>
-        <div v-else>
+        <div v-if="isJoin && isconfirm === 1">
+          <input class="submit-btn" type="submit" value="나가기" @click="deletestate(); exitChatRoom();">
+        </div>
+        <div v-if="!isJoin">
           <input class="submit-btn" type="submit" value="신청하기" @click="instate()">
         </div>
       </div>
@@ -88,11 +91,22 @@ export default {
       data: [],
       itravel: null,
       loginIuser: null,
-      stres: null,
-      isJoin: '',
+      isconfirm: null,
+      isJoin: false,
+      joinPeople: 0,
     }
   },
   methods: {
+    async exitChatRoom(){
+      const res = await this.$delete(`/chat/exitChatRoom/${this.itravel}/${this.loginIuser}`, {});
+      if(res.result == 1){
+        const res = await this.$post('/chat/insChatMsg', {
+            itravel: this.itravel,
+            iuser: 0,
+            msg: `${this.$store.state.user.nick}님이 퇴장하셨습니다.`
+        });
+      }
+    },
     mod(){
       this.$store.state.mod.travelData = this.data.travelData;
       this.$store.state.mod.ctnt = this.data.ctnt;
@@ -118,13 +132,13 @@ export default {
       console.log('itravel ' + this.itravel);
       console.log('loginuser ' + this.loginIuser);
       console.log('hostiuser ' + this.data.hostUser.iuser);
-      this.stres = res2.result.tts;
-      
-      if (res2.result.tts) {
-        this.isjoin = true;
-      } else {
-        this.isjoin = false;
+      if(res2.result){
+        this.isconfirm = res2.result.isconfirm;
+        this.isJoin = true;
       }
+      console.log(this.isJoin);
+      console.log(this.isconfirm);
+
       if (this.data.travelData.f_gender == 1) {
         this.data.travelData.f_gender = '남성';
       } else if (this.data.travelData.f_gender == 2) {
@@ -147,7 +161,7 @@ export default {
         this.$swal.fire('신청 되었습니다.', '', 'success')
           .then(async result => {
             if (result.isConfirmed) {
-              this.stres = true;
+              this.isJoin = true;
             }
           });
       } else {
@@ -161,7 +175,7 @@ export default {
         this.$swal.fire('신청 취소되었습니다.', '', 'success')
           .then(async result => {
             if (result.isConfirmed) {
-              this.stres = false;
+              this.isJoin = false;
             }
           });
       } else {

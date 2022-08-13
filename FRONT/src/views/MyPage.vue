@@ -12,8 +12,7 @@
         <div class="mypage-profile-txt">
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
-          <div>DM<i class="fa-regular fa-paper-plane"></i></div>
-          <div>인기도 : {{ favCount }}<i class="fa-solid fa-heart userFav" @click="usergood()"></i></div>
+          <div>평점 : {{ selUser.grade }}점</div>
           <div v-if="feedIuser == loginIuser">
             <router-link :to="{ path: '/MyAccount' }">
               <div><i class="fa-solid fa-pencil fa"></i>프로필수정</div>
@@ -90,7 +89,13 @@
             <span class="section-list-nick" @click="goToMyPageFromReview(item.iuser)">{{ item.nick }}</span>
             <span class="section-list-cmt">{{ item.cmt }}</span>
             <span class="section-list-reg-dt">{{ item.reg_dt }}</span>
+            <span v-if="item.grade == 1" class="section-list-grade"> ★(1)</span>
+            <span v-if="item.grade == 2" class="section-list-grade"> ★★(2)</span>
+            <span v-if="item.grade == 3" class="section-list-grade"> ★★★(3)</span>
+            <span v-if="item.grade == 4" class="section-list-grade"> ★★★★(4)</span>
+            <span v-if="item.grade == 5" class="section-list-grade"> ★★★★★(5)</span>
             <span class="section-list-title">참여여행: [{{ item.title }}]</span>
+
           </div>
         </div>
 
@@ -101,12 +106,18 @@
             <option :value="item.itravel" :key="item.itravel" v-for="item in guestTravel">{{ item.title }}</option>
           </select>
           <input class="section-comment" v-model="cmt" type="textarea" @keyup="enter($event)">
+          <select class="section-grade" v-model="grade" type="select" @keyup="enter($event)">
+          <option value="1" selected>★★★★★(5)점</option>
+          <option value="2">★★★★(4)점</option>
+          <option value="3">★★★(3)점</option>
+          <option value="4">★★(2)점</option>
+          <option value="5">★(1)점</option>
+          </select>
           <input class="section-submit" type="submit" value="등록" @click="insCmt">
         </div>
       </div>
     </div> <!-- container 닫기 -->
   </div>
-
   <ProfileImgModal :show="modalShow" @close="hiddenModal" v-on:update="getUserData" v-on:defaultImg="setDefaultImg" />
 </template>
 
@@ -131,7 +142,7 @@ export default {
       feedIuser: 0,
       loginIuser: 0,
       cmt: '',
-      favCount: 0, //수정 필요
+      selUserFav: [],
       modalShow: false,
     }
   },
@@ -162,6 +173,7 @@ export default {
       this.myPageTravelFav = this.data.result.myPageTravelFav;
       this.myPageHost = this.data.result.myPageHost;
       this.myPageTravelState = this.data.result.myPageTravelState;
+      this.selUserFav = this.data.result.selUserFav;
       this.myPageTravelState.forEach(item => {
         switch (item.isconfirm) {
           case 0:
@@ -217,9 +229,6 @@ export default {
       if (e.key === 'Enter') {
         this.insCmt();
       }
-    },
-    async usergood() {
-      alert('dd');
     },
   },
   created() {
@@ -319,34 +328,40 @@ export default {
   height: 300px;
   object-fit: cover;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 /* 마이페이지 섹션3 - 리뷰 */
 .section-list {
   color: var(--maincolor);
   display: flex;
+  justify-content: center;
   align-items: center;
   height: 5vh;
 }
 
 .section-list-nick {
-  width: 5vw;
+  width: 4vw;
+  cursor : pointer;
 }
 
 .section-list-cmt {
-  width: 39vw;
-
+  width: 30vw;
 }
 
 .section-list-reg-dt {
   width: 10vw;
 }
 
+.section-list-grade{
+  width: 7vw;
+}
 .reviewer-profile-img {
   width: 30px;
   height: 30px;
   object-fit: cover;
   border-radius: 50%;
+  cursor : pointer;
 }
 
 .section-select {
@@ -357,7 +372,7 @@ export default {
 }
 
 .section-comment {
-  width: 20vw;
+  width: 10vw;
   height: 3vh;
   border: 1px solid var(--maincolor);
   border-radius: 0%;
@@ -365,6 +380,13 @@ export default {
 
 }
 
+.section-grade{
+  width:5vw;
+  height:3vh;
+  margin: 3px;
+  border: 1px solid var(--maincolor);
+  border-radius: 0%;
+}
 .section-submit {
   background-color: var(--maincolor);
   color: #fff;

@@ -92,6 +92,7 @@ export default {
 
           // });
         });
+        console.log(this.ctntArr);
       }else{
         for(var i=0; i<this.travelDay; i++){
           this.ctntArr.push([{
@@ -169,21 +170,25 @@ export default {
           itravel: res.result,
           iuser: this.$store.state.user.iuser
         });
-        //채팅방 생성 메시지 진행중
+        console.log(makeChat);
         if(makeChat.result){
-          
-        }
-        console.log(`makeChat: ${makeChat}`)
-        if(makeChat.result){
-          this.$store.state.unreadCnt[res.result] = 0;
-          console.log(this.$store.state.unreadCnt);
-          this.$swal.fire('글 작성 성공', '', 'success')
-          .then(async result => {
-              if(result.isConfirmed){
-                  this.$store.state.itravel = res.result;
-                  this.$router.push({name: 'detail'});
-              }
+          const resMsg = await this.$post('/chat/insChatMsg', {
+            itravel: res.result,
+            iuser: 0,
+            msg: `채팅방이 개설되었습니다.`
           });
+          console.log(resMsg);
+          if(resMsg.result){
+            this.$store.state.unreadCnt[res.result] = 0;
+            console.log(this.$store.state.unreadCnt);
+            this.$swal.fire('글 작성 성공', '', 'success')
+            .then(async result => {
+                if(result.isConfirmed){
+                    this.$store.state.itravel = res.result;
+                    this.$router.push({name: 'detail'});
+                }
+            });
+          }
         }
       }
     }
