@@ -68,141 +68,6 @@ html {
   font-size: 16px;
   font-family: 'LeferiPoint-WhiteA';
 }
-
-.header {
-  z-index: 1;
-  width: 90%;
-  position: fixed;
-  top: 0;
-  left: 80px;
-  right: 0;
-
-  padding: 1rem;
-  color: white;
-  font-weight: bold;
-  align-items: center;
-
-  border-bottom: 2px solid var(--mainOrange);
-  height: 5rem;
-}
-
-.header-box {
-  display: flex;
-  justify-content: space-between;
-}
-
-/* .icons {
-  display: flex;
-  justify-content: space-between;
-  width: 150px;
-} */
-.logo-box {
-  display: flex;
-  justify-content: space-between;
-}
-
-.logo {
-  padding: 12px;
-  color: var(--maincolor);
-  font-weight: bolder;
-}
-
-.notifi {
-  padding: 6px;
-  display: flex;
-  cursor: pointer;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  right: 65px;
-  bottom: 41px;
-}
-
-.chat {
-  padding: 6px;
-  display: flex;
-  cursor: pointer;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  right: 125px;
-  top: 4px;
-}
-
-/*사이드 바*/
-.burger-wrapper {
-  cursor: pointer;
-  padding: 6px;
-}
-
-#menu {
-  background: var(--mainOrange);
-  width: 15rem;
-  height: 100vh;
-  position: fixed;
-  right: 0;
-  transition-timing-function: cubic-bezier(10, 2, 3, 1);
-  transform: translateX(50rem);
-  top: 0;
-  z-index: 10;
-  transition: 0.5s;
-  padding-top: 100px;
-  border-left-color: var(--mainOrange);
-}
-
-li {
-  color: #fff;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: 0.3s;
-  min-width: 120px;
-  list-style: none;
-  padding: 8px;
-  text-decoration-line: none;
-}
-
-#sideMenu {
-  display: none;
-}
-
-#sideMenu:checked~#menu {
-  transform: translateX(0rem);
-}
-
-#burger {
-  position: absolute;
-  cursor: pointer;
-  width: 2rem;
-  height: 2rem;
-  right: 1rem;
-  top: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-}
-
-#burger>div {
-  height: 3px;
-  background-color: var(--maincolor);
-  transition: 0.5s;
-  z-index: 999;
-}
-
-#sideMenu:checked~#burger>div {
-  background-color: #fff;
-}
-
-#sideMenu:checked~#burger>div:nth-child(1) {
-  transform: translateY(15px) rotate(45deg);
-}
-
-#sideMenu:checked~#burger>div:nth-child(2) {
-  opacity: 0;
-}
-
-#sideMenu:checked~#burger>div:nth-child(3) {
-  transform: translateY(-15px) rotate(-45deg);
-}
 .setting-btn {
   text-align: center;
   position: absolute;
@@ -221,6 +86,7 @@ li {
   color: #2d7ac2;
   box-shadow: 0 8px 0 #b1b1b1;
   transition: all 0.2s;
+  border: 0px solid var(--maincolor);
 }
 
 .main-btn:active {
