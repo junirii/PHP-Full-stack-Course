@@ -4,60 +4,69 @@
       <div class="modal-wrapper" @click="$emit('close')">
         <div class="modal-container" @click.stop="">
           <div class="modal-header">
-            <slot name="header">필터</slot>
-            <button @click="$emit('close')">X</button>
+            <slot name="header" style="font-size: 20px;">필터</slot>
+            <button class="modal-cancle-btn" @click="$emit('close')">X</button>
           </div>
 
           <div class="modal-body">
             <slot name="body">
-              <h4>지역</h4>
-              <select v-model="selectedArea" @change="showLocationOption()">
-                <option value="0" selected>전체</option>
-                <option :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
-              </select>
-              <select v-model="selectedLocation" v-if="locationList.length > 1">
-                <option value="0" selected>전체</option>
-                <option :key="item.ilocation" :value="item.ilocation" v-for="item in locationList">{{ item.location_nm }}</option>
-              </select>
-              <hr>
-              <h4>날짜선택</h4>
-              <Datepicker v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false"
-                :minDate="new Date()"/>
-              <hr>
-              <h4>인원 수</h4>
-              <label for="two">2</label>
-              <input type="radio" v-model="filter.f_people" id="two" name="people" value="2">
-              <label for="three">3</label>
-              <input type="radio" v-model="filter.f_people" id="three" name="people" value="3">
-              <label for="four">4</label>
-              <input type="radio" v-model="filter.f_people" id="four" name="people" value="4">
-              <label for="five">5</label>
-              <input type="radio" v-model="filter.f_people" id="five" name="people" value="5">
-              <label for="six">6</label>
-              <input type="radio" v-model="filter.f_people" id="six" name="people" value="6">
-              <label for="seven">7</label>
-              <input type="radio" v-model="filter.f_people" id="seven" name="people" value="7">
-              <label for="eight">8+</label>
-              <input type="radio" v-model="filter.f_people" id="eight" name="people" value="8">
-              <hr>
-              <h4>성별</h4>
-              <label for="M">남</label>
-              <input type="radio" v-model="filter.f_gender" id="M" name="gender" value="1">
-              <label for="F">여</label>
-              <input type="radio" v-model="filter.f_gender" id="F" name="gender" value="2">
-              <label for="X">혼성</label>
-              <input type="radio" v-model="filter.f_gender" id="X" name="gender" value="3">
-              <hr>
-              <h4>연령대</h4>
-              <div :key="item.idx" v-for="item in ageList">
-                <label :for="item.idx">{{ item.age }}</label>
-                <input type="radio" v-model="filter.f_age" :id="item.idx" :value="item.idx" name="age">
+              <div class="map-box">
+                <span class="filter-name">지역</span>
+                <br>
+                <select v-model="selectedArea" @change="showLocationOption()">
+                  <option value="0" selected>전체</option>
+                  <option :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
+                </select>
+                <select v-model="selectedLocation" v-if="locationList.length > 1">
+                  <option value="0" selected>전체</option>
+                  <option :key="item.ilocation" :value="item.ilocation" v-for="item in locationList">{{ item.location_nm
+                    }}</option>
+                </select>
               </div>
               <hr>
-              <h4>여행경비</h4>
-              <div>
-                <span>￦<input type="number" v-model="filter.l_price" step="1000" id="number" min="0"></span> - 
-                <span>￦<input type="number" v-model="filter.h_price" step="1000" id="number" min="0"></span>
+              <span class="filter-name">날짜</span>
+              <Datepicker v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false"
+                :minDate="new Date()" />
+              <hr>
+              <div class="people-box">
+                <span class="filter-name">인원</span>
+                <div class="choose-people">
+                  <div :key="item.idx" v-for="item in peopleList">
+                    <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_people"
+                      :id="`people${item.people}`" :value="item.idx" name="people" />
+                    <label :for="`people${item.people}`">{{ item.people }}</label>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="gender-box">
+                <span class="filter-name">성별</span>
+                <div class="choose-gender">
+                  <div :key="item.idx" v-for="item in genderList">
+                    <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_gender"
+                      :id="`gender${item.gender}`" :value="item.idx" name="gender" />
+                    <label :for="`gender${item.gender}`">{{ item.gender }}</label>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="age-box">
+                <span class="filter-name">연령</span>
+                <div class="choose-age">
+                  <div :key="item.idx" v-for="item in ageList">
+                    <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_age"
+                      :id="`age${item.age}`" :value="item.idx" name="age"/>
+                    <label :for="`age${item.age}`">{{ item.age }}</label>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="price-box">
+                <span class="filter-name">비용</span>
+                <div class="choose-price">
+                  <span>최소<input type="number" v-model="filter.l_price" step="10000" id="number" min="0"></span><br>
+                  <span>최대<input type="number" v-model="filter.h_price" step="10000" id="number" min="0"></span>
+                </div>
               </div>
             </slot>
           </div>
@@ -78,7 +87,7 @@
 import { ref, onMounted } from 'vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-import { isThisHour, nextDay } from 'date-fns';
+// import { isThisHour, nextDay } from 'date-fns';
 
 export default {
   components: {
@@ -100,6 +109,8 @@ export default {
       areaList: [],
       locationList: [],
       ageList: [],
+      genderList: [],
+      peopleList: [],
       selectedArea: '',
       selectedLocation: '',
       filter: {
@@ -122,12 +133,26 @@ export default {
     this.getAreaList();
     this.getLocationList();
     this.getAgeList();
+    this.getGenderList();
+    this.getPeopleList();
     this.getPrice();
   },
   methods: {
     async getAreaList() {
       this.areaList = await this.$get('/travel/areaList', {});
       console.log(this.areaList);
+    },
+    async getAgeList() {
+      this.ageList = await this.$get('/travel/ageList', {});
+      console.log(this.ageList);
+    },
+    async getGenderList() {
+      this.genderList = await this.$get('/travel/genderList', {});
+      console.log(this.genderList);
+    },
+    async getPeopleList() {
+      this.peopleList = await this.$get('/travel/peopleList', {});
+      console.log(this.peopleList);
     },
     async getLocationList(iarea) {
       this.locationList = await this.$get(`/travel/locationList/${iarea}`, {});
@@ -199,7 +224,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -218,7 +243,7 @@ export default {
 }
 
 .modal-container {
-  width: 600px;
+  width: 637px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -227,9 +252,22 @@ export default {
   transition: all 0.3s ease;
 }
 
-.modal-header h3 {
+/* .modal-header h3 {
   margin-top: 0;
   color: #42b983;
+} */
+/* .modal-header > slot {
+  text-align: center;
+} */
+slot {
+  font-size: 30px;
+}
+.modal-cancle-btn {
+  border: 0;
+  background: none;
+  font-weight: bolder;
+  color: var(--mainOrange);
+  font-size: 20px;
 }
 
 .modal-body {
@@ -255,7 +293,52 @@ export default {
 }
 
 .modal-body {
-  height: 600px;
+  height: 637px;
   overflow-y: auto;
+}
+hr { color: var(--maincolor); }
+.filter-name {
+  color: var(--maincolor);
+}
+.map-box .people-box, .gender-box, .age-box, .price-box {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 29px;
+}
+/* .map-box > span, .gender-box > span, .age-box > span, .price-box > span {
+  padding-bottom: 20px;
+} */
+span { padding-bottom: 20px; }
+.choose-people, .choose-gender{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.choose-age {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.choose-age > div {
+  padding: 5px;
+}
+.choose-price {
+  margin-left: 14px;
+  color: var(--maincolor);
+ }
+.radio-btn {
+  opacity: 0;
+}
+label {
+  text-align: center;
+  padding: 5px 10px;
+  color: var(--maincolor);
+  border: 2px solid var(--maincolor);
+  border-radius: 18px;
+  height: 34px;
+}
+
+input[type=radio]:checked + label {
+  background-color: var(--maincolor);
+  color: #fff;
 }
 </style>

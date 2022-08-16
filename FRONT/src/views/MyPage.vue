@@ -1,5 +1,5 @@
 <template>
-  <div class="location">
+  <div class="my-page">
     <div class="container">
       <div class="my-page-title">{{ selUser.nick }}님의 페이지</div>
       <!-- 마이페이지 섹션1 - 프로필 -->
@@ -241,7 +241,7 @@ export default {
 </script>
 
 <style scoped>
-.location {
+.my-page {
   z-index: auto;
   margin: 0 auto;
   padding: 150px;

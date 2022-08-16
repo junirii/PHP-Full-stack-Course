@@ -20,7 +20,7 @@
               <img :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`"
                    @click="goToDetail(item.itravel)"
                    class="thumbnail card-img-top"
-                   style="width: 17rem; height: 16rem;"
+                   style="width: 16.9rem; height: 16rem; border-bottom: 1px solid var(--maincolor);"
                    alt="여행 썸네일">
               <div class="card-body">
                 <h5 class="card-title bold" @click="goToDetail(item.itravel)">{{ item.title }}</h5>
@@ -162,6 +162,10 @@ export default {
   color: #fff !important;
   background-color: var(--mainOrange);
 }
+.card {
+  border: 1px solid var(--maincolor);
+  box-shadow: 3px 3px 3px var(--mainDark);
+}
 .hearticon {
   position: relative;
 }
@@ -187,5 +191,6 @@ export default {
 .card-body {
   font-family: 'LeferiPoint-WhiteA';
   font-weight: bold;
+  /* border: 1px solid var(--maincolor); */
 }
 </style>

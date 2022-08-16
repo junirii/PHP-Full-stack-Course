@@ -15,7 +15,7 @@
     <div class="anywhere">
       <router-link :to="{ path: '/List' }">
         <button class="anywhere-btn" alt="whenever anywhere" @click="moveToList()">
-        {{this.list.length}}개 여행 보기</button>
+        {{this.list.length}}개<br>여행 보기</button>
       </router-link>
     </div>
 
@@ -70,13 +70,15 @@
     <div id="filter">
       <h3>Step 2. 옵션 선택</h3>
       <h6>여행의 옵션을 선택하세요.</h6>
+       <h4 class="area-name"> {{ options1 }} {{ options2 }} {{ options3 }} {{ options4 }}</h4>
       <div class="filter-box">
         <div class="people-box">
           <span class="filter-name">인원</span>
           <div class="choose-people">
             <div :key="item.idx" v-for="item in peopleList">
               <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_people"
-                     :id="`people${item.people}`" :value="item.idx" name="people">
+                     :id="`people${item.people}`" :value="item.idx" name="people"
+                     @input="options1 = $event.target.value" />
               <label :for="`people${item.people}`">{{ item.people }}</label>
             </div>
           </div>
@@ -88,7 +90,8 @@
           <div class="choose-gender">
             <div :key="item.idx" v-for="item in genderList">
               <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_gender"
-                     :id="`gender${item.gender}`" :value="item.idx" name="gender">
+                     :id="`gender${item.gender}`" :value="item.idx" name="gender"
+                     @input="options2 = $event.target.value" />
               <label :for="`gender${item.gender}`">{{ item.gender }}</label>
             </div>
           </div>
@@ -98,9 +101,10 @@
           <span class="filter-name">연령</span>
           <div class="choose-age">
             <div :key="item.idx" v-for="item in ageList">
-              <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_age" :id="`age${item.age}`"
-                :value="item.idx" name="age">
-              <label :for="`age${item.age}`">{{ item.age }}</label>
+              <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_age" :id="`${item.age}`"
+                :value="item.idx"
+                @input="options3 = $event.target.id" />
+              <label :for="`${item.age}`">{{ item.age }}</label>
             </div>
           </div> 
         </div>
@@ -108,17 +112,11 @@
         <div class="price-box">
           <span class="filter-name">비용</span>
           <div class="choose-price">
-            최소 <input @change="changeFilter" v-model="filter.l_price" type="number" step="10000"> 원 ~
-            최대 <input @change="changeFilter" v-model="filter.h_price" type="number" step="10000"> 원
+            최소 <input @change="changeFilter" v-model="filter.l_price" type="number" step="10000"/> 원 ~
+            최대 <input @change="changeFilter" v-model="filter.h_price" type="number" step="10000"/> 원
           </div>
         </div>
       </div>
-
-      <!-- <div>
-        <a href="#date">
-          <button class="btn next-btn" type="button">다음</button>
-        </a>
-      </div> -->
     </div>
 
     <hr>
@@ -196,6 +194,7 @@ components: { Datepicker },
         e_date: '',
       },
       areaName: '',
+      options: '',
     };
   },
   created() {
@@ -361,7 +360,7 @@ h4 {
 hr {
   height: 2px;
   color: var(--maincolor);
-  width: 70%;
+  width: 50%;
   margin: 0 auto;
 }
 
@@ -504,7 +503,7 @@ img {
 /* 옵션 */
 .filter-box {
   border: 1px solid var(--maincolor);
-  width: 70%;
+  width: 50%;
   height: 500px;
   margin: 0 auto;
   text-align: left;

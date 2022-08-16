@@ -1,7 +1,7 @@
 <template>
-  <div class="location">
+  <div class="detail">
     <div class="container">
-      <h1>Detail</h1>
+      <h1 class="bolder" style="color: var(--maincolor); padding: 20px;">여행 상세 정보</h1>
       <button v-if="loginIuser === data.hostUser.iuser" type="button" @click="mod()">수정</button>
       <button v-if="loginIuser === data.hostUser.iuser" type="button" @click="del()">삭제</button>
       <!-- 디테일 섹션1 - 간단 정보(필터)-->
@@ -9,22 +9,22 @@
         <div><img class="detail-main-img"
             :src="`/static/img/travel/${data.travelData.itravel}/main/${data.travelData.main_img}`"></div>
         <div class="section-item-filter">
-          <div class="title-filter">제목 : {{ data.travelData.title }} </div><br><br>
-          <div v-if="!(data.travelData.location_nm)">지역 : {{ data.travelData.area_nm }}</div>
-          <div v-else>지역 : {{ data.travelData.area_nm }} / {{ data.travelData.location_nm }}</div>
-          <div>기간 : {{ data.travelData.s_date }} ~ {{ data.travelData.e_date }}</div>
-          <div v-if="data.travelData.f_gender == 1">성별 : 남성만</div>
-          <div v-else-if="data.travelData.f_gender == 2">성별 : 여성만</div>
-          <div v-else>성별 : 상관없음</div>
-          <div v-if="data.travelData.f_age == 1">연령 : 20대</div>
-          <div v-if="data.travelData.f_age == 2">연령 : 30대</div>
-          <div v-if="data.travelData.f_age == 3">연령 : 40대</div>
-          <div v-if="data.travelData.f_age == 4">연령 : 50대</div>
-          <div v-if="data.travelData.f_age == 5">연령 : 20대~30대</div>
-          <div v-if="data.travelData.f_age == 6">연령 : 30대~40대</div>
-          <div v-if="data.travelData.f_age == 7">연령 : 40대~50대</div>
-          <div>인원 : {{ data.joinPeople.numberOfPeople+1 }} / {{ data.travelData.f_people }} 명</div>
-          <div>비용 : 1인 {{ data.travelData.f_price = data.travelData.f_price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") }} 원</div>
+          <div class="title-filter"> {{ data.travelData.title }} </div><br><br>
+          <div v-if="!(data.travelData.location_nm)">지역 {{ data.travelData.area_nm }}</div>
+          <div v-else>지역 {{ data.travelData.area_nm }} / {{ data.travelData.location_nm }}</div>
+          <div>기간 {{ data.travelData.s_date }} ~ {{ data.travelData.e_date }}</div>
+          <div v-if="data.travelData.f_gender == 1">성별 남성만</div>
+          <div v-else-if="data.travelData.f_gender == 2">성별 여성만</div>
+          <div v-else>성별 상관없음</div>
+          <div v-if="data.travelData.f_age == 1">연령 20대</div>
+          <div v-if="data.travelData.f_age == 2">연령 30대</div>
+          <div v-if="data.travelData.f_age == 3">연령 40대</div>
+          <div v-if="data.travelData.f_age == 4">연령 50대</div>
+          <div v-if="data.travelData.f_age == 5">연령 20대~30대</div>
+          <div v-if="data.travelData.f_age == 6">연령 30대~40대</div>
+          <div v-if="data.travelData.f_age == 7">연령 40대~50대</div>
+          <div>인원 {{ data.joinPeople.numberOfPeople+1 }} / {{ data.travelData.f_people }} 명</div>
+          <div>비용 1인 {{ data.travelData.f_price = data.travelData.f_price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") }} 원</div>
         </div>
       </div>
       <br>
@@ -201,7 +201,7 @@ export default {
 </script>
 
 <style scoped>
-.location {
+.detail {
   z-index: auto;
   margin: 0 auto;
   padding: 150px;
@@ -212,6 +212,7 @@ export default {
 }
 /* 디테일 섹션1 - 간단 정보(필터) */
 .section-container-filter {
+  margin-top: 20px;
   display: flex;
   justify-content: center;
 }
@@ -223,7 +224,7 @@ export default {
   display: flex;
   flex-direction: column;
   text-align: left;
-  margin: 30px;
+  margin-left: 30px;
 }
 .title-filter {
   font-size: 1.5rem;
