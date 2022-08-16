@@ -5,7 +5,9 @@
             <div class="header-box">
                 <div class="logo-box">
                     <router-link :to="{ name: 'home' }">
-                        <h2 class="logo1">여행어쩌구</h2>
+                        <!-- <h2 class="logo1">모임모임 moimmoim</h2> -->
+                        <!-- <img class="logo2" src="../../../static/img_used/logo.png" alt=""> -->
+                        <img class="logo1" src="../../../static/img_used/homelogo.png" alt="">
                     </router-link>
                 </div>
                 <div class="icons1">
@@ -101,7 +103,8 @@
             <div class="header-box">
                 <div class="logo-box">
                     <router-link :to="{ name: 'home' }">
-                        <h2 class="logo2">여행어쩌구</h2>
+                        <!-- <h2 class="logo2">모임모임 moimmoim</h2> -->
+                        <img class="logo2" src="../../../static/img_used/moim4.png" alt="">
                     </router-link>
                 </div>
                 <div class="icons2">
@@ -368,14 +371,16 @@ html {
     justify-content: space-between;
 }
 .logo1 {
-    padding: 12px;
-    color: #fff;
-    font-weight: bolder;
+    padding: 11px;
+    /* color: #fff;
+    font-weight: bolder; */
+    width: 284px;
 }
 .logo2 {
-    padding: 12px;
-    color: var(--maincolor);
-    font-weight: bolder;
+    padding: 11px;
+    /* color: var(--maincolor);
+    font-weight: bolder; */
+    width: 284px;
 }
 .user-name1 { 
     font-size: 1.5rem;
