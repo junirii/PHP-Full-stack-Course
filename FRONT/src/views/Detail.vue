@@ -66,10 +66,11 @@
         </div>
       </div>
 
-
-      <div><input class="travel-fav-btn" type="button" value="찜하기" @click="insTravelFav"></div>
+    <div>
+      <input class="travel-fav-btn" type="button" v-model ="fav" @click="insTravelFav">
+    </div>
       <div>
-        <div v-if="isJoin && isconfirm === 0">
+        <div v-if="isJoin">
           <input class="submit-btn" type="submit" value="취소하기" @click="deletestate()">
         </div>
         <div v-if="isJoin && isconfirm === 1">
@@ -85,6 +86,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -94,6 +96,8 @@ export default {
       isconfirm: null,
       isJoin: false,
       joinPeople: 0,
+      travelfav: [],
+      fav: '',
     }
   },
   methods: {
@@ -147,11 +151,38 @@ export default {
         this.data.travelData.f_gender = '혼성';
       }
     },
+    async help() {
+      const loginIuser = this.$store.state.user.iuser;
+      const res = await this.$get(`/travel/travelFav/${loginIuser}/${this.itravel}`, {});
+      const travelfav = res.result;
+      travelfav.forEach(element => {
+        if(element.itravel === this.itravel){
+          this.fav = "찜취소"; 
+          return
+        }else{
+          this.fav = "찜하기";
+        }
+      });
+
+    },
     async insTravelFav() {
       const loginIuser = this.$store.state.user.iuser;
       const res = await this.$post(`/travel/travelFav/${loginIuser}/${this.itravel}`, {});
+      const res2 = await this.$delete(`/travel/travelFav/${loginIuser}/${this.itravel}`, {});
       if (res.result === 1) {
         this.$swal.fire('찜 완료!', '', 'success');
+        
+      }
+      if (res2.result === 1) {
+        this.$swal.fire('찜 취소!', '', 'success');
+        
+      }
+    },
+    async delTravelFav() {
+      const loginIuser = this.$store.state.user.iuser;
+      const res = await this.$delete(`/travel/travelFav/${loginIuser}/${this.itravel}`, {});
+      if (res.result === 1) {
+        this.$swal.fire('찜 취소!', '', 'success');
       }
     },
     async instate() {                  // 컨트롤러이름 // 함수 메소드 // 필요한 값
@@ -196,6 +227,7 @@ export default {
   },
   created() {
     this.getDetail();
+    this.help();
   }
 }
 </script>

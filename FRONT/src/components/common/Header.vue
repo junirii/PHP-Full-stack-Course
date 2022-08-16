@@ -32,16 +32,16 @@
                         <span id="unreadAlarm" style="color: red; font-weight: bold;">{{ unreadAlarm }}</span>
                         <ul class="dropdown-menu">
                             <div :key="item.iuser" v-for="item in selStateList">
-                                <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">
+                                <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default; color: black;">
                                     <div>신청이 왔습니다.</div> {{ item.profile_img }} {{ item.nick }} 님께서 {{ item.title }}
                                     <button @click="request(item.itravel, item.iuser)">수락</button>
                                     <button @click="requestDel(item.itravel, item.iuser)">거절</button>
                                 </li>
-                                <li v-if="item.isconfirm == 3" class="dropdown-item" style="cursor: default;">
+                                <li v-if="item.isconfirm == 3" class="dropdown-item" style="cursor: default; color: black;">
                                     <div> {{ item.nick }}님 신청이 거절되었습니다.</div> {{ item.title }}
                                     <button @click="requestNo(item.itravel, item.iuser)">확인</button>
                                 </li>
-                                <li v-if="item.isconfirm == 1" class="dropdown-item" style="cursor: default;">
+                                <li v-if="item.isconfirm == 1" class="dropdown-item" style="cursor: default; color: black;">
                                     <div> {{ item.nick }}님 신청이 수락되었습니다.</div> {{ item.title }}
                                     <button @click="requestYes(item.itravel, item.iuser, $event)">확인</button>
                                 </li>

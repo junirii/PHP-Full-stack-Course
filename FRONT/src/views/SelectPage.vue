@@ -130,7 +130,6 @@
         <Datepicker @update:modelValue="handleDate" class="date-picker" inline autoApply locale="ko-KR" v-model="date"
           range multiCalendars :multiStatic="false" :enableTimePicker="false" :minDate="new Date()" />
       </div>
-      <button @click="test">test</button>
       <div class="move-to-list-btn">
         <router-link :to="{ path: '/List' }">
           <button class="btn next-btn" type="button" @click="moveToList">여행 찾기</button>
@@ -223,12 +222,6 @@ components: { Datepicker },
       this.$store.state.filter = this.filter;
       console.log(this.$store.state.filter);
       // this.changeFilter();
-    },
-    test(){
-      console.log(this.date);
-      console.log(this.handleDate);
-      const datePicker = document.querySelector('#datePicker');
-      console.log(datePicker);
     },
     async changeFilter() {
       this.$store.state.filter = this.filter;

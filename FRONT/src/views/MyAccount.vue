@@ -10,8 +10,6 @@
           <div class="item"><div class="item-txt">생년월일 : {{ loginUser.birth }} </div></div>
           <div class="item"><div class="item-txt">전화번호 : {{ loginUser.tel }} </div></div>
           <div class="item"><div class="item-txt">상태메세지 : {{ loginUser.cmt }} </div></div>
-          <div><i class="fa-regular fa-paper-plane fa"></i>DM</div>
-          <div><i class="fa-solid fa-heart fa"></i>인기도</div>
       </div>
 
       <div>
