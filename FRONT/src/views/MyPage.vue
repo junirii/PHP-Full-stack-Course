@@ -28,18 +28,28 @@
         <div>
           <div>
             <div>신청중</div>
-            <div v-for="item in preTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
-              <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
-              <div>{{ item.title }}</div>
-            </div>
+            <Carousel>
+              <Slide v-for="item in preTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
+                <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
+                <div>{{ item.title }}</div>
+              </Slide>
+              <template #addons>
+                <Navigation v-if="preTravel.length > 1"/>
+              </template>
+            </Carousel>
           </div>
           <hr>
           <div>
             <div>신청완료</div>
-            <div v-for="item in ingTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
-              <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
-              <div>{{ item.title }}</div>
-            </div>
+            <Carousel>
+              <Slide v-for="item in ingTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
+                <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
+                <div>{{ item.title }}</div>
+              </Slide>
+              <template #addons>
+                <Navigation v-if="ingTravel.length > 1"/>
+              </template>
+            </Carousel>
           </div>
         </div>
       </div>
@@ -47,31 +57,45 @@
 
       <div v-if="feedIuser == loginIuser">
         <div class="title">찜한 여행</div>
-        <div class="ctnt" :key="item.itravel" v-for="item in myPageTravelFav"
-          @click="goToDetailFromMyPage(item.itravel)">
-          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
-          <span class="ctnt-title">{{ item.title }}</span>
-        </div>
+          <Carousel>
+            <Slide v-for="item in myPageTravelFav" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
+              <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
+              <div>{{ item.title }}</div>
+            </Slide>
+            <template #addons>
+              <Navigation v-if="myPageTravelFav.length > 1"/>
+            </template>
+          </Carousel>
       </div>
       <br>
 
       <div>
         <div class="title">호스팅한 여행</div>
-        <div class="ctnt" :key="item.itravel" v-for="item in myPageHost" @click="goToDetailFromMyPage(item.itravel)">
-          <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
-          <span class="ctnt-title">{{ item.title }}</span>
-        </div>
+          <Carousel class="carousel">
+            <Slide v-for="item in myPageHost" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
+              <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
+              <div>{{ item.title }}</div>
+            </Slide>
+            <template #addons>
+              <Navigation v-if="myPageHost.length > 1"/>
+            </template>
+          </Carousel>
       </div>
       <br>
 
       <div>
         <div class="title">참여한 여행</div>
-        <div class="ctnt" :key="item.itravel" v-for="item in postTravel" @click="goToDetailFromMyPage(item.itravel)">
-          <div v-if="item.isconfirm == 2">
-            <img class="my-page-img" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`" alt="이미지">
-            <span class="ctnt-title">{{ item.title }}</span>
-          </div>
-        </div>
+          <Carousel class="carousel">
+              <Slide v-for="item in postTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
+                <div v-if="item.isconfirm == 2">
+                  <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
+                  <div>{{ item.title }}</div>
+                </div>
+              </Slide>
+              <template #addons>
+                <Navigation v-if="postTravel.length > 1"/>
+              </template>
+          </Carousel>
       </div>
       <br>
 
@@ -124,6 +148,8 @@
 <script>
 import { isThisWeek } from 'date-fns';
 import ProfileImgModal from '/src/components/common/ProfileImgModal.vue';
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
 
 export default {
   data() {
@@ -147,7 +173,11 @@ export default {
     }
   },
   components: {
-    ProfileImgModal
+    ProfileImgModal,
+    Carousel,
+    Slide,
+    Pagination,
+    Navigation,
   },
   methods: {
     setDefaultImg() {
@@ -241,6 +271,33 @@ export default {
 </script>
 
 <style scoped>
+.carousel { cursor: pointer; }
+.carousel__item {
+  min-height: 200px;
+  width: 200px;
+  background-color: var(--vc-clr-primary);
+  color:  var(--vc-clr-white);
+  font-size: 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel__slide {
+  padding: 10px;
+}
+
+.carousel__prev {
+  left: 150px;
+  box-sizing: content-box;
+  border: 5px solid white;
+}
+.carousel__next {
+  box-sizing: content-box;
+  border: 5px solid white;
+  right: 150px;
+}
 .location {
   z-index: auto;
   margin: 0 auto;
@@ -272,10 +329,6 @@ export default {
 }
 
 /* 마이페이지 섹션2 - 신청 여행(신청중, 신청수락), 찜한 여행, 호스팅한 여행 , 참여한 여행 */
-.my-page-img,
-.ctnt-title {
-  cursor: pointer;
-}
 
 .state-title {
   background-color: var(--maincolor);

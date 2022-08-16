@@ -9,7 +9,9 @@
                     </router-link>
                 </div>
                 <div class="icons">
-                    <div class="user-name1" v-if="this.$store.state.isLogin">{{ this.$store.state.user.nick }}님 ㅎㅇㅎㅇ</div>
+                    <img v-if="this.$store.state.isLogin" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
+                     style="width:40px">
+                    <div class="user-name1" v-if="this.$store.state.isLogin">{{ this.$store.state.user.nick }}님 ㅎㅇㅎgdgdgdㅇ</div>
                     <i class="fa-regular fa-message fa-2x" style="color: #fff;" @click="showDivChat"
                     type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
                     <div class="chat" v-if="this.$store.state.isLogin">
