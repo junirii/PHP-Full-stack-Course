@@ -231,7 +231,8 @@ class TravelModel extends Model
     // 좋아요 한 게시물
     public function selTravelFav(&$param)
     {
-        $sql = "SELECT * FROM t_travel_fav WHERE iuser = :iuser";
+        $sql = "SELECT iuser,itravel FROM t_travel_fav 
+        WHERE iuser = :iuser";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->execute();

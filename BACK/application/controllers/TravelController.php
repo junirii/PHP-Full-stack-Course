@@ -75,7 +75,7 @@ class TravelController extends Controller{
             "day" => $day,
             "ctnt" => $ctnt,
             "travelData" => $travelData,
-            "joinPeople" => $joinPeople
+            "joinPeople" => $joinPeople,
         ];
         return [_RESULT => $data];
     }
