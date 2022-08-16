@@ -87,12 +87,12 @@ class UserModel extends Model
   public function myPageCmt(&$param)
   { // mypage 호스트 리뷰 (list 뿌리기)
     $sql =
-      " SELECT A.*, B.itravel, B.title, C.nick, C.profile_img, C.iuser FROM t_mypage_cmt A
-        INNER JOIN t_travel B
-        ON A.itravel = B.itravel
-        INNER JOIN t_user C
-        ON A.guest_iuser = C.iuser
-        WHERE B.iuser = :iuser
+      " SELECT ROUND(AVG(A.grade),1) AS avgOfGrade, A.* , B.itravel, B.title, C.nick, C.profile_img, C.iuser FROM t_mypage_cmt A
+      INNER JOIN t_travel B
+      ON A.itravel = B.itravel
+      INNER JOIN t_user C
+      ON A.guest_iuser = C.iuser
+      WHERE B.iuser = :iuser
       ";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);

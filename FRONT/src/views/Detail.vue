@@ -39,7 +39,7 @@
               @click="goMypage(data.hostUser.iuser)" id="profileImg">
           </div>
           <div class="section-host-ctnt">
-            <div @click="goMypage(data.hostUser.iuser)">닉네임 : {{ data.hostUser.nick }}</div>
+            <div class="section-host-ctnt-nick" @click="goMypage(data.hostUser.iuser)">닉네임 : {{ data.hostUser.nick }}</div>
             <div @click="goMypage(data.hostUser.iuser)">소개글 : {{ data.hostUser.cmt }}</div>
           </div>
         </div>
@@ -93,7 +93,7 @@ export default {
       loginIuser: null,
       isconfirm: null,
       isJoin: false,
-      joinPeople: 0,
+      joinPeople: null
     }
   },
   methods: {
@@ -241,6 +241,10 @@ export default {
   height: 200px;
   object-fit: cover;
   border-radius: 50%;
+  cursor: pointer;
+}
+.section-host-ctnt-nick{
+  cursor: pointer;
 }
 .section-host {
   display: flex;

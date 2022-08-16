@@ -134,6 +134,8 @@ export default {
                 alert('연령대를 입력해 주세요.');
             } else if (!(this.travel.s_date && this.travel.e_date)) {
                 alert('날짜를 입력해 주세요.');
+            } else if (!(this.travel.main_img)) {
+                alert ('썸네일을 등록해 주세요.')
             } else {
                 const s_date = new Date(this.travel.s_date);
                 const e_date = new Date(this.travel.e_date);

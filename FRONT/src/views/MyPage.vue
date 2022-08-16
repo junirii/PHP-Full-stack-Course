@@ -12,7 +12,11 @@
         <div class="mypage-profile-txt">
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
-          <div>평점 : {{ selUser.grade }}점</div>
+          <div :key="item.icmt" v-for="item in myPageCmt">
+            <div>평점 : {{ item.avgOfGrade }}점</div>
+          </div>
+          <!--이 유저의 평균평점 = 이 유저가 호스팅한 모든 여행의 평점 합계의 평균..... 함수를 하나 빼야하는건가.....?
+          ROUND(AVG(A.grade),1) AS avgOfGrade -->
           <div v-if="feedIuser == loginIuser">
             <router-link :to="{ path: '/MyAccount' }">
               <div><i class="fa-solid fa-pencil fa"></i>프로필수정</div>
@@ -107,11 +111,11 @@
           </select>
           <input class="section-comment" v-model="cmt" type="textarea" @keyup="enter($event)">
           <select class="section-grade" v-model="grade" type="select" @keyup="enter($event)">
-          <option value="1" selected>★★★★★(5)점</option>
-          <option value="2">★★★★(4)점</option>
-          <option value="3">★★★(3)점</option>
-          <option value="4">★★(2)점</option>
-          <option value="5">★(1)점</option>
+            <option value="1" selected>★★★★★(5)점</option>
+            <option value="2">★★★★(4)점</option>
+            <option value="3">★★★(3)점</option>
+            <option value="4">★★(2)점</option>
+            <option value="5">★(1)점</option>
           </select>
           <input class="section-submit" type="submit" value="등록" @click="insCmt">
         </div>
@@ -122,7 +126,6 @@
 </template>
 
 <script>
-import { isThisWeek } from 'date-fns';
 import ProfileImgModal from '/src/components/common/ProfileImgModal.vue';
 
 export default {
@@ -342,7 +345,7 @@ export default {
 
 .section-list-nick {
   width: 4vw;
-  cursor : pointer;
+  cursor: pointer;
 }
 
 .section-list-cmt {
@@ -353,15 +356,16 @@ export default {
   width: 10vw;
 }
 
-.section-list-grade{
+.section-list-grade {
   width: 7vw;
 }
+
 .reviewer-profile-img {
   width: 30px;
   height: 30px;
   object-fit: cover;
   border-radius: 50%;
-  cursor : pointer;
+  cursor: pointer;
 }
 
 .section-select {
@@ -380,13 +384,14 @@ export default {
 
 }
 
-.section-grade{
-  width:5vw;
-  height:3vh;
+.section-grade {
+  width: 5vw;
+  height: 3vh;
   margin: 3px;
   border: 1px solid var(--maincolor);
   border-radius: 0%;
 }
+
 .section-submit {
   background-color: var(--maincolor);
   color: #fff;

@@ -227,7 +227,7 @@ class TravelModel extends Model
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
-
+    
     // 좋아요 한 게시물
     public function selTravelFav(&$param)
     {

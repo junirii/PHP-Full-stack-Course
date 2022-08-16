@@ -68,8 +68,10 @@ class UserController extends Controller
   {
     $urlPaths = getUrlPaths();
     $param = [
-      "iuser" => intval($urlPaths[2]) // iuser 타인으로 바꾸기
+      "iuser" => intval($urlPaths[2]), // iuser 타인으로 바꾸기
+      "itravel" => intval($urlPaths[2])
     ];
+
 
     $myPageHost = $this->model->myPageHost($param); // 함수 쓰는법
     $myPageTravelState = $this->model->myPageTravelState($param);
