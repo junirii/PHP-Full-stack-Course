@@ -38,9 +38,11 @@ export default {
   methods: {
     async delProfileImg(){
       const res = await this.$delete(`/user/profileImg`, {}); // 컨트롤러 이름 / 함수
+      console.log(res);
       if(res.result === 1){
         this.$emit('close');
         this.$emit('defaultImg');
+        this.$store.state.user.profile_img = null;
       }
     },
     clickForm(){
@@ -54,7 +56,8 @@ export default {
         iuser: this.iuser
       };
       const res = await this.$put(`/user/profileImg`, fData);
-      if(res.result === 1){
+      if(res.result){
+        this.$store.state.user.profile_img = res.result;
         this.$emit('close');
         this.$emit('update');
       }

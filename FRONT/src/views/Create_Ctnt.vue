@@ -2,17 +2,24 @@
   <div class="create-ctnt-box">
     <h1>상세일정</h1>
     <div v-for="idx in travelDay">Day {{ idx }}
-      <div class="create-ctnt-container" id="ctntBox1">
-        <div :id="`day${idx}`">
-          <div>
-            <label class="plus" :for="`ctntImgDay${idx}_1`"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150"
-                height="150" style="cursor:pointer"></label>
-            <input type="file" class="d-none" :id="`ctntImgDay${idx}_1`"
-              @change="addCtntImg($event, idx, 1), setThumbnail($event)">
-            <div id="image_container"></div>
-            <textarea class="create-ctnt" name="" :id="`txtAreaDay${idx}_1`" cols="20" rows="4"
-              v-model="ctntArr[idx - 1][0].ctnt"></textarea>
-          </div>
+      <div :id="`day${idx}`">
+        <div class="create-ctnt-container" id="ctntBox1">
+        <!-- <label :id="`plus${idx}_${seq}`" for="ctntImgDay${idx}_${seq}">
+          <img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" 
+            height="150" style="cursor:pointer">
+        </label>
+        <input class="d-none" id="ctntImgDay${idx}_${seq}" type="file">
+        <div :id="`image_container${idx}_${seq}`"></div>
+        <textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea> -->
+          <label :id="`plus${idx}_1`" :for="`ctntImgDay${idx}_1`">
+            <img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150"
+              height="150" style="cursor:pointer">
+          </label>
+          <input type="file" class="d-none" :id="`ctntImgDay${idx}_1`"
+            @change="addCtntImg($event, idx, 1), setThumbnail($event, idx, 1)">
+          <div :id="`image_container${idx}_1`"></div>
+          <textarea class="create-ctnt" name="" :id="`txtAreaDay${idx}_1`" cols="20" rows="4"
+            v-model="ctntArr[idx - 1][0].ctnt"></textarea>
         </div>
       </div>
       <div>
@@ -43,23 +50,22 @@ export default {
     this.getData();
   },
   methods: {
-    setThumbnail(event) {
+    setThumbnail(event, day, seq) {
       var reader = new FileReader();
 
       reader.onload = function (event) {
         var img = document.createElement("img");
         img.setAttribute("src", event.target.result);
-        document.querySelector("div#image_container").appendChild(img);
+        document.querySelector(`#image_container${day}_${seq}`).appendChild(img);
         img.style.height = "15vh";
         img.style.marginRight = "10px";
       };
 
       reader.readAsDataURL(event.target.files[0]);
 
-      const plusBtn = document.querySelector('.plus');
+      const plusBtn = document.querySelector(`#plus${day}_${seq}`);
       plusBtn.style.display = "none";
     },
-
     async addCtntImg(e, dayIdx, seq) {
       const files = e.target.files;
       const image = await this.$base64(files[0]);
@@ -111,7 +117,31 @@ export default {
       const seq = this.countArr[idx - 1];
       const divDay = document.querySelector(`#day${idx}`);
       const ctntBox = divDay.appendChild(document.createElement('div'));
-      ctntBox.innerHTML = `<label for="ctntImgDay${idx}_${seq}"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
+      ctntBox.innerHTML = `<label :id="plus${idx}_${seq}" for="ctntImgDay${idx}_${seq}"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><span :id="image_container${idx}_${seq}"></span><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
+      const inputFile = ctntBox.querySelector('input');
+      const imgContainer = ctntBox.querySelector(`span`);
+      const plusBtn = ctntBox.querySelector(`label`);
+      console.log(imgContainer);
+      console.log(plusBtn);
+      inputFile.addEventListener('change', async function(e){
+        //setThumbnail()
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var img = document.createElement("img");
+          img.setAttribute("src", e.target.result);
+          imgContainer.appendChild(img);
+          img.style.height = "15vh";
+          img.style.marginRight = "10px";
+        };
+        reader.readAsDataURL(e.target.files[0]);
+        plusBtn.style.display = "none";
+
+        //addCtntImg()
+        const files = e.target.files;
+        const image = await this.$base64(files[0]);
+        this.ctntArr[idx - 1][seq - 1].img = image;
+        console.log(this.ctntArr);
+      });
       ctntBox.id = `ctntBox${seq}`;
 
       const textarea = document.querySelector(`#txtAreaDay${idx}_${seq}`);

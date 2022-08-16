@@ -184,7 +184,7 @@ class UserController extends Controller
           ];
           if($this->model->updProfileImg($param)){
             $loginUser->profile_img = $fileNm;
-            return [_RESULT => 1];
+            return [_RESULT => $fileNm];
           }
         }
         break;
