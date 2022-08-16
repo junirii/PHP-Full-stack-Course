@@ -263,7 +263,7 @@ export default {
   margin-left: 30px;
 }
 .title-filter {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: var(--mainDark);
 }
 .info-list {

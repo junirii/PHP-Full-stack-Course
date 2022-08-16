@@ -2,7 +2,7 @@
   <Transition name="modal">
     <div v-if="show" class="modal-mask modal-md">
       <div class="modal-wrapper" style="z-index: 10;" @click="$emit('close')">
-        <div class="modal-container" @click.stop="">
+        <div class="modal-container" style="width: 350px; border-radius: 15px;" @click.stop="">
           <div class="modal-body">
             <div class="modal-header justify-content-center p-4">
               <h5 class="modal-title fw-bold">프로필 사진 바꾸기</h5>
