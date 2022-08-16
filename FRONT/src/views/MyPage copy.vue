@@ -12,7 +12,6 @@
         <div class="mypage-profile-txt">
           <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
-          <div>DM<i class="fa-regular fa-paper-plane"></i></div>
           <div>평점 : {{ selUser.grade }}점</div>
           <div v-if="feedIuser == loginIuser">
             <router-link :to="{ path: '/MyAccount' }">
@@ -90,11 +89,11 @@
             <span class="section-list-nick" @click="goToMyPageFromReview(item.iuser)">{{ item.nick }}</span>
             <span class="section-list-cmt">{{ item.cmt }}</span>
             <span class="section-list-reg-dt">{{ item.reg_dt }}</span>
-            <span v-if="item.grade == 1" class="section-list-grade"> ★(1) 점</span>
-            <span v-if="item.grade == 2" class="section-list-grade"> ★★(2) 점</span>
-            <span v-if="item.grade == 3" class="section-list-grade"> ★★★(3) 점</span>
-            <span v-if="item.grade == 4" class="section-list-grade"> ★★★★(4) 점</span>
-            <span v-if="item.grade == 5" class="section-list-grade"> ★★★★★(5) 점</span>
+            <span v-if="item.grade == 1" class="section-list-grade"> ★(1)</span>
+            <span v-if="item.grade == 2" class="section-list-grade"> ★★(2)</span>
+            <span v-if="item.grade == 3" class="section-list-grade"> ★★★(3)</span>
+            <span v-if="item.grade == 4" class="section-list-grade"> ★★★★(4)</span>
+            <span v-if="item.grade == 5" class="section-list-grade"> ★★★★★(5)</span>
             <span class="section-list-title">참여여행: [{{ item.title }}]</span>
 
           </div>
@@ -143,7 +142,7 @@ export default {
       feedIuser: 0,
       loginIuser: 0,
       cmt: '',
-      favCount: 0, //수정 필요
+      selUserFav: [],
       modalShow: false,
     }
   },
@@ -172,9 +171,9 @@ export default {
       this.data = await this.$get(`/user/myPage/${this.feedIuser}/${this.loginIuser}`, {}); // controllers / method
       console.log(this.data);
       this.myPageTravelFav = this.data.result.myPageTravelFav;
-      console(myPageTravelFav);
       this.myPageHost = this.data.result.myPageHost;
       this.myPageTravelState = this.data.result.myPageTravelState;
+      this.selUserFav = this.data.result.selUserFav;
       this.myPageTravelState.forEach(item => {
         switch (item.isconfirm) {
           case 0:
@@ -230,9 +229,6 @@ export default {
       if (e.key === 'Enter') {
         this.insCmt();
       }
-    },
-    async usergood() {
-      alert('dd');
     },
   },
   created() {
