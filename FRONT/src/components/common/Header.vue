@@ -10,7 +10,10 @@
                         <img class="logo1" src="../../../static/img_used/homelogo.png" alt="">
                     </router-link>
                 </div>
+
                 <div class="icons1">
+                    <img v-if="this.$store.state.isLogin" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
+                     style="width:40px">
                     <div class="user-name1" v-if="this.$store.state.isLogin">
                         <!-- <img class="header-profile-img"
                             :src="`/static/img/profile/${item.iuser}/${item.profile_img}`"
@@ -18,7 +21,6 @@
                             alt="프로필사진" id="profile-img"> -->
                         {{ this.$store.state.user.nick }}님, 환영합니다!
                     </div>
-
                     <div class="chat" v-if="this.$store.state.isLogin">
                         <i class="fa-regular fa-message fa-2x dropdown" style="color: #fff;" @click="showDivChat();"
                             type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"

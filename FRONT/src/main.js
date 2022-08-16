@@ -19,3 +19,5 @@ createApp(App)
 .use(socketPlugin)
 // .use(selectPage)
 .mount('#app');
+
+window.Kakao.init("dd3ec871f7633caf4defdc785cfee70c");

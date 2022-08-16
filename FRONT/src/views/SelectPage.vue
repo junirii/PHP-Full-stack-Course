@@ -4,18 +4,24 @@
     <div class="state-tab-container">
       <!-- <a href="#location" class="state-tab">지역</a> -->
       <div class="state-tab" @click="scrollToLocation">지역</div>
+      <div v-if="areaName !== ''">{{ areaName }}</div>
+
       <div class="state-tab" @click="scrollToFilter">옵션</div>
+      <div v-if="this.filter.f_people !== 0">{{ option1 }}</div>
+      <div v-if="this.filter.f_gender !== 0">{{ option2 }}</div>
+      <div v-if="this.filter.f_age !== 0">{{ option3 }}</div>
+      
       <div class="state-tab" @click="scrollToDate">날짜</div>
+      <div v-if="this.filter.s_date !== ''">{{ this.filter.s_date }} ~ {{ this.filter.e_date }}</div>
       <!-- <a href="#filter" class="state-tab">옵션</a>
       <a href="#date" class="state-tab">날짜</a> -->
-      <span class="state-slider"></span>
     </div>
 
     <!-- 지역 상관 x 버튼 -->
     <div class="anywhere">
       <router-link :to="{ path: '/List' }">
         <button class="anywhere-btn" alt="whenever anywhere" @click="moveToList()">
-        {{this.list.length}}개<br>여행 보기</button>
+        {{this.list.length}}개 <br>여행 보기</button>
       </router-link>
     </div>
 
@@ -30,31 +36,31 @@
         <div class="container-map">
           <div class="sec1">
             <img class="center" src="../../mapImg/i.png" alt="수도권"
-              @click="[selectArea($event),insAreaName($event),changeFilter()]">
+              @click="[selectArea($event),insAreaName($event),changeFilter(),scrollToFilter()]">
             <img class="gang" src="../../mapImg/Gang.png" alt="강원도"
-              @click="[selectArea($event),insAreaName($event),changeFilter()]">
+              @click="[selectArea($event),insAreaName($event),changeFilter(),scrollToFilter()]">
           </div>
           <div class="sec2">
             <div class="K">
               <img class="K1" src="../../mapImg/k.png" alt="경상북도"
-                @click="[selectArea($event),insAreaName($event),changeFilter()]">
+                @click="[selectArea($event),insAreaName($event),changeFilter(),scrollToFilter()]">
               <img class="I" src="../../mapImg/island.png" alt="경상북도"
-                @click="[selectArea($event),insAreaName($event),changeFilter()]">
+                @click="[selectArea($event),insAreaName($event),changeFilter(),scrollToFilter()]">
             </div>
             <img class="C1" src="../../mapImg/chung1.png" alt="충청북도"
-              @click="[selectArea($event),insAreaName($event),changeFilter()]">
+              @click="[selectArea($event),insAreaName($event),changeFilter(),scrollToFilter()]">
             <img class="C2" src="../../mapImg/chung2.png" alt="충청남도"
-              @click="[selectArea($event),insAreaName($event),changeFilter()]">
+              @click="[selectArea($event),insAreaName($event),changeFilter(),scrollToFilter()]">
           </div>
           <div class="sec3">
             <img class="K2" src="../../mapImg/k2.png" alt="경상남도"
-              @click="[selectArea($event),insAreaName($event),changeFilter()]">
+              @click="[selectArea($event),insAreaName($event),changeFilter(),scrollToFilter()]">
             <img class="J1" src="../../mapImg/j1.png" alt="전라북도"
-              @click="[selectArea($event),insAreaName($event),changeFilter()]">
+              @click="[selectArea($event),insAreaName($event),changeFilter(),scrollToFilter()]">
             <img class="J2" src="../../mapImg/j2.png" alt="전라남도"
-              @click="[selectArea($event),insAreaName($event),changeFilter()]">
+              @click="[selectArea($event),insAreaName($event),changeFilter(),scrollToFilter()]">
             <img class="JJ" src="../../mapImg/jj.png" alt="제주도"
-              @click="[selectArea($event),insAreaName($event),changeFilter()]">
+              @click="[selectArea($event),insAreaName($event),changeFilter(),scrollToFilter()]">
           </div>
           <img class="map" src="../../mapImg/map_1.png" alt="map">
         </div>
@@ -76,10 +82,9 @@
           <span class="filter-name">인원</span>
           <div class="choose-people">
             <div :key="item.idx" v-for="item in peopleList">
-              <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_people"
-                     :id="`people${item.people}`" :value="item.idx" name="people"
-                     @input="options1 = $event.target.value" />
-              <label :for="`people${item.people}`">{{ item.people }}</label>
+              <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_people" @input="option1 = $event.target.id"
+                     :id="`인원 : ${item.people}`" :value="item.idx" name="people">
+              <label :for="`인원 : ${item.people}`">{{ item.people }}</label>
             </div>
           </div>
         </div>
@@ -89,10 +94,9 @@
           <span class="filter-name">성별</span>
           <div class="choose-gender">
             <div :key="item.idx" v-for="item in genderList">
-              <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_gender"
-                     :id="`gender${item.gender}`" :value="item.idx" name="gender"
-                     @input="options2 = $event.target.value" />
-              <label :for="`gender${item.gender}`">{{ item.gender }}</label>
+              <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_gender" @input="option2 = $event.target.id"
+                     :id="`성별 : ${item.gender}`" :value="item.idx" name="gender">
+              <label :for="`성별 : ${item.gender}`">{{ item.gender }}</label>
             </div>
           </div>
         </div>
@@ -101,21 +105,20 @@
           <span class="filter-name">연령</span>
           <div class="choose-age">
             <div :key="item.idx" v-for="item in ageList">
-              <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_age" :id="`${item.age}`"
-                :value="item.idx"
-                @input="options3 = $event.target.id" />
-              <label :for="`${item.age}`">{{ item.age }}</label>
+              <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_age" @input="option3 = $event.target.id" @click="scrollToDate"
+              :id="`연령 : ${item.age}`" :value="item.idx" name="age">
+              <label :for="`연령 : ${item.age}`">{{ item.age }}</label>
             </div>
           </div> 
         </div>
 
-        <div class="price-box">
+        <!-- <div class="price-box">
           <span class="filter-name">비용</span>
           <div class="choose-price">
             최소 <input @change="changeFilter" v-model="filter.l_price" type="number" step="10000"/> 원 ~
             최대 <input @change="changeFilter" v-model="filter.h_price" type="number" step="10000"/> 원
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -320,8 +323,8 @@ components: { Datepicker },
       window.scrollTo({ left: 0, top: location, behavior: "smooth" });
     },
     scrollToFilter() {
-      const filter = document.querySelector("#filter").offsetTop;
-      window.scrollTo({ left: 0, top: filter, behavior: "smooth" });
+      // const filter = document.querySelector("#filter").offsetTop;
+      window.scrollTo({ left: 0, top: 880, behavior: "smooth" });
     },
     scrollToDate() {
       const date = document.querySelector("#date").offsetTop;
@@ -370,7 +373,7 @@ hr {
   position: fixed;
   top: 440px;
   left: 122px;
-  width: 80px;
+  width: 250px;
   height: 140px;
   z-index: 10;
 }
