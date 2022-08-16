@@ -102,6 +102,17 @@ class UserController extends Controller
     }
   }
 
+  public function getGrade(){
+    switch (getMethod()) {
+      case _GET:
+        $urlPaths = getUrlPaths();
+        $param = [
+          "iuser" => intval($urlPaths[2]),
+        ];
+        return [_RESULT => $this->model->myPageGrade($param)];
+    }
+  }
+
   public function insCmt(){
     switch (getMethod()) {
       case _POST:

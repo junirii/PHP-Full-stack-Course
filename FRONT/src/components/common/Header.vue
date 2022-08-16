@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="icons1">
-                    <img v-if="this.$store.state.isLogin" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
+                    <img class="profile-img" v-if="this.$store.state.isLogin" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
                      style="width:40px">
                     <div class="user-name1" v-if="this.$store.state.isLogin">
                         <!-- <img class="header-profile-img"
@@ -54,7 +54,7 @@
                         <span id="unreadAlarm" style="color: red; font-weight: bold;">{{ unreadAlarm }}</span>
                         <ul class="dropdown-menu">
                             <div :key="item.iuser" v-for="item in selStateList">
-                                <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default; color: black;">
+                                <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">
                                     <div>신청이 왔습니다.</div> {{ item.profile_img }} {{ item.nick }} 님께서 {{ item.title }}
                                     <button @click="request(item.itravel, item.iuser)">수락</button>
                                     <button @click="requestDel(item.itravel, item.iuser)">거절</button>
@@ -89,6 +89,9 @@
                                 <router-link :to="{ path: '/Create' }" @click="sidebarNone">
                                     <li v-if="this.$store.state.isLogin">여행 호스팅 하기</li>
                                 </router-link>
+                                <router-link :to="{ path: '/Test' }" @click="sidebarNone">
+                                    <li v-if="this.$store.state.isLogin">구글로그인테스트</li>
+                                </router-link>
                                 <li v-if="this.$store.state.isLogin" @click="goToAllList(); sidebarNone();">전체 리스트</li>
                                 <li v-if="this.$store.state.isLogin" @click="logout">로그아웃</li>
                                 <li v-if="!this.$store.state.isLogin" @click="logout">로그인</li>
@@ -110,6 +113,8 @@
                     </router-link>
                 </div>
                 <div class="icons2">
+                    <img class="profile-img" v-if="this.$store.state.isLogin" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
+                     style="width:40px">
                     <div class="user-name2">{{ this.$store.state.user.nick }}님, 환영합니다!</div>
                 
                     <div class="chat">
@@ -405,12 +410,18 @@ html {
     width: 405px;
     padding-top: 10px;
 }
+.icons1 .profile-img {
+	border-radius : 50%;
+}
 .icons2 {
     display: flex;
     justify-content: space-between;
     color: var(--maincolor);
     width: 405px;
     padding-top: 10px;
+}
+.icons2 .profile-img {
+	border-radius : 50%;
 }
 .dropdown-item {
     color: var(--mainOrange);
