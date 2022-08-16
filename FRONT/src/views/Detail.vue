@@ -1,7 +1,7 @@
 <template>
   <div class="detail">
     <div class="container">
-      <h1 class="bolder" style="color: var(--maincolor); padding: 20px;">여행 상세 정보</h1>
+      <h1 class="bolder" style="color: var(--maincolor); padding: 25px;">여행 상세 정보</h1>
       <button v-if="loginIuser === data.hostUser.iuser" type="button" @click="mod()">수정</button>
       <button v-if="loginIuser === data.hostUser.iuser" type="button" @click="del()">삭제</button>
       <!-- 디테일 섹션1 - 간단 정보(필터)-->
@@ -10,25 +10,27 @@
             :src="`/static/img/travel/${data.travelData.itravel}/main/${data.travelData.main_img}`"></div>
         <div class="section-item-filter">
           <div class="title-filter"> {{ data.travelData.title }} </div><br><br>
-          <div v-if="!(data.travelData.location_nm)">지역 {{ data.travelData.area_nm }}</div>
-          <div v-else>지역 {{ data.travelData.area_nm }} / {{ data.travelData.location_nm }}</div>
-          <div>기간 {{ data.travelData.s_date }} ~ {{ data.travelData.e_date }}</div>
-          <div v-if="data.travelData.f_gender == 1">성별 남성만</div>
-          <div v-else-if="data.travelData.f_gender == 2">성별 여성만</div>
-          <div v-else>성별 상관없음</div>
-          <div v-if="data.travelData.f_age == 1">연령 20대</div>
-          <div v-if="data.travelData.f_age == 2">연령 30대</div>
-          <div v-if="data.travelData.f_age == 3">연령 40대</div>
-          <div v-if="data.travelData.f_age == 4">연령 50대</div>
-          <div v-if="data.travelData.f_age == 5">연령 20대~30대</div>
-          <div v-if="data.travelData.f_age == 6">연령 30대~40대</div>
-          <div v-if="data.travelData.f_age == 7">연령 40대~50대</div>
-          <div>인원 {{ data.joinPeople.numberOfPeople+1 }} / {{ data.travelData.f_people }} 명</div>
-          <div>비용 1인 {{ data.travelData.f_price = data.travelData.f_price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") }} 원</div>
+          <div class="info-list">
+            <div v-if="!(data.travelData.location_nm)">지역 | {{ data.travelData.area_nm }}</div>
+            <div v-else>지역 | {{ data.travelData.area_nm }} / {{ data.travelData.location_nm }}</div>
+            <div>기간 | {{ data.travelData.s_date }} ~ {{ data.travelData.e_date }}</div>
+            <div v-if="data.travelData.f_gender == 1">성별 | 남성만</div>
+            <div v-else-if="data.travelData.f_gender == 2">성별 | 여성만</div>
+            <div v-else>성별 | 상관없음</div>
+            <div v-if="data.travelData.f_age == 1">연령 | 20대</div>
+            <div v-if="data.travelData.f_age == 2">연령 | 30대</div>
+            <div v-if="data.travelData.f_age == 3">연령 | 40대</div>
+            <div v-if="data.travelData.f_age == 4">연령 | 50대</div>
+            <div v-if="data.travelData.f_age == 5">연령 | 20대~30대</div>
+            <div v-if="data.travelData.f_age == 6">연령 | 30대~40대</div>
+            <div v-if="data.travelData.f_age == 7">연령 | 40대~50대</div>
+            <div>인원 | {{ data.joinPeople.numberOfPeople+1 }} / {{ data.travelData.f_people }} 명</div>
+            <div>비용 | 1인 {{ data.travelData.f_price = data.travelData.f_price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") }} 원</div>
+          </div>
         </div>
       </div>
       <br>
-      <hr>
+
       <!-- 디테일 섹션2 - 호스트 정보-->
       <div>
         <div class="title-host">호스트 정보</div>
@@ -44,22 +46,24 @@
           </div>
         </div>
       </div>
-      <hr>
+
       <!-- 디테일 섹션3 - 상세 정보-->
       <div class="title-schedule">여행 일정</div>
       <div class="accordion" id="accordionPanelsStayOpenExample">
         <div class="accordion-item" :key="idx" v-for="(dayObj, idx) in data.day">
           <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+            <button class="accordion-button bolder" type="button" data-bs-toggle="collapse"
               :data-bs-target="`#panelsStayOpen-collapseOne${idx}`" aria-expanded="true"
               aria-controls="panelsStayOpen-collapseOne">
               DAY {{ dayObj.day }}
             </button>
           </h2>
-          <div :id="`panelsStayOpen-collapseOne${idx}`" class="accordion-collapse collapse show underline"
+          <div :id="`panelsStayOpen-collapseOne${idx}`" class="accordion-collapse collapse show underline container-box"
             aria-labelledby="panelsStayOpen-headingOne" :key="index" v-for="(item, index) in data.ctnt">
             <div v-if="dayObj.day == item.day" class="accordion-body container-ctnt">
-              <img class="detail-img container-ctnt-img" :src="`/static/img/travel/${item.itravel}/detail/${item.img}`">
+              <div class="ctnt-box">
+                <img class="container-ctnt-img" :src="`/static/img/travel/${item.itravel}/detail/${item.img}`">
+              </div>
               <span class="container-ctnt-txt">{{ item.ctnt }}</span>
             </div>
           </div>
@@ -240,7 +244,7 @@ export default {
 }
 .container {
   color: var(--maincolor);
-  width: 70%;
+  width: 60%;
 }
 /* 디테일 섹션1 - 간단 정보(필터) */
 .section-container-filter {
@@ -249,8 +253,8 @@ export default {
   justify-content: center;
 }
 .detail-main-img {
-  max-width: 40vw;
-  max-height: 50vh;
+  max-width: 30vw;
+  max-height: 40vh;
 }
 .section-item-filter{
   display: flex;
@@ -262,42 +266,48 @@ export default {
   font-size: 1.5rem;
   color: var(--mainDark);
 }
+.info-list {
+  line-height: 30px;
+}
 /* 디테일 섹션2 - 호스트 정보 */
-.title-host,
-.title-schedule {
+.title-host, .title-schedule {
   color: #fff;
   background-color: var(--maincolor);
   padding: 20px;
+  font-size: 20px;
 }
 .host-img {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   border-radius: 50%;
   cursor: pointer;
+  margin: 20px;
 }
 .section-host-ctnt-nick{
   cursor: pointer;
+  text-align: left;
 }
 .section-host {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 }
+
 /* 디테일 섹션3 - 상세 정보 */
-.detail-img {
-  max-width: 20vw;
-}
 .container-ctnt {
   display: flex;
-  background-color: #fff;
-  border-bottom: 1px solid var(--maincolor);
 }
 .container-ctnt-img {
-  padding: 20px;
+  margin: 20px;
+  width: 400px;
+  height: 300px;
+  object-fit: cover;
 }
 .container-ctnt-txt {
   padding: 20px;
+  text-align: left;
+  line-height: 30px;
 }
 .accordion-item {
   border: 1px solid #fff;
@@ -309,60 +319,62 @@ export default {
 }
 .accordion-button:not(.collapsed) {
   background-color: #fff;
-  box-shadow: inset 0 -1px 0 rgba(255, 0, 0, 0.13);
+  /* box-shadow: inset 0 -1px 0 rgba(255, 0, 0, 0.13); */
 }
 /* fixed1 - 신청하기*/
 .submit-btn {
   position: fixed;
-  bottom: 133px;
+  bottom: 130px;
   right: 250px;
   width: 80px;
   height: 80px;
   border-radius: 50%;
   border: 0px;
-  background-color: var(--maincolor);
+  background-color: var(--mainOrange);
   color: white;
   font-weight: bold;
-  box-shadow: 0 8px 8 #285d92;
 }
-.submit-btn:active {
-  transform: translateY(4px);
-  box-shadow: 0 4px 0 #2d7ac2;
+.submit-btn:hover {
+  /* transform: translateY(4px); */
+  border: 2px solid var(--mainOrange);
+  background-color: #fff;
+  color: var(--mainOrange);
 }
 /* fixed2 - 찜하기*/
 .travel-fav-btn {
   position: fixed;
-  bottom: 244px;
+  bottom: 240px;
   right: 250px;
   width: 80px;
   height: 80px;
   border-radius: 50%;
   border: 0px;
-  background-color: var(--maincolor);
+  background-color: var(--mainOrange);
   color: white;
   font-weight: bold;
-  box-shadow: 0 8px 8 #285d92;
 }
-.travel-fav-btn:active {
-  transform: translateY(4px);
-  box-shadow: 0 4px 0 #2d7ac2;
+.travel-fav-btn:hover {
+  /* transform: translateY(4px); */
+  border: 2px solid var(--mainOrange);
+  background-color: #fff;
+  color: var(--mainOrange);
 }
 /* fixed3 - Top*/
 .top-btn {
   position: fixed;
-  bottom: 355px;
+  bottom: 350px;
   right: 250px;
   width: 80px;
   height: 80px;
   border-radius: 50%;
   border: 0px;
-  background-color: var(--maincolor);
+  background-color: var(--mainOrange);
   color: white;
   font-weight: bold;
-  box-shadow: 0 8px 8 #285d92;
 }
 .top-btn:active {
-  transform: translateY(4px);
-  box-shadow: 0 4px 0 #2d7ac2;
+  background-color: #fff;
+  border: 2px solid var(--mainOrange);
+  color: var(--mainOrange);
 }
 </style>
