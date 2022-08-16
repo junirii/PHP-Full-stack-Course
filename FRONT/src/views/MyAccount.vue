@@ -1,20 +1,32 @@
 <template>
-  <div class="location">
+  <div class="my-account">
     <div class="container">
       <h1>회원정보</h1>
-      <div class="myaccount-profile">
-          <div class="item"><div class="item-txt">이메일 : {{ loginUser.email }} </div></div>
-          <div class="item"><div class="item-txt">이름 : {{ loginUser.nm }} </div></div>
-          <div class="item"><div class="item-txt">닉네임 : {{ loginUser.nick }} </div></div>
-          <div class="item"><div class="item-txt">성별 : {{ genderTxt }} </div></div>
-          <div class="item"><div class="item-txt">생년월일 : {{ loginUser.birth }} </div></div>
-          <div class="item"><div class="item-txt">전화번호 : {{ loginUser.tel }} </div></div>
-          <div class="item"><div class="item-txt">상태메세지 : {{ loginUser.cmt }} </div></div>
+      <div class="myaccount-profile">  
+        <div class="row">
+          <div class="item-nm">이메일</div>
+          <div class="item-nm">이름</div>
+          <div class="item-nm">닉네임</div>
+          <div class="item-nm">성별</div>
+          <div class="item-nm">생년월일</div>
+          <div class="item-nm">전환번호</div>
+          <div class="item-nm">상태메세지</div>
+        </div>
+
+        <div class="row-ctnt">
+          <div class="item-txt"> {{ loginUser.email }} </div>
+          <div class="item-txt"> {{ loginUser.nm }} </div>
+          <div class="item-txt"> {{ loginUser.nick }} </div>
+          <div class="item-txt"> {{ genderTxt }} </div>
+          <div class="item-txt"> {{ loginUser.birth }} </div>
+          <div class="item-txt"> {{ loginUser.tel }} </div>
+          <div class="item-txt"> {{ loginUser.cmt }} </div>
+        </div>
       </div>
 
       <div>
         <router-link :to="{ path: '/myaccountmod' }">
-          <i class="fa-solid fa-pencil fa"></i><button type="button">회원정보 수정</button>
+          <button type="button">회원정보 수정</button>
         </router-link>
       </div>
       <br>
@@ -49,19 +61,37 @@ export default {
 </script>
 
 <style scoped>
-.location {
+.my-account {
   z-index: auto;
   margin: 0 auto;
   padding: 150px;
 }
 .container{
   color: var(--maincolor);
-  display: flex;
+  /* display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: column; */
 }
-.item{
+.myaccount-profile {
+  display: flex;
+  line-height: 40px;
+  justify-content: center;
+  padding: 50px;
+}
+.row {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding-right: 20px;
+}
+.row-ctnt {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  /* padding-right: 20px; */
+}
+/* .item{
   background-color: var(--maincolor);
   color: #fff;
   margin: 10px;
@@ -70,6 +100,6 @@ export default {
   display: flex;
   align-items: center;
   width: 50vh;
-}
+} */
 
 </style>
