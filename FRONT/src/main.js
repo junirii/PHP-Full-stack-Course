@@ -17,7 +17,6 @@ createApp(App)
 .use(Datepicker)
 .use(VueSweetalert2)
 .use(socketPlugin)
-// .use(selectPage)
 .mount('#app');
 
 window.Kakao.init("dd3ec871f7633caf4defdc785cfee70c");
