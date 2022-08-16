@@ -301,22 +301,24 @@ export default {
     width: 9vw;
 }
 select, input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 
-  border: none;
-  border-bottom: 2px solid var(--maincolor);
-  width: 50px;
-  height: 25px;
-  padding-left: 10px;
-  color: var(--maincolor);
+    border: none;
+    border-bottom: 2px solid var(--maincolor);
+    width: 50px;
+    height: 25px;
+    padding-left: 10px;
+    color: var(--maincolor);
 }
-select:hover, input:hover { border-bottom: 2px solid var(--mainDark) }
+select:hover, input:hover {
+    border-bottom: 2px solid var(--mainDark);
+    cursor: pointer;    
+}
 select::-ms-expand { display: none; }
 select:focus { 
     border: 2px solid var(--mainDark);
-    /* border-radius: 10px; */
 }
 .btn-section {
     display: flex;
