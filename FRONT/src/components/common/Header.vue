@@ -5,20 +5,17 @@
             <div class="header-box">
                 <div class="logo-box">
                     <router-link :to="{ name: 'home' }">
-                        <!-- <h2 class="logo1">모임모임 moimmoim</h2> -->
-                        <!-- <img class="logo2" src="../../../static/img_used/logo.png" alt=""> -->
                         <img class="logo1" src="../../../static/img_used/homelogo.png" alt="">
                     </router-link>
                 </div>
 
                 <div class="icons1">
-                    <img class="profile-img" v-if="this.$store.state.isLogin" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
-                     style="width:40px">
+                    <div class="profile">
+                        <img class="profile-img" v-if="this.$store.state.isLogin"
+                            :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
+                            style="width:40px; height: 40px; object-fit: cover;">
+                    </div>
                     <div class="user-name1" v-if="this.$store.state.isLogin">
-                        <!-- <img class="header-profile-img"
-                            :src="`/static/img/profile/${item.iuser}/${item.profile_img}`"
-                            onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';"
-                            alt="프로필사진" id="profile-img"> -->
                         {{ this.$store.state.user.nick }}님, 환영합니다!
                     </div>
                     <div class="chat" v-if="this.$store.state.isLogin">
@@ -109,8 +106,11 @@
                     </router-link>
                 </div>
                 <div class="icons2">
-                    <img class="profile-img" v-if="this.$store.state.isLogin" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
-                     style="width:40px">
+                    <div class="profile">
+                    <img class="profile-img" v-if="this.$store.state.isLogin"
+                         :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
+                         style="width:40px; height: 40px; object-fit: cover;">
+                    </div>
                     <div class="user-name2">{{ this.$store.state.user.nick }}님, 환영합니다!</div>
                 
                     <div class="chat">
@@ -404,21 +404,28 @@ html {
     display: flex;
     justify-content: space-between;
     color: #fff;
-    width: 405px;
+    width: 460px;
     padding-top: 10px;
+}
+.profile {
+    position: relative;
+    bottom: 5px;
+    left: 10px;
 }
 .icons1 .profile-img {
 	border-radius : 50%;
+    margin-bottom: 20px;
 }
 .icons2 {
     display: flex;
     justify-content: space-between;
     color: var(--maincolor);
-    width: 405px;
+    width: 460px;
     padding-top: 10px;
 }
 .icons2 .profile-img {
 	border-radius : 50%;
+    margin-bottom: 20px;
 }
 .dropdown-item {
     color: var(--mainOrange);
