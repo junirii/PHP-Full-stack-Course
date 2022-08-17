@@ -73,7 +73,8 @@
       </div>
 
     <div>
-      <input class="travel-fav-btn" type="button" v-model ="fav" @click="insTravelFav">
+      <input v-if="!isLike" class="travel-fav-btn" type="button" value="찜하기" @click="insTravelFav">
+      <input v-if="isLike" class="travel-fav-btn" type="button" value="찜취소" @click="delTravelFav">
     </div>
       <div>
         <div v-if="isJoin">
@@ -82,7 +83,7 @@
         <div v-if="isJoin && isconfirm === 1">
           <input class="submit-btn" type="submit" value="나가기" @click="deletestate(); exitChatRoom();">
         </div>
-        <div v-if="!isJoin">
+        <div v-if="!isJoin && loginIuser !== data.hostUser.iuser">
           <input class="submit-btn" type="submit" value="신청하기" @click="instate()">
         </div>
       </div>
@@ -101,9 +102,9 @@ export default {
       loginIuser: null,
       isconfirm: null,
       isJoin: false,
+      isLike: false,
       joinPeople: 0,
       travelfav: [],
-      fav: '',
     }
   },
   methods: {
@@ -157,38 +158,49 @@ export default {
         this.data.travelData.f_gender = '혼성';
       }
     },
-    async help() {
+    async favTravelState() {
+      this.itravel = this.$store.state.itravel;
       const loginIuser = this.$store.state.user.iuser;
-      const res = await this.$get(`/travel/travelFav/${loginIuser}/${this.itravel}`, {});
-      const travelfav = res.result;
-      travelfav.forEach(element => {
-        if(element.itravel === this.itravel){
-          this.fav = "찜취소"; 
-          return
-        }else{
-          this.fav = "찜하기";
-        }
+      const res = await this.$get(`/travel/travelFav/${loginIuser}`, {});
+      console.log(this.isLike);
+      console.log(res);
+      this.travelfav = res.result;
+      console.log(this.travelfav);
+      console.log(this.itravel);
+      console.log('isLike:'+this.isLike)
+      this.isLike = false;
+      const test = this.travelfav.some( X=> {
+        return X.itravel === this.itravel
       });
-
+      console.log('hwi:' +test);
+      this.isLike = test;
     },
     async insTravelFav() {
       const loginIuser = this.$store.state.user.iuser;
       const res = await this.$post(`/travel/travelFav/${loginIuser}/${this.itravel}`, {});
-      const res2 = await this.$delete(`/travel/travelFav/${loginIuser}/${this.itravel}`, {});
       if (res.result === 1) {
-        this.$swal.fire('찜 완료!', '', 'success');
-        
-      }
-      if (res2.result === 1) {
-        this.$swal.fire('찜 취소!', '', 'success');
-        
+        this.$swal.fire('찜 완료!', '', 'success')
+        .then(async result => {
+            if (result.isConfirmed) {
+              this.isLike = true;
+            }
+          });
+      } else {
+        this.$swal.fire('찜을 할 수 없습니다.', '', 'error');
       }
     },
     async delTravelFav() {
       const loginIuser = this.$store.state.user.iuser;
       const res = await this.$delete(`/travel/travelFav/${loginIuser}/${this.itravel}`, {});
       if (res.result === 1) {
-        this.$swal.fire('찜 취소!', '', 'success');
+        this.$swal.fire('찜 취소!', '', 'success')
+        .then(async result => {
+            if (result.isConfirmed) {
+              this.isLike = false;
+            }
+          });
+      } else {
+        this.$swal.fire('찜 취소를 할 수 없습니다..', '', 'error');
       }
     },
     async instate() {                  // 컨트롤러이름 // 함수 메소드 // 필요한 값
@@ -233,7 +245,7 @@ export default {
   },
   created() {
     this.getDetail();
-    this.help();
+    this.favTravelState();
   }
 }
 </script>
