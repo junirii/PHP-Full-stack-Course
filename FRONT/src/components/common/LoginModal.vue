@@ -29,6 +29,7 @@
             </div>
           </form>
 
+
           <!-- 회원가입 폼 -->
           <form v-if="join" v-on:submit.prevent="joinForm">
             <div class="modal-body">
@@ -77,6 +78,7 @@
 </template>
 
 <script>
+
 // import { request } from 'http';
 
 export default {

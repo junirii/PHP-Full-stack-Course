@@ -79,6 +79,20 @@ class TravelController extends Controller{
         ];
         return [_RESULT => $data];
     }
+    public function favDetail() {
+        $urlPaths = getUrlPaths();
+        $iuser = $urlPaths[2];
+        $param = [
+            "iuser" => $iuser,
+        ];
+        $favUser = $this->model->selTravelFav($param);
+
+        $travelfav = [
+            "favUser" => $favUser,
+        ];
+        return [_RESULT => $travelfav];
+    }
+
     // 좋아요한 게시물
     public function travelFav() {
         $urlPaths = getUrlPaths();
