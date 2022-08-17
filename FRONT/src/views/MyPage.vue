@@ -4,8 +4,10 @@
       <h1 class="my-page-title bolder">{{ selUser.nick }}님의 페이지</h1>
       <div class="mypage-profile">
         <div class="mypage-profile-img">
-          <img class="profile-img" v-if="this.$store.state.user.social_type == 1" :src="`${this.$store.state.user.profile_img}`">
-          <img class="profile-img" v-if="this.$store.state.user.social_type == 0" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`">
+          <img class="profile-img" @click="showModal" id="profile-img" v-if="this.$store.state.user.social_type == 1" :src="`${this.$store.state.user.profile_img}`"
+          onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진">
+          <img class="profile-img" @click="showModal" id="profile-img" v-if="this.$store.state.user.social_type == 0" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
+          onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진">
           <!-- <img class="profile-img" :src="`/static/img/profile/${selUser.iuser}/${selUser.profile_img}`"
             onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진"
             @click="showModal" id="profile-img"> -->
@@ -24,8 +26,7 @@
         </div>
       </div>
       <br>
-      <!-- <ProfileImgModal :show="modalShow" @close="hiddenModal" v-on:update="getUserData" v-on:defaultImg="setDefaultImg" /> -->
-      <Test :show="modalShow" @close="hiddenModal" v-on:update="getUserData" v-on:defaultImg="setDefaultImg" />
+      <ProfileImgModal :show="modalShow" @close="hiddenModal" v-on:update="getUserData" v-on:defaultImg="setDefaultImg" />
       <!-- 마이페이지 섹션2 - 신청 여행(신청중, 신청수락), 찜한 여행, 호스팅한 여행 , 참여한 여행 -->
       <div v-if="feedIuser == loginIuser">
         <div class="title">신청한 여행 현황</div> 
@@ -155,7 +156,6 @@
 
 <script>
 import ProfileImgModal from '/src/components/common/ProfileImgModal.vue';
-import Test from '/src/components/common/test.vue';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
 
@@ -182,7 +182,6 @@ export default {
     }
   },
   components: {
-    Test,
     ProfileImgModal,
     Carousel,
     Slide,

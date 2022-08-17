@@ -11,9 +11,11 @@
 
                 <div class="icons1">
                     <div class="profile" @click="goToMyPage" style="cursor: pointer">
-                        <img class="profile-img" v-if="this.$store.state.user.social_type == 1" :src="`${this.$store.state.user.profile_img}`" style="width:40px; height: 40px; object-fit: cover;">
+                        <img class="profile-img" v-if="this.$store.state.user.social_type == 1" :src="`${this.$store.state.user.profile_img}`" style="width:40px; height: 40px; object-fit: cover;"
+                        onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';">
                         <img class="profile-img" v-if="this.$store.state.user.social_type == 0" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
-                        style="width:40px; height: 40px; object-fit: cover;">
+                        style="width:40px; height: 40px; object-fit: cover;"
+                        onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';">
                     </div>
                     <div class="user-name1" v-if="this.$store.state.isLogin">
                         {{ this.$store.state.user.nick }}
@@ -107,9 +109,11 @@
                 </div>
                 <div class="icons2">
                     <div class="profile" @click="goToMyPage" style="cursor: pointer">
-                        <img class="profile-img" v-if="this.$store.state.user.social_type == 1" :src="`${this.$store.state.user.profile_img}`" style="width:40px; height: 40px; object-fit: cover;">
+                        <img class="profile-img" v-if="this.$store.state.user.social_type == 1" :src="`${this.$store.state.user.profile_img}`" style="width:40px; height: 40px; object-fit: cover;"
+                        onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';">
                         <img class="profile-img" v-if="this.$store.state.user.social_type == 0" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
-                        style="width:40px; height: 40px; object-fit: cover;">
+                        style="width:40px; height: 40px; object-fit: cover;"
+                        onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';">
                     </div>
                     <div class="user-name2">{{ this.$store.state.user.nick }}</div>
                     <div class="chat">
