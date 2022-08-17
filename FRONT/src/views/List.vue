@@ -23,14 +23,18 @@
                    style="width: 16.9rem; height: 16rem; border-bottom: 1px solid var(--maincolor);"
                    alt="여행 썸네일">
               <div class="card-body">
-                <h5 class="card-title bold" @click="goToDetail(item.itravel)">{{ item.title }}</h5>
-                <p class="card-text bold">
-                  <span class="badge name-tag me-1 pointer" @click="goToMyPage(item.iuser)">작성자:{{ item.nick }}</span>
-                  <span class="badge name-tag me-1">
-                    지역: {{ item.area_nm }}<span v-if="item.location !== null">/{{ item.location_nm }}</span>
-                  </span>
-                </p>
-                <small class="text-dark">{{ item.s_date }} ~ {{ item.e_date }}</small>
+                <div class="card-detail">
+                  <p class="card-text" style="padding-bottom:0.1rem;">
+                    <span class="badge name-tag me-1 pointer" @click="goToMyPage(item.iuser)">작성자:{{ item.nick }}</span>
+                    <span class="badge name-tag me-1">
+                      지역: {{ item.area_nm }}<span v-if="item.location !== null">/{{ item.location_nm }}</span>
+                    </span>
+                  </p>
+                  <small class="name-tag1" style="padding-bottom:0.1rem;">{{ item.s_date }} ~ {{ item.e_date }}</small>
+                </div>
+                <h5 class="card-title bolder" style="color: var(--maincolor);" @click="goToDetail(item.itravel)">{{ item.title }}</h5>
+                <!-- <div class="card-detail"> -->
+                <!-- </div> -->
               </div>
             </div>
           </div>
@@ -173,9 +177,28 @@ export default {
   /* transition: transform 1s; */
   filter: brightness(70%);
 }
+.card-body {
+  font-family: 'LeferiPoint-WhiteA';
+  font-weight: bold;
+  padding: 0.8rem 0.8rem 0 1rem;
+}
+.card-detail {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--maincolor);
+}
 .name-tag {
+  color: #fff;
+  background-color: var(--maincolor);
+  font-weight: bolder;
+}
+.name-tag1 {
   background-color: #fff;
   color: var(--maincolor);
+  font-weight: bolder;
+}
+.card-title {
+  margin: 0.8rem 0.3rem 0 0.3rem;
 }
 .like-btn{
   position : absolute;
@@ -187,10 +210,5 @@ export default {
  }
 .pointer {
   cursor: pointer;
-}
-.card-body {
-  font-family: 'LeferiPoint-WhiteA';
-  font-weight: bold;
-  /* border: 1px solid var(--maincolor); */
 }
 </style>

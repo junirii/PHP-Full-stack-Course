@@ -2,14 +2,16 @@
   <div class="detail">
     <div class="container">
       <h1 class="bolder" style="color: var(--maincolor); padding: 25px;">여행 상세 정보</h1>
-      <button v-if="loginIuser === data.hostUser.iuser" type="button" @click="mod()">수정</button>
-      <button v-if="loginIuser === data.hostUser.iuser" type="button" @click="del()">삭제</button>
       <!-- 디테일 섹션1 - 간단 정보(필터)-->
       <div class="section-container-filter">
         <div><img class="detail-main-img"
             :src="`/static/img/travel/${data.travelData.itravel}/main/${data.travelData.main_img}`"></div>
         <div class="section-item-filter">
           <div class="title-filter"> {{ data.travelData.title }} </div><br><br>
+          <div class="btns">
+            <button class="edit-del-btn" v-if="loginIuser === data.hostUser.iuser" type="button" @click="mod()">수정</button>
+            <button class="edit-del-btn" v-if="loginIuser === data.hostUser.iuser" type="button" @click="del()">삭제</button>
+          </div>
           <div class="info-list">
             <div v-if="!(data.travelData.location_nm)">지역 | {{ data.travelData.area_nm }}</div>
             <div v-else>지역 | {{ data.travelData.area_nm }} / {{ data.travelData.location_nm }}</div>
@@ -246,6 +248,27 @@ export default {
   color: var(--maincolor);
   width: 60%;
 }
+.btns {
+  display: flex;
+  flex-direction: row;
+
+}
+.edit-del-btn {
+  margin-bottom: 50px;
+  display: inline-block;
+  text-decoration: underline;
+  text-underline-position: under;
+  background: none;
+  font-weight: bolder;
+  color: var(--mainOrange);
+  border: 0;
+  margin-right: 10px;
+}
+
+.edit-del-btn:active {
+  cursor: pointer;
+}
+
 /* 디테일 섹션1 - 간단 정보(필터) */
 .section-container-filter {
   margin-top: 20px;
@@ -261,10 +284,11 @@ export default {
   flex-direction: column;
   text-align: left;
   margin-left: 30px;
+  justify-content: space-between;
 }
 .title-filter {
-  font-size: 1.3rem;
-  color: var(--mainDark);
+  font-size: 1.5rem;
+  color: var(--maincolor);
 }
 .info-list {
   line-height: 30px;

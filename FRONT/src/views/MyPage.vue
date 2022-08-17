@@ -282,7 +282,7 @@ export default {
   width: 60%;
 }
 .my-page-title {
-  color: var(--mainDark);
+  color: var(--maincolor);
   padding-bottom: 25px;
 }
 

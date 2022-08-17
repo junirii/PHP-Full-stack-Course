@@ -1,7 +1,7 @@
 <template>
-  <div class="my-account">
+  <div class="my-account bolder">
     <div class="container">
-      <h1>회원정보</h1>
+      <h1 class="bolder" style="margin-bottom: 50px;">회원정보</h1>
       <div class="myaccount-profile">  
         <div class="row">
           <div class="item-nm">이메일</div>
@@ -26,7 +26,7 @@
 
       <div>
         <router-link :to="{ path: '/myaccountmod' }">
-          <button type="button">회원정보 수정</button>
+          <button class="edit-btn" type="button">회원정보 수정</button>
         </router-link>
       </div>
       <br>
@@ -68,22 +68,23 @@ export default {
 }
 .container{
   color: var(--maincolor);
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; */
 }
 .myaccount-profile {
+  border: 2px solid var(--mainOrange);
+  border-radius: 15px;
+  width: 25vw;
+  margin: 0 auto;
   display: flex;
   line-height: 40px;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 50px;
+  font-size: 1.2rem;
 }
 .row {
   display: flex;
   flex-direction: column;
   text-align: left;
-  padding-right: 20px;
+  padding-right: 30px;
 }
 .row-ctnt {
   display: flex;
@@ -91,8 +92,12 @@ export default {
   text-align: left;
   /* padding-right: 20px; */
 }
+.item-txt {
+	text-decoration: underline;
+    text-underline-position: under;
+}
 /* .item{
-  background-color: var(--maincolor);
+  background-color: var(—maincolor);
   color: #fff;
   margin: 10px;
   padding: 10px;
@@ -101,5 +106,25 @@ export default {
   align-items: center;
   width: 50vh;
 } */
+
+.edit-btn { 
+  margin-top: 50px;
+  display: inline-block;
+  text-decoration: none;
+  background: #fff;
+  padding: 8px 20px;
+  border-radius: 7px;
+  font-weight: bolder;
+  color: var(--maincolor);
+  box-shadow: 0 8px 0 var(--mainDark);
+  transition: all 0.2s;
+  border: 1px solid var(--maincolor);
+}
+
+.edit-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 4px 0 var(--maincolor);
+}
+
 
 </style>
