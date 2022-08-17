@@ -212,6 +212,7 @@ export default {
     line-break: anywhere;
 }
 .your-msg-ctnt {
+    text-align: left;
     margin: 0.4rem 1rem 0 0;
     border-radius: 0px 20px 20px 20px;
     background-color: #f3f3f3;
@@ -229,6 +230,7 @@ export default {
     line-break: anywhere;
 }
 .my-msg-ctnt {
+    text-align: left;
     margin: 0.4rem 0 0 1rem;
     border-radius: 20px 20px 0px 20px;
     max-width: 180px;

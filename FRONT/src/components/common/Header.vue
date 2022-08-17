@@ -436,7 +436,7 @@ html {
     display: flex;
     justify-content: space-between;
     color: #fff;
-    width: 460px;
+    width: 310px;
     padding-top: 10px;
 }
 .profile {
@@ -452,7 +452,7 @@ html {
     display: flex;
     justify-content: space-between;
     color: var(--maincolor);
-    width: 460px;
+    width: 310px;
     padding-top: 10px;
 }
 .icons2 .profile-img {
