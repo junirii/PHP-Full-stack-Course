@@ -1,35 +1,45 @@
 <template>
-  <div class="location">
+  <div class="myaccount-mod">
     <div class="container">
-
-      <h1>회원정보 수정</h1>
+      <h1 class="bolder" style="margin-bottom: 50px;">회원정보 수정</h1>
       <div class="myaccount-profile">
-        <div class="item">이메일 : <input type="email" v-model="loginUser.email"></div>
-        <div class="item">비밀번호 : <input type='button' v-if="!pwShow" value='비밀번호 변경' @click="showPw">
-          <span>
-            <input type='password' v-if="pwShow" v-model="pw" placeholder="새 비밀번호">
-          </span>
-          <span>
-            <input type='password' v-if="pwShow" v-model="pwCheck" placeholder="새 비밀번호 확인">
-          </span>
-          <input type='button' v-if="pwShow" value='취소' @click="cancel">
-          <div v-if="pwShow">
-            <div v-show="pw!=='' && pw===pwCheck">비밀번호가 일치합니다.</div>
-            <div v-show="pw!==pwCheck">비밀번호가 일치하지 않습니다.</div>
+        <div class="row">
+          <div class="item-nm">이메일</div>
+          <div class="item-nm">비밀번호</div>
+          <div class="item-nm">비밀번호 확인</div>
+          <div class="item-nm">이름</div>
+          <div class="item-nm">닉네임</div>
+          <div class="item-nm">성별</div>
+          <div class="item-nm">생년월일</div>
+          <div class="item-nm">전환번호</div>
+          <div class="item-nm">상태메세지</div>
+        </div>
+
+        <div class="row-ctnt">
+          <div class="item-txt"> {{ loginUser.email }} </div>
+          <div class="item-txt">
+            <!-- <input type='button' v-if="!pwShow" value='비밀번호 변경' @click="showPw"> -->
+            <span style="color: var(--maincolor);">
+              <input class="input bolder" type='password' v-model="pw" placeholder="새 비밀번호">
+            </span>
+          <div class="item-txt">
+            <span>
+              <input class="input" type='password' v-model="pwCheck" placeholder="새 비밀번호 확인">
+            </span>
           </div>
+            <!-- <input type='button' v-if="pwShow" value='취소' @click="cancel"> -->
+            <!-- <div v-if="pwShow"> -->
+              <div v-show="pw!=='' && pw===pwCheck">비밀번호가 일치합니다.</div>
+              <div v-show="pw!==pwCheck">비밀번호가 일치하지 않습니다.</div>
+            <!-- </div> -->
+          </div>
+          <div class="item-txt"> {{ loginUser.nm }} </div>
+          <div class="item-txt"><input type="text" v-model="loginUser.nick"></div>
+          <div class="item-txt"> {{ genderTxt }} </div>
+          <div class="item-txt"> {{ loginUser.birth }} </div>
+          <div class="item-txt"><input type="tel" v-model="loginUser.tel"></div>
+          <div class="item-txt"><input type="text" v-model="loginUser.cmt"></div>
         </div>
-        <div class="item">이름 : <input type="text" v-model="loginUser.nm"></div>
-        <div class="item">닉네임 : <input type="text" v-model="loginUser.nick"></div>
-        <div class="item">성별 :
-          <input v-model="loginUser.gender" type="radio" id="male" name="gender" value="1"
-            checked="this.loginUser.gender == 1 ? ='checked' : =''">
-          <label for="male">남성</label>
-          <input v-model="loginUser.gender" type="radio" id="female" name="gender" value="2">
-          <label for="female">여성</label>
-        </div>
-        <div class="item">생년월일 : <input type="date" v-model="loginUser.birth"></div>
-        <div class="item">전화번호 : <input type="tel" v-model="loginUser.tel"></div>
-        <div class="item">상태메세지 : <input type="text" v-model="loginUser.cmt"></div>
       </div>
 
 
@@ -55,13 +65,19 @@ export default {
       loginUser: {},
       pw: '',
       pwCheck: '',
-      pwShow: false
+      pwShow: false,
+      genderTxt: ''
     }
   },
   methods: {
     async getMyAccount() { // iuser
       // console.log(this.$store.state.user);
       this.loginUser = JSON.parse(JSON.stringify(this.$store.state.user));
+      if(this.loginUser.gender == 1) {
+        this.genderTxt = '남성';
+      } else {
+        this.genderTxt = '여성';
+      }
       console.log(this.loginUser);
     },
     async myAccountMod() {
@@ -102,36 +118,73 @@ export default {
 </script>
 
 <style scoped>
-.location {
+.myaccount-mod {
   z-index: auto;
   margin: 0 auto;
   padding: 150px;
 }
-
 .container {
   color: var(--maincolor);
   width: 100vh;
 }
 
 .myaccount-profile {
+  border: 2px solid var(--mainOrange);
+  border-radius: 15px;
+  width: 50vw;
+  margin: 0 auto;
+  display: flex;
+  line-height: 40px;
+  justify-content: space-evenly;
+  padding: 50px;
+  font-size: 1.2rem;
+}
+
+.row {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--maincolor);
+  text-align: left;
+  padding-right: 35px;
+  line-height: 41px;
 }
-
-.item {
-  background-color: #fff;
-  color: var(--maincolor);
-  text-align: start;
-  height: 5vh;
-  margin: 5px;
-  padding: 5px;
+.row-ctnt {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  /* padding-right: 20px; */
 }
-
-input {
+.item-txt {
+	text-decoration: underline;
+  text-underline-position: under;
+}
+input, .input {
   border: none;
   border-bottom: 1px solid var(--maincolor);
-  padding: 5px;
+  color: var(--maincolor);
+}
+input:focus {
+  border: none;
+  border-bottom: 1px solid var(--maincolor);
+  /* border-radius: 10px; */
+}
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  border: none;
+  border-bottom: 1px solid var(--maincolor);
+  color: var(--maincolor);
+  font-weight: bolder;
+  width: 120px;
+  height: 25px;
+  /* padding-left: 10px; */
+  color: var(--maincolor);
+}
+input::-ms-expand { display: none; }
+input:hover {
+  /* border-bottom: 1px solid var(--mainDark); */
+  cursor: pointer;    
 }
 
 </style>

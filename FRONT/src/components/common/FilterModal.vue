@@ -4,8 +4,8 @@
       <div class="modal-wrapper" @click="$emit('close')">
         <div class="modal-container" @click.stop="">
           <div class="modal-header">
-            <slot name="header" style="font-size: 20px;">필터</slot>
-            <button class="modal-cancle-btn" @click="$emit('close')">X</button>
+            <div name="header" style="font-size: 20px; color: var(--maincolor);">필터</div>
+            <button class="modal-cancel-btn" @click="$emit('close')">X</button>
           </div>
 
           <div class="modal-body">
@@ -13,24 +13,30 @@
               <div class="map-box">
                 <span class="filter-name">지역</span>
                 <br>
-                <select v-model="selectedArea" @change="showLocationOption()">
-                  <option value="0" selected>전체</option>
-                  <option :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
-                </select>
-                <select v-model="selectedLocation" v-if="locationList.length > 1">
-                  <option value="0" selected>전체</option>
-                  <option :key="item.ilocation" :value="item.ilocation" v-for="item in locationList">{{ item.location_nm
-                    }}</option>
-                </select>
+                <div class="choose">
+                  <select class="choose-area bolder" v-model="selectedArea" @change="showLocationOption()">
+                    <option class="bolder" value="" selected>전체</option>
+                    <option class="bolder" :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
+                  </select>
+                  <select class="bolder" v-model="selectedLocation" v-if="locationList.length > 1">
+                    <option class="bolder" value="" selected>전체</option>
+                    <option class="bolder" :key="item.ilocation" :value="item.ilocation" v-for="item in locationList">{{ item.location_nm
+                      }}</option>
+                  </select>
+                </div>
               </div>
               <hr>
-              <span class="filter-name">날짜</span>
-              <Datepicker v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false"
-                :minDate="new Date()" />
+              <div class="date-box">
+                <span class="filter-name">날짜</span>
+                <div class="choose">
+                  <Datepicker class="choose-date" v-model="date" range multiCalendars :multiStatic="false" :enableTimePicker="false"
+                    :minDate="new Date()" />
+                </div>
+              </div>
               <hr>
               <div class="people-box">
                 <span class="filter-name">인원</span>
-                <div class="choose-people">
+                <div class="choose-people choose">
                   <div :key="item.idx" v-for="item in peopleList">
                     <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_people"
                       :id="`people${item.people}`" :value="item.idx" name="people" />
@@ -41,7 +47,7 @@
               <hr>
               <div class="gender-box">
                 <span class="filter-name">성별</span>
-                <div class="choose-gender">
+                <div class="choose-gender choose">
                   <div :key="item.idx" v-for="item in genderList">
                     <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_gender"
                       :id="`gender${item.gender}`" :value="item.idx" name="gender" />
@@ -52,7 +58,7 @@
               <hr>
               <div class="age-box">
                 <span class="filter-name">연령</span>
-                <div class="choose-age">
+                <div class="choose-age choose">
                   <div :key="item.idx" v-for="item in ageList">
                     <input class="radio-btn" @change="changeFilter" type="radio" v-model="filter.f_age"
                       :id="`age${item.age}`" :value="item.idx" name="age"/>
@@ -63,7 +69,7 @@
               <hr>
               <div class="price-box">
                 <span class="filter-name">비용</span>
-                <div class="choose-price">
+                <div class="choose-price choose">
                   <span>최소<input type="number" v-model="filter.l_price" step="10000" id="number" min="0"></span><br>
                   <span>최대<input type="number" v-model="filter.h_price" step="10000" id="number" min="0"></span>
                 </div>
@@ -73,7 +79,7 @@
           <div class="modal-footer">
             <slot name="footer">
               <router-link :to="{ path: '/List' }">
-                <button type="button" @click="moveToFilterList()">여행 찾기</button>
+                <button class="modal-submit-btn" type="button" @click="moveToFilterList()">여행 찾기</button>
               </router-link>
             </slot>
           </div>
@@ -251,31 +257,24 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
 }
-
-/* .modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
-} */
-/* .modal-header > slot {
-  text-align: center;
-} */
-slot {
-  font-size: 30px;
-}
-.modal-cancle-btn {
+.modal-cancel-btn, .modal-submit-btn {
   border: 0;
   background: none;
   font-weight: bolder;
   color: var(--mainOrange);
   font-size: 20px;
 }
-
+.modal-submit-btn {
+  padding-top: 20px;
+}
 .modal-body {
   margin: 20px 0;
 }
 
 .modal-footer {
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .modal-enter-from {
@@ -298,17 +297,38 @@ slot {
 }
 hr { color: var(--maincolor); }
 .filter-name {
+  padding-bottom: 30px;
+  font-size: 20px;  
   color: var(--maincolor);
 }
-.map-box .people-box, .gender-box, .age-box, .price-box {
-  display: flex !important;
-  flex-direction: column !important;
-  padding: 29px;
-}
-/* .map-box > span, .gender-box > span, .age-box > span, .price-box > span {
+.map-box, .date-box, .people-box, .gender-box, .age-box, .price-box {
   padding-bottom: 20px;
-} */
-span { padding-bottom: 20px; }
+}
+.map-box > .choose > select, .map-box > .choose > input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border: none;
+    border-bottom: 2px solid var(--maincolor);
+    width: 50px;
+    height: 25px;
+    padding-left: 10px;
+    color: var(--maincolor);
+}
+select:hover, input:hover {
+    border-bottom: 2px solid var(--mainDark);
+    cursor: pointer;    
+}
+.map-box > select::-ms-expand { display: none; }
+select:focus { 
+    border: 2px solid var(--mainDark);
+}
+.choose { padding-top: 30px; }
+.choose-date {
+  width: 300px;
+  margin: 0 auto;
+}
 .choose-people, .choose-gender{
   display: flex;
   flex-direction: row;

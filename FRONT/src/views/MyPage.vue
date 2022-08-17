@@ -1,7 +1,7 @@
 <template>
   <div class="my-page">
     <div class="container">
-      <div class="my-page-title">{{ selUser.nick }}님의 페이지</div>
+      <h1 class="my-page-title bolder">{{ selUser.nick }}님의 페이지</h1>
       <!-- 마이페이지 섹션1 - 프로필 -->
       <div class="mypage-profile">
         <div class="mypage-profile-img">
@@ -10,7 +10,6 @@
             @click="showModal" id="profile-img">
         </div>
         <div class="mypage-profile-txt">
-          <div>닉네임 : {{ selUser.nick }}</div>
           <div>상태메세지 : {{ selUser.cmt }}</div>
           <div :key="item.icmt" v-for="item in myPageCmt">
             <div>평점 : {{ item.avgOfGrade }}점</div>
@@ -28,14 +27,14 @@
       <!-- 마이페이지 섹션2 - 신청 여행(신청중, 신청수락), 찜한 여행, 호스팅한 여행 , 참여한 여행 -->
 
       <div v-if="feedIuser == loginIuser">
-        <div class="state-title">신청 여행</div> <!-- 신청중, 신청수락 여행 슬라이드로 띄우기-->
+        <div class="title">신청한 여행 현황</div> <!-- 신청중, 신청수락 여행 슬라이드로 띄우기-->
         <div>
           <div>
-            <div>신청중</div>
-            <Carousel>
+            <div class="travel-state">신청중</div>
+            <Carousel class="carousel">
               <Slide v-for="item in preTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
                 <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
-                <div>{{ item.title }}</div>
+                <div class="travel-nm">{{ item.title }}</div>
               </Slide>
               <template #addons>
                 <Navigation v-if="preTravel.length > 1"/>
@@ -44,11 +43,11 @@
           </div>
           <hr>
           <div>
-            <div>신청완료</div>
-            <Carousel>
+            <div class="travel-state">신청완료</div>
+            <Carousel class="carousel">
               <Slide v-for="item in ingTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
                 <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
-                <div>{{ item.title }}</div>
+                <div class="travel-nm">{{ item.title }}</div>
               </Slide>
               <template #addons>
                 <Navigation v-if="ingTravel.length > 1"/>
@@ -61,10 +60,10 @@
 
       <div v-if="feedIuser == loginIuser">
         <div class="title">찜한 여행</div>
-          <Carousel>
+          <Carousel class="carousel">
             <Slide v-for="item in myPageTravelFav" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
               <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
-              <div>{{ item.title }}</div>
+              <div class="travel-nm">{{ item.title }}</div>
             </Slide>
             <template #addons>
               <Navigation v-if="myPageTravelFav.length > 1"/>
@@ -78,7 +77,7 @@
           <Carousel class="carousel">
             <Slide v-for="item in myPageHost" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
               <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
-              <div>{{ item.title }}</div>
+              <div class="travel-nm">{{ item.title }}</div>
             </Slide>
             <template #addons>
               <Navigation v-if="myPageHost.length > 1"/>
@@ -93,7 +92,7 @@
               <Slide v-for="item in postTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
                 <div v-if="item.isconfirm == 2">
                   <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
-                  <div>{{ item.title }}</div>
+                  <div class="travel-nm">{{ item.title }}</div>
                 </div>
               </Slide>
               <template #addons>
@@ -106,7 +105,7 @@
       <!-- 마이페이지 섹션3 - 리뷰-->
 
       <div>
-        <div class="title"><i class="fa-solid fa-comment"></i>리뷰</div>
+        <div class="title"><i class="fa-solid fa-comment p-15"></i>리뷰</div>
         <div :key="item.icmt" v-for="item in myPageCmt">
           <div class="section-list">
             <span>
@@ -123,7 +122,6 @@
             <span v-if="item.grade == 4" class="section-list-grade"> ★★★★(4)</span>
             <span v-if="item.grade == 5" class="section-list-grade"> ★★★★★(5)</span>
             <span class="section-list-title">참여여행: [{{ item.title }}]</span>
-
           </div>
         </div>
 
@@ -274,48 +272,18 @@ export default {
 </script>
 
 <style scoped>
-.carousel { cursor: pointer; }
-.carousel__item {
-  min-height: 200px;
-  width: 200px;
-  background-color: var(--vc-clr-primary);
-  color:  var(--vc-clr-white);
-  font-size: 20px;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.carousel__slide {
-  padding: 10px;
-}
-
-.carousel__prev {
-  left: 150px;
-  box-sizing: content-box;
-  border: 5px solid white;
-}
-.carousel__next {
-  box-sizing: content-box;
-  border: 5px solid white;
-  right: 150px;
-}
-.location {
+.my-page {
   z-index: auto;
   margin: 0 auto;
   padding: 150px;
 }
-
 .container {
   color: var(--maincolor);
-
+  width: 60%;
 }
-
 .my-page-title {
-  font-size: 1.5rem;
-  color: var(--mainDark);
-
+  color: var(--maincolor);
+  padding-bottom: 25px;
 }
 
 /* 마이페이지 섹션1 - 프로필 */
@@ -323,6 +291,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  padding-bottom: 20px;
 }
 
 .mypage-profile .mypage-profile-txt {
@@ -331,19 +300,38 @@ export default {
   justify-content: center;
 }
 
-/* 마이페이지 섹션2 - 신청 여행(신청중, 신청수락), 찜한 여행, 호스팅한 여행 , 참여한 여행 */
-
-.state-title {
-  background-color: var(--maincolor);
-  color: #fff;
-  height: 5vh;
+.carousel { 
+  cursor: pointer;
+}
+.carousel__item {
+  min-height: 200px;
+  width: 300px;
+  object-fit: cover;
+  background-color: var(--vc-clr-primary);
+  color: var(--vc-clr-white);
+  font-size: 20px;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-.state-title:hover {
-  background-color: rgb(207, 207, 207);
+.travel-nm {
+  padding-left: 20px;
+}
+.carousel__slide {
+  padding: 10px;
+}
+.carousel__prev {
+  background-color: var(--maincolor);
+  left: 150px;
+  box-sizing: content-box;
+  border: 5px solid white;
+}
+.carousel__next {
+  box-sizing: content-box;
+  border: 5px solid white;
+  right: 150px;
+  background-color: var(--maincolor);
 }
 
 .title {
@@ -353,35 +341,27 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
 }
-
-.title:hover {
-  background-color: rgb(207, 207, 207);
+.travel-state {
+  color: var(--maincolor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  text-decoration: underline;
+  text-underline-position: under;
 }
-
 .ctnt {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   border-bottom: 1px solid var(--maincolor);
 }
-
-.ctnt-title {
-  display: flex;
-  align-self: center;
-}
-
-.userFav {
-  cursor: pointer;
-}
-
-.my-page-img {
-  max-width: 20vw;
-}
-
 .profile-img {
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   object-fit: cover;
   border-radius: 50%;
   cursor: pointer;
@@ -397,22 +377,28 @@ export default {
 }
 
 .section-list-nick {
-  width: 4vw;
+  width: 8vw;
   cursor: pointer;
+  text-align: left;
 }
 
 .section-list-cmt {
-  width: 30vw;
+  width: 22vw;
+  text-align: left;
 }
 
 .section-list-reg-dt {
   width: 10vw;
+  text-align: left;
 }
 
 .section-list-grade {
   width: 7vw;
+  text-align: left;
 }
-
+.section-list-title {
+  width: 10vw;
+}
 .reviewer-profile-img {
   width: 30px;
   height: 30px;
@@ -420,23 +406,19 @@ export default {
   border-radius: 50%;
   cursor: pointer;
 }
-
 .section-select {
   height: 3vh;
   border: 1px solid var(--maincolor);
   margin: 3px;
 
 }
-
 .section-comment {
   width: 10vw;
   height: 3vh;
   border: 1px solid var(--maincolor);
   border-radius: 0%;
   margin: 3px;
-
 }
-
 .section-grade {
   width: 5vw;
   height: 3vh;
@@ -444,15 +426,12 @@ export default {
   border: 1px solid var(--maincolor);
   border-radius: 0%;
 }
-
 .section-submit {
   background-color: var(--maincolor);
   color: #fff;
   border: 1px solid var(--maincolor);
   height: 3vh;
   margin: 3px;
-
-
 }
 </style>
 
