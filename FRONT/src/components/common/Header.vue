@@ -271,7 +271,6 @@ export default {
             console.log(res2);
         },
         async request(itravel, iuser) {
-            if (confirm("수락 하시겠습니까?") == true) {
                 const res = await this.$put(`/travel/selRequest`, {
                     itravel: itravel,
                     iuser: iuser,
@@ -289,10 +288,8 @@ export default {
             } else {
                 this.$swal.fire('수락할 수 없습니다.', '', 'error');
             }
-            }
         },
         async requestDel(itravel, iuser) {
-            if (confirm("거절하시겠습니까?") == true) {
                 const res = await this.$put(`/travel/selRequest`, {
                     itravel: itravel,
                     iuser: iuser,
@@ -309,7 +306,6 @@ export default {
                 });
             } else {
                 this.$swal.fire('거절할 수 없습니다.', '', 'error');
-            }
             }
         },
         async requestYes(itravel, iuser, e) {
