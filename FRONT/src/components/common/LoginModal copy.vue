@@ -4,25 +4,18 @@
       <div class="modal-wrapper" style="z-index: 10;" @click="$emit('close')">
         <div class="modal-container" @click.stop="">
           <div class="modal-header">
-            <p>{{ header }}</p>
+            <p>{{header}}</p>
           </div>
 
           <!-- 로그인 폼 -->
           <form v-if="login" v-on:submit.prevent="loginForm">
             <div class="modal-body">
-              <!-- <slot name="body">{{body}}</slot> -->
+            <!-- <slot name="body">{{body}}</slot> -->
               <div><input v-model="loginUser.email" type="email" placeholder="아이디"></div>
               <div><input v-model="loginUser.pw" type="password" placeholder="비밀번호"></div>
               <div>
                 <p>아직 회원이 아니신가요?</p>
                 <p type="button" @click="showJoin">Sign Up</p>
-                <img class="loginButton" src="../../../static/img_used/kakaologin.png" alt="kakaologin" type="button" @click="kakaoLogin">
-                <!-- 구글 로그인-->
-                <section class="test">
-                  <div class="google-div" v-on:click="GoogleLoginBtn"><img
-                      src="../../../static/img_used/logingoogle.png" alt="구글 소셜로그인"></div>
-                  <div class="google-div" id="my-signin2" style="display: none"></div>
-                </section>
               </div>
             </div>
 
@@ -36,7 +29,6 @@
             </div>
           </form>
 
-
           <!-- 회원가입 폼 -->
           <form v-if="join" v-on:submit.prevent="joinForm">
             <div class="modal-body">
@@ -45,8 +37,8 @@
               <div>
                 <input v-model="joinUser.pwCheck" type="password" placeholder="비밀번호 확인" required>
                 <div v-if="joinUser.pwCheck !== ''">
-                  <div v-show="joinUser.pw === joinUser.pwCheck">비밀번호가 일치합니다.</div>
-                  <div v-show="joinUser.pw !== joinUser.pwCheck">비밀번호가 일치하지 않습니다.</div>
+                  <div v-show="joinUser.pw===joinUser.pwCheck">비밀번호가 일치합니다.</div>
+                  <div v-show="joinUser.pw!==joinUser.pwCheck">비밀번호가 일치하지 않습니다.</div>
                 </div>
               </div>
               <div><input v-model="joinUser.nm" type="text" placeholder="이름" required></div>
@@ -72,8 +64,7 @@
             <div class="modal-footer">
               <div v-if="join" class="modal-login-button">
                 <slot name="footer">
-                  <button type="submit"
-                    v-bind:disabled="joinUser.pw !== joinUser.pwCheck || joinUser.pwCheck === ''">회원가입</button>
+                  <button type="submit" v-bind:disabled="joinUser.pw !== joinUser.pwCheck || joinUser.pwCheck === ''">회원가입</button>
                   <button type="button" @click="$emit('close'); showLogin();">취소</button>
                 </slot>
               </div>
@@ -86,17 +77,14 @@
 </template>
 
 <script>
-
 // import { request } from 'http';
 
 export default {
   name: "LoginModal",
-  name: "test",
-
   props: {
     show: Boolean,
   },
-  data() {
+  data(){
     return {
       login: true,
       join: false,
@@ -117,56 +105,15 @@ export default {
       loginUser: {
         email: '',
         pw: ''
-      },
+      }
     }
   },
   methods: {
-    kakaoLogin() {
-      console.log(window.Kakao)
-      window.Kakao.Auth.login({
-        scope: 'profile_nickname, profile_image, account_email',
-        success: this.getKakaoAccount,
-                fail: e => {
-                    console.error(e);
-                }
-      });
-    },
-    getKakaoAccount(authObj) {
-      console.log(authObj);
-      window.Kakao.API.request({
-        url: '/v2/user/me',
-        success: async res => {
-          const acc = res.kakao_account;
-          console.log(acc);
-          const params = {
-            nick: acc.profile.nickname,
-            email: acc.email,
-            profile_img: acc.profile.profile_image_url,
-          }
-          console.log(params);
-          // this.login(params);
-          const data = await this.$post('/user/join', params);
-          params.iuser = data.result;
-          console.log(params.iuser);
-          this.$store.commit('user', params);
-          window.location.href = "http://localhost:8080/";
-        },
-        fail: e => {
-          console.error(e);
-        }
-      })
-    },
-    // async login(params) {
-    //       const data = await this.$post('/user/join', params);
-    //       params.iuser = data.result;
-    //       this.$store.commit('user', params);
-    //       window.location.href = "http://location:8080/";
-    // },
     async toBase64(files){
       const profileImg = await this.$base64(files[0]);
       this.joinUser.profile_img = profileImg;
     },
-    showJoin() {
+    showJoin(){
       this.login = false;
       this.join = true;
       this.header = '회원가입';
@@ -179,25 +126,25 @@ export default {
       this.joinUser.tel = '';
       this.joinUser.cmt = '';
     },
-    showLogin() {
+    showLogin(){
       this.login = true;
       this.join = false;
       this.header = '로그인';
       this.loginUser.email = '';
       this.loginUser.pw = '';
     },
-    async joinForm() {
+    async joinForm(){
       const res = await this.$post('/user/join', this.joinUser);
-      if (res.result === 2) { //아이디 중복
+      if(res.result === 2){ //아이디 중복
         this.$swal.fire('중복되는 아이디가 있습니다.', '', 'error');
-      } else if (res.result === 1) { //회원가입 성공
+      }else if(res.result === 1){ //회원가입 성공
         this.$swal.fire('회원가입 되었습니다!', '', 'success');
         this.showLogin();
-      } else { //회원가입 실패
+      }else{ //회원가입 실패
         this.$swal.fire('회원가입할 수 없습니다.', '', 'error');
       }
     },
-    async loginForm() {
+    async loginForm(){
       // const options = { //$enc_data 를 php 의 main 에서 가져오기 위한 옵션
       //   url: '/user/login',
       //   method: 'POST',
@@ -215,9 +162,9 @@ export default {
         email: this.loginUser.email,
         pw: this.loginUser.pw
       });
-      if (res.result === 0) {
+      if(res.result === 0){
         this.$swal.fire('일치하는 회원이 없습니다.', '', 'error'); //로그인 실패
-      } else {
+      }else{
         this.$store.commit('user', res.result); //로그인 성공
         this.$store.state.isLogin = true;
         console.log(this.$store.state.user);
@@ -226,48 +173,11 @@ export default {
         this.$emit('update');
       }
     },
-
-    /* 구글 로그인 */
-    GoogleLoginBtn: function () {
-      var self = this;
-
-      window.gapi.signin2.render('my-signin2', {
-        scope: 'profile email',
-        width: 240,
-        height: 50,
-        longtitle: true,
-        theme: 'dark',
-        onsuccess: this.GoogleLoginSuccess,
-        onfailure: this.GoogleLoginFailure,
-      });
-
-      setTimeout(function () {
-        if (!self.googleLoginCheck) {
-          const auth = window.gapi.auth2.getAuthInstance();
-          auth.isSignedIn.get();
-          document.querySelector('.abcRioButton').click();
-        }
-      }, 1500)
-
-    },
-    async GoogleLoginSuccess(googleUser) {
-      const googleEmail = googleUser.getBasicProfile().getEmail();
-      if (googleEmail !== 'undefined') {
-        console.log(googleEmail);
-      }
-    },
-    //구글 로그인 콜백함수 (실패)
-    GoogleLoginFailure(error) {
-      console.log(error);
-    },
   }
 }
 </script>
 
-<style scoped>
-.loginButton {
-  width: 220px;
-}
+<style>
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -279,12 +189,10 @@ export default {
   display: table;
   transition: opacity 0.3s ease;
 }
-
 .modal-wrapper {
   display: table-cell;
   vertical-align: middle;
 }
-
 .modal-container {
   width: 500px;
   margin: 0px auto;
@@ -294,24 +202,20 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
 }
-
 .modal-header h3 {
   margin-top: 0;
   color: #42b983;
 }
-
 .modal-body {
   margin: 20px 0;
 }
-
 .modal-footer {
   text-align: center;
-}
+  }
 
 .modal-login-button {
   display: inline-block;
 }
-
 /*
  * The following styles are auto-applied to elements with
  * transition="modal" when their visibility is toggled
@@ -323,39 +227,15 @@ export default {
 .modal-enter-from {
   opacity: 0;
 }
-
 .modal-leave-to {
   opacity: 0;
 }
-
 .modal-enter-from .modal-container,
 .modal-leave-to .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
-
 .swal2-container {
   z-index: 20000 !important;
-}
-
-
-.test {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* height: 100vh; */
-}
-
-.google-div img {
-  width: 220px;
-  cursor: pointer;
-  /* height: 40px;
-  background-color: #ffffff;
-  border: 1px #a8a8a8 solid;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer; */
 }
 </style>

@@ -11,7 +11,7 @@
         </div>
         <div class="mypage-profile-txt">
           <div>상태메세지 : {{ selUser.cmt }}</div>
-          <div :key="item.icmt" v-for="item in myPageCmt">
+          <div :key="item.igrade" v-for="item in myPageGrade">
             <div>평점 : {{ item.avgOfGrade }}점</div>
           </div>
           <!--이 유저의 평균평점 = 이 유저가 호스팅한 모든 여행의 평점 합계의 평균..... 함수를 하나 빼야하는건가.....?
@@ -176,6 +176,7 @@ export default {
       cmt: '',
       selUserFav: [],
       modalShow: false,
+      myPageGrade: [],
     }
   },
   components: {
@@ -266,11 +267,19 @@ export default {
         this.insCmt();
       }
     },
+      async getGrade() {
+      const res = await this.$get(`/user/getGrade/${this.feedIuser}`, {});
+      console.log(res.result)
+      if (res) {
+        this.myPageGrade = res.result;
+      }
+    },
   },
   created() {
     this.getMyPage();
     this.getUserData();
     this.getCmt();
+    this.getGrade();
   }
 }
 

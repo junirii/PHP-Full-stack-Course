@@ -80,7 +80,7 @@ const routes = [
     name: 'chat',
     component: Chat,
     beforeEnter: requireAuth()
-  }
+  },
 ]
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
