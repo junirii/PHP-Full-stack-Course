@@ -201,7 +201,8 @@ export default {
             selStateList: [],
             refusalMsg: [],
             agreeMag: [],
-            unreadCntAll: this.$store.state.unreadCntAll
+            unreadCntAll: this.$store.state.unreadCntAll,
+            isJoin: false,
         };
     },
     methods: {
@@ -278,6 +279,17 @@ export default {
                     isyes: 1
                 });
                 console.log(res);
+                if (res.result === 1) {
+                console.log(res);
+                this.$swal.fire('수락 되었습니다.', '', 'success')
+                .then(async result => {
+                    if (result.isConfirmed) {
+                    this.isJoin = true;
+                    }
+                });
+            } else {
+                this.$swal.fire('수락할 수 없습니다.', '', 'error');
+            }
             }
         },
         async requestDel(itravel, iuser) {
@@ -288,7 +300,17 @@ export default {
                     isyes: 0
                 });
                 console.log(res.result);
-                console.log('거절됨');
+                if (res.result === 1) {
+                console.log(res);
+                this.$swal.fire('거절 하였습니다.', '', 'success')
+                .then(async result => {
+                    if (result.isConfirmed) {
+                    this.isJoin = true;
+                    }
+                });
+            } else {
+                this.$swal.fire('거절할 수 없습니다.', '', 'error');
+            }
             }
         },
         async requestYes(itravel, iuser, e) {
@@ -318,6 +340,17 @@ export default {
         async requestNo(itravel, iuser) {
             const res = await this.$delete(`/travel/selYesNo/${itravel}/${iuser}`);
             console.log(res);
+            if (res.result === 1) {
+                console.log(res);
+                this.$swal.fire('확인 하였습니다.', '', 'success')
+                .then(async result => {
+                    if (result.isConfirmed) {
+                    this.isJoin = true;
+                    }
+                });
+            } else {
+                this.$swal.fire('확인할 수 없습니다.', '', 'error');
+            }
         }
     },
     created() {

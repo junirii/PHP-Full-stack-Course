@@ -121,6 +121,7 @@ class UserController extends Controller
         "itravel" => $json["itravel"],
         "guest_iuser" => $json["guest_iuser"],
         "cmt" => $json["cmt"],
+        "grade" => $json["grade"],
         ];
         return [_RESULT => $this->model->insMypageCmt($param)];
     }

@@ -85,7 +85,7 @@ class UserModel extends Model
   }
 
   public function myPageGrade(&$param)
-  { // mypage 호스트 리뷰 (list 뿌리기)
+  { // mypage 호스트 리뷰 (평점 뿌리기)
     $sql =
     " SELECT ROUND(AVG(A.grade),1) AS avgOfGrade FROM t_mypage_cmt A
       INNER JOIN t_travel B
@@ -122,7 +122,7 @@ class UserModel extends Model
     FROM t_travel_state A
     INNER JOIN t_travel B
     ON A.itravel = B.itravel
-    WHERE A.iuser = :loginIuser AND B.iuser = :iuser AND A.isconfirm = 1";
+    WHERE A.iuser = :loginIuser AND B.iuser = :iuser AND A.isconfirm = 2";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":loginIuser", $param["loginIuser"]);
     $stmt->bindValue(":iuser", $param["iuser"]);
@@ -134,14 +134,15 @@ class UserModel extends Model
   { // mypage cmt (호스트 유저에게 댓글 달기)
     $sql =
       "INSERT INTO t_mypage_cmt
-       (itravel, guest_iuser, cmt)
+       (itravel, guest_iuser, cmt, grade)
        VALUES
-       (:itravel, :guest_iuser, :cmt)
+       (:itravel, :guest_iuser, :cmt ,:grade)
       ";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":itravel", $param["itravel"]);
     $stmt->bindValue(":guest_iuser", $param["guest_iuser"]);
     $stmt->bindValue(":cmt", $param["cmt"]);
+    $stmt->bindValue(":grade", $param["grade"]);
     $stmt->execute();
     return $stmt->rowCount();
   }

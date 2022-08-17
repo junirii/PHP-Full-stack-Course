@@ -169,11 +169,10 @@ export default {
       console.log(this.itravel);
       console.log('isLike:'+this.isLike)
       this.isLike = false;
-      const test = this.travelfav.some( X=> {
+      const Ifav = this.travelfav.some( X=> {
         return X.itravel === this.itravel
       });
-      console.log('hwi:' +test);
-      this.isLike = test;
+      this.isLike = Ifav;
     },
     async insTravelFav() {
       const loginIuser = this.$store.state.user.iuser;

@@ -2,7 +2,6 @@
   <div class="my-page">
     <div class="container">
       <h1 class="my-page-title bolder">{{ selUser.nick }}님의 페이지</h1>
-      <!-- 마이페이지 섹션1 - 프로필 -->
       <div class="mypage-profile">
         <div class="mypage-profile-img">
           <img class="profile-img" :src="`/static/img/profile/${selUser.iuser}/${selUser.profile_img}`"
@@ -14,8 +13,6 @@
           <div :key="item.igrade" v-for="item in myPageGrade">
             <div>평점 : {{ item.avgOfGrade }}점</div>
           </div>
-          <!--이 유저의 평균평점 = 이 유저가 호스팅한 모든 여행의 평점 합계의 평균..... 함수를 하나 빼야하는건가.....?
-          ROUND(AVG(A.grade),1) AS avgOfGrade -->
           <div v-if="feedIuser == loginIuser">
             <router-link :to="{ path: '/MyAccount' }">
               <div><i class="fa-solid fa-pencil fa"></i>프로필수정</div>
@@ -24,10 +21,9 @@
         </div>
       </div>
       <br>
-      <!-- 마이페이지 섹션2 - 신청 여행(신청중, 신청수락), 찜한 여행, 호스팅한 여행 , 참여한 여행 -->
 
       <div v-if="feedIuser == loginIuser">
-        <div class="title">신청한 여행 현황</div> <!-- 신청중, 신청수락 여행 슬라이드로 띄우기-->
+        <div class="title">신청한 여행 현황</div> 
         <div>
           <div>
             <div>신청중</div>
@@ -133,8 +129,7 @@
         <div v-if="this.myPageCmt.length < 1">등록된 리뷰가 없습니다.</div>
         <div v-if="this.loginIuser !== selUser.iuser">
           <select class="section-select" v-model="selectedTravel">
-            <option value="" selected>참여한 여행(selected 안됨)</option>
-            <option :value="item.itravel" :key="item.itravel" v-for="item in guestTravel">{{ item.title }}</option>
+            <option :value="item.itravel" :key="item.itravel" v-for="item in guestTravel" selected>{{ item.title }}</option>
           </select>
           <input class="section-comment" v-model="cmt" type="textarea" @keyup="enter($event)">
           <select class="section-grade" v-model="grade" type="select" @keyup="enter($event)">
@@ -144,7 +139,7 @@
             <option value="4">★★(2)점</option>
             <option value="5">★(1)점</option>
           </select>
-          <input class="section-submit" type="submit" value="등록" @click="insCmt">
+          <input class="section-submit" type="submit" value="등록" @click="insCmt()">
         </div>
       </div>
     </div> <!-- container 닫기 -->
@@ -207,6 +202,7 @@ export default {
 
       this.data = await this.$get(`/user/myPage/${this.feedIuser}/${this.loginIuser}`, {}); // controllers / method
       console.log(this.data);
+      this.guestTravel = this.data.result.guestTravel;
       this.myPageTravelFav = this.data.result.myPageTravelFav;
       this.myPageHost = this.data.result.myPageHost;
       this.myPageTravelState = this.data.result.myPageTravelState;
@@ -224,9 +220,7 @@ export default {
             break;
         }
       });
-      this.guestTravel = this.data.result.guestTravel;
-      this.selUserFav = this.data.result.selUserFav;  // 인기도
-      console.log(this.selUserFav[0]);
+
     },
     async getUserData() {
       console.log(this.feedIuser);
@@ -246,14 +240,18 @@ export default {
       const res = await this.$post('/user/insCmt', {
         itravel: this.selectedTravel,
         guest_iuser: this.loginIuser,
-        cmt: this.cmt
+        cmt: this.cmt,
+        grade: this.grade
       });
-      console.log(res.result);
+      console.log(res);
       if (res.result === 1) {
         this.selectedTravel = 0;
         this.cmt = '';
         this.getCmt();
       }
+      console.log(this.selectedTravel);
+      console.log(this.cmt);
+      console.log(this.grade);
     },
     async getCmt() {
       const res = await this.$get(`/user/getCmt/${this.feedIuser}`, {});

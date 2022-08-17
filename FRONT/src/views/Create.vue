@@ -22,7 +22,7 @@
                 <div class="area-section">
                     <span class="section-title">지역</span>
                     <select class="bolder" v-model="travel.area" @change="showLocationOption()">
-                        <option class="bolder" value="" selected>전체</option>
+                        <!-- <option class="bolder" value="" selected></option> -->
                         <option class="bolder" :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
                     </select>
                     <select class="bolder" v-model="travel.location" v-if="locationList.length > 1">
@@ -35,7 +35,7 @@
                 <div>
                     <span class="section-title">성별</span>
                     <select class="bolder" v-model="travel.f_gender">
-                        <option class="bolder" value="" selected>선택</option>
+                        <!-- <option class="bolder" value="선택" selected></option> -->
                         <option :key="item.idx" :value="item.idx" v-for="item in genderList">{{ item.gender }}</option>
                     </select>
                 </div>
@@ -50,7 +50,7 @@
                 <div>
                     <span class="section-title">연령대</span>
                     <select class="bolder" v-model="travel.f_age">
-                        <option class="bolder" value="" selected>선택</option>
+                        <!-- <option class="bolder" value="" selected>선택</option> -->
                         <option :key="item.idx" :value="item.idx" v-for="item in ageList">{{ item.age }}</option>
                     </select>
                 </div>
@@ -328,6 +328,6 @@ select:focus {
     display: flex;
     justify-items: center;
     align-items: center;
-    width: 30px !important;
+    width: 100px !important;
 }
 </style>
