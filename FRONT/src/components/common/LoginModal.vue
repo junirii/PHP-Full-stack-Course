@@ -106,7 +106,7 @@ export default {
       loginUser: {
         email: '',
         pw: ''
-      }
+      },
     }
   },
   methods: {
@@ -120,7 +120,8 @@ export default {
                 }
       });
     },
-    getKakaoAccount() {
+    getKakaoAccount(authObj) {
+      console.log(authObj);
       window.Kakao.API.request({
         url: '/v2/user/me',
         success: async res => {
@@ -128,19 +129,28 @@ export default {
           console.log(acc);
           const params = {
             nick: acc.profile.nickname,
-            profile_img: acc.profile.profile_image_url,
             email: acc.email,
+            profile_img: acc.profile.profile_image_url,
           }
           console.log(params);
+          // this.login(params);
           const data = await this.$post('/user/join', params);
-          console.log(data);
-          // this.$store.commit('setIuser', data.result);
+          params.iuser = data.result;
+          console.log(params.iuser);
+          this.$store.commit('user', params);
+          window.location.href = "http://localhost:8080/";
         },
         fail: e => {
           console.error(e);
         }
       })
     },
+    // async login(params) {
+    //       const data = await this.$post('/user/join', params);
+    //       params.iuser = data.result;
+    //       this.$store.commit('user', params);
+    //       window.location.href = "http://location:8080/";
+    // },
     async toBase64(files){
       const profileImg = await this.$base64(files[0]);
       this.joinUser.profile_img = profileImg;
