@@ -121,21 +121,21 @@ export default {
         },
         goToCreateCtnt() {
             if (!(this.travel.title)) {
-                alert('제목을 입력해 주세요.');
+                this.$swal.fire('제목을 입력해 주세요.', '', 'error');
             } else if (!(this.travel.area)) {
-                alert('지역을 입력해 주세요.');
+                this.$swal.fire('지역을 입력해 주세요.', '', 'error');
             } else if (!(this.travel.f_gender)) {
-                alert('성별을 입력해 주세요.');
+                this.$swal.fire('성별을 입력해 주세요.', '', 'error');
             } else if (!(this.travel.f_people)) {
-                alert('인원을 입력해 주세요.');
+                        this.$swal.fire('인원을 입력해 주세요.', '', 'error');
             } else if (!(this.travel.f_price)) {
-                alert('비용을 입력해 주세요.');
+                        this.$swal.fire('비용을 입력해 주세요.', '', 'error');
             } else if (!(this.travel.f_age)) {
-                alert('연령대를 입력해 주세요.');
+                        this.$swal.fire('연령대를 입력해 주세요.', '', 'error');
             } else if (!(this.travel.s_date && this.travel.e_date)) {
-                alert('날짜를 입력해 주세요.');
+                        this.$swal.fire('날짜를 입력해 주세요.', '', 'error');
             } else if (!(this.travel.main_img)) {
-                alert ('썸네일을 등록해 주세요.')
+                        this.$swal.fire('썸네일을 등록해 주세요.', '', 'error');
             } else {
                 const s_date = new Date(this.travel.s_date);
                 const e_date = new Date(this.travel.e_date);

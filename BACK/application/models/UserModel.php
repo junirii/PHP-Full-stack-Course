@@ -109,6 +109,7 @@ class UserModel extends Model
       INNER JOIN t_user C
       ON A.guest_iuser = C.iuser
       WHERE B.iuser = :iuser
+      ORDER BY A.reg_dt DESC
       ";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
@@ -122,7 +123,7 @@ class UserModel extends Model
     FROM t_travel_state A
     INNER JOIN t_travel B
     ON A.itravel = B.itravel
-    WHERE A.iuser = :loginIuser AND B.iuser = :iuser AND A.isconfirm = 1";
+    WHERE A.iuser = :loginIuser AND B.iuser = :iuser AND A.isconfirm = 2";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":loginIuser", $param["loginIuser"]);
     $stmt->bindValue(":iuser", $param["iuser"]);
@@ -134,17 +135,33 @@ class UserModel extends Model
   { // mypage cmt (호스트 유저에게 댓글 달기)
     $sql =
       "INSERT INTO t_mypage_cmt
-       (itravel, guest_iuser, cmt)
+       (itravel, guest_iuser, cmt, grade)
        VALUES
-       (:itravel, :guest_iuser, :cmt)
+       (:itravel, :guest_iuser, :cmt, :grade)
       ";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":itravel", $param["itravel"]);
     $stmt->bindValue(":guest_iuser", $param["guest_iuser"]);
     $stmt->bindValue(":cmt", $param["cmt"]);
+    $stmt->bindValue(":grade", $param["grade"]);
     $stmt->execute();
     return $stmt->rowCount();
   }
+
+  public function delMypageCmt(&$param)
+  { // mypage cmt (호스트 유저에게 단 댓글 삭제)
+    $sql =
+      "DELETE FROM t_mypage_cmt
+      WHERE guest_iuser = :guest_iuser
+      AND itravel = :itravel;
+      ";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(":itravel", $param["itravel"]);
+    $stmt->bindValue(":guest_iuser", $param["guest_iuser"]);
+    $stmt->execute();
+    return $stmt->rowCount();
+  }
+
   /* mypage 끝 */
 
   // myaccountmod
