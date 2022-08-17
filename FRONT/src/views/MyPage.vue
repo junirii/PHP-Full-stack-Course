@@ -24,8 +24,9 @@
         </div>
       </div>
       <br>
+      <!-- <ProfileImgModal :show="modalShow" @close="hiddenModal" v-on:update="getUserData" v-on:defaultImg="setDefaultImg" /> -->
+      <Test :show="modalShow" @close="hiddenModal" v-on:update="getUserData" v-on:defaultImg="setDefaultImg" />
       <!-- 마이페이지 섹션2 - 신청 여행(신청중, 신청수락), 찜한 여행, 호스팅한 여행 , 참여한 여행 -->
-
       <div v-if="feedIuser == loginIuser">
         <div class="title">신청한 여행 현황</div> <!-- 신청중, 신청수락 여행 슬라이드로 띄우기-->
         <div>
@@ -149,11 +150,11 @@
       </div>
     </div> <!-- container 닫기 -->
   </div>
-  <ProfileImgModal :show="modalShow" @close="hiddenModal" v-on:update="getUserData" v-on:defaultImg="setDefaultImg" />
 </template>
 
 <script>
 import ProfileImgModal from '/src/components/common/ProfileImgModal.vue';
+import Test from '/src/components/common/test.vue';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
 
@@ -180,12 +181,13 @@ export default {
     }
   },
   components: {
+    Test,
     ProfileImgModal,
     Carousel,
     Slide,
     Pagination,
     Navigation,
-  },
+},
   methods: {
     setDefaultImg() {
       document.querySelector('#profile-img').src = '/static/img/profile/common/defaultImg.webp';

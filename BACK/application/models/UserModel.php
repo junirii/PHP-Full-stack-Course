@@ -181,14 +181,6 @@ class UserModel extends Model
   }
 
   // ----------------- MyPage Fav ---------------
-  public function selUserFav(&$param){ // 인기도 수
-    $sql = "SELECT count(liked_iuser) AS favCount
-    FROM t_user_fav WHERE liked_iuser = :liked_iuser";
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->bindValue(":liked_iuser", $param["iuser"]);
-    $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_OBJ);
-  }
 
   public function userFavgood(&$param) {
     $sql="INSERT INTO t_user_fav

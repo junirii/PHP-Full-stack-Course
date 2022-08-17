@@ -1,8 +1,8 @@
 <template>
   <Transition name="modal">
-    <div v-if="show" class="modal-mask modal-md">
+    <div v-if="show" class="modal-mask modal-lg">
       <div class="modal-wrapper" style="z-index: 10;" @click="$emit('close')">
-        <div class="modal-container" style="width: 350px; border-radius: 15px;" @click.stop="">
+        <div class="modal-container" @click.stop="">
           <div class="modal-body">
             <div class="modal-header justify-content-center p-4">
               <h5 class="modal-title fw-bold">프로필 사진 바꾸기</h5>
@@ -12,7 +12,7 @@
                 <span id="btnInsProfilePic" class="text-primary fw-bold pointer">사진 업로드</span>
                 <input class="d-none" type="file" accept="image/*" name="imgs" id="inputImg" @change="uploadImg($event.target.files)">
               </div><hr>
-              <div class="text-center text-danger fw-bold pointer" @click="delProfileImg()">
+              <div class="text-center text-danger fw-bold pointer" @click="delProfileImg">
                 <span id="btnDelCurrentProfilePic">현재 사진 삭제</span>
               </div><hr>
               <div class="text-center pointer" id="btnProfileImgModalClose" @click="$emit('close');">취소</div>
@@ -37,12 +37,10 @@ export default {
   },
   methods: {
     async delProfileImg(){
-      const res = await this.$delete(`/user/profileImg`, {}); // 컨트롤러 이름 / 함수
-      console.log(res);
+      const res = await this.$delete(`/user/profileImg`, {});
       if(res.result === 1){
         this.$emit('close');
         this.$emit('defaultImg');
-        this.$store.state.user.profile_img = null;
       }
     },
     clickForm(){
@@ -65,11 +63,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-#btnInsProfilePic, #btnDelCurrentProfilePic, #btnProfileImgModalClose {
-  cursor: pointer;
-}
-
-</style>

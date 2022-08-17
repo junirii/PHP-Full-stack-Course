@@ -4,8 +4,14 @@
             <div class="thumb">
                 <div>썸네일 사진</div>
                 <div v-if="files.length === 0">
-                    <label for="file"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="250"
-                            height="250" style="cursor:pointer" class="plus" id="image" @change="previewImg($event)"></label>
+                    <div v-if="!travel.main_img">
+                        <label for="file"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="250"
+                                height="250" style="cursor:pointer" class="plus" id="image"></label>
+                    </div>
+                    <div v-if="travel.main_img">
+                        <label for="file"><img :src="`/static/img/travel/${itravel}/main/${travel.main_img}`" width="250"
+                                height="250" style="cursor:pointer" class="plus" id="image"></label>
+                    </div>
                     <input class="d-none" type="file" accept="img/png,img/jpeg" id="file" ref="files"
                         @change="addMainImg($event.target.files), previewImg($event)">
                 </div>
@@ -91,6 +97,7 @@ export default {
             files: [],
             filesPreview: [],
             uploadImageIndex: 0,
+            itravel: null
         }
     },
     created() {
@@ -106,6 +113,7 @@ export default {
             if(this.$route.params.mod){
                 const travelData = this.$store.state.mod.travelData;
                 console.log(travelData);
+                this.itravel = travelData.itravel;
                 this.travel.iuser = travelData.iuser;
                 this.travel.title = travelData.title;
                 this.travel.f_gender = travelData.f_gender;
@@ -117,6 +125,7 @@ export default {
                 this.travel.s_date = travelData.s_date;
                 this.travel.e_date = travelData.e_date;
                 this.travel.main_img = travelData.main_img;
+                console.log(this.travel);
             }
         },
         goToCreateCtnt() {

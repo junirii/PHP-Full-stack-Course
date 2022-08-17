@@ -193,6 +193,86 @@ class TravelController extends Controller{
         }
     }
 
+    public function updTravelAndCtnt(){
+        switch (getMethod()) {
+            case _PUT:
+                $json = getJson();
+
+                //기존 메인 이미지 삭제
+                $itravel = $json["params"]["itravel"];
+                $param = ["itravel" => $itravel];
+                $travelData = $this->model->selTravelByItravel($param);
+                $ex_main_img = $travelData->main_img;
+                $savedImg = _IMG_PATH . "/travel/" . $itravel . "/main/" . $ex_main_img;
+                if(file_exists($savedImg)){
+                    unlink($savedImg);
+                }
+
+                //새로운 메인 이미지 추가
+                $image_parts = explode(";base64,", $json["params"]["travel"]["main_img"]);
+                $image_type_aux = explode("image/", $image_parts[0]);
+                $image_type = $image_type_aux[1];
+                $image_base64 = base64_decode($image_parts[1]);
+                $fileNm = uniqid() . "." . $image_type;
+
+                $param = [
+                    "iuser" => $json["params"]["travel"]["iuser"],
+                    "title" => $json["params"]["travel"]["title"],
+                    "area" => $json["params"]["travel"]["area"],
+                    "location" => $json["params"]["travel"]["location"],
+                    "main_img" => $fileNm,
+                    "s_date" => $json["params"]["travel"]["s_date"],
+                    "e_date" => $json["params"]["travel"]["e_date"],
+                    "f_people" => $json["params"]["travel"]["f_people"],
+                    "f_price" => $json["params"]["travel"]["f_price"],
+                    "f_gender" => $json["params"]["travel"]["f_gender"],
+                    "f_age" => $json["params"]["travel"]["f_age"],
+                    "itravel" => $itravel
+                ];
+                if($this->model->updTravel($param)){ //썸네일 사진 백엔드에 저장
+                    $dirPath = _IMG_PATH . "/travel/" . $itravel . "/main";
+                    $filePath = $dirPath . "/" . $fileNm;
+                    if(!is_dir($dirPath)) {
+                        mkdir($dirPath, 0777, true);
+                    }
+                    $result = file_put_contents($filePath, $image_base64);
+                    if($result){ //ctnt 추가
+                        $param = ["itravel" => $itravel];
+                        if($this->model->delCtntAll($param)){ //db 내 ctnt 삭제
+                            $dir = _IMG_PATH . "/travel/" . $itravel . "/detail/";
+                            LIB_removeAllData($dir); //백엔드 ctnt detail 이미지 삭제
+                            for ($i=0; $i < count($json["params"]["ctnt"]); $i++) { 
+                                for($z=0; $z < count($json["params"]["ctnt"][$i]); $z++){
+                                    $image_parts = explode(";base64,", $json["params"]["ctnt"][$i][$z]["img"]); //ctnt사진 저장
+                                    $image_type_aux = explode("image/", $image_parts[0]);
+                                    $image_type = $image_type_aux[1];
+                                    $image_base64 = base64_decode($image_parts[1]);
+                                    $dirPath = _IMG_PATH . "/travel/" . $itravel . "/detail";
+                                    $fileNm = uniqid() . "." . $image_type;
+                                    $filePath = $dirPath . "/" . $fileNm;
+                                    if(!is_dir($dirPath)) {
+                                        mkdir($dirPath, 0777, true);
+                                    }
+                                    $result = file_put_contents($filePath, $image_base64);
+                                    if($result){
+                                        $param = [
+                                            "itravel" => $itravel,
+                                            "day" => $json["params"]["ctnt"][$i][$z]["day"],
+                                            "seq" => $json["params"]["ctnt"][$i][$z]["seq"],
+                                            "ctnt" => $json["params"]["ctnt"][$i][$z]["ctnt"],
+                                            "img" => $fileNm
+                                        ];
+                                        $this->model->insCtnt($param);
+                                    }
+                                }
+                            }
+                        }
+                        return [_RESULT => 1];
+                    }
+                }
+        }
+    }
+
     public function uploadMainImg() {
         // $itravel = 
         $json = getJson();

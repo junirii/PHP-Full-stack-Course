@@ -148,6 +148,53 @@ class TravelModel extends Model
         $stmt->execute();
         return intval($this->pdo->lastInsertId());
     }
+
+    //travel 수정
+    public function updTravel(&$param){
+        $sql = "UPDATE t_travel
+                SET iuser = :iuser
+                  , title = :title
+                  , area = :area
+                  , main_img = :main_img
+                  , s_date = :s_date
+                  , e_date = :e_date
+                  , f_people = :f_people
+                  , f_price = :f_price
+                  , f_gender = :f_gender
+                  , f_age = :f_age";
+        if (isset($param["location"])) {
+            $location = $param["location"];
+            $sql .= ", location = ${location}";
+        }
+        $sql .= " WHERE itravel = :itravel";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->bindValue(":title", $param["title"]);
+        $stmt->bindValue(":area", $param["area"]);
+        $stmt->bindValue(":main_img", $param["main_img"]);
+        $stmt->bindValue(":s_date", $param["s_date"]);
+        $stmt->bindValue(":e_date", $param["e_date"]);
+        $stmt->bindValue(":f_people", $param["f_people"]);
+        $stmt->bindValue(":f_price", $param["f_price"]);
+        $stmt->bindValue(":f_gender", $param["f_gender"]);
+        $stmt->bindValue(":f_age", $param["f_age"]);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
+
+    //ctnt 삭제
+    public function delCtntAll(&$param){
+        $sql = 
+        " DELETE FROM t_travel_ctnt
+          WHERE itravel = :itravel
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
+
     //ctnt 추가
     public function insCtnt(&$param)
     {

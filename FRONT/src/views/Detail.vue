@@ -27,7 +27,7 @@
             <div v-if="data.travelData.f_age == 6">연령 | 30대~40대</div>
             <div v-if="data.travelData.f_age == 7">연령 | 40대~50대</div>
             <div>인원 | {{ data.joinPeople.numberOfPeople+1 }} / {{ data.travelData.f_people }} 명</div>
-            <div>비용 | 1인 {{ data.travelData.f_price = data.travelData.f_price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") }} 원</div>
+            <div>비용 | 1인 {{ data.travelData.f_price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") }} 원</div>
           </div>
         </div>
       </div>
@@ -150,13 +150,13 @@ export default {
       console.log(this.isJoin);
       console.log(this.isconfirm);
 
-      if (this.data.travelData.f_gender == 1) {
-        this.data.travelData.f_gender = '남성';
-      } else if (this.data.travelData.f_gender == 2) {
-        this.data.travelData.f_gender = '여성';
-      } else {
-        this.data.travelData.f_gender = '혼성';
-      }
+      // if (this.data.travelData.f_gender == 1) {
+      //   this.data.travelData.f_gender = '남성';
+      // } else if (this.data.travelData.f_gender == 2) {
+      //   this.data.travelData.f_gender = '여성';
+      // } else {
+      //   this.data.travelData.f_gender = '혼성';
+      // }
     },
     async favTravelState() {
       this.itravel = this.$store.state.itravel;

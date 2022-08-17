@@ -4,17 +4,18 @@
     <div v-for="idx in travelDay">Day {{ idx }}
       <div :id="`day${idx}`">
         <div class="create-ctnt-container" id="ctntBox1">
-        <!-- <label :id="`plus${idx}_${seq}`" for="ctntImgDay${idx}_${seq}">
-          <img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" 
-            height="150" style="cursor:pointer">
-        </label>
-        <input class="d-none" id="ctntImgDay${idx}_${seq}" type="file">
-        <div :id="`image_container${idx}_${seq}`"></div>
-        <textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea> -->
-          <label :id="`plus${idx}_1`" :for="`ctntImgDay${idx}_1`">
-            <img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150"
-              height="150" style="cursor:pointer">
-          </label>
+          <div v-if="!ismod">
+            <label :id="`plus${idx}_1`" :for="`ctntImgDay${idx}_1`">
+              <img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150"
+                height="150" style="cursor:pointer">
+            </label>
+          </div>
+          <div v-if="ismod">
+            <label :id="`plus${idx}_1`" :for="`ctntImgDay${idx}_1`">
+              <img :src="`/static/img/travel/${itravel}/detail/${ctntArr[idx-1][0].img}`" width="150"
+                height="150" style="cursor:pointer">
+            </label>
+          </div>
           <input type="file" class="d-none" :id="`ctntImgDay${idx}_1`"
             @change="addCtntImg($event, idx, 1), setThumbnail($event, idx, 1)">
           <div :id="`image_container${idx}_1`"></div>
@@ -31,8 +32,11 @@
       <!-- <button type="button" @click="newCal()">추가</button>
       <button type="button" @click="delCal()">삭제</button> -->
     </div>
-    <div>
+    <div v-if="!ismod">
       <button type="button" class="btn btn-lg btn-danger create-ctnt-submit" @click="insTravel">등록</button>
+    </div>  
+    <div v-if="ismod">
+      <button type="button" class="btn btn-lg btn-danger create-ctnt-submit" @click="updTravel">수정</button>
     </div>
   </div>
 </template>
@@ -43,13 +47,40 @@ export default {
     return {
       travelDay: 0,
       ctntArr: [],
-      countArr: []
+      countArr: [],
+      itravel: null,
+      ismod: false
     }
   },
   created() {
     this.getData();
   },
   methods: {
+    async updTravel(){
+      for(var i=0; i<this.ctntArr.length; i++){
+        for(var z=0; z<this.ctntArr[i].length; z++){
+          const txtArea = document.querySelector(`#txtAreaDay${i+1}_${z+1}`);
+          this.ctntArr[i][z].ctnt = txtArea.value;
+        }
+      }
+      console.log(this.$store.state.travel);
+      console.log(this.ctntArr);
+      const res = await this.$put('/travel/updTravelAndCtnt', {
+        travel: this.$store.state.travel,
+        ctnt: this.ctntArr,
+        itravel: this.itravel
+      });
+      console.log(res);
+      if(res.result == 1){
+        this.$swal.fire('글 수정 성공', '', 'success')
+        .then(async result => {
+            if(result.isConfirmed){
+                this.$router.push({name: 'detail'});
+            }
+        });
+      }
+
+    },
     setThumbnail(event, day, seq) {
       var reader = new FileReader();
 
@@ -72,9 +103,14 @@ export default {
       this.ctntArr[dayIdx - 1][seq - 1].img = image;
       console.log(this.ctntArr);
     },
-    getData() {                 
+    getData() {     
+      this.itravel = this.$store.state.mod.travelData.itravel;  
       this.travelDay = this.$store.state.travelDay;
+      for (var i = 0; i < this.travelDay; i++) {
+        this.countArr[i] = 1;
+      }
       if(this.$route.params.mod){
+        this.ismod = true;
         const modCtntArr = this.$store.state.mod.ctnt;
         for(var i=0; i<this.travelDay; i++){
           this.ctntArr.push([]);
@@ -93,7 +129,6 @@ export default {
           for(var i=1; i<item.length; i++){
             this.addCtnt(item[i].day);
             const txtArea = document.querySelector(`#txtAreaDay${item[i].day}_${i+1}`);
-            console.log(`#txtAreaDay${item[i].day}_${i+1}`);
             // txtArea.innerText = this.ctntArr[i-1][i].ctnt;
           }
         });
@@ -109,15 +144,22 @@ export default {
       }
     },
     addCtnt(idx) {
-      for (var i = 0; i < this.travelDay; i++) {
-        this.countArr[i] = 2;
+      let seq = this.countArr[idx - 1];
+      if(this.$route.params.mod && this.ctntArr[idx-1][seq-1]){
+        seq = ++this.countArr[idx - 1];
       }
-      const seq = this.countArr[idx - 1]; // 글수정 진행중
-      console.log(`day = ${idx}, seq = ${seq}`);
+      console.log(`seq : ${seq}`);
       setTimeout(() => {
         const divDay = document.querySelector(`#day${idx}`);
         const ctntBox = divDay.appendChild(document.createElement('div'));
-        ctntBox.innerHTML = `<label :id="plus${idx}_${seq}" for="ctntImgDay${idx}_${seq}"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><span :id="image_container${idx}_${seq}"></span><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
+        // ctntBox.innerHTML = `<label :id="plus${idx}_${seq}" for="ctntImgDay${idx}_${seq}"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><span :id="image_container${idx}_${seq}"></span><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
+        if(this.$route.params.mod && this.ctntArr[idx-1][seq-1]){
+            ctntBox.innerHTML = `<label :id="plus${idx}_${seq}" for="ctntImgDay${idx}_${seq}"><img id="previewImg${idx}_${seq}" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><span :id="image_container${idx}_${seq}"></span><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
+            const previewImg = document.querySelector(`#previewImg${idx}_${seq}`);
+            previewImg.src = `/static/img/travel/${this.itravel}/detail/${this.ctntArr[idx-1][seq-1].img}`;
+        }else{
+          ctntBox.innerHTML = `<label :id="plus${idx}_${seq}" for="ctntImgDay${idx}_${seq}"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><span :id="image_container${idx}_${seq}"></span><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
+        }
         const inputFile = ctntBox.querySelector('input');
         const imgContainer = ctntBox.querySelector(`span`);
         const plusBtn = ctntBox.querySelector(`label`);
@@ -146,7 +188,11 @@ export default {
         textarea.style.width = "40vw";
         textarea.style.height = "15vh";
         textarea.style.padding = "10px";
-        textarea.innerText = 'dd';
+
+        if(this.$route.params.mod && this.ctntArr[idx-1][seq-1]){
+          textarea.innerText = this.ctntArr[idx-1][seq-1].ctnt;
+        }
+
 
         const submitBtn = document.querySelector('.create-ctnt-submit');
         submitBtn.style.marginBottom = "150px";

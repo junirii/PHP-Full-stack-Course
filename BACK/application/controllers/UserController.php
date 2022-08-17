@@ -78,14 +78,12 @@ class UserController extends Controller
     $myPageTravelFav = $this->model->myPageTravelFav($param);
     $param["loginIuser"] = intval($urlPaths[3]);
     $guestTravel = $this->model->selGuestTravel($param);
-    $selUserFav = $this->model->selUserFav($param);
 
     $data = [
       "myPageTravelFav" => $myPageTravelFav,
       "myPageHost" => $myPageHost,
       "myPageTravelState" => $myPageTravelState,
       "guestTravel" => $guestTravel,
-      "selUserFav" => $selUserFav,
     ];
     return [_RESULT => $data];
     // return $this->model->myPage($param);
