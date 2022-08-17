@@ -30,8 +30,9 @@
         <div class="title">신청한 여행 현황</div> <!-- 신청중, 신청수락 여행 슬라이드로 띄우기-->
         <div>
           <div>
-            <div class="travel-state">신청중</div>
-            <Carousel class="carousel">
+            <div>신청중</div>
+            <div v-if="preTravel.length < 1">신청한 여행이 없습니다.</div>
+            <Carousel>
               <Slide v-for="item in preTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
                 <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
                 <div class="travel-nm">{{ item.title }}</div>
@@ -43,8 +44,9 @@
           </div>
           <hr>
           <div>
-            <div class="travel-state">신청완료</div>
-            <Carousel class="carousel">
+            <div>신청완료</div>
+            <div v-if="ingTravel.length < 1">신청완료된 여행이 없습니다.</div>
+            <Carousel>
               <Slide v-for="item in ingTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
                 <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
                 <div class="travel-nm">{{ item.title }}</div>
@@ -60,7 +62,8 @@
 
       <div v-if="feedIuser == loginIuser">
         <div class="title">찜한 여행</div>
-          <Carousel class="carousel">
+        <div v-if="myPageTravelFav.length < 1">찜한 여행이 없습니다.</div>
+          <Carousel>
             <Slide v-for="item in myPageTravelFav" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
               <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
               <div class="travel-nm">{{ item.title }}</div>
@@ -74,6 +77,7 @@
 
       <div>
         <div class="title">호스팅한 여행</div>
+        <div v-if="myPageHost.length < 1">호스팅한 여행이 없습니다.</div>
           <Carousel class="carousel">
             <Slide v-for="item in myPageHost" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
               <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
@@ -88,6 +92,7 @@
 
       <div>
         <div class="title">참여한 여행</div>
+        <div v-if="postTravel.length < 1">참여한 여행이 없습니다.</div>
           <Carousel class="carousel">
               <Slide v-for="item in postTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
                 <div v-if="item.isconfirm == 2">
@@ -272,6 +277,33 @@ export default {
 </script>
 
 <style scoped>
+.carousel { cursor: pointer; }
+.carousel__item {
+  min-height: 200px;
+  width: 200px;
+  background-color: var(--vc-clr-primary);
+  color:  var(--vc-clr-white);
+  font-size: 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel__slide {
+  padding: 10px;
+}
+
+.carousel__prev {
+  left: 150px;
+  box-sizing: content-box;
+  border: 5px solid white;
+}
+.carousel__next {
+  box-sizing: content-box;
+  border: 5px solid white;
+  right: 150px;
+}
 .my-page {
   z-index: auto;
   margin: 0 auto;

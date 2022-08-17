@@ -16,6 +16,7 @@
               <div>
                 <p>아직 회원이 아니신가요?</p>
                 <p type="button" @click="showJoin">Sign Up</p>
+                <img class="loginButton" src="../../../static/img_used/kakaologin.png" alt="kakaologin" type="button" @click="kakaoLogin">
               </div>
             </div>
 
@@ -105,10 +106,51 @@ export default {
       loginUser: {
         email: '',
         pw: ''
-      }
+      },
     }
   },
   methods: {
+    kakaoLogin() {
+      console.log(window.Kakao)
+      window.Kakao.Auth.login({
+        scope: 'profile_nickname, profile_image, account_email',
+        success: this.getKakaoAccount,
+                fail: e => {
+                    console.error(e);
+                }
+      });
+    },
+    getKakaoAccount(authObj) {
+      console.log(authObj);
+      window.Kakao.API.request({
+        url: '/v2/user/me',
+        success: async res => {
+          const acc = res.kakao_account;
+          console.log(acc);
+          const params = {
+            nick: acc.profile.nickname,
+            email: acc.email,
+            profile_img: acc.profile.profile_image_url,
+          }
+          console.log(params);
+          // this.login(params);
+          const data = await this.$post('/user/join', params);
+          params.iuser = data.result;
+          console.log(params.iuser);
+          this.$store.commit('user', params);
+          window.location.href = "http://localhost:8080/";
+        },
+        fail: e => {
+          console.error(e);
+        }
+      })
+    },
+    // async login(params) {
+    //       const data = await this.$post('/user/join', params);
+    //       params.iuser = data.result;
+    //       this.$store.commit('user', params);
+    //       window.location.href = "http://location:8080/";
+    // },
     async toBase64(files){
       const profileImg = await this.$base64(files[0]);
       this.joinUser.profile_img = profileImg;
@@ -178,6 +220,9 @@ export default {
 </script>
 
 <style>
+.loginButton {
+  width: 220px;
+}
 .modal-mask {
   position: fixed;
   z-index: 9998;

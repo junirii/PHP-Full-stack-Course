@@ -72,7 +72,7 @@
                         </ul>
                     </div>
             
-                    <div class="burger-wrapper">
+                    <div class="burger-wrapper" v-if="this.$store.state.isLogin">
                         <input class="sidebar" type="checkbox" id="sideMenu">
                         <label id="burger1" for="sideMenu">
                             <div></div>

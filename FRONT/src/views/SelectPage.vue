@@ -324,7 +324,7 @@ components: { Datepicker },
     },
     scrollToFilter() {
       // const filter = document.querySelector("#filter").offsetTop;
-      window.scrollTo({ left: 0, top: 880, behavior: "smooth" });
+      window.scrollTo({ left: 0, top: 909, behavior: "smooth" });
     },
     scrollToDate() {
       const date = document.querySelector("#date").offsetTop;
@@ -507,9 +507,10 @@ img {
 .filter-box {
   border: 1px solid var(--maincolor);
   width: 50%;
-  height: 500px;
+  height: 400px;
   margin: 0 auto;
   text-align: left;
+  margin-bottom: 50px;
 }
 .filter-name {
   margin-bottom: 7px;
