@@ -75,10 +75,10 @@ export default {
     getData() {                 
       this.travelDay = this.$store.state.travelDay;
       if(this.$route.params.mod){
+        const modCtntArr = this.$store.state.mod.ctnt;
         for(var i=0; i<this.travelDay; i++){
           this.ctntArr.push([]);
         }
-        const modCtntArr = this.$store.state.mod.ctnt;
         modCtntArr.forEach(item => {
           const ctntObj = {
             day: item.day,
@@ -90,15 +90,13 @@ export default {
         });
         console.log(this.ctntArr);
         this.ctntArr.forEach(item => {
-          for(var i=0; i<item.length-1; i++){
-            console.log(i);
-            // this.addCtnt(i+1);
+          for(var i=1; i<item.length; i++){
+            this.addCtnt(item[i].day);
+            const txtArea = document.querySelector(`#txtAreaDay${item[i].day}_${i+1}`);
+            console.log(`#txtAreaDay${item[i].day}_${i+1}`);
+            // txtArea.innerText = this.ctntArr[i-1][i].ctnt;
           }
-          // item.forEach(item2 =>{
-
-          // });
         });
-        console.log(this.ctntArr);
       }else{
         for(var i=0; i<this.travelDay; i++){
           this.ctntArr.push([{
@@ -112,71 +110,75 @@ export default {
     },
     addCtnt(idx) {
       for (var i = 0; i < this.travelDay; i++) {
-        this.countArr.push(2);
+        this.countArr[i] = 2;
       }
-      const seq = this.countArr[idx - 1];
-      const divDay = document.querySelector(`#day${idx}`);
-      const ctntBox = divDay.appendChild(document.createElement('div'));
-      ctntBox.innerHTML = `<label :id="plus${idx}_${seq}" for="ctntImgDay${idx}_${seq}"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><span :id="image_container${idx}_${seq}"></span><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
-      const inputFile = ctntBox.querySelector('input');
-      const imgContainer = ctntBox.querySelector(`span`);
-      const plusBtn = ctntBox.querySelector(`label`);
-      console.log(imgContainer);
-      console.log(plusBtn);
-      inputFile.addEventListener('change', async function(e){
-        //setThumbnail()
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          var img = document.createElement("img");
-          img.setAttribute("src", e.target.result);
-          imgContainer.appendChild(img);
-          img.style.height = "15vh";
-          img.style.marginRight = "10px";
-        };
-        reader.readAsDataURL(e.target.files[0]);
-        plusBtn.style.display = "none";
+      const seq = this.countArr[idx - 1]; // 글수정 진행중
+      console.log(`day = ${idx}, seq = ${seq}`);
+      setTimeout(() => {
+        const divDay = document.querySelector(`#day${idx}`);
+        const ctntBox = divDay.appendChild(document.createElement('div'));
+        ctntBox.innerHTML = `<label :id="plus${idx}_${seq}" for="ctntImgDay${idx}_${seq}"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><span :id="image_container${idx}_${seq}"></span><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
+        const inputFile = ctntBox.querySelector('input');
+        const imgContainer = ctntBox.querySelector(`span`);
+        const plusBtn = ctntBox.querySelector(`label`);
+        inputFile.addEventListener('change', async function(e){
+          //setThumbnail()
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            var img = document.createElement("img");
+            img.setAttribute("src", e.target.result);
+            imgContainer.appendChild(img);
+            img.style.height = "15vh";
+            img.style.marginRight = "10px";
+          };
+          reader.readAsDataURL(e.target.files[0]);
+          plusBtn.style.display = "none";
 
-        //addCtntImg()
-        const files = e.target.files;
-        const image = await this.$base64(files[0]);
-        this.ctntArr[idx - 1][seq - 1].img = image;
-        console.log(this.ctntArr);
-      });
-      ctntBox.id = `ctntBox${seq}`;
+          //addCtntImg()
+          const files = e.target.files;
+          const image = await this.$base64(files[0]);
+          this.ctntArr[idx - 1][seq - 1].img = image;
+          console.log(this.ctntArr);
+        });
+        ctntBox.id = `ctntBox${seq}`;
 
-      const textarea = document.querySelector(`#txtAreaDay${idx}_${seq}`);
-      textarea.style.width = "40vw";
-      textarea.style.height = "15vh";
-      textarea.style.padding = "10px";
+        const textarea = document.querySelector(`#txtAreaDay${idx}_${seq}`);
+        textarea.style.width = "40vw";
+        textarea.style.height = "15vh";
+        textarea.style.padding = "10px";
+        textarea.innerText = 'dd';
 
-      const submitBtn = document.querySelector('.create-ctnt-submit');
-      submitBtn.style.marginBottom = "150px";
+        const submitBtn = document.querySelector('.create-ctnt-submit');
+        submitBtn.style.marginBottom = "150px";
 
-      const inputImg = document.querySelector(`#ctntImgDay${idx}_${seq}`);
-      inputImg.addEventListener('change', async (e) => {
-        const files = e.target.files;
-        const image = await this.$base64(files[0]);
-        this.ctntArr[idx - 1][seq - 1].img = image;
-        console.log(this.ctntArr);
-      });
+        const inputImg = document.querySelector(`#ctntImgDay${idx}_${seq}`);
+        inputImg.addEventListener('change', async (e) => {
+          const files = e.target.files;
+          const image = await this.$base64(files[0]);
+          this.ctntArr[idx - 1][seq - 1].img = image;
+          console.log(this.ctntArr);
+        });
+        if(!this.$route.params.mod){
+          this.ctntArr[idx - 1].push({
+            day: idx,
+            seq: this.countArr[idx - 1],
+            ctnt: null,
+            img: null,
+          });
+        }
+        this.countArr[idx - 1]++;
+        console.log(this.countArr);
 
-      this.ctntArr[idx - 1].push({
-        day: idx,
-        seq: this.countArr[idx - 1],
-        ctnt: null,
-        img: null,
-      });
-      this.countArr[idx - 1]++;
+        //추가된 txtArea v-model 추가
+        // const txtArea = document.querySelector(`#txtAreaDay${idx}_${seq}`);
+        // txtArea.setAttribute('v-model', this.ctntArr[idx-1][seq-1].ctnt);
+        // console.log(this.ctntArr);
 
-      //추가된 txtArea v-model 추가
-      // const txtArea = document.querySelector(`#txtAreaDay${idx}_${seq}`);
-      // txtArea.setAttribute('v-model', this.ctntArr[idx-1][seq-1].ctnt);
-      // console.log(this.ctntArr);
-
-      // const test = new Vue({
-      //   el: `#txtAreaDay${idx}_${seq}`,
-      //   data: {ctnt: this.ctntArr[idx-1][seq-1].ctnt}
-      // });
+        // const test = new Vue({
+        //   el: `#txtAreaDay${idx}_${seq}`,
+        //   data: {ctnt: this.ctntArr[idx-1][seq-1].ctnt}
+        // });
+      }, 10);
     },
     delCtnt(idx) {
       const divDay = document.querySelector(`#day${idx}`);

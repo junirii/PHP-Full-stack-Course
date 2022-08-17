@@ -25,9 +25,8 @@
                         <i class="fa-regular fa-message fa-2x dropdown" style="color: #fff;" @click="showDivChat();"
                             type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                             aria-expanded="false"></i>
+                        <span id="unreadCntAll" style="" class="position-absolute translate-middle badge rounded-pill bg-danger d-none">{{unreadCntAll}}</span>
                         <!-- <div style="background-color: #fff;"> -->
-                        <span id="unreadCntAll" style="color: red; font-weight: bolder;" class="d-none">{{ unreadCntAll
-                            }}</span>
                         <ul class="dropdown-menu">
                             <!-- <ul v-if="divChatShow" style="margin-top: 100px;">  -->
                             <div v-for="item in chatRooms" :key="item.itravel">
@@ -110,12 +109,15 @@
                     </router-link>
                 </div>
                 <div class="icons2">
+                    <img v-if="this.$store.state.isLogin" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
+                         style="width:40px">
                     <div class="user-name2">{{ this.$store.state.user.nick }}님, 환영합니다!</div>
                 
                     <div class="chat">
                         <i class="fa-regular fa-message fa-2x dropdown" style="color: var(--maincolor);" @click="showDivChat();"
                             type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                             aria-expanded="false"></i>
+                        <span id="unreadCntAll" style="" class="position-absolute translate-middle badge rounded-pill bg-danger d-none">{{unreadCntAll}}</span>
                         <span id="unreadCntAll" style="color: red; font-weight: bolder;" class="d-none">{{ unreadCntAll
                             }}</span>
                         <ul class="dropdown-menu">
@@ -125,7 +127,7 @@
                                         <div style="font-size: 18px; font-weight: bolder;">{{ item.title }}</div>
                                         {{ item.lastMsg }}
                                         <span v-if="this.$store.state.unreadCnt[item.itravel]"
-                                            style="background-color: var(--mainOrange); color:#fff; font-weight: bolder;">
+                                            class="position-absolute translate-middle badge rounded-pill bg-danger end-0 bottom-10">
                                             {{ this.$store.state.unreadCnt[item.itravel] }}
                                         </span>
                                     </div>
@@ -515,5 +517,17 @@ li {
 }
 #sideMenu:checked~#burger2>div:nth-child(3) {
     transform: translateY(-15px) rotate(-45deg);
+}
+#unreadCntAll{
+    /* display: block;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    color: white;
+    font-weight: bolder;
+    border-radius: 50%;
+    font-size: small;
+    text-align: center;
+    z-index: 10px; */
 }
 </style>
