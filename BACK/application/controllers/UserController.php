@@ -16,23 +16,28 @@ class UserController extends Controller
           return [_RESULT => 2];
         } else {
           $json["pw"] = password_hash($json["pw"], PASSWORD_BCRYPT);
-          $image_parts = explode(";base64,", $json["profile_img"]);
-          $image_type_aux = explode("image/", $image_parts[0]);
-          $image_type = $image_type_aux[1];
-          $image_base64 = base64_decode($image_parts[1]);
-          $fileNm = uniqid() . "." . $image_type;
-          $json["profile_img"] = $fileNm;
-          if ($iuser = $this->model->insUser($json)) {
-            $dirPath = _IMG_PATH . "/profile/" . $iuser;
-            $filePath = $dirPath . "/" . $fileNm;
-            if (!is_dir($dirPath)) {
-              mkdir($dirPath, 0777, true);
-            }
-            $result = file_put_contents($filePath, $image_base64);
-            if ($result) {
-              return [_RESULT => 1];
-            }
-          };
+          // if(isset($json["profile_img"])){  
+          //   $image_parts = explode(";base64,", $json["profile_img"]);
+          //   $image_type_aux = explode("image/", $image_parts[0]);
+          //   $image_type = $image_type_aux[1];
+          //   $image_base64 = base64_decode($image_parts[1]);
+          //   $fileNm = uniqid() . "." . $image_type;
+          //   $json["profile_img"] = $fileNm;
+          //   if ($iuser = $this->model->insUser($json)) {
+          //     $dirPath = _IMG_PATH . "/profile/" . $iuser;
+          //     $filePath = $dirPath . "/" . $fileNm;
+          //     if (!is_dir($dirPath)) {
+          //       mkdir($dirPath, 0777, true);
+          //     }
+          //     $result = file_put_contents($filePath, $image_base64);
+          //     if ($result) {
+          //       return [_RESULT => 1];
+          //     }
+          //   }
+          // }
+          if($this->model->insUser($json)){
+            return [_RESULT => 1];
+          }
         }
         return [_RESULT => 0];
     }
