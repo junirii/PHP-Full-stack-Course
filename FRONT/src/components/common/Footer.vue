@@ -2,7 +2,9 @@
     <footer>
         <!-- class="mt-5 py-5" -->
         <div class="container">
-            <div class="section-logo">로고</div>
+            <div class="section-logo">
+                <img class="footer-logo" src="../../../static/img_used/moim4.png" alt="푸터 로고">
+            </div>
             <div class="section-team">
                 <div>프로젝트명 : 프로젝트명</div>
                 <div>팀명 : &copy;teamB</div>
@@ -45,5 +47,10 @@ footer {
 .section-team {
     text-align: right;
     font-size: 0.7rem;
+    padding-bottom: 20px;
+}
+.footer-logo {
+    padding-top: 30px;
+    width: 200px;
 }
 </style>

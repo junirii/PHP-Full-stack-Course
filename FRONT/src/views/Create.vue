@@ -1,8 +1,8 @@
 <template>
     <div class="create-box">
+        <h1 class="bolder">여행 호스팅 하기</h1>
         <div class="create-section">
             <div class="thumb">
-                <div>썸네일 사진</div>
                 <div v-if="files.length === 0">
                     <div v-if="!travel.main_img">
                         <label for="file"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="250"
@@ -10,7 +10,7 @@
                     </div>
                     <div v-if="travel.main_img">
                         <label for="file"><img :src="`/static/img/travel/${itravel}/main/${travel.main_img}`" width="250"
-                                height="250" style="cursor:pointer" class="plus" id="image"></label>
+                                height="250" style="cursor:pointer; object-fit:cover;" class="plus" id="image"></label>
                     </div>
                     <input class="d-none" type="file" accept="img/png,img/jpeg" id="file" ref="files"
                         @change="addMainImg($event.target.files), previewImg($event)">
@@ -66,9 +66,9 @@
                 </div>
             </div>
         </div>
-            <div class="btn-section">
+        <div class="btn-section">
             <button class="btn next-btn2" type="button" @click="goToCreateCtnt">다음</button>
-            </div>
+        </div>
     </div>
 </template>
 
@@ -276,7 +276,11 @@ export default {
 }
 .create-section > select, option, input {
     font-weight: bolder;
-} 
+}
+h1 { 
+    color: var(--maincolor);
+    padding-bottom: 50px;
+}
 .thumb {
     text-align: center;
     padding-right: 3vw;
@@ -290,6 +294,7 @@ export default {
     text-align: right;
     width: 8vw;
     padding-bottom: 10px;
+    font-size: 1.2rem;
 }
 /* .create-box > div {
     padding-bottom: 10px;
@@ -317,7 +322,7 @@ select, input {
     border: none;
     border-bottom: 2px solid var(--maincolor);
     width: 50px;
-    height: 25px;
+    height: 30px;
     padding-left: 10px;
     color: var(--maincolor);
 }
@@ -326,10 +331,12 @@ select:hover, input:hover {
     cursor: pointer;    
 }
 select::-ms-expand { display: none; }
-select:focus { 
+select:focus, input:focus {
+    outline: none;
     border: 2px solid var(--mainDark);
 }
 .btn-section {
+    padding-top: 50px;
     display: flex;
     justify-content: center;
 }

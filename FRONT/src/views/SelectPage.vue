@@ -4,15 +4,15 @@
     <div class="state-tab-container">
       <!-- <a href="#location" class="state-tab">지역</a> -->
       <div class="state-tab" @click="scrollToLocation">지역</div>
-      <div v-if="areaName !== ''">{{ areaName }}</div>
+      <div class="tab-ctnt" v-if="areaName !== ''">{{ areaName }}</div>
 
       <div class="state-tab" @click="scrollToFilter">옵션</div>
-      <div v-if="this.filter.f_people !== 0">{{ option1 }}</div>
-      <div v-if="this.filter.f_gender !== 0">{{ option2 }}</div>
-      <div v-if="this.filter.f_age !== 0">{{ option3 }}</div>
+      <div class="tab-ctnt" v-if="this.filter.f_people !== 0">{{ option1 }}</div>
+      <div class="tab-ctnt" v-if="this.filter.f_gender !== 0">{{ option2 }}</div>
+      <div class="tab-ctnt" v-if="this.filter.f_age !== 0">{{ option3 }}</div>
       
       <div class="state-tab" @click="scrollToDate">날짜</div>
-      <div v-if="this.filter.s_date !== ''">{{ this.filter.s_date }} ~ {{ this.filter.e_date }}</div>
+      <div class="tab-ctnt" v-if="this.filter.s_date !== ''">{{ this.filter.s_date }} ~ {{ this.filter.e_date }}</div>
       <!-- <a href="#filter" class="state-tab">옵션</a>
       <a href="#date" class="state-tab">날짜</a> -->
     </div>
