@@ -16,6 +16,7 @@
               <div>
                 <p>아직 회원이 아니신가요?</p>
                 <p type="button" @click="showJoin">Sign Up</p>
+                <img class="loginButton" src="../../../static/img_used/kakaologin.png" alt="kakaologin" type="button" @click="kakaoLogin">
               </div>
             </div>
 
@@ -109,6 +110,37 @@ export default {
     }
   },
   methods: {
+    kakaoLogin() {
+      console.log(window.Kakao)
+      window.Kakao.Auth.login({
+        scope: 'profile_nickname, profile_image, account_email',
+        success: this.getKakaoAccount,
+                fail: e => {
+                    console.error(e);
+                }
+      });
+    },
+    getKakaoAccount() {
+      window.Kakao.API.request({
+        url: '/v2/user/me',
+        success: async res => {
+          const acc = res.kakao_account;
+          console.log(acc);
+          const params = {
+            nick: acc.profile.nickname,
+            profile_img: acc.profile.profile_image_url,
+            email: acc.email,
+          }
+          console.log(params);
+          const data = await this.$post('/user/join', params);
+          console.log(data);
+          // this.$store.commit('setIuser', data.result);
+        },
+        fail: e => {
+          console.error(e);
+        }
+      })
+    },
     async toBase64(files){
       const profileImg = await this.$base64(files[0]);
       this.joinUser.profile_img = profileImg;
@@ -178,6 +210,9 @@ export default {
 </script>
 
 <style>
+.loginButton {
+  width: 220px;
+}
 .modal-mask {
   position: fixed;
   z-index: 9998;

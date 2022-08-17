@@ -32,6 +32,7 @@
         <div>
           <div>
             <div>신청중</div>
+            <div v-if="preTravel.length < 1">신청한 여행이 없습니다.</div>
             <Carousel>
               <Slide v-for="item in preTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
                 <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
@@ -45,6 +46,7 @@
           <hr>
           <div>
             <div>신청완료</div>
+            <div v-if="ingTravel.length < 1">신청완료된 여행이 없습니다.</div>
             <Carousel>
               <Slide v-for="item in ingTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
                 <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
@@ -61,6 +63,7 @@
 
       <div v-if="feedIuser == loginIuser">
         <div class="title">찜한 여행</div>
+        <div v-if="myPageTravelFav.length < 1">찜한 여행이 없습니다.</div>
           <Carousel>
             <Slide v-for="item in myPageTravelFav" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
               <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
@@ -75,6 +78,7 @@
 
       <div>
         <div class="title">호스팅한 여행</div>
+        <div v-if="myPageHost.length < 1">호스팅한 여행이 없습니다.</div>
           <Carousel class="carousel">
             <Slide v-for="item in myPageHost" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
               <img class="carousel__item" :src="`/static/img/travel/${item.itravel}/main/${item.main_img}`">
@@ -89,6 +93,7 @@
 
       <div>
         <div class="title">참여한 여행</div>
+        <div v-if="postTravel.length < 1">참여한 여행이 없습니다.</div>
           <Carousel class="carousel">
               <Slide v-for="item in postTravel" :key="item.itravel" @click="goToDetailFromMyPage(item.itravel)">
                 <div v-if="item.isconfirm == 2">
@@ -301,7 +306,7 @@ export default {
   border: 5px solid white;
   right: 150px;
 }
-.location {
+.my-page {
   z-index: auto;
   margin: 0 auto;
   padding: 150px;
