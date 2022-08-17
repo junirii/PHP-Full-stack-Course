@@ -14,7 +14,7 @@
               <div class="title-input"><input v-model="loginUser.email" type="email" placeholder="이메일"></div>
               <div class="title-input"><input v-model="loginUser.pw" type="password" placeholder="비밀번호"></div>
               <div>
-                <p class="btn-join" type="button" @click="showJoin">아직 회원이 아니신가요?</p>
+                아직 회원이 아니신가요? <span class="btn-join" type="button" @click="showJoin">Sign up</span>
                 <div class="btn-logo"><img class="loginButton" src="../../../static/img_used/kakaologin.png"
                     alt="kakaologin" type="button" @click="kakaoLogin"></div>
                 <!-- 구글 로그인-->
@@ -68,7 +68,7 @@
               </div>
               <div class="p-go-login">
                 <p>이미 회원이신가요?</p>
-                <p type="button" @click="showLogin">로그인 하기</p>
+                <p type="button" @click="showLogin">Sign in</p>
               </div>
             </div>
 
