@@ -7,12 +7,13 @@
           <div class="item-nm">이메일</div>
           <div class="item-nm">비밀번호</div>
           <div class="item-nm">비밀번호 확인</div>
-          <div class="item-nm">이름</div>
-          <div class="item-nm">닉네임</div>
-          <div class="item-nm">성별</div>
-          <div class="item-nm">생년월일</div>
-          <div class="item-nm">전환번호</div>
-          <div class="item-nm">상태메세지</div>
+          <div v-show="pw!=='' && pw===pwCheck || pw!==pwCheck"><br></div>
+          <div class="item-nm1">이름</div>
+          <div class="item-nm1">닉네임</div>
+          <div class="item-nm1">성별</div>
+          <div class="item-nm1">생년월일</div>
+          <div class="item-nm1">전환번호</div>
+          <div class="item-nm1">상태메세지</div>
         </div>
 
         <div class="row-ctnt">
@@ -22,16 +23,15 @@
             <span style="color: var(--maincolor);">
               <input class="input bolder" type='password' v-model="pw" placeholder="새 비밀번호">
             </span>
-          <div class="item-txt">
+          </div>
+          <div class="item-txt1">
             <span>
               <input class="input" type='password' v-model="pwCheck" placeholder="새 비밀번호 확인">
             </span>
-          </div>
-            <!-- <input type='button' v-if="pwShow" value='취소' @click="cancel"> -->
-            <!-- <div v-if="pwShow"> -->
-              <div v-show="pw!=='' && pw===pwCheck">비밀번호가 일치합니다.</div>
-              <div v-show="pw!==pwCheck">비밀번호가 일치하지 않습니다.</div>
-            <!-- </div> -->
+            <div>
+              <small class="pw-check" v-show="pw!=='' && pw===pwCheck">비밀번호가 일치합니다.</small>
+              <small class="pw-check" v-show="pw!==pwCheck">비밀번호가 일치하지 않습니다.</small>
+            </div>
           </div>
           <div class="item-txt"> {{ loginUser.nm }} </div>
           <div class="item-txt"><input type="text" v-model="loginUser.nick"></div>
@@ -43,12 +43,11 @@
       </div>
 
 
-      <div>
-        <button type="button" @click="myAccountMod" 
-        v-bind:disabled="pwShow && (pw !== pwCheck || pwCheck === '')">수정</button>
-        <!-- <router-link :to="{ path: '/MyAccount' }"><button>취소</button></router-link> -->
-        <button type="button" @click="goToMyAccount">취소</button>
-        <button type="button">회원탈퇴</button>
+      <div class="btns">
+        <button class="edit-btn" type="button" @click="myAccountMod" 
+                v-bind:disabled="pwShow && (pw !== pwCheck || pwCheck === '')">수정</button>
+        <button class="edit-btn" type="button" @click="goToMyAccount">취소</button>
+        <button class="edit-btn1" type="button">회원탈퇴</button>
       </div>
 
       <br>
@@ -66,7 +65,7 @@ export default {
       loginUser: {},
       pw: '',
       pwCheck: '',
-      pwShow: false,
+      // pwShow: false,
       genderTxt: ''
     }
   },
@@ -94,16 +93,16 @@ export default {
           this.$router.push({ name: 'myaccount' });
         }
       },
-    showPw() {
-      this.pwShow = true;
-    },
+    // showPw() {
+    //   this.pwShow = true;
+    // },
 
     // 비밀번호 취소버튼
-    cancel() {
-      this.pwShow = false;
-      this.pw = '';
-      this.pwCheck = '';
-    },
+    // cancel() {
+    //   this.pwShow = false;
+    //   this.pw = '';
+    //   this.pwCheck = '';
+    // },
 
     // 전체페이지 취소버튼 (myaccount페이지로 가도록, DB입력은 되지않으나, front에서 띄워짐ㅠㅠ)
     goToMyAccount() {
@@ -132,11 +131,11 @@ export default {
 .myaccount-profile {
   border: 2px solid var(--mainOrange);
   border-radius: 15px;
-  width: 50vw;
+  width: 600px;
   margin: 0 auto;
   display: flex;
   line-height: 40px;
-  justify-content: space-evenly;
+  justify-content: center;
   padding: 50px;
   font-size: 1.2rem;
 }
@@ -145,18 +144,20 @@ export default {
   display: flex;
   flex-direction: column;
   text-align: left;
-  padding-right: 35px;
+  padding-right: 55px;
   line-height: 41px;
+}
+.item-nm1 {
+  line-height: 39.5px;
 }
 .row-ctnt {
   display: flex;
   flex-direction: column;
   text-align: left;
-  /* padding-right: 20px; */
 }
-.item-txt {
-	text-decoration: underline;
-  text-underline-position: under;
+.pw-check {
+  color: var(--mainOrange);
+  /* font-size: 0.7rem; */
 }
 input, .input {
   border: none;
@@ -166,7 +167,6 @@ input, .input {
 input:focus {
   border: none;
   border-bottom: 1px solid var(--maincolor);
-  /* border-radius: 10px; */
 }
 input {
   -webkit-appearance: none;
@@ -177,7 +177,7 @@ input {
   border-bottom: 1px solid var(--maincolor);
   color: var(--maincolor);
   font-weight: bolder;
-  width: 120px;
+  /* width: 120px; */
   height: 25px;
   /* padding-left: 10px; */
   color: var(--maincolor);
@@ -186,6 +186,36 @@ input::-ms-expand { display: none; }
 input:hover {
   /* border-bottom: 1px solid var(--mainDark); */
   cursor: pointer;    
+}
+.btns {
+  width: 600px;
+  margin: 0 auto;
+}
+.edit-btn, .edit-btn1 { 
+  margin-top: 50px;
+  margin-right: 20px;
+  display: inline-block;
+  text-decoration: none;
+  background: #fff;
+  padding: 8px 20px;
+  border-radius: 7px;
+  font-weight: bolder;
+  color: var(--maincolor);
+  box-shadow: 0 8px 0 var(--mainDark);
+  transition: all 0.2s;
+  border: 1px solid var(--maincolor);
+}
+.edit-btn:hover {
+    background-color: var(--maincolor);
+    color: #fff;
+}
+.edit-btn1:hover {
+    background-color: rgb(200, 23, 0);
+    color: #fff;
+}
+.edit-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 4px 0 var(--maincolor);
 }
 
 </style>

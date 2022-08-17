@@ -22,7 +22,7 @@
                 <div class="area-section">
                     <span class="section-title">지역</span>
                     <select class="bolder" v-model="travel.area" @change="showLocationOption()">
-                        <option class="bolder" value="" selected>전체</option>
+                        <option class="bolder" value="" selected>선택</option>
                         <option class="bolder" :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
                     </select>
                     <select class="bolder" v-model="travel.location" v-if="locationList.length > 1">
