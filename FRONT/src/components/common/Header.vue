@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="icons1">
-                    <div class="profile" @click="goToMyPage">
+                    <div class="profile" @click="goToMyPage" style="cursor: pointer">
                         <img class="profile-img" v-if="this.$store.state.user.social_type == 1" :src="`${this.$store.state.user.profile_img}`" style="width:40px; height: 40px; object-fit: cover;">
                         <img class="profile-img" v-if="this.$store.state.user.social_type == 0" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
                         style="width:40px; height: 40px; object-fit: cover;">
@@ -106,7 +106,7 @@
                     </router-link>
                 </div>
                 <div class="icons2">
-                    <div class="profile" @click="goToMyPage">
+                    <div class="profile" @click="goToMyPage" style="cursor: pointer">
                         <img class="profile-img" v-if="this.$store.state.user.social_type == 1" :src="`${this.$store.state.user.profile_img}`" style="width:40px; height: 40px; object-fit: cover;">
                         <img class="profile-img" v-if="this.$store.state.user.social_type == 0" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
                         style="width:40px; height: 40px; object-fit: cover;">

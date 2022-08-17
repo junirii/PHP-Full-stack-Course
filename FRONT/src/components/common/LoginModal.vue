@@ -153,7 +153,7 @@ export default {
           }
           console.log(params);
           const data = await this.$post('/user/join', params);
-          console.log(data.result);
+          console.log(data);
           if(data.result === 2) {
             const res = await this.$get(`/user/getKakaoIuser/${acc.email}`, {});
             this.$store.state.isLogin = true;
