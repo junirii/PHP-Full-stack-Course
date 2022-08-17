@@ -72,7 +72,7 @@ export default {
 .myaccount-profile {
   border: 2px solid var(--mainOrange);
   border-radius: 15px;
-  width: 25vw;
+  width: 30vw;
   margin: 0 auto;
   display: flex;
   line-height: 40px;
@@ -94,7 +94,7 @@ export default {
 }
 .item-txt {
 	text-decoration: underline;
-    text-underline-position: under;
+  text-underline-position: under;
 }
 /* .item{
   background-color: var(—maincolor);
