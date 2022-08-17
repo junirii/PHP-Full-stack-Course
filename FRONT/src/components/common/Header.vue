@@ -410,7 +410,9 @@ html {
     padding-top: 10px;
 }
 .icons1 .profile-img {
-	border-radius : 50%;
+    width: 250px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 .icons2 {
     display: flex;
@@ -420,7 +422,9 @@ html {
     padding-top: 10px;
 }
 .icons2 .profile-img {
-	border-radius : 50%;
+    width: 250px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 .dropdown-item {
     color: var(--mainOrange);

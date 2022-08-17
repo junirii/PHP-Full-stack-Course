@@ -22,14 +22,14 @@ class UserController extends Controller
           $image_base64 = base64_decode($image_parts[1]);
           $fileNm = uniqid() . "." . $image_type;
           $json["profile_img"] = $fileNm;
-          if($iuser = $this->model->insUser($json)){
+          if ($iuser = $this->model->insUser($json)) {
             $dirPath = _IMG_PATH . "/profile/" . $iuser;
             $filePath = $dirPath . "/" . $fileNm;
-            if(!is_dir($dirPath)) {
+            if (!is_dir($dirPath)) {
               mkdir($dirPath, 0777, true);
             }
             $result = file_put_contents($filePath, $image_base64);
-            if($result){
+            if ($result) {
               return [_RESULT => 1];
             }
           };
@@ -89,7 +89,8 @@ class UserController extends Controller
     // return $this->model->myPage($param);
   }
 
-  public function getCmt(){
+  public function getCmt()
+  {
     switch (getMethod()) {
       case _GET:
         $urlPaths = getUrlPaths();
@@ -100,7 +101,8 @@ class UserController extends Controller
     }
   }
 
-  public function getGrade(){
+  public function getGrade()
+  {
     switch (getMethod()) {
       case _GET:
         $urlPaths = getUrlPaths();
@@ -111,18 +113,35 @@ class UserController extends Controller
     }
   }
 
-  public function insCmt(){
+  public function insCmt()
+  {
     switch (getMethod()) {
       case _POST:
         $json = getJson();
         $param = [
-        "itravel" => $json["itravel"],
-        "guest_iuser" => $json["guest_iuser"],
-        "cmt" => $json["cmt"],
+          "itravel" => $json["itravel"],
+          "guest_iuser" => $json["guest_iuser"],
+          "cmt" => $json["cmt"],
+          "grade" => $json["grade"],
         ];
         return [_RESULT => $this->model->insMypageCmt($param)];
     }
   }
+  public function delCmt()
+  {
+    $urlPaths = getUrlPaths();
+    $itravel = $urlPaths[2];
+    $guest_iuser = $urlPaths[3];
+    $param = [
+      "itravel" => $itravel,
+      "guest_iuser" => $guest_iuser
+    ];
+    switch (getMethod()) {
+      case _DELETE:
+        return [_RESULT => $this->model->delMypageCmt($param)];
+    }
+  }
+
 
   public function myAccount()
   {
@@ -139,8 +158,9 @@ class UserController extends Controller
     return [_RESULT => $data];
   }
 
-  public function myAccountMod(){
-    
+  public function myAccountMod()
+  {
+
     switch (getMethod()) {
       case _POST:
         $json = getJson();
@@ -155,7 +175,7 @@ class UserController extends Controller
           "cmt" => $json["cmt"],
           "iuser" => $json["iuser"],
         ];
-        if(isset($json["pw"])){
+        if (isset($json["pw"])) {
           $json["pw"] = password_hash($json["pw"], PASSWORD_BCRYPT);
           $param["pw"] = $json["pw"];
         }
@@ -163,7 +183,8 @@ class UserController extends Controller
     }
   }
 
-  public function profileImg(){
+  public function profileImg()
+  {
     switch (getMethod()) {
       case _PUT:
         $json = getJson();
@@ -173,25 +194,25 @@ class UserController extends Controller
         $image_type = $image_type_aux[1];
         $image_base64 = base64_decode($image_parts[1]);
         $dirPath = _IMG_PATH . "/profile/" . $iuser;
-        if(!is_dir($dirPath)) {
+        if (!is_dir($dirPath)) {
           mkdir($dirPath, 0777, true);
         }
         $loginUser = getLoginUser();
-        if($loginUser->profile_img){
+        if ($loginUser->profile_img) {
           $savedImg = $dirPath . "/" . $loginUser->profile_img;
-          if(file_exists($savedImg)){
+          if (file_exists($savedImg)) {
             unlink($savedImg);
           }
         }
         $fileNm = uniqid() . "." . $image_type;
         $filePath = $dirPath . "/" . $fileNm;
         $result = file_put_contents($filePath, $image_base64);
-        if($result){
+        if ($result) {
           $param = [
             "profile_img" => $fileNm,
             "iuser" => $iuser
           ];
-          if($this->model->updProfileImg($param)){
+          if ($this->model->updProfileImg($param)) {
             $loginUser->profile_img = $fileNm;
             return [_RESULT => $fileNm];
           }
@@ -199,11 +220,11 @@ class UserController extends Controller
         break;
       case _DELETE:
         $loginUser = getLoginUser();
-        if($loginUser){
+        if ($loginUser) {
           $path = _IMG_PATH . "/profile/" . getIuser() . "/" . $loginUser->profile_img;
-          if(file_exists($path) && unlink($path)){
-            $param = [ "iuser" => getIuser(), "del" => 1 ];
-            if($this->model->updProfileImg($param)){
+          if (file_exists($path) && unlink($path)) {
+            $param = ["iuser" => getIuser(), "del" => 1];
+            if ($this->model->updProfileImg($param)) {
               $loginUser->profile_img = null;
               return [_RESULT => 1];
             }
@@ -214,7 +235,8 @@ class UserController extends Controller
     }
   }
 
-  public function selUser(){
+  public function selUser()
+  {
     switch (getMethod()) {
       case _GET:
         $urlPaths = getUrlPaths();
