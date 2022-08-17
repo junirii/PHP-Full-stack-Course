@@ -2,7 +2,7 @@
   <Transition name="modal">
     <div v-if="show" class="modal-mask">
       <div class="modal-wrapper" style="z-index: 10;" @click="$emit('close')">
-        <div class="modal-container" @click.stop="">
+        <div class="modal-container font bolder" @click.stop="">
           <div class="modal-header">
             <p>{{ header }}</p>
           </div>
@@ -11,11 +11,10 @@
           <form v-if="login" v-on:submit.prevent="loginForm">
             <div class="modal-body">
               <!-- <slot name="body">{{body}}</slot> -->
-              <div><input v-model="loginUser.email" type="email" placeholder="아이디"></div>
+              <div><input v-model="loginUser.email" type="email" placeholder="이메일"></div>
               <div><input v-model="loginUser.pw" type="password" placeholder="비밀번호"></div>
               <div>
-                <p>아직 회원이 아니신가요?</p>
-                <p type="button" @click="showJoin">Sign Up</p>
+                <p type="button" @click="showJoin">아직 회원이 아니신가요?</p>
                 <img class="loginButton" src="../../../static/img_used/kakaologin.png" alt="kakaologin" type="button" @click="kakaoLogin">
                 <!-- 구글 로그인-->
                 <section class="test">
@@ -309,12 +308,6 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
 }
-
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
-}
-
 .modal-body {
   margin: 20px 0;
 }
@@ -324,7 +317,12 @@ export default {
 }
 
 .modal-login-button {
-  display: inline-block;
+  /* display: inline-block; */
+  border: 0;
+  background: none;
+  font-weight: bolder;
+  color: var(--mainOrange);
+  font-size: 20px;
 }
 
 /*

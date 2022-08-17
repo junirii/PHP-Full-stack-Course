@@ -5,8 +5,8 @@
               @click="loginCheck('Create')">여행 만들기</button>
       <button class="main-btn" type="button" v-if="this.$store.state.isLogin"
               @click="loginCheck('SelectPage')">여행 찾기</button>
-      <button class="main-btn" type="button" v-if="!this.$store.state.isLogin" @click="showModal">들어가기</button>
     </div>
+      <button class="main-btn join-btn" type="button" v-if="!this.$store.state.isLogin" @click="showModal">들어가기</button>
     <LoginModal :show="modalShow" @close="hiddenModal" v-on:update="onLogin" />
   </body>
 </template>
@@ -71,27 +71,35 @@ html {
 .setting-btn {
   text-align: center;
   position: absolute;
-  bottom: 300px;
-  left: 800px;
+  bottom: 510px;
+  left: 810px;
+}
+.join-btn {
+  text-align: center;
+  position: absolute;
+  bottom: 510px;
+  left: 890px;
 }
 .main-btn { 
   font-family: 'LeferiPoint-WhiteA';
   display: inline-block;
   text-decoration: none;
   background: #fff;
-  padding: 8px 30px;
+  padding: 8px 15px;
   border-radius: 7px;
-  /* font-family: helvetica; */
   font-weight: bold;
-  color: #2d7ac2;
-  box-shadow: 0 8px 0 #b1b1b1;
+  color: var(--mainOrange);
+  box-shadow: 0 8px 0 var(--mainDarkOrange);
   transition: all 0.2s;
-  border: 0px solid var(--maincolor);
+  border: 1px solid var(--mainOrange);
 }
-
+.main-btn:hover {
+    background-color: var(--mainOrange);
+    color: #fff;
+}
 .main-btn:active {
     transform: translateY(4px);
-    box-shadow: 0 4px 0 #2d7ac2;
+    box-shadow: 0 4px 0 var(--mainOrange);
 }
 button {
   margin: 15px;

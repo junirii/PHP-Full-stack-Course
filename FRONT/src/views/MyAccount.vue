@@ -96,17 +96,6 @@ export default {
 	text-decoration: underline;
   text-underline-position: under;
 }
-/* .item{
-  background-color: var(—maincolor);
-  color: #fff;
-  margin: 10px;
-  padding: 10px;
-  height: 5vh;
-  display: flex;
-  align-items: center;
-  width: 50vh;
-} */
-
 .edit-btn { 
   margin-top: 50px;
   display: inline-block;
@@ -120,7 +109,10 @@ export default {
   transition: all 0.2s;
   border: 1px solid var(--maincolor);
 }
-
+.edit-btn:hover {
+  background-color: var(--maincolor);
+  color: #fff;
+}
 .edit-btn:active {
   transform: translateY(4px);
   box-shadow: 0 4px 0 var(--maincolor);
