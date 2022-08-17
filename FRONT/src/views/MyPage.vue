@@ -4,9 +4,11 @@
       <h1 class="my-page-title bolder">{{ selUser.nick }}님의 페이지</h1>
       <div class="mypage-profile">
         <div class="mypage-profile-img">
-          <img class="profile-img" :src="`/static/img/profile/${selUser.iuser}/${selUser.profile_img}`"
+          <img class="profile-img" v-if="this.$store.state.user.social_type == 1" :src="`${this.$store.state.user.profile_img}`">
+          <img class="profile-img" v-if="this.$store.state.user.social_type == 0" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`">
+          <!-- <img class="profile-img" :src="`/static/img/profile/${selUser.iuser}/${selUser.profile_img}`"
             onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진"
-            @click="showModal" id="profile-img">
+            @click="showModal" id="profile-img"> -->
         </div>
         <div class="mypage-profile-txt">
           <div>상태메세지 : {{ selUser.cmt }}</div>
