@@ -102,6 +102,7 @@ export default {
       header: '로그인',
       isLogin: this.isLogin,
       joinUser: {
+        social_type: 0,
         email: '',
         pw: '',
         pwCheck: '',
@@ -138,6 +139,7 @@ export default {
           const acc = res.kakao_account;
           console.log(acc);
           const params = {
+            social_type: 1,
             nick: acc.profile.nickname,
             email: acc.email,
             profile_img: acc.profile.profile_image_url,

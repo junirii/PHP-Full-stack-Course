@@ -10,9 +10,9 @@ class UserModel extends Model
   {
     $sql =
       " INSERT INTO t_user
-      (email, pw, nm, nick, gender, birth, tel, profile_img, cmt)
+      (email, pw, nm, nick, gender, birth, tel, profile_img, cmt, social_type)
       VALUES
-      (:email, :pw, :nm, :nick, :gender, :birth, :tel, :profile_img, :cmt)";
+      (:email, :pw, :nm, :nick, :gender, :birth, :tel, :profile_img, :cmt, :social_type)";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":email", $param["email"]);
     $stmt->bindValue(":pw", $param["pw"]);
@@ -23,6 +23,7 @@ class UserModel extends Model
     $stmt->bindValue(":tel", $param["tel"]);
     $stmt->bindValue(":profile_img", $param["profile_img"]);
     $stmt->bindValue(":cmt", $param["cmt"]);
+    $stmt->bindValue(":social_type", $param["social_type"]);
     $stmt->execute();
     return intval($this->pdo->lastInsertId());
   }

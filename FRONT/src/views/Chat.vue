@@ -1,10 +1,9 @@
 <template>
-    <div> 
-        <div class="create-box"></div>
+    <div class="chat"> 
         <input type="hidden" id="inputChat" value="0">
-        <h2>{{ travelTitle }}</h2>
+        <h2 class="bolder" style="color: var(--maincolor);">{{ travelTitle }}</h2>
         <div id="main">
-            <div id="users">
+            <div id="users" class="bolder">
                 {{myInfo.nick}} (나)
                 <span v-for="item in chatUser" :key="item.iuser">
                     <span v-if="item.iuser !== myInfo.iuser">
@@ -15,17 +14,30 @@
             <hr>
             <div id="chat">
                 <div v-for="(item, idx) in chatList" :key="idx">
-                <div id="other" v-if="item.name !== myInfo.nick">
-                {{ item.name }} : {{ item.msg }}
-                </div>
-                <div id="me" v-if="item.name === myInfo.nick">
-                    {{item.msg}}
-                </div>
+                    <div class="your-chat">
+                        <p id="you" v-if="item.name !== myInfo.nick">
+                            {{ item.name }}
+                        </p>
+                        <!-- <div class="profile">
+                            <img class="profile-img" v-if="this.$store.state.isLogin"
+                                :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
+                                style="width:30px; height: 30px; object-fit: cover;">
+                        </div> -->
+                        <div class="your-msg" v-if="item.name !== myInfo.nick">
+                            <p class="your-msg-ctnt">{{ item.msg }}</p>
+                        </div>
+                    </div>
+                    <div id="me" v-if="item.name === myInfo.nick">
+                        <p class="my-msg-ctnt"> {{item.msg}} </p>
+                    </div>
                 </div>
             </div>
             <div id="input">
-                <input type="text" v-model="input" @keypress="enter($event);">
-                <button @click="sendMsg">전송</button>
+                <input type="text"
+                       v-model="input"
+                       placeholder="메세지를 입력하세요."
+                       @keypress="enter($event);">
+                <button class="submit-btn" @click="sendMsg">전송</button>
             </div>
         </div>
     </div>
@@ -89,6 +101,9 @@ export default {
         chat.scrollTop = chat.scrollHeight;
     },
     methods: {
+        // setDefaultImg() {
+        //     document.querySelector('#profile-img').src = '/static/img/profile/common/defaultImg.webp';
+        // },
         async enterMsg(){
             const res = await this.$post('/chat/insChatMsg', {
                 itravel: this.itravel,
@@ -148,40 +163,119 @@ export default {
 </script>
 
 <style scoped>
+/* 전체 화면 */
+.chat { 
+    z-index: auto;
+    margin: 0 auto;
+    padding: 150px;
+}
+/* 채팅창 */
 #main{
     margin: auto;
-    margin-top: 100px;
+    margin-top: 50px;
     border-radius: 20px;
-    border: blue 1px solid;
+    border: var(--mainOrange) 1px solid;
     text-align: center;
     width: 500px;
     height: 500px;
     position: relative;
 }
+#users {
+    color: var(--mainOrange);
+    padding: 15px;
+}
+#users > div {
+    margin-right: 10px;
+}
 #chat {
-    height: 90%;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    width: 90%;
+    margin: 0 auto;
     overflow-y: auto;
     padding: 20px;
 }
-#other {
-    text-align: left;
+#you {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--mainOrange);
+    margin-top: 0;
+    margin-block-end: 0rem;
+}
+.your-chat {
+    display: flex;
+}
+.your-msg {
+    display: flex;
+    align-items: flex-end;
+    line-break: anywhere;
+}
+.your-msg-ctnt {
+    margin: 0.4rem 1rem 0 0;
+    border-radius: 0px 20px 20px 20px;
+    background-color: #f3f3f3;
+    max-width: 180px;
+    color: var(--mainOrange);
+    padding: 0.8rem;
+    font-size: 14px;
 }
 #me {
-    text-align: right;
+    display: flex;
+    justify-content: right;
+    align-items: flex-end;
+    margin: 0;
+    min-height: 40px;
+    line-break: anywhere;
+}
+.my-msg-ctnt {
+    margin: 0.4rem 0 0 1rem;
+    border-radius: 20px 20px 0px 20px;
+    max-width: 180px;
+    background-color: var(--mainOrange);
+    color: #fff;
+    padding: 0.8rem;
+    font-size: 14px;
 }
 hr {
     height: 2px;
-    color: var(--maincolor);
-    width: 70%;
+    color: var(--mainOrange);
+    width: 90%;
     margin: 0 auto;
 }
-.create-box {
-    z-index: auto;
-    margin: 0 auto;
-    padding: 50px !important;
-    width: 70%;
+#input {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border: 1px solid var(--mainOrange);
+    background: #fff;
+    color: var(--mainOrange);
+    border-radius: 0px 0px 24px 24px;
+    font-weight: bolder;
+}
+input {
+    border: none;
+    padding: 0.5rem;
+    font-size: 16px;
+    width: 500px;
+    background-color: #fff;
+    color: var(--mainOrange);
+    font-weight: bolder;
+}
+input:focus {
+    outline: none;
+}
+.submit-btn {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 2px solid var(--mainOrange);
+    background-color: #fff;
+    font-family: 'LeferiPoint-WhiteA';
+    font-weight: bolder;
+    width: 50px;
+    border-radius: 15px;
+    padding: 5px;
+    color: var(--mainOrange);
 }
 </style>

@@ -24,9 +24,10 @@ export default {
 <style scoped>
 footer {
     background-color: #fff;
-    z-index: -1;
+    z-index: 0;
     position: absolute;
     bottom: 0;
+    left: 80px;
     right: 0;
     width: 90%;
     border-top: 2px solid rgb(255, 136, 0);
