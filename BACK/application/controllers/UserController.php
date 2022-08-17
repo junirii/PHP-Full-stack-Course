@@ -227,4 +227,16 @@ class UserController extends Controller
         return [_RESULT => $this->model->selUser($param)];
     }
   }
+
+  public function getKakaoIuser() {
+    switch (getMethod()) {
+      case _GET:
+        $urlPaths = getUrlPaths();
+        $email = $urlPaths[2];
+        $param = [
+          "email" => $email
+        ];
+        return [_RESULT => $this->model->selUser($param)];
+    }
+  }
 }

@@ -103,6 +103,7 @@ export default {
       header: '로그인',
       isLogin: this.isLogin,
       joinUser: {
+        social_type: 0,
         email: '',
         pw: '',
         pwCheck: '',
@@ -124,7 +125,7 @@ export default {
     kakaoLogin() {
       console.log(window.Kakao)
       window.Kakao.Auth.login({
-        scope: 'profile_nickname, profile_image, account_email',
+        scope: 'profile_nickname, profile_image, account_email, gender',
         success: this.getKakaoAccount,
                 fail: e => {
                     console.error(e);
@@ -139,17 +140,31 @@ export default {
           const acc = res.kakao_account;
           console.log(acc);
           const params = {
+            social_type : 1,
+            nm: acc.profile.nickname,
             nick: acc.profile.nickname,
             email: acc.email,
             profile_img: acc.profile.profile_image_url,
+            gender: acc.gender
+          }
+          if(acc.gender === 'male') {
+            params.gender = 1
+          } else {
+            params.gender = 2
           }
           console.log(params);
-          // this.login(params);
           const data = await this.$post('/user/join', params);
-          params.iuser = data.result;
-          console.log(params.iuser);
-          this.$store.commit('user', params);
-          window.location.href = "http://localhost:8080/";
+          console.log(data.result);
+          if(data.result === 2) {
+            const res = await this.$get(`/user/getKakaoIuser/${acc.email}`, {});
+            this.$store.state.isLogin = true;
+            console.log(res);
+            params.iuser = res.result.iuser;
+            this.$store.commit('user', params);
+            console.log(this.$store.state.user);
+            this.$emit('close');
+            this.$emit('update');
+          }
         },
         fail: e => {
           console.error(e);
@@ -157,7 +172,7 @@ export default {
       })
     },
     // async login(params) {
-    //       const data = await this.$post('/user/join', params);
+    //       const data = await this.$post('/user/login', params);
     //       params.iuser = data.result;
     //       this.$store.commit('user', params);
     //       window.location.href = "http://location:8080/";

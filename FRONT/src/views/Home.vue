@@ -25,7 +25,7 @@ export default {
     LoginModal
   },
   created(){
-    if(this.$store.state.user.iuser){
+    if(this.$store.state.user){
       this.$store.state.isLogin = true;
     }
     console.log(this.$store.state.user);

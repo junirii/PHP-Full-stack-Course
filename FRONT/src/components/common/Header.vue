@@ -12,7 +12,8 @@
                 </div>
 
                 <div class="icons1">
-                    <img class="profile-img" v-if="this.$store.state.isLogin" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
+                    <img class="profile-img" v-if="this.$store.state.user.social_type == 1" :src="`${this.$store.state.user.profile_img}`" style="width:40px">
+                    <img class="profile-img" v-if="this.$store.state.user.social_type == 0" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
                      style="width:40px">
                     <div class="user-name1" v-if="this.$store.state.isLogin">
                         <!-- <img class="header-profile-img"
