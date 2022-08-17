@@ -10,8 +10,6 @@ import store from '@/store';
 import MyAccount from '../views/MyAccount.vue';
 import MyAccountMod from '../views/MyAccountMod.vue';
 import Chat from '../views/Chat.vue';
-import Test from '../views/Test.vue';
-
 
 //네이게이션 가드 commit test
 const requireAuth = () => (to, from, next) => {
@@ -83,12 +81,6 @@ const routes = [
     component: Chat,
     beforeEnter: requireAuth()
   },
-  {
-    path: '/test',
-    name: 'test',
-    component: Test,
-    beforeEnter: requireAuth()
-  }
 ]
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

@@ -89,9 +89,6 @@
                                 <router-link :to="{ path: '/Create' }" @click="sidebarNone">
                                     <li v-if="this.$store.state.isLogin">여행 호스팅 하기</li>
                                 </router-link>
-                                <router-link :to="{ path: '/Test' }" @click="sidebarNone">
-                                    <li v-if="this.$store.state.isLogin">구글로그인테스트</li>
-                                </router-link>
                                 <li v-if="this.$store.state.isLogin" @click="goToAllList(); sidebarNone();">전체 리스트</li>
                                 <li v-if="this.$store.state.isLogin" @click="logout">로그아웃</li>
                                 <li v-if="!this.$store.state.isLogin" @click="logout">로그인</li>

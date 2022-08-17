@@ -38,6 +38,7 @@
         v-bind:disabled="pwShow && (pw !== pwCheck || pwCheck === '')">수정</button>
         <!-- <router-link :to="{ path: '/MyAccount' }"><button>취소</button></router-link> -->
         <button type="button" @click="goToMyAccount">취소</button>
+        <button type="button">회원탈퇴</button>
       </div>
 
       <br>
