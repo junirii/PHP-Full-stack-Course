@@ -17,7 +17,7 @@ export default {
     Footer
   },
   created() {
-    console.log('success');
+    //채팅 알림
     console.log(this.$store.state.unreadCntAll);
     this.$socket.on('update', data => {
       const inputChat = document.querySelector('#inputChat');
@@ -47,6 +47,36 @@ export default {
       }
       console.log(data.unreadCntAll);
     });
+
+    //isconfirm 변경
+    this.changeIsConfirm();
+  },
+  methods: {
+    async changeIsConfirm(){
+      globalThis.this = this;
+      const today = new Date();
+      const year = today.getFullYear();
+      const month =  ("0" + (today.getMonth() + 1)).slice(-2);
+      const day = ("0" + today.getDate()).slice(-2);
+      const todayDate = `${year}-${month}-${day}`;
+      console.log(this.$store.state.isLogin);
+      if(this.$store.state.isLogin){
+        console.log('진입');
+        const loginIuser = this.$store.state.user.iuser;
+        const res = await this.$get(`/travel/joiningTravel/${loginIuser}`, {});
+        console.log(res);
+        const joiningTravelList = res.result;
+        console.log(joiningTravelList);
+        joiningTravelList.forEach(async function(item){
+          if(item.e_date < todayDate){
+            const res = await globalThis.this.$put(`/travel/updIsConfirm`, {
+              itravel: item.itravel,
+              loginIuser: loginIuser
+            });
+          }
+        });
+      }
+    }
   }
 }
 </script>

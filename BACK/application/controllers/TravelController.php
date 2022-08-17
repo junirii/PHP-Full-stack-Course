@@ -416,4 +416,23 @@ class TravelController extends Controller{
         ];
         return [_RESULT => $this->model->selTravelData($param)];
     }
+
+    public function joiningTravel(){
+        $urlPaths = getUrlPaths();
+        $loginIuser = $urlPaths[2];
+        $param = ["iuser" => $loginIuser];
+        return [_RESULT => $this->model->selJoiningTravel($param)];
+    }
+
+    public function updIsConfirm(){
+        switch (getMethod()) {
+            case _PUT:
+                $json = getJson();
+                $param = [
+                    "itravel" => $json["params"]["itravel"],
+                    "iuser" => $json["params"]["loginIuser"]
+                ];
+                return [_RESULT => $this->model->updIsConfirm($param)];
+        }
+    }
 }

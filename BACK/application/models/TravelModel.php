@@ -457,4 +457,33 @@ class TravelModel extends Model
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
+
+    public function selJoiningTravel(&$param){
+        $sql = 
+        " SELECT A.*, B.e_date 
+          FROM t_travel_state A
+          INNER JOIN t_travel B
+          ON A.itravel = B.itravel
+          WHERE A.iuser = :iuser
+          AND A.isconfirm = 1
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function updIsConfirm(&$param){
+        $sql = 
+        " UPDATE t_travel_state
+          SET isconfirm = 2
+          WHERE iuser = :iuser
+          AND itravel = :itravel
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->bindValue(":itravel", $param["itravel"]);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
 }

@@ -234,7 +234,6 @@ export default {
                 const res = await this.$post('/user/logout');
                 if (res.result === 1) {
                     this.$store.commit('user', {});
-                    console.log(this.$store.state.user.iuser);
                     this.$store.state.isLogin = false;
                     this.$swal.fire('로그아웃되었습니다.', '', 'success')
                         .then(async result => {
