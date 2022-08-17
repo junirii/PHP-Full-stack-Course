@@ -2,7 +2,6 @@
   <div class="my-page">
     <div class="container">
       <h1 class="my-page-title bolder">{{ selUser.nick }}님의 페이지</h1>
-      <!-- 마이페이지 섹션1 - 프로필 -->
       <div class="mypage-profile">
         <div class="mypage-profile-img">
           <img class="profile-img" :src="`/static/img/profile/${selUser.iuser}/${selUser.profile_img}`"
@@ -15,8 +14,6 @@
             <div v-if="(item.avgOfGrade)">평점 : {{ item.avgOfGrade }}점</div>
             <div v-if="!(item.avgOfGrade)">평점 : - 점</div>
           </div>
-          <!--이 유저의 평균평점 = 이 유저가 호스팅한 모든 여행의 평점 합계의 평균..... 함수를 하나 빼야하는건가.....?
-          ROUND(AVG(A.grade),1) AS avgOfGrade -->
           <div v-if="feedIuser == loginIuser">
             <router-link :to="{ path: '/MyAccount' }">
               <div><i class="fa-solid fa-pencil fa"></i>프로필수정</div>
@@ -29,7 +26,7 @@
       <Test :show="modalShow" @close="hiddenModal" v-on:update="getUserData" v-on:defaultImg="setDefaultImg" />
       <!-- 마이페이지 섹션2 - 신청 여행(신청중, 신청수락), 찜한 여행, 호스팅한 여행 , 참여한 여행 -->
       <div v-if="feedIuser == loginIuser">
-        <div class="title">신청한 여행 현황</div> <!-- 신청중, 신청수락 여행 슬라이드로 띄우기-->
+        <div class="title">신청한 여행 현황</div> 
         <div>
           <div>
             <div>신청중</div>
@@ -231,9 +228,7 @@ export default {
             break;
         }
       });
-      this.guestTravel = this.data.result.guestTravel;
-      this.selUserFav = this.data.result.selUserFav;  // 인기도
-      console.log(this.selUserFav[0]);
+
     },
     async getUserData() {
       console.log(this.feedIuser);
@@ -256,9 +251,8 @@ export default {
         guest_iuser: this.loginIuser,
         cmt: this.cmt,
         grade: this.grade
-
       });
-      console.log(res.result);
+      console.log(res);
       if (res.result === 1) {
         this.selectedTravel = 0;
         this.cmt = '';
@@ -266,6 +260,9 @@ export default {
       } else {
         this.$swal.fire('이미 리뷰가 등록된 참여여행입니다.', '', 'error');
       }
+      console.log(this.selectedTravel);
+      console.log(this.cmt);
+      console.log(this.grade);
     },
     async getCmt() {
       const res = await this.$get(`/user/getCmt/${this.feedIuser}`, {});
