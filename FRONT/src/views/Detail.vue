@@ -231,9 +231,11 @@ export default {
       }
     },
     async del() {
-      const delTravel = await this.$delete(`/travel/del/${this.itravel}/${this.loginIuser}`, {});
+      const delTravel = await this.$put(`/travel/del`, {
+        itravel: this.itravel,
+      });
       console.log(delTravel);
-      if(delTravel.result === 1) {
+      if(delTravel.result == 1) {
         this.$swal.fire('삭제완료.', '', 'success')
         .then(async result => {
           console.log(result);

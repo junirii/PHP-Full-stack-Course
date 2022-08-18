@@ -52,7 +52,8 @@ class UserModel extends Model
            FROM t_travel_fav A
            INNER JOIN t_travel B
            ON A.itravel = B.itravel
-           WHERE A.iuser = :iuser";
+           WHERE A.iuser = :iuser
+           AND B.isdelete = 0";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
     $stmt->execute();
@@ -65,7 +66,8 @@ class UserModel extends Model
     $sql = "SELECT * FROM t_user A
             INNER JOIN t_travel B
             ON A.iuser = B.iuser
-            WHERE A.iuser = :iuser";
+            WHERE A.iuser = :iuser
+            AND B.isdelete = 0";
 
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
@@ -78,7 +80,8 @@ class UserModel extends Model
     $sql = "SELECT * FROM t_travel_state A
             INNER JOIN t_travel B
             ON A.itravel = B.itravel
-            WHERE A.iuser = :iuser";
+            WHERE A.iuser = :iuser
+            AND B.isdelete = 0";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
     $stmt->execute();
@@ -94,6 +97,7 @@ class UserModel extends Model
       INNER JOIN t_user C
       ON A.guest_iuser = C.iuser
       WHERE B.iuser = :iuser
+      AND B.isdelete = 0
     ";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":iuser", $param["iuser"]);
@@ -110,6 +114,7 @@ class UserModel extends Model
       INNER JOIN t_user C
       ON A.guest_iuser = C.iuser
       WHERE B.iuser = :iuser
+      AND B.isdelete = 0
       ORDER BY A.reg_dt DESC
       ";
     $stmt = $this->pdo->prepare($sql);
@@ -124,7 +129,8 @@ class UserModel extends Model
     FROM t_travel_state A
     INNER JOIN t_travel B
     ON A.itravel = B.itravel
-    WHERE A.iuser = :loginIuser AND B.iuser = :iuser AND A.isconfirm = 2";
+    WHERE A.iuser = :loginIuser AND B.iuser = :iuser AND A.isconfirm = 2
+    AND B.isdelete = 0";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(":loginIuser", $param["loginIuser"]);
     $stmt->bindValue(":iuser", $param["iuser"]);

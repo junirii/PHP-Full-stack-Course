@@ -26,9 +26,11 @@ class TravelModel extends Model
             INNER JOIN t_area C
             ON A.area = C.iarea
             LEFT JOIN t_location D
-            ON A.location = D.ilocation";
+            ON A.location = D.ilocation
+            WHERE A.isdelete = 0";
+
         if ($l_price <= $h_price) { //비용
-            $sql .= " WHERE A.f_price >= {$l_price} AND A.f_price <= {$h_price}";
+            $sql .= " AND A.f_price >= {$l_price} AND A.f_price <= {$h_price}";
         }
         if ($f_age > 0) { //나이
             $sql .= " AND A.f_age = {$f_age}";
@@ -434,15 +436,12 @@ class TravelModel extends Model
     public function delTravel(&$param)
     {
         $sql =
-            " DELETE A.*, B.* FROM t_travel A
-          LEFT JOIN t_travel_ctnt B
-          ON A.itravel = B.itravel
-          WHERE A.itravel = :itravel
-          AND A.iuser = :iuser;
+        " UPDATE t_travel
+          SET isdelete = 1
+          WHERE itravel = :itravel
         ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":itravel", $param["itravel"]);
-        $stmt->bindValue(":iuser", $param["iuser"]);
         $stmt->execute();
         return $stmt->rowCount();
     }

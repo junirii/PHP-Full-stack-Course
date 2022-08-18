@@ -390,19 +390,16 @@ class TravelController extends Controller{
     }
     // del travel
     public function del() {
-        $urlPaths = getUrlPaths();
-        $itravel = $urlPaths[2];
-        $iuser = $urlPaths[3];
+        $json = getJson();
         $param = [
-            "itravel" => $itravel,
-            "iuser" => $iuser
+            "itravel" => $json["params"]["itravel"],
         ];
         switch (getMethod()) {
-            case _DELETE:
+            case _PUT:
                 $result = $this->model->delTravel($param);
                 if($result) {
-                    $dir = _IMG_PATH . "/travel/" . $itravel . "/";
-                    LIB_removeAllData($dir);
+                    // $dir = _IMG_PATH . "/travel/" . $itravel . "/";
+                    // LIB_removeAllData($dir);
                     return [_RESULT => 1];
                 }
         }
