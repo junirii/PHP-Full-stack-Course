@@ -42,6 +42,7 @@ export default {
       const spanUnreadCntAll = document.querySelector('#unreadCntAll');
       if(data.unreadCntAll > 0){
         spanUnreadCntAll.innerText = data.unreadCntAll;
+        spanUnreadCntAll.classList.remove('d-none');
       }else{
         spanUnreadCntAll.classList.add('d-none');
       }

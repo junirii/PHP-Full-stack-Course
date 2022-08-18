@@ -33,8 +33,12 @@
                                     <div style="color: var(--mainOrange);" @click="goToChat(item.itravel)">
                                         <div style="font-size: 18px; font-weight: bolder;">{{ item.title }}</div>
                                         {{ item.lastMsg }}
+                                        <!-- <span v-if="this.$store.state.unreadCnt[item.itravel]"
+                                            style="background-color: red; color:#fff; font-weight: bolder;">
+                                            {{ this.$store.state.unreadCnt[item.itravel] }}
+                                        </span> -->
                                         <span v-if="this.$store.state.unreadCnt[item.itravel]"
-                                            style="background-color: var(--mainOrange); color:#fff; font-weight: bolder;">
+                                            class="position-absolute translate-middle badge rounded-pill bg-danger end-0 bottom-10">
                                             {{ this.$store.state.unreadCnt[item.itravel] }}
                                         </span>
                                     </div>
