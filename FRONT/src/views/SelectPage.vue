@@ -30,7 +30,6 @@
       <div>
         <h3>Step 1. 여행지 선택</h3>
         <h6>떠나고 싶은 여행지를 선택하세요.</h6>
-        <h4 class="area-name"> {{ areaName }} </h4>
       </div>
       <div class="box d-flex">
         <div class="container-map">

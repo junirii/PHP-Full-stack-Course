@@ -13,16 +13,18 @@
               <!-- <slot name="body">{{body}}</slot> -->
               <div class="title-input"><input v-model="loginUser.email" type="email" placeholder="이메일"></div>
               <div class="title-input"><input v-model="loginUser.pw" type="password" placeholder="비밀번호"></div>
-              <div>
-                아직 회원이 아니신가요? <span class="btn-join" type="button" @click="showJoin">Sign up</span>
-                <div class="btn-logo"><img class="loginButton" src="../../../static/img_used/kakaologin.png"
-                    alt="kakaologin" type="button" @click="kakaoLogin"></div>
-                <!-- 구글 로그인-->
-                <div class="test btn-logo">
-                  <div class="google-div" v-on:click="GoogleLoginBtn"><img
-                      src="../../../static/img_used/logingoogle.png" alt="구글 소셜로그인"></div>
-                  <div class="google-div" id="my-signin2" style="display: none"></div>
-                </div>
+              <div style="padding-top: 30px;">
+                <div style="padding-bottom: 30px;"> 아직 회원이 아니신가요? </div>
+                  <!-- <br> -->
+                  <span class="btn-join" type="button" @click="showJoin">Sign up</span>
+                  <div class="btn-logo"><img class="loginButton" src="../../../static/img_used/kakaologin.png"
+                      alt="kakaologin" type="button" @click="kakaoLogin"></div>
+                  <!-- 구글 로그인-->
+                  <div class="test btn-logo">
+                    <div class="google-div" v-on:click="GoogleLoginBtn"><img
+                        src="../../../static/img_used/logingoogle.png" alt="구글 소셜로그인"></div>
+                    <div class="google-div" id="my-signin2" style="display: none"></div>
+                  </div>
               </div>
             </div>
 
@@ -52,7 +54,7 @@
                 </div>
                 <div class="title-input"><input v-model="joinUser.nm" type="text" placeholder="이름" required></div>
                 <div class="title-input"><input v-model="joinUser.nick" type="text" placeholder="닉네임"></div>
-                <div>성별 :
+                <div style="padding: 5px;">성별 :
                   <input v-model="joinUser.gender" type="radio" id="male" name="gender" value="1" checked required>
                   <label for="male">남</label>
                   <input v-model="joinUser.gender" type="radio" id="female" name="gender" value="2">
@@ -68,7 +70,8 @@
               </div>
               <div class="p-go-login">
                 <p>이미 회원이신가요?</p>
-                <p type="button" @click="showLogin">Sign in</p>
+                <br>
+                <p class="sign-btn" type="button" @click="showLogin">Sign in</p>
               </div>
             </div>
 
@@ -320,11 +323,13 @@ export default {
 
 .modal-body {
   margin: 20px 0;
-  color: var(--maincolor);
+  color: var(--mainOrange);
 }
 
 .modal-footer {
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .modal-login-button {
@@ -333,7 +338,7 @@ export default {
   background: none;
   font-weight: bolder;
   color: var(--mainOrange);
-  font-size: 20px;
+  font-size: 15px;
 }
 
 /*
@@ -371,9 +376,13 @@ export default {
 }
 
 .modal-body2 {
-  color: var(--maincolor);
+  padding-top: 15px;
+  color: var(--mainOrange);
 }
-
+.modal-body2-left {
+  margin: 0 auto;
+  
+}
 .google-div img {
   width: 220px;
   cursor: pointer;
@@ -388,7 +397,7 @@ export default {
 }
 
 .login-header {
-  color: var(--maincolor);
+  color: var(--mainOrange);
 }
 
 .title-input{
@@ -408,17 +417,19 @@ export default {
   appearance: none;
 
   border: none;
-  border-bottom: 2px solid var(--maincolor);
+  border-bottom: 2px solid var(--mainOrange);
   width: 200px;
   height: 25px;
   padding-left: 10px;
-  color: var(--maincolor);
+  color: var(--mainOrange);
 }
 
 .btn-join {
-  padding-top: 20px;
-  color: var(--maincolor);
+  color: var(--mainOrange);
   margin: 0 auto;
+  border: 2px solid var(--mainOrange);
+  width: 80px;
+  border-radius: 15px;
 }
 
 .btn-logo {
@@ -458,6 +469,19 @@ input:focus {
 }
 
 .p-go-login {
+  display: flex;
+  flex-direction: column;
   margin-top: 30px;
+  margin-bottom: 30px;
+}
+.p-go-login > p {
+  margin: 0 auto;
+}
+.sign-btn {
+  border: 2px solid var(--mainOrange);
+  border-radius: 15px;
+  width: 80px;
+  display: flex;
+  justify-content: center;
 }
 </style>
