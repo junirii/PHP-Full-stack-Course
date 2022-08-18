@@ -132,9 +132,9 @@
           range multiCalendars :multiStatic="false" :enableTimePicker="false" :minDate="new Date()" />
       </div>
       <div class="move-to-list-btn">
-        <router-link :to="{ path: '/List' }">
+        <!-- <router-link :to="{ path: '/List' }">
           <button class="btn next-btn" type="button" @click="moveToList">여행 찾기</button>
-        </router-link>
+        </router-link> -->
       </div>
     </div>
   </div> <!-- div total 닫음 -->
