@@ -25,7 +25,6 @@ class TravelController extends Controller{
 
     public function create() {
         $json = getJson();
-        print_r($json);
         return [_RESULT => $this->model->travelInsert($json)];
     }
 
@@ -61,6 +60,9 @@ class TravelController extends Controller{
 
     public function detail() {
         $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 3) {
+            exit();
+        }  
         $param = [
             "itravel" => intval($urlPaths[2])
         ];
@@ -81,6 +83,9 @@ class TravelController extends Controller{
     }
     public function favDetail() {
         $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 3) {
+            exit();
+        }  
         $iuser = $urlPaths[2];
         $param = [
             "iuser" => $iuser,
@@ -96,6 +101,9 @@ class TravelController extends Controller{
     // 좋아요한 게시물
     public function travelFav() {
         $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 3) {
+            exit();
+        }
         $iuser = $urlPaths[2];
         $param = [
             "iuser" => $iuser,
@@ -116,6 +124,9 @@ class TravelController extends Controller{
 
     public function TravelUserFav() {
         $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 3) {
+            exit();
+        }  
         $param = [
             "iuser" => intval($urlPaths[2])
         ];
@@ -124,6 +135,9 @@ class TravelController extends Controller{
 
     public function travelDeleteFav() {
         $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 3) {
+            exit();
+        }  
         $param = [
             "iuser" => intval($urlPaths[2])
         ];
@@ -304,6 +318,9 @@ class TravelController extends Controller{
     
     public function travelState() {
         $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 4) {
+            exit();
+        }  
         $iuser = $urlPaths[2];
         $itravel = $urlPaths[3];
         $param = [
@@ -328,6 +345,9 @@ class TravelController extends Controller{
         switch (getMethod()) {
         case _DELETE:
             $urlPaths = getUrlPaths();
+            if(count($urlPaths) !== 4) {
+                exit();
+            }
             $itravel = $urlPaths[2];
             $iuser = $urlPaths[3];
             $param = [
@@ -367,6 +387,9 @@ class TravelController extends Controller{
         switch (getMethod()) {
         case _DELETE:
         $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 4) {
+            exit();
+        }  
         $itravel = $urlPaths[2];
         $iuser = $urlPaths[3];
         $param = [
@@ -407,6 +430,9 @@ class TravelController extends Controller{
 
     public function getTravelData(){
         $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 3) {
+            exit();
+        }  
         $itravel = $urlPaths[2];
         $param = [
             "itravel" => $itravel
@@ -416,6 +442,9 @@ class TravelController extends Controller{
 
     public function joiningTravel(){
         $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 3) {
+            exit();
+        }  
         $loginIuser = $urlPaths[2];
         $param = ["iuser" => $loginIuser];
         return [_RESULT => $this->model->selJoiningTravel($param)];

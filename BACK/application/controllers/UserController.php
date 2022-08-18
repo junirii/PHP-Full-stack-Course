@@ -72,9 +72,11 @@ class UserController extends Controller
   public function myPage()
   {
     $urlPaths = getUrlPaths();
+    if(count($urlPaths) !== 4) {
+      exit();
+    }  
     $param = [
       "iuser" => intval($urlPaths[2]), // iuser 타인으로 바꾸기
-      "itravel" => intval($urlPaths[2])
     ];
 
 
@@ -99,6 +101,9 @@ class UserController extends Controller
     switch (getMethod()) {
       case _GET:
         $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 3) {
+          exit();
+        }  
         $param = [
           "iuser" => intval($urlPaths[2]),
         ];
@@ -111,6 +116,9 @@ class UserController extends Controller
     switch (getMethod()) {
       case _GET:
         $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 3) {
+          exit();
+        }  
         $param = [
           "iuser" => intval($urlPaths[2]),
         ];
@@ -135,6 +143,9 @@ class UserController extends Controller
   public function delCmt()
   {
     $urlPaths = getUrlPaths();
+    if(count($urlPaths) !== 4) {
+      exit();
+    }  
     $itravel = $urlPaths[2];
     $guest_iuser = $urlPaths[3];
     $param = [
@@ -151,6 +162,9 @@ class UserController extends Controller
   public function myAccount()
   {
     $urlPaths = getUrlPaths();
+    if(count($urlPaths) !== 3) {
+      exit();
+    }  
     $param = [
       "iuser" => intval($urlPaths[2]) // iuser 타인으로 바꾸기
     ];
@@ -245,6 +259,9 @@ class UserController extends Controller
     switch (getMethod()) {
       case _GET:
         $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 3) {
+          exit();
+        }  
         $iuser = $urlPaths[2];
         $param = [
           "iuser" => $iuser
@@ -258,6 +275,9 @@ class UserController extends Controller
       case _GET:
         $urlPaths = getUrlPaths();
         $email = $urlPaths[2];
+        if(count($urlPaths) !== 3) {
+          exit();
+        }  
         $param = [
           "email" => $email
         ];
