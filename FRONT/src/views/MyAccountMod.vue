@@ -12,7 +12,7 @@
           <div class="item-nm1">닉네임</div>
           <div class="item-nm1">성별</div>
           <div class="item-nm1">생년월일</div>
-          <div class="item-nm1">전환번호</div>
+          <div class="item-nm1">전화번호</div>
           <div class="item-nm1">상태메세지</div>
         </div>
 

@@ -13,7 +13,7 @@ import Chat from '../views/Chat.vue';
 
 //네이게이션 가드 commit test
 const requireAuth = () => (to, from, next) => {
-  if(!store.state.user) {
+  if(!store.state.user.iuser) {
     swal.fire('로그인을 하세요.', '', 'warning');
     return;
   }
