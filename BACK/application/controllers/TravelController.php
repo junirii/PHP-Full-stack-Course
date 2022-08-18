@@ -101,9 +101,9 @@ class TravelController extends Controller{
     // 좋아요한 게시물
     public function travelFav() {
         $urlPaths = getUrlPaths();
-        if(count($urlPaths) !== 3) {
-            exit();
-        }
+        // if(count($urlPaths) !== 4) {
+        //     exit();
+        // }
         $iuser = $urlPaths[2];
         $param = [
             "iuser" => $iuser,

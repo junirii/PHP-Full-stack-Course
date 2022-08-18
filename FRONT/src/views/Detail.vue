@@ -177,6 +177,7 @@ export default {
     async insTravelFav() {
       const loginIuser = this.$store.state.user.iuser;
       const res = await this.$post(`/travel/travelFav/${loginIuser}/${this.itravel}`, {});
+      console.log(res);
       if (res.result === 1) {
         this.$swal.fire('찜 완료!', '', 'success')
         .then(async result => {
