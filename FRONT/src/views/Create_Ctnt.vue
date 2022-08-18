@@ -6,14 +6,14 @@
         <div class="create-ctnt-container" id="ctntBox1">
           <div v-if="!ismod">
             <label :id="`plus${idx}_1`" :for="`ctntImgDay${idx}_1`">
-              <img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150"
-                height="150" style="cursor:pointer">
+              <img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150"
+                style="cursor:pointer">
             </label>
           </div>
           <div v-if="ismod">
             <label :id="`plus${idx}_1`" :for="`ctntImgDay${idx}_1`">
-              <img :src="`/static/img/travel/${itravel}/detail/${ctntArr[idx-1][0].img}`" width="150"
-                height="150" style="cursor:pointer">
+              <img :src="`/static/img/travel/${itravel}/detail/${ctntArr[idx - 1][0].img}`" width="150" height="150"
+                style="cursor:pointer">
             </label>
           </div>
           <input type="file" class="d-none" :id="`ctntImgDay${idx}_1`"
@@ -27,6 +27,7 @@
         <button class="create-ctnt-btn" type="button" @click="addCtnt(idx)">내용 추가</button>
         <button class="create-ctnt-btn" type="button" @click="delCtnt(idx)">내용 삭제</button>
       </div>
+      <hr>
     </div>
     <div>
       <!-- <button type="button" @click="newCal()">추가</button>
@@ -34,7 +35,7 @@
     </div>
     <div v-if="!ismod">
       <button type="button" class="btn btn-lg btn-danger create-ctnt-submit" @click="insTravel">등록</button>
-    </div>  
+    </div>
     <div v-if="ismod">
       <button type="button" class="btn btn-lg btn-danger create-ctnt-submit" @click="updTravel">수정</button>
     </div>
@@ -56,10 +57,10 @@ export default {
     this.getData();
   },
   methods: {
-    async updTravel(){
-      for(var i=0; i<this.ctntArr.length; i++){
-        for(var z=0; z<this.ctntArr[i].length; z++){
-          const txtArea = document.querySelector(`#txtAreaDay${i+1}_${z+1}`);
+    async updTravel() {
+      for (var i = 0; i < this.ctntArr.length; i++) {
+        for (var z = 0; z < this.ctntArr[i].length; z++) {
+          const txtArea = document.querySelector(`#txtAreaDay${i + 1}_${z + 1}`);
           this.ctntArr[i][z].ctnt = txtArea.value;
         }
       }
@@ -71,13 +72,13 @@ export default {
         itravel: this.itravel
       });
       console.log(res);
-      if(res.result == 1){
+      if (res.result == 1) {
         this.$swal.fire('글 수정 성공', '', 'success')
-        .then(async result => {
-            if(result.isConfirmed){
-                this.$router.push({name: 'detail'});
+          .then(async result => {
+            if (result.isConfirmed) {
+              this.$router.push({ name: 'detail' });
             }
-        });
+          });
       }
 
     },
@@ -103,16 +104,16 @@ export default {
       this.ctntArr[dayIdx - 1][seq - 1].img = image;
       console.log(this.ctntArr);
     },
-    getData() {     
-      this.itravel = this.$store.state.mod.travelData.itravel;  
+    getData() {
+      this.itravel = this.$store.state.mod.travelData.itravel;
       this.travelDay = this.$store.state.travelDay;
       for (var i = 0; i < this.travelDay; i++) {
         this.countArr[i] = 1;
       }
-      if(this.$route.params.mod){
+      if (this.$route.params.mod) {
         this.ismod = true;
         const modCtntArr = this.$store.state.mod.ctnt;
-        for(var i=0; i<this.travelDay; i++){
+        for (var i = 0; i < this.travelDay; i++) {
           this.ctntArr.push([]);
         }
         modCtntArr.forEach(item => {
@@ -122,18 +123,18 @@ export default {
             ctnt: item.ctnt,
             img: item.img
           };
-          this.ctntArr[parseInt(item.day)-1].push(ctntObj);
+          this.ctntArr[parseInt(item.day) - 1].push(ctntObj);
         });
         console.log(this.ctntArr);
         this.ctntArr.forEach(item => {
-          for(var i=1; i<item.length; i++){
+          for (var i = 1; i < item.length; i++) {
             this.addCtnt(item[i].day);
-            const txtArea = document.querySelector(`#txtAreaDay${item[i].day}_${i+1}`);
+            const txtArea = document.querySelector(`#txtAreaDay${item[i].day}_${i + 1}`);
             // txtArea.innerText = this.ctntArr[i-1][i].ctnt;
           }
         });
-      }else{
-        for(var i=0; i<this.travelDay; i++){
+      } else {
+        for (var i = 0; i < this.travelDay; i++) {
           this.ctntArr.push([{
             day: i + 1,
             seq: 1,
@@ -144,29 +145,29 @@ export default {
       }
     },
     addCtnt(idx) {
-      let seq = this.countArr[idx - 1];
-      if(this.$route.params.mod && this.ctntArr[idx-1][seq-1]){
-        seq = ++this.countArr[idx - 1];
-      }
+      let seq = ++this.countArr[idx - 1];
+      // if(this.$route.params.mod && this.ctntArr[idx-1][seq-1]){
+      //   seq = ++this.countArr[idx - 1];
+      // }
       console.log(`seq : ${seq}`);
       setTimeout(() => {
         const divDay = document.querySelector(`#day${idx}`);
         const ctntBox = divDay.appendChild(document.createElement('div'));
         // ctntBox.innerHTML = `<label :id="plus${idx}_${seq}" for="ctntImgDay${idx}_${seq}"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><span :id="image_container${idx}_${seq}"></span><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
-        if(this.$route.params.mod && this.ctntArr[idx-1][seq-1]){
-            ctntBox.innerHTML = `<label :id="plus${idx}_${seq}" for="ctntImgDay${idx}_${seq}"><img id="previewImg${idx}_${seq}" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><span :id="image_container${idx}_${seq}"></span><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
-            const previewImg = document.querySelector(`#previewImg${idx}_${seq}`);
-            previewImg.src = `/static/img/travel/${this.itravel}/detail/${this.ctntArr[idx-1][seq-1].img}`;
-        }else{
+        if (this.$route.params.mod && this.ctntArr[idx - 1][seq - 1]) {
+          ctntBox.innerHTML = `<label :id="plus${idx}_${seq}" for="ctntImgDay${idx}_${seq}"><img id="previewImg${idx}_${seq}" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><span :id="image_container${idx}_${seq}"></span><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
+          const previewImg = document.querySelector(`#previewImg${idx}_${seq}`);
+          previewImg.src = `/static/img/travel/${this.itravel}/detail/${this.ctntArr[idx - 1][seq - 1].img}`;
+        } else {
           ctntBox.innerHTML = `<label :id="plus${idx}_${seq}" for="ctntImgDay${idx}_${seq}"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><span :id="image_container${idx}_${seq}"></span><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
         }
         const inputFile = ctntBox.querySelector('input');
         const imgContainer = ctntBox.querySelector(`span`);
         const plusBtn = ctntBox.querySelector(`label`);
-        inputFile.addEventListener('change', async function(e){
+        inputFile.addEventListener('change', async function (e) {
           //setThumbnail()
           var reader = new FileReader();
-          reader.onload = function(e) {
+          reader.onload = function (e) {
             var img = document.createElement("img");
             img.setAttribute("src", e.target.result);
             imgContainer.appendChild(img);
@@ -189,8 +190,8 @@ export default {
         textarea.style.height = "15vh";
         textarea.style.padding = "10px";
 
-        if(this.$route.params.mod && this.ctntArr[idx-1][seq-1]){
-          textarea.innerText = this.ctntArr[idx-1][seq-1].ctnt;
+        if (this.$route.params.mod && this.ctntArr[idx - 1][seq - 1]) {
+          textarea.innerText = this.ctntArr[idx - 1][seq - 1].ctnt;
         }
 
 
@@ -204,7 +205,7 @@ export default {
           this.ctntArr[idx - 1][seq - 1].img = image;
           console.log(this.ctntArr);
         });
-        if(!this.$route.params.mod){
+        if (!this.$route.params.mod) {
           this.ctntArr[idx - 1].push({
             day: idx,
             seq: this.countArr[idx - 1],
@@ -231,10 +232,10 @@ export default {
       divDay.removeChild(divDay.lastChild);
       this.countArr[idx - 1]--;
     },
-    async insTravel(){   
-      for(var i=0; i<this.ctntArr.length; i++){
-        for(var z=0; z<this.ctntArr[i].length; z++){
-          const txtArea = document.querySelector(`#txtAreaDay${i+1}_${z+1}`);
+    async insTravel() {
+      for (var i = 0; i < this.ctntArr.length; i++) {
+        for (var z = 0; z < this.ctntArr[i].length; z++) {
+          const txtArea = document.querySelector(`#txtAreaDay${i + 1}_${z + 1}`);
           this.ctntArr[i][z].ctnt = txtArea.value;
         }
       }
@@ -243,29 +244,29 @@ export default {
         ctnt: this.ctntArr
       });
       console.log(`res: ${res}`);
-      if(res.result){
+      if (res.result) {
         const makeChat = await this.$post(`/chat/insChatRoom`, {
           itravel: res.result,
           iuser: this.$store.state.user.iuser
         });
         console.log(makeChat);
-        if(makeChat.result){
+        if (makeChat.result) {
           const resMsg = await this.$post('/chat/insChatMsg', {
             itravel: res.result,
             iuser: 0,
             msg: `채팅방이 개설되었습니다.`
           });
           console.log(resMsg);
-          if(resMsg.result){
+          if (resMsg.result) {
             this.$store.state.unreadCnt[res.result] = 0;
             console.log(this.$store.state.unreadCnt);
             this.$swal.fire('글 작성 성공', '', 'success')
-            .then(async result => {
-                if(result.isConfirmed){
-                    this.$store.state.itravel = res.result;
-                    this.$router.push({name: 'detail'});
+              .then(async result => {
+                if (result.isConfirmed) {
+                  this.$store.state.itravel = res.result;
+                  this.$router.push({ name: 'detail' });
                 }
-            });
+              });
           }
         }
       }
