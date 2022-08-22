@@ -33,8 +33,6 @@
                   <small class="name-tag1" style="padding-bottom:0.1rem;">{{ item.s_date }} ~ {{ item.e_date }}</small>
                 </div>
                 <h5 class="card-title bolder" style="color: var(--maincolor);" @click="goToDetail(item.itravel)">{{ item.title }}</h5>
-                <!-- <div class="card-detail"> -->
-                <!-- </div> -->
               </div>
             </div>
           </div>
@@ -68,9 +66,7 @@ export default {
     },
     async travelList() {
       const filter = this.$store.state.filter;
-      console.log(filter);
       this.list = await this.$post('/travel/travelList', { filter: this.$store.state.filter });
-      console.log(this.list);
     },
     async goToDetail(itravelNum) {
       this.$store.state.itravel = itravelNum;
@@ -79,7 +75,6 @@ export default {
     async favItravel() {
       this.iuser = this.$store.state.user.iuser;
       this.travelFavList = await this.$get(`/travel/travelFav/${this.iuser}`, {});
-      console.log(this.travelFavList);
       this.travelFavList.result.forEach(item => {
         this.favItravelList.push(item.itravel);
       });
@@ -113,15 +108,6 @@ export default {
       this.$router.push({name: 'mypage', query: {feedIuser: iuserNum}});
     },
   },
-  // watch: {
-  //   isModalVisible: function() {
-  //     if(this.isModalVisible) {
-  //       document.documentElement.style.overflow = 'hidden'
-  //       return
-  //     }
-  //     document.documentElement.style.overflow = 'auto'
-  //   }
-  // },
   created() {
     this.travelList();
     this.favItravel();
@@ -131,14 +117,6 @@ export default {
 </script>
 
 <style scoped>
-/* html::-webkit-scrollbar {
-  display: none;
-  overflow: hidden;
-  height: 100%;
-} */
-/* .stop-scroll {
-  display: block;
-} */
 .list { 
   z-index: auto;
   margin: 0 auto;
@@ -174,7 +152,6 @@ export default {
   position: relative;
 }
 .thumbnail:hover {
-  /* transition: transform 1s; */
   filter: brightness(70%);
 }
 .card-body {

@@ -43,7 +43,6 @@ io.on('connection', async (socket) => {
         socket.name = data.nick;
         socket.id = data.id;
         const room = data.itravel;
-        console.log(room);
         socket.join(room);
         // if(userList[room] && userList[room].length > 0){
         //     userList[room].forEach(item => {

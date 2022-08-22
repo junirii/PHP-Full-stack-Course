@@ -28,7 +28,6 @@
                 <div class="area-section">
                     <span class="section-title">지역</span>
                     <select class="bolder" v-model="travel.area" @change="showLocationOption()">
-                        <!-- <option class="bolder" value="" selected></option> -->
                         <option class="bolder" :key="item.iarea" :value="item.iarea" v-for="item in areaList">{{ item.area_nm }}</option>
                     </select>
                     <select class="bolder" v-model="travel.location" v-if="locationList.length > 1">
@@ -41,7 +40,6 @@
                 <div>
                     <span class="section-title">성별</span>
                     <select class="bolder" v-model="travel.f_gender">
-                        <!-- <option class="bolder" value="선택" selected></option> -->
                         <option :key="item.idx" :value="item.idx" v-for="item in genderList">{{ item.gender }}</option>
                     </select>
                 </div>
@@ -56,7 +54,6 @@
                 <div>
                     <span class="section-title">연령대</span>
                     <select class="bolder" v-model="travel.f_age">
-                        <!-- <option class="bolder" value="" selected>선택</option> -->
                         <option :key="item.idx" :value="item.idx" v-for="item in ageList">{{ item.age }}</option>
                     </select>
                 </div>
@@ -106,13 +103,11 @@ export default {
         this.getAgeList();
         this.setModPage();
         this.getGenderList();
-        // this.getPeopleList();
     },
     methods: {
         setModPage(){
             if(this.$route.params.mod){
                 const travelData = this.$store.state.mod.travelData;
-                console.log(travelData);
                 this.itravel = travelData.itravel;
                 this.travel.iuser = travelData.iuser;
                 this.travel.title = travelData.title;
@@ -125,7 +120,6 @@ export default {
                 this.travel.s_date = travelData.s_date;
                 this.travel.e_date = travelData.e_date;
                 this.travel.main_img = travelData.main_img;
-                console.log(this.travel);
             }
         },
         goToCreateCtnt() {
@@ -190,51 +184,13 @@ export default {
         },
         async travelInsert() {
             const inputFile = document.querySelector('#file');
-            console.log(inputFile.files[0].name);
             this.travel.main_img = inputFile.files[0].name;
-            // if (this.selectedLocation) {
-            //     this.travel.location = this.selectedLocation;
-            // } else {
-            //     this.travel.location = 0;
-            // }
             const result = this.$post('/travel/create', this.travel);
-            console.log(result);
             this.$swal.fire('글작성 성공!', '', 'success');
         },
         async addMainImg(files) {
-            console.log(files);
             const image = await this.$base64(files[0]);
             this.travel.main_img = image;
-            console.log(this.travel);
-            // const { error } = await this.$post('/travel/uploadMainImg', formData);
-            // console.log(error);
-
-            //현민 코드
-            // // this.files = [...this.files, this.$refs.files.files];
-            // //하나의 배열로 넣기
-            // let num = -1;
-            // for (let i = 0; i < this.$refs.files.files.length; i++) {
-            //     this.files = [
-            //         ...this.files,
-            //         //이미지 업로드
-            //         {
-            //             //실제 파일
-            //             file: this.$refs.files.files[i],
-            //             //이미지 프리뷰
-            //             preview: URL.createObjectURL(this.$refs.files.files[i]),
-            //             //삭제및 관리를 위한 number
-            //             number: i
-            //         }
-            //     ];
-            //     num = i;
-            //     this.filesPreview = [
-            //       ...this.filesPreview,
-            //       { file: URL.createObjectURL(this.$refs.files.files[i]), number: i }
-            //     ];
-            // }
-            // this.uploadImageIndex = num + 1; //이미지 index의 마지막 값 + 1 저장
-            // console.log(this.files);
-            // // console.log(this.filesPreview);
         },
         imgDeleteButton(e) {
             const name = e.target.getAttribute('name');
@@ -296,18 +252,13 @@ h1 {
     padding-bottom: 10px;
     font-size: 1.2rem;
 }
-/* .create-box > div {
-    padding-bottom: 10px;
-} */
 .title-input {
     width: 15vw;
 }
 .title-input:hover {
     border-bottom: 2px solid var(--mainDark);
 }
-/* .area-section {
-    
-} */
+
 .price-input {
     width: 7vw;
 }

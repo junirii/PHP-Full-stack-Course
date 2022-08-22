@@ -18,11 +18,6 @@
                         <p id="you" v-if="item.name !== myInfo.nick">
                             {{ item.name }}
                         </p>
-                        <!-- <div class="profile">
-                            <img class="profile-img" v-if="this.$store.state.isLogin"
-                                :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
-                                style="width:30px; height: 30px; object-fit: cover;">
-                        </div> -->
                         <div class="your-msg" v-if="item.name !== myInfo.nick">
                             <p class="your-msg-ctnt">{{ item.msg }}</p>
                         </div>
@@ -55,7 +50,6 @@ export default {
             },
             input: '',
             chatList: [],
-            // userList: [],
             itravel: null,
             chatUser: [],
             travelTitle: null
@@ -81,16 +75,10 @@ export default {
             itravel: this.itravel,
             unreadCntAll: this.$store.state.unreadCntAll
         });
-        // this.$socket.on('users', userList => {
-        //     this.userList = userList[this.itravel];
-        //     console.log(this.userList);
-        // });
         this.$socket.on('update', data => {
             const inputChat = document.querySelector('#inputChat');
             if(inputChat && data.room === this.itravel){
                 this.chatList.push(data);
-                // const chat = document.querySelector('#chat');
-                // chat.scrollTop = chat.scrollHeight;
             }
         });
         this.getTravelData();
@@ -101,16 +89,12 @@ export default {
         chat.scrollTop = chat.scrollHeight;
     },
     methods: {
-        // setDefaultImg() {
-        //     document.querySelector('#profile-img').src = '/static/img/profile/common/defaultImg.webp';
-        // },
         async enterMsg(){
             const res = await this.$post('/chat/insChatMsg', {
                 itravel: this.itravel,
                 iuser: 0,
                 msg: `${this.myInfo.nick}님이 입장하셨습니다.`
             });
-            console.log(res);
         },
         async sendMsg() {
             if(this.input){
@@ -129,7 +113,6 @@ export default {
                     iuser: this.$store.state.user.iuser,
                     msg: this.input
                 });
-                console.log(res);
                 if(res.result === 1){
                     this.input = '';
                 }
@@ -144,18 +127,14 @@ export default {
         },
         async selChat(itravel){
             const res = await this.$get(`/chat/selChatList/${itravel}`);
-            console.log(res);
             this.chatList = res.result.chatList;
             this.chatUser = res.result.chatUser;
-            console.log(this.chatList);
-            console.log(this.chatUser);
         },
         async getTravelData(){
             const itravel = this.itravel;
             const res = await this.$get(`/travel/getTravelData/${itravel}`);
             if(res.result){
                 this.travelTitle = res.result.title;
-                console.log(this.travelTitle);
             }
         }
     }

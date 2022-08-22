@@ -139,16 +139,10 @@ export default {
       const res = await this.$get(`/travel/detail/${this.itravel}`, {}); // controllers / method / 가져온itravel
       const res2 = await this.$get(`/travel/travelState/${this.loginIuser}/${this.itravel}`, {});
       this.data = res.result;
-      console.log(this.data);
-      console.log('itravel ' + this.itravel);
-      console.log('loginuser ' + this.loginIuser);
-      console.log('hostiuser ' + this.data.hostUser.iuser);
       if(res2.result){
         this.isconfirm = res2.result.isconfirm;
         this.isJoin = true;
       }
-      console.log(this.isJoin);
-      console.log(this.isconfirm);
 
       // if (this.data.travelData.f_gender == 1) {
       //   this.data.travelData.f_gender = '남성';
@@ -162,12 +156,7 @@ export default {
       this.itravel = this.$store.state.itravel;
       const loginIuser = this.$store.state.user.iuser;
       const res = await this.$get(`/travel/travelFav/${loginIuser}`, {});
-      console.log(this.isLike);
-      console.log(res);
       this.travelfav = res.result;
-      console.log(this.travelfav);
-      console.log(this.itravel);
-      console.log('isLike:'+this.isLike)
       this.isLike = false;
       const Ifav = this.travelfav.some( X=> {
         return X.itravel === this.itravel
@@ -177,7 +166,6 @@ export default {
     async insTravelFav() {
       const loginIuser = this.$store.state.user.iuser;
       const res = await this.$post(`/travel/travelFav/${loginIuser}/${this.itravel}`, {});
-      console.log(res);
       if (res.result === 1) {
         this.$swal.fire('찜 완료!', '', 'success')
         .then(async result => {
@@ -206,7 +194,6 @@ export default {
     async instate() {                  // 컨트롤러이름 // 함수 메소드 // 필요한 값
       const instate = await this.$post(`/travel/travelState/${this.loginIuser}/${this.itravel}`, {});
       if (instate.result === 1) {
-        console.log(instate);
         this.$swal.fire('신청 되었습니다.', '', 'success')
           .then(async result => {
             if (result.isConfirmed) {
@@ -220,7 +207,6 @@ export default {
     async deletestate() {
       const deletestate = await this.$delete(`/travel/travelState/${this.loginIuser}/${this.itravel}`, {});
       if (deletestate.result === 1) {
-        console.log(deletestate);
         this.$swal.fire('신청 취소되었습니다.', '', 'success')
           .then(async result => {
             if (result.isConfirmed) {
@@ -235,11 +221,9 @@ export default {
       const delTravel = await this.$put(`/travel/del`, {
         itravel: this.itravel,
       });
-      console.log(delTravel);
       if(delTravel.result == 1) {
         this.$swal.fire('삭제완료.', '', 'success')
         .then(async result => {
-          console.log(result);
           this.$router.push({ name: 'list' });
         })
       }
@@ -357,7 +341,6 @@ export default {
 }
 .accordion-button:not(.collapsed) {
   background-color: #fff;
-  /* box-shadow: inset 0 -1px 0 rgba(255, 0, 0, 0.13); */
 }
 /* fixed1 - 신청하기*/
 .submit-btn {
@@ -373,7 +356,6 @@ export default {
   font-weight: bold;
 }
 .submit-btn:hover {
-  /* transform: translateY(4px); */
   border: 2px solid var(--mainOrange);
   background-color: #fff;
   color: var(--mainOrange);
@@ -392,7 +374,6 @@ export default {
   font-weight: bold;
 }
 .travel-fav-btn:hover {
-  /* transform: translateY(4px); */
   border: 2px solid var(--mainOrange);
   background-color: #fff;
   color: var(--mainOrange);

@@ -8,9 +8,6 @@
           onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진">
           <img class="profile-img" @click="showModal" id="profile-img" v-if="this.$store.state.user.social_type == 0" :src="`/static/img/profile/${this.$store.state.user.iuser}/${this.$store.state.user.profile_img}`"
           onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진">
-          <!-- <img class="profile-img" :src="`/static/img/profile/${selUser.iuser}/${selUser.profile_img}`"
-            onerror="this.onerror=null; this.src='/static/img/profile/common/defaultImg.webp';" alt="프로필사진"
-            @click="showModal" id="profile-img"> -->
         </div>
         <div class="mypage-profile-txt">
           <div>상태메세지 : {{ selUser.cmt }}</div>
@@ -201,15 +198,11 @@ export default {
       }
     },
     async getMyPage() { // mypage 받아오기
-      console.log(this.$store.state.user);
       this.feedIuser = this.$route.query.feedIuser;
       this.loginIuser = this.$store.state.user.iuser;
-      console.log('feedIuser : ' + this.feedIuser);
-      console.log('loginIuser : ' + this.loginIuser);
 
 
       this.data = await this.$get(`/user/myPage/${this.feedIuser}/${this.loginIuser}`, {}); // controllers / method
-      console.log(this.data);
       this.guestTravel = this.data.result.guestTravel;
       this.myPageTravelFav = this.data.result.myPageTravelFav;
       this.myPageHost = this.data.result.myPageHost;
@@ -232,9 +225,7 @@ export default {
 
     },
     async getUserData() {
-      console.log(this.feedIuser);
       const res = await this.$get(`/user/selUser/${this.feedIuser}`, {});
-      console.log(res);
       this.selUser = res.result;
     },
     async goToDetailFromMyPage(itravelNum) { // 클릭시 여행게시물로 이동
@@ -253,7 +244,6 @@ export default {
         cmt: this.cmt,
         grade: this.grade
       });
-      console.log(res);
       if (res.result === 1) {
         this.selectedTravel = 0;
         this.cmt = '';
@@ -261,13 +251,9 @@ export default {
       } else {
         this.$swal.fire('이미 리뷰가 등록된 참여여행입니다.', '', 'error');
       }
-      console.log(this.selectedTravel);
-      console.log(this.cmt);
-      console.log(this.grade);
     },
     async getCmt() {
       const res = await this.$get(`/user/getCmt/${this.feedIuser}`, {});
-      console.log(res.result)
       if (res) {
         this.myPageCmt = res.result;
       }
@@ -277,12 +263,9 @@ export default {
       this.itravel = this.$store.state.itravel;
       
       const delCmt = await this.$delete(`/user/delCmt/${this.itravel}/${this.guest_iuser}`, {});
-      console.log(delCmt.result);
-      console.log(this.guest_iuser);
       if(delCmt.result === 1) {
         this.$swal.fire('삭제완료.', '', 'success')
         .then(async result => {
-          console.log(result);
           this.getCmt();
         })
       }
@@ -294,7 +277,6 @@ export default {
     },
     async getGrade() {
       const res = await this.$get(`/user/getGrade/${this.feedIuser}`, {});
-      console.log(res.result)
       if (res) {
         this.myPageGrade = res.result;
       }
@@ -535,5 +517,3 @@ export default {
   margin: 3px;
 }
 </style>
-
-<!-- console.log(this.$store.state.user); // 로그인한 유저정보가 담겨져 있음 -->

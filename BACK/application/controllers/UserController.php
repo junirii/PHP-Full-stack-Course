@@ -16,6 +16,7 @@ class UserController extends Controller
           return [_RESULT => 2];
         } else {
           $json["pw"] = password_hash($json["pw"], PASSWORD_BCRYPT);
+          //프로필 사진 업로드
           // if(isset($json["profile_img"])){  
           //   $image_parts = explode(";base64,", $json["profile_img"]);
           //   $image_type_aux = explode("image/", $image_parts[0]);
@@ -93,7 +94,6 @@ class UserController extends Controller
       "guestTravel" => $guestTravel,
     ];
     return [_RESULT => $data];
-    // return $this->model->myPage($param);
   }
 
   public function getCmt()

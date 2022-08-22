@@ -10,24 +10,15 @@
           <!-- 로그인 폼 -->
           <form v-if="login" v-on:submit.prevent="loginForm">
             <div class="modal-body">
-              <!-- <slot name="body">{{body}}</slot> -->
               <div class="title-input"><input v-model="loginUser.email" type="email" placeholder="이메일"></div>
               <div class="title-input"><input v-model="loginUser.pw" type="password" placeholder="비밀번호"></div>
               <div style="padding-top: 30px;">
                 <div style="padding-bottom: 30px;"> 아직 회원이 아니신가요? </div>
-                  <!-- <br> -->
                   <span class="btn-join" type="button" @click="showJoin">Sign up</span>
                   <div class="btn-logo"><img class="loginButton" src="../../../static/img_used/kakaologin.png"
                       alt="kakaologin" type="button" @click="kakaoLogin"></div>
-                  <!-- 구글 로그인-->
-                  <div class="test btn-logo">
-                    <div class="google-div" v-on:click="GoogleLoginBtn"><img
-                        src="../../../static/img_used/logingoogle.png" alt="구글 소셜로그인"></div>
-                    <div class="google-div" id="my-signin2" style="display: none"></div>
-                  </div>
               </div>
             </div>
-
             <div class="modal-footer">
               <div v-if="login" class="modal-login-button">
                 <slot name="footer">
@@ -37,7 +28,6 @@
               </div>
             </div>
           </form>
-
 
           <!-- 회원가입 폼 -->
           <form v-if="join" v-on:submit.prevent="joinForm">
@@ -92,9 +82,6 @@
 </template>
 
 <script>
-
-// import { request } from 'http';
-
 export default {
   name: "LoginModal",
   name: "test",
@@ -129,7 +116,6 @@ export default {
   },
   methods: {
     kakaoLogin() {
-      console.log(window.Kakao)
       window.Kakao.Auth.login({
         scope: 'profile_nickname, profile_image, account_email, gender',
         success: this.getKakaoAccount,
@@ -139,12 +125,10 @@ export default {
       });
     },
     getKakaoAccount(authObj) {
-      console.log(authObj);
       window.Kakao.API.request({
         url: '/v2/user/me',
         success: async res => {
           const acc = res.kakao_account;
-          console.log(acc);
           const params = {
             social_type: 1,
             nm: acc.profile.nickname,
@@ -158,16 +142,12 @@ export default {
           } else {
             params.gender = 2
           }
-          console.log(params);
           const data = await this.$post('/user/join', params);
-          console.log(data);
           if (data.result === 2) {
             const res = await this.$get(`/user/getKakaoIuser/${acc.email}`, {});
             this.$store.state.isLogin = true;
-            console.log(res);
             params.iuser = res.result.iuser;
             this.$store.commit('user', params);
-            console.log(this.$store.state.user);
             this.$emit('close');
             this.$emit('update');
           }
@@ -177,12 +157,6 @@ export default {
         }
       })
     },
-    // async login(params) {
-    //       const data = await this.$post('/user/login', params);
-    //       params.iuser = data.result;
-    //       this.$store.commit('user', params);
-    //       window.location.href = "http://location:8080/";
-    // },
     async toBase64(files) {
       const profileImg = await this.$base64(files[0]);
       this.joinUser.profile_img = profileImg;
@@ -208,9 +182,7 @@ export default {
       this.loginUser.pw = '';
     },
     async joinForm() {
-      console.log('회원가입 시도');
       const res = await this.$post('/user/join', this.joinUser);
-      console.log(res);
       if (res.result === 2) { //아이디 중복
         this.$swal.fire('중복되는 아이디가 있습니다.', '', 'error');
       } else if (res.result === 1) { //회원가입 성공
@@ -223,19 +195,6 @@ export default {
       this.$emit('update');
     },
     async loginForm() {
-      // const options = { //$enc_data 를 php 의 main 에서 가져오기 위한 옵션
-      //   url: '/user/login',
-      //   method: 'POST',
-      //   form: {
-      //     email: this.loginUser.email,
-      //     pw: this.loginUser.pw
-      //   },
-      //   json: true
-      // };
-      // request.post(options, function(err, httpResponse, body){
-      //   console.log(httpResponse);
-      // });
-
       const res = await this.$post('/user/login', {
         email: this.loginUser.email,
         pw: this.loginUser.pw
@@ -245,45 +204,9 @@ export default {
       } else {
         this.$store.commit('user', res.result); //로그인 성공
         this.$store.state.isLogin = true;
-        console.log(this.$store.state.user);
-        console.log(this.$store.state.isLogin);
         this.$emit('close');
         this.$emit('update');
       }
-    },
-
-    /* 구글 로그인 */
-    GoogleLoginBtn: function () {
-      var self = this;
-
-      window.gapi.signin2.render('my-signin2', {
-        scope: 'profile email',
-        width: 240,
-        height: 50,
-        longtitle: true,
-        theme: 'dark',
-        onsuccess: this.GoogleLoginSuccess,
-        onfailure: this.GoogleLoginFailure,
-      });
-
-      setTimeout(function () {
-        if (!self.googleLoginCheck) {
-          const auth = window.gapi.auth2.getAuthInstance();
-          auth.isSignedIn.get();
-          document.querySelector('.abcRioButton').click();
-        }
-      }, 1500)
-
-    },
-    async GoogleLoginSuccess(googleUser) {
-      const googleEmail = googleUser.getBasicProfile().getEmail();
-      if (googleEmail !== 'undefined') {
-        console.log(googleEmail);
-      }
-    },
-    //구글 로그인 콜백함수 (실패)
-    GoogleLoginFailure(error) {
-      console.log(error);
     },
   }
 }
@@ -333,22 +256,12 @@ export default {
 }
 
 .modal-login-button {
-  /* display: inline-block; */
   border: 0;
   background: none;
   font-weight: bolder;
   color: var(--mainOrange);
   font-size: 15px;
 }
-
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
 .modal-enter-from {
   opacity: 0;
 }
@@ -372,7 +285,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 100vh; */
 }
 
 .modal-body2 {
@@ -386,14 +298,6 @@ export default {
 .google-div img {
   width: 220px;
   cursor: pointer;
-  /* height: 40px;
-  background-color: #ffffff;
-  border: 1px #a8a8a8 solid;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer; */
 }
 
 .login-header {
@@ -403,9 +307,7 @@ export default {
 .title-input{
   padding: 5px;
 }
-/* .title-input:hover {
-    border-bottom: 2px solid var(--mainDark);
-} */
+
 .title-input:focus {
   outline: none;
 }

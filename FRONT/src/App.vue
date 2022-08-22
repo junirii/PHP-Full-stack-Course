@@ -18,14 +18,10 @@ export default {
   },
   created() {
     //채팅 알림
-    console.log(this.$store.state.unreadCntAll);
     this.$socket.on('update', data => {
       const inputChat = document.querySelector('#inputChat');
       if((inputChat && data.room !== this.$store.state.itravel) || !inputChat){
-        console.log(this.$store.state.unreadCntAll);
         this.$store.state.unreadCntAll++;
-        console.log(this.$store.state.unreadCntAll);
-        console.log('all: ' + this.$store.state.unreadCntAll);
         const spanUnreadCntAll = document.querySelector('#unreadCntAll');
         spanUnreadCntAll.classList.remove('d-none');
         spanUnreadCntAll.innerText = this.$store.state.unreadCntAll;
@@ -35,7 +31,6 @@ export default {
         }else{
           this.$store.state.unreadCnt[data.room] = 1;
         }
-        console.log(`${data.room} : ${this.$store.state.unreadCnt[data.room]}`);
       }
     });
     this.$socket.on('enterRoom', data => {
@@ -46,7 +41,6 @@ export default {
       }else{
         spanUnreadCntAll.classList.add('d-none');
       }
-      console.log(data.unreadCntAll);
     });
 
     //isconfirm 변경
@@ -60,14 +54,10 @@ export default {
       const month =  ("0" + (today.getMonth() + 1)).slice(-2);
       const day = ("0" + today.getDate()).slice(-2);
       const todayDate = `${year}-${month}-${day}`;
-      console.log(this.$store.state.isLogin);
       if(this.$store.state.isLogin){
-        console.log('진입');
         const loginIuser = this.$store.state.user.iuser;
         const res = await this.$get(`/travel/joiningTravel/${loginIuser}`, {});
-        console.log(res);
         const joiningTravelList = res.result;
-        console.log(joiningTravelList);
         joiningTravelList.forEach(async function(item){
           if(item.e_date < todayDate){
             const res = await globalThis.this.$put(`/travel/updIsConfirm`, {
@@ -98,15 +88,5 @@ html, body { height: 100%; margin: 0; padding: 0;  }
 #wrap {
   min-height: 100%;
   position: relative;
-  /* padding-bottom: 100px; */
 }
-/* footer {
-  position: absolute;
-  bottom: 0;
-  left: 80px;
-  right: 0;
-} */
-/* .main {
-  overflow: hidden;
-} */
 </style>

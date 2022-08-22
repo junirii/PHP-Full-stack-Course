@@ -45,7 +45,6 @@ export default {
   },
   methods: {
     async getMyAccount() { // iuser
-      // console.log(this.$store.state.user);
       this.loginUser = this.$store.state.user;
       if(this.loginUser.gender == 1) {
         this.genderTxt = '남성';
@@ -90,7 +89,6 @@ export default {
   display: flex;
   flex-direction: column;
   text-align: left;
-  /* padding-right: 20px; */
 }
 .item-txt {
 	text-decoration: underline;

@@ -19,7 +19,6 @@
         <div class="row-ctnt">
           <div class="item-txt"> {{ loginUser.email }} </div>
           <div class="item-txt">
-            <!-- <input type='button' v-if="!pwShow" value='비밀번호 변경' @click="showPw"> -->
             <span style="color: var(--maincolor);">
               <input class="input bolder" type='password' v-model="pw" placeholder="새 비밀번호">
             </span>
@@ -65,20 +64,17 @@ export default {
       loginUser: {},
       pw: '',
       pwCheck: '',
-      // pwShow: false,
       genderTxt: ''
     }
   },
   methods: {
     async getMyAccount() { // iuser
-      // console.log(this.$store.state.user);
       this.loginUser = JSON.parse(JSON.stringify(this.$store.state.user));
       if(this.loginUser.gender == 1) {
         this.genderTxt = '남성';
       } else {
         this.genderTxt = '여성';
       }
-      console.log(this.loginUser);
     },
     async myAccountMod() {
       // 회원정보 수정 (마이페이지 댓글 참고)
@@ -87,22 +83,11 @@ export default {
         this.loginUser.pwCheck = this.pwCheck;
       };
         const res = await this.$post('/user/myAccountMod', this.loginUser);
-        console.log(res);
         if (res.result === 1) {
           this.$store.state.user = this.loginUser;
           this.$router.push({ name: 'myaccount' });
         }
       },
-    // showPw() {
-    //   this.pwShow = true;
-    // },
-
-    // 비밀번호 취소버튼
-    // cancel() {
-    //   this.pwShow = false;
-    //   this.pw = '';
-    //   this.pwCheck = '';
-    // },
 
     // 전체페이지 취소버튼 (myaccount페이지로 가도록, DB입력은 되지않으나, front에서 띄워짐ㅠㅠ)
     goToMyAccount() {
@@ -157,7 +142,6 @@ export default {
 }
 .pw-check {
   color: var(--mainOrange);
-  /* font-size: 0.7rem; */
 }
 input, .input {
   border: none;
@@ -177,14 +161,11 @@ input {
   border-bottom: 1px solid var(--maincolor);
   color: var(--maincolor);
   font-weight: bolder;
-  /* width: 120px; */
   height: 25px;
-  /* padding-left: 10px; */
   color: var(--maincolor);
 }
 input::-ms-expand { display: none; }
 input:hover {
-  /* border-bottom: 1px solid var(--mainDark); */
   cursor: pointer;    
 }
 .btns {

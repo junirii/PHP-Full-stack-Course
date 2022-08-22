@@ -30,8 +30,6 @@
       <hr>
     </div>
     <div>
-      <!-- <button type="button" @click="newCal()">추가</button>
-      <button type="button" @click="delCal()">삭제</button> -->
     </div>
     <div v-if="!ismod">
       <button type="button" class="btn btn-lg btn-danger create-ctnt-submit" @click="insTravel">등록</button>
@@ -64,14 +62,11 @@ export default {
           this.ctntArr[i][z].ctnt = txtArea.value;
         }
       }
-      console.log(this.$store.state.travel);
-      console.log(this.ctntArr);
       const res = await this.$put('/travel/updTravelAndCtnt', {
         travel: this.$store.state.travel,
         ctnt: this.ctntArr,
         itravel: this.itravel
       });
-      console.log(res);
       if (res.result == 1) {
         this.$swal.fire('글 수정 성공', '', 'success')
           .then(async result => {
@@ -102,7 +97,6 @@ export default {
       const files = e.target.files;
       const image = await this.$base64(files[0]);
       this.ctntArr[dayIdx - 1][seq - 1].img = image;
-      console.log(this.ctntArr);
     },
     getData() {
       this.itravel = this.$store.state.mod.travelData.itravel;
@@ -125,7 +119,6 @@ export default {
           };
           this.ctntArr[parseInt(item.day) - 1].push(ctntObj);
         });
-        console.log(this.ctntArr);
         this.ctntArr.forEach(item => {
           for (var i = 1; i < item.length; i++) {
             this.addCtnt(item[i].day);
@@ -146,14 +139,9 @@ export default {
     },
     addCtnt(idx) {
       let seq = ++this.countArr[idx - 1];
-      // if(this.$route.params.mod && this.ctntArr[idx-1][seq-1]){
-      //   seq = ++this.countArr[idx - 1];
-      // }
-      console.log(`seq : ${seq}`);
       setTimeout(() => {
         const divDay = document.querySelector(`#day${idx}`);
         const ctntBox = divDay.appendChild(document.createElement('div'));
-        // ctntBox.innerHTML = `<label :id="plus${idx}_${seq}" for="ctntImgDay${idx}_${seq}"><img src="https://www.picng.com/upload/plus/png_plus_52132.png" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><span :id="image_container${idx}_${seq}"></span><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
         if (this.$route.params.mod && this.ctntArr[idx - 1][seq - 1]) {
           ctntBox.innerHTML = `<label :id="plus${idx}_${seq}" for="ctntImgDay${idx}_${seq}"><img id="previewImg${idx}_${seq}" width="150" height="150" style="cursor:pointer"></label><input class="d-none" id="ctntImgDay${idx}_${seq}" type="file"><span :id="image_container${idx}_${seq}"></span><textarea class="create-ctnt" name="" id="txtAreaDay${idx}_${seq}" cols="20" rows="4"></textarea>`;
           const previewImg = document.querySelector(`#previewImg${idx}_${seq}`);
@@ -181,7 +169,6 @@ export default {
           const files = e.target.files;
           const image = await this.$base64(files[0]);
           this.ctntArr[idx - 1][seq - 1].img = image;
-          console.log(this.ctntArr);
         });
         ctntBox.id = `ctntBox${seq}`;
 
@@ -203,7 +190,6 @@ export default {
           const files = e.target.files;
           const image = await this.$base64(files[0]);
           this.ctntArr[idx - 1][seq - 1].img = image;
-          console.log(this.ctntArr);
         });
         if (!this.$route.params.mod) {
           this.ctntArr[idx - 1].push({
@@ -214,17 +200,6 @@ export default {
           });
         }
         this.countArr[idx - 1]++;
-        console.log(this.countArr);
-
-        //추가된 txtArea v-model 추가
-        // const txtArea = document.querySelector(`#txtAreaDay${idx}_${seq}`);
-        // txtArea.setAttribute('v-model', this.ctntArr[idx-1][seq-1].ctnt);
-        // console.log(this.ctntArr);
-
-        // const test = new Vue({
-        //   el: `#txtAreaDay${idx}_${seq}`,
-        //   data: {ctnt: this.ctntArr[idx-1][seq-1].ctnt}
-        // });
       }, 10);
     },
     delCtnt(idx) {
@@ -243,23 +218,19 @@ export default {
         travel: this.$store.state.travel,
         ctnt: this.ctntArr
       });
-      console.log(`res: ${res}`);
       if (res.result) {
         const makeChat = await this.$post(`/chat/insChatRoom`, {
           itravel: res.result,
           iuser: this.$store.state.user.iuser
         });
-        console.log(makeChat);
         if (makeChat.result) {
           const resMsg = await this.$post('/chat/insChatMsg', {
             itravel: res.result,
             iuser: 0,
             msg: `채팅방이 개설되었습니다.`
           });
-          console.log(resMsg);
           if (resMsg.result) {
             this.$store.state.unreadCnt[res.result] = 0;
-            console.log(this.$store.state.unreadCnt);
             this.$swal.fire('글 작성 성공', '', 'success')
               .then(async result => {
                 if (result.isConfirmed) {

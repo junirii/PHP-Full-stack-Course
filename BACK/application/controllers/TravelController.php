@@ -301,14 +301,6 @@ class TravelController extends Controller{
             mkdir($dirPath, 0777, true);
         }
         $result = file_put_contents($filePath, $image_base64);
-        // if($result){
-        //     $param = [
-        //       "product_id" => $productId,
-        //       "type" => $type,
-        //       "path" => $fileNm
-        //     ];
-        //     $this->model->productImageInsert($param);
-        // }
         return [_RESULT => $result ? 1 : 0];
     }
 
@@ -421,8 +413,6 @@ class TravelController extends Controller{
             case _PUT:
                 $result = $this->model->delTravel($param);
                 if($result) {
-                    // $dir = _IMG_PATH . "/travel/" . $itravel . "/";
-                    // LIB_removeAllData($dir);
                     return [_RESULT => 1];
                 }
         }

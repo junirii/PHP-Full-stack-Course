@@ -38,7 +38,6 @@ export default {
   methods: {
     async delProfileImg(){
       const res = await this.$delete(`/user/profileImg`, {}); // 컨트롤러 이름 / 함수
-      console.log(res);
       if(res.result === 1){
         this.$emit('close');
         this.$emit('defaultImg');
@@ -114,14 +113,6 @@ export default {
   display: inline-block;
 }
 
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
 .modal-enter-from {
   opacity: 0;
 }
@@ -145,20 +136,11 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 100vh; */
 }
 
 .google-div img {
   width: 220px;
   cursor: pointer;
-  /* height: 40px;
-  background-color: #ffffff;
-  border: 1px #a8a8a8 solid;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer; */
 }
 
 #btnInsProfilePic, #btnDelCurrentProfilePic, #btnProfileImgModalClose {

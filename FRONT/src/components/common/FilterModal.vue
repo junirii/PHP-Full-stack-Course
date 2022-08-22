@@ -146,27 +146,21 @@ export default {
   methods: {
     async getAreaList() {
       this.areaList = await this.$get('/travel/areaList', {});
-      console.log(this.areaList);
     },
     async getAgeList() {
       this.ageList = await this.$get('/travel/ageList', {});
-      console.log(this.ageList);
     },
     async getGenderList() {
       this.genderList = await this.$get('/travel/genderList', {});
-      console.log(this.genderList);
     },
     async getPeopleList() {
       this.peopleList = await this.$get('/travel/peopleList', {});
-      console.log(this.peopleList);
     },
     async getLocationList(iarea) {
       this.locationList = await this.$get(`/travel/locationList/${iarea}`, {});
-      console.log(this.locationList);
     },
     async getAgeList() {
       this.ageList = await this.$get('/travel/ageList', {});
-      console.log(this.ageList);
     },
     showLocationOption() {
       this.selectedLocation = '';
@@ -178,7 +172,6 @@ export default {
       if(res.result){
         this.filter.h_price = res.result.max;
         this.filter.l_price = res.result.min;
-        console.log(this.filter);
       }
     },
     moveToFilterList() {
@@ -206,7 +199,6 @@ export default {
       }
 
       this.$store.state.filter = this.filter;
-      console.log(this.$store.state.filter);
       this.clearFilter();
       this.$emit('close');
       this.$emit('update');

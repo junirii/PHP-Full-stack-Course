@@ -25,18 +25,12 @@
                             type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                             aria-expanded="false"></i>
                         <span id="unreadCntAll" style="" class="position-absolute translate-middle badge rounded-pill bg-danger d-none">{{unreadCntAll}}</span>
-                        <!-- <div style="background-color: #fff;"> -->
                         <ul class="dropdown-menu">
-                            <!-- <ul v-if="divChatShow" style="margin-top: 100px;">  -->
                             <div v-for="item in chatRooms" :key="item.itravel">
                                 <li class="dropdown-item">
                                     <div style="color: var(--mainOrange);" @click="goToChat(item.itravel)">
                                         <div style="font-size: 18px; font-weight: bolder;">{{ item.title }}</div>
                                         {{ item.lastMsg }}
-                                        <!-- <span v-if="this.$store.state.unreadCnt[item.itravel]"
-                                            style="background-color: red; color:#fff; font-weight: bolder;">
-                                            {{ this.$store.state.unreadCnt[item.itravel] }}
-                                        </span> -->
                                         <span v-if="this.$store.state.unreadCnt[item.itravel]"
                                             class="position-absolute translate-middle badge rounded-pill bg-danger end-0 bottom-10">
                                             {{ this.$store.state.unreadCnt[item.itravel] }}
@@ -46,7 +40,6 @@
                                 <hr>
                             </div>
                         </ul>
-                        <!-- </div> -->
                     </div>
 
                     <div class="notifi" v-if="this.$store.state.isLogin">
@@ -107,7 +100,6 @@
             <div class="header-box">
                 <div class="logo-box">
                     <router-link :to="{ name: 'home' }">
-                        <!-- <h2 class="logo2">모임모임 moimmoim</h2> -->
                         <img class="logo2" src="../../../static/img_used/moim4.png" alt="">
                     </router-link>
                 </div>
@@ -203,7 +195,6 @@
 export default {
     data() {
         return {
-            // divChatShow: false,
             chatRooms: [],
             selStateList: [],
             refusalMsg: [],
@@ -217,20 +208,15 @@ export default {
             document.querySelector('#profile-img').src = '/static/img/profile/common/defaultImg.webp';
         },
         sidebarNone() {
-            console.log('test!!');
             const sidebar = document.querySelector('.sidebar');
             sidebar.checked = false;
         },
         goToChat(itravel) {
-            // this.$store.state.itravel = itravel;
             this.$router.push({ name: 'chat', query: { itravel: itravel } });
-            // this.divChatShow = false;
         },
         async showDivChat() {
-            // this.divChatShow = !this.divChatShow;
             const res = await this.$get(`/chat/selChatRooms`, {});
             this.chatRooms = res.result;
-            console.log(this.chatRooms);
         },
         goToMyPage() {
             const feedIuser = this.$store.state.user.iuser;
@@ -269,13 +255,11 @@ export default {
                 s_date: '1900-01-01',
                 e_date: '2032-08-06',
             };
-            console.log(this.$store.state.filter);
             this.$router.push({ name: 'list', query: { filter: 0 } });
         },
         async selRequest() {
             const res2 = await this.$get(`/travel/selRequest/${this.iuser}`, {});
             this.selStateList = res2.result;
-            console.log(res2);
         },
         async request(itravel, iuser) {
                 const res = await this.$put(`/travel/selRequest`, {
@@ -283,9 +267,7 @@ export default {
                     iuser: iuser,
                     isyes: 1
                 });
-                console.log(res);
                 if (res.result === 1) {
-                console.log(res);
                 this.$swal.fire('수락 되었습니다.', '', 'success')
                 .then(async result => {
                     if (result.isConfirmed) {
@@ -302,9 +284,7 @@ export default {
                     iuser: iuser,
                     isyes: 0
                 });
-                console.log(res.result);
                 if (res.result === 1) {
-                console.log(res);
                 this.$swal.fire('거절 하였습니다.', '', 'success')
                 .then(async result => {
                     if (result.isConfirmed) {
@@ -316,8 +296,6 @@ export default {
             }
         },
         async requestYes(itravel, iuser, e) {
-            console.log(itravel);
-            console.log(iuser);
             const res = await this.$put(`/travel/selRequest`, {
                 itravel: itravel,
                 iuser: iuser,
@@ -341,9 +319,7 @@ export default {
         },
         async requestNo(itravel, iuser) {
             const res = await this.$delete(`/travel/selYesNo/${itravel}/${iuser}`);
-            console.log(res);
             if (res.result === 1) {
-                console.log(res);
                 this.$swal.fire('확인 하였습니다.', '', 'success')
                 .then(async result => {
                     if (result.isConfirmed) {

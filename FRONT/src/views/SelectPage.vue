@@ -2,7 +2,6 @@
   <div class="total">
     <!-- 상태바 -->
     <div class="state-tab-container">
-      <!-- <a href="#location" class="state-tab">지역</a> -->
       <div class="state-tab" @click="scrollToLocation">지역</div>
       <div class="tab-ctnt" v-if="areaName !== ''">{{ areaName }}</div>
 
@@ -13,8 +12,6 @@
       
       <div class="state-tab" @click="scrollToDate">날짜</div>
       <div class="tab-ctnt" v-if="this.filter.s_date !== ''">{{ this.filter.s_date }} ~ {{ this.filter.e_date }}</div>
-      <!-- <a href="#filter" class="state-tab">옵션</a>
-      <a href="#date" class="state-tab">날짜</a> -->
     </div>
 
     <!-- 지역 상관 x 버튼 -->
@@ -64,9 +61,6 @@
           <img class="map" src="../../mapImg/map_1.png" alt="map">
         </div>
       </div>
-      <!-- <a href="#filter">
-        <button class="btn next-btn" type="button">다음</button>
-      </a> -->
     </div>
 
     <hr>
@@ -110,14 +104,6 @@
             </div>
           </div> 
         </div>
-
-        <!-- <div class="price-box">
-          <span class="filter-name">비용</span>
-          <div class="choose-price">
-            최소 <input @change="changeFilter" v-model="filter.l_price" type="number" step="10000"/> 원 ~
-            최대 <input @change="changeFilter" v-model="filter.h_price" type="number" step="10000"/> 원
-          </div>
-        </div> -->
       </div>
     </div>
 
@@ -131,9 +117,6 @@
           range multiCalendars :multiStatic="false" :enableTimePicker="false" :minDate="new Date()" />
       </div>
       <div class="move-to-list-btn">
-        <!-- <router-link :to="{ path: '/List' }">
-          <button class="btn next-btn" type="button" @click="moveToList">여행 찾기</button>
-        </router-link> -->
       </div>
     </div>
   </div> <!-- div total 닫음 -->
@@ -221,20 +204,16 @@ components: { Datepicker },
       this.filter.e_date = `${e_year}-${e_month}-${e_day}`;
 
       this.$store.state.filter = this.filter;
-      console.log(this.$store.state.filter);
-      // this.changeFilter();
     },
     async changeFilter() {
       this.$store.state.filter = this.filter;
       this.list = await this.$post('/travel/travelList', { filter: this.$store.state.filter });
-      console.log(this.list);
     },
     async getPrice(){
       const res = await this.$get('/travel/getPrice');
       if(res.result){
         this.filter.h_price = res.result.max;
         this.filter.l_price = res.result.min;
-        console.log(this.filter);
       }
     },
     async getAreaList() {
@@ -242,15 +221,12 @@ components: { Datepicker },
     },
     async getAgeList() {
       this.ageList = await this.$get('/travel/ageList', {});
-      console.log(this.ageList);
     },
     async getGenderList() {
       this.genderList = await this.$get('/travel/genderList', {});
-      console.log(this.genderList);
     },
     async getPeopleList() {
       this.peopleList = await this.$get('/travel/peopleList', {});
-      console.log(this.peopleList);
     },
     selectArea(e){
       switch(e.target.alt){
@@ -298,7 +274,6 @@ components: { Datepicker },
       this.filter.e_date = `${e_year}-${e_month}-${e_day}`;
 
       this.$store.state.filter = this.filter;
-      console.log(this.$store.state.filter);
     },
     goToAllList(){
       this.filter = {
@@ -313,8 +288,6 @@ components: { Datepicker },
         e_date: '2032-08-06',
       };
       this.$store.state.filter = this.filter;
-      console.log(this.$store.state.filter);
-
       this.$router.push({name: 'list'});
     },
     scrollToLocation() {
@@ -322,7 +295,6 @@ components: { Datepicker },
       window.scrollTo({ left: 0, top: location, behavior: "smooth" });
     },
     scrollToFilter() {
-      // const filter = document.querySelector("#filter").offsetTop;
       window.scrollTo({ left: 0, top: 909, behavior: "smooth" });
     },
     scrollToDate() {
@@ -383,7 +355,6 @@ hr {
   flex: 1;
   color: var(--mainOrange);
   letter-spacing: 0.1rem;
-  /* transition: all 0.5s ease; */
   font-size: 1rem;
   font-weight: bold;
 }
@@ -521,8 +492,6 @@ img {
   padding: 29px;
 }
 .choose-people, .choose-gender, .choose-age {
-  /* padding-top: 10px;
-  padding-left: 20px; */
   display: flex;
   flex-direction: row;
 }
