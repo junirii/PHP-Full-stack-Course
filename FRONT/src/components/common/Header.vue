@@ -49,7 +49,7 @@
                         <span id="unreadAlarm" style="color: red; font-weight: bold;">{{ unreadAlarm }}</span>
                         <ul class="dropdown-menu">
                             <div :key="item.iuser" v-for="item in selStateList">
-                                <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">
+                                <li v-if="item.isconfirm == 0 && item.iuser !== item.loginIuser" class="dropdown-item" style="cursor: default;">
                                     <div>신청이 왔습니다.</div> {{ item.profile_img }} {{ item.nick }} 님께서 {{ item.title }}
                                     <button @click="request(item.itravel, item.iuser)">수락</button>
                                     <button @click="requestDel(item.itravel, item.iuser)">거절</button>
@@ -143,7 +143,7 @@
                         <span id="unreadAlarm" style="color: red; font-weight: bold;">{{unreadAlarm}}</span>
                         <ul class="dropdown-menu">
                             <div :key="item.iuser" v-for="item in selStateList">
-                                <li v-if="item.isconfirm == 0" class="dropdown-item" style="cursor: default;">
+                                <li v-if="item.isconfirm == 0 && item.iuser !== item.loginIuser" class="dropdown-item" style="cursor: default;">
                                     <div class="new-request">신청이 왔습니다.</div> {{ item.profile_img }} {{ item.nick }} 님께서 {{ item.title }}
                                     <button @click="request(item.itravel, item.iuser)">수락</button>
                                     <button @click="requestDel(item.itravel, item.iuser)">거절</button>

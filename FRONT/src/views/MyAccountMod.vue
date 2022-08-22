@@ -46,7 +46,6 @@
         <button class="edit-btn" type="button" @click="myAccountMod" 
                 v-bind:disabled="pwShow && (pw !== pwCheck || pwCheck === '')">수정</button>
         <button class="edit-btn" type="button" @click="goToMyAccount">취소</button>
-        <button class="edit-btn1" type="button">회원탈퇴</button>
       </div>
 
       <br>
