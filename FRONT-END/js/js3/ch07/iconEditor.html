@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function elt(name, attr){
+      const node = document.createElement(name);
+      if(attr){
+        for(const item in attr){
+          if(attr.hasOwnProperty(item)){
+            node.setAttribute(item, attr[item]);
+          }
+        }
+      }
+      return node;
+    }
+
+    function createIconEditor(parent, nx, ny){
+      const inputColor = elt('input', {type: 'color'});
+      parent.appendChild(inputColor);
+
+      const btnAllClear = elt('input', {type: 'button', value: 'All Clear'});
+      parent.appendChild(btnAllClear);
+      btnAllClear.addEventListener('click', function(){
+        const tds = document.querySelectorAll('td');
+        tds.forEach(function(item){
+          item.style.backgroundColor = '';
+        })
+      });
+      
+      const table = elt('table', {border: 1});
+      parent.appendChild(table);
+      table.style.borderCollapse = 'collapse';
+      table.style.marginTop = '10px';
+
+      for(let i=0; i<ny; i++){
+        const tr = table.appendChild(elt('tr'));
+        for(let z=0; z<nx; z++){
+          const td = tr.appendChild(elt('td'));
+          td.style.width = td.style.height = '15px';
+          td.style.border = '1px solid #000';
+          td.addEventListener('click', function(e){
+          //   // const inputHex = inputColor.value;
+          //   // const red = parseInt(inputHex[1] + inputHex[2], 16);
+          //   // const green = parseInt(inputHex[3] + inputHex[4], 16);
+          //   // const blue = parseInt(inputHex[5] + inputHex[6], 16);
+          //   // const inputRGB = `rgb(${red}, ${green}, ${blue})`;
+          //   // this.style.backgroundColor = this.style.backgroundColor !== inputRGB ? inputRGB : '';
+
+            if(this.style.backgroundColor === '' || this.color16 !== inputColor.value){
+              this.style.backgroundColor = inputColor.value;
+              this.color16 = inputColor.value;
+            }else{
+              this.style.backgroundColor = '';
+            }
+          });
+          td.addEventListener('mouseover', function(e){
+            if(e.buttons){
+              this.style.backgroundColor = inputColor.value;
+            }
+          })
+        }
+      }
+    }
+    createIconEditor(document.body, 10, 10);
+
+  </script>
+</body>
+</html>

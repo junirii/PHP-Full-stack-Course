@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    var userNumber = prompt('숫자를 입력하세요.');
+    var txt = '입력이 취소됐습니다.';
+    if (userNumber !== null) {
+      txt = userNumber != 0 && Number(userNumber) % 3 === 0 ? '3의 배수입니다.' : '3의 배수가 아닙니다.';
+    }
+    alert(txt);
+
+  </script>
+</body>
+
+</html>

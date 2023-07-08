@@ -1,0 +1,99 @@
+*{margin: 0; padding: 0; box-sizing: border-box;}
+html, body, .wrap{height: 100%;}
+.wrap{
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 70px 1fr;
+}
+
+.header{
+  grid-row: 1/3;
+  background-color: rgb(224, 80, 80);
+  height: 100%;
+}
+.header .logo{
+  font-family: 'shrikhand';
+  color: white;
+  text-align: center;
+  padding: 40px 0;
+}
+.header .nav__title{
+  color: white;
+  background-color: rgb(240, 133, 133);
+  display: block;
+  padding: 10px 30px;
+  margin-top: 50px;
+}
+.header .nav__item{
+  padding: 0 30px;
+  margin: 10px 0;
+}
+.header .nav__item:last-child{
+  margin-bottom: 80px;
+}
+.header .nav__item a{
+  color: white;
+  text-decoration: none;
+}
+
+.top-bar{
+  display: flex;
+  background-color: rgb(233, 232, 232);
+  align-items: center;
+}
+.top-bar .search{flex-grow: 1;}
+.top-bar .search .search__form .search__label{display: none;}
+.top-bar .search .search__form,
+.top-bar .search .search__form #idSearch{width: 100%;}
+.top-bar .search .search__form{
+  padding: 10px;
+  background-color: rgb(233, 232, 232);
+}
+.top-bar .search .search__form #idSearch{height: 40px;}
+.top-bar .profile{
+  background-color: blueviolet;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: x-large;
+  font-family: 'shrikhand';
+  margin: 10px 10px 10px 0;
+}
+
+.main .main__header{
+  background: url('http://unsplash.it/1200/600?image=495');
+  color: white;
+  height: 200px;
+  font-size: 1.5rem;
+}
+.main .main__header .main__title{
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main{ background-color: rgb(199, 199, 199);}
+.main .main__body{padding: 20px;}
+.main .main__body ul{
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 10px;
+}
+.main .main__body .listing-card__item{
+  background-color: white;
+  padding: 15px;
+  height: 360px;
+}
+.main .main__body .listing-card__image{
+  height: 70%;
+  background-size: cover;
+}
+.main .main__body .listing-card__info{margin-top: 20px;}
+.main .main__body .listing-card__date{color: gray;}

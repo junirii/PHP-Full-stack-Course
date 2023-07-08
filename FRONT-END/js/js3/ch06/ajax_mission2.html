@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    ul { list-style:  none; }
+    .container { max-width: 1600px; margin: 0 auto; padding: 30px; background-color: #f5f5f5; }
+    .listing-card { 
+        width: 100%; 
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+        gap: 30px; 
+    }
+    .listing-card li {
+        width: 100%;
+        background-color: #fff;
+        border: 1px solid #f0f0f0;
+    }
+    .listing-card li .img { padding-top: 70%; background-size: cover; background-repeat: no-repeat; }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <ul id="list" class="listing-card">
+      </ul>
+    <button onclick="getData();">데이터 가져오기</button>
+  </div>
+  <script>
+    let page = 1;
+    const ulList = document.querySelector('#list');
+
+    function getData(){
+      const url = `https://picsum.photos/v2/list?limit=30&page=${page++}`;
+      fetch(url).then(function(res){
+        return res.json();
+      }).then(function(data){
+        makeList(data);
+      });
+    }
+
+    function makeList(data){
+      data.forEach(function(item){
+        const img = makeImg(item);
+        ulList.appendChild(img);
+      })
+    }
+
+    function makeImg(item){
+      // const li = document.createElement('li');
+      // const divImg = li.appendChild(document.createElement('div'));
+      // const divInfo = li.appendChild(document.createElement('div'));
+      // const strong = divInfo.appendChild(document.createElement('strong'));
+      // const imgUrl = `https://picsum.photos/id/${item.id}/${Math.floor(item.width * 0.1)}/${Math.floor(item.height * 0.1)}`;
+
+      // divImg.classList.add('img');
+      // divImg.style.backgroundImage = `url(${imgUrl})`;
+      // strong.classList.add('author');
+      // strong.innerText = item.author;
+
+      const li = document.createElement('li');
+      const imgUrl = `https://picsum.photos/id/${item.id}/${Math.floor(item.width * 0.1)}/${Math.floor(item.height * 0.1)}`;
+      li.innerHTML =
+      ` <div class="img" style="background-image: url(${imgUrl});"></div>
+        <div class="info">
+          <strong class="author">${item.author}</strong>
+        </div>
+      `;
+
+      return li;
+    }
+  </script>
+</body>
+</html>

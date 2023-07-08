@@ -1,0 +1,28 @@
+section.hero{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, auto));
+  grid-template-rows: auto;
+  position: relative;
+  height: 350px;
+  padding-top: 100px;
+
+}
+html{scroll-behavior: smooth;}
+.hero p{color: white; font-size: x-large; max-width: 1000px;}
+h1{color: white; font-size: 50px; margin-bottom: 0;}
+a:link, a:visited{text-decoration: none; color: white; background-color: goldenrod; display: block; width: 130px; height: 40px; border-radius: 5px; display: flex; justify-content: center; align-items: center;}
+figcaption{background-color: rgba(0, 0, 0, 0.6); color: white; width: 400px; height: 80px; display: flex; align-items: center; position: relative; bottom: 84px; max-width: 100%;}
+h3{padding-left: 15px;}
+li{border: 1px solid gainsboro; border-radius: 10px; position: relative;}
+li a{position: absolute; bottom: 10px; left: 10px;}
+li p{position: relative; left: 40px; bottom: 85px; padding-right: 50px;}
+ul{
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, auto));
+  grid-template-rows: 500px;
+  grid-gap: 10px;
+}
+img{max-width: 100%;}
+footer{height: 80px; background-color: #222; display: flex; align-items: center; justify-content: center; position: fixed; bottom: 0px; left: 0; width: 100%;}
+footer p{color: white;}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    input[type='number'] {width: 50px;}
+    td{border: 1px solid black;}
+    table {border-collapse: collapse;}
+  </style>
+</head>
+<body>
+  <div>
+    <input type="number" id="rowNum">행
+    <input type="number" id="colNum">열
+    <button>작성</button>
+  </div>
+  <div id="result"></div>
+  <script>
+    const button = document.querySelector('button');
+    const result = document.querySelector('#result');
+    const rowNum = document.querySelector('#rowNum');
+    const colNum = document.querySelector('#colNum');
+    
+    button.addEventListener('click', () => {
+      // if(result.firstChild){
+      //   result.firstChild.remove();
+      // }
+      result.innerHTML = '';
+      // const table = document.createElement('table');
+      // for(let i=0; i<rowNum.value; i++){
+      //   const tr = document.createElement('tr');
+      //   table.appendChild(tr);
+      //   for(let z=0; z<colNum.value; z++){
+      //     const td = document.createElement('td');
+      //     td.innerText = `${i}, ${z}`;
+      //     tr.appendChild(td);
+      //   }
+      // }
+      // result.appendChild(table);
+
+      let tag = '<table>';
+      for(let i=0; i<rowNum.value; i++){
+        tag += '<tr>';
+        for(let z=0; z<colNum.value; z++){
+          tag += `<td>${i}, ${z}</td>`;
+        }
+        tag += '</tr>';
+      }
+      tag += '</table>';
+      result.innerHTML = tag;
+
+      rowNum.value = '';
+      colNum.value = '';
+    });
+  </script>
+</body>
+</html>
